@@ -1,0 +1,72 @@
+%%  Copyright (C) 2024 by Ch. L. Spiel
+%%
+%%  This work may be distributed and/or modified under the conditions
+%%  of the LaTeX Project Public License, either version 1.3 of this
+%%  license or (at your option) any later version.  The latest version
+%%  of this license is in
+%%      http://www.latex-project.org/lppl.txt
+%%  and version 1.3 or later is part of all distributions of LaTeX
+%%  version 2003/12/01 or later.
+
+
+\input docstrip
+
+
+\keepsilent
+\askforoverwritefalse
+
+
+\preamble
+
+This is a generated file.
+
+Copyright (C) 2024 by Ch. L. Spiel
+
+This work may be distributed and/or modified under the conditions
+of the LaTeX Project Public License, either version 1.3 of this
+license or (at your option) any later version.  The latest version
+of this license is in
+    http://www.latex-project.org/lppl.txt
+and version 1.3 or later is part of all distributions of LaTeX
+version 2003/12/01 or later.
+
+This work has the LPPL maintenance status `maintained'.
+
+The Current Maintainer of this work is Ch. L. Spiel.
+
+This work consists of the files typog.dtx and typog.ins
+and the derived files typog.sty, slant-angle.mp,
+crooked-paragraphs.mp, smooth-parshapes.mp, title.mp,
+typog-example.tex, typog-nomt.tex, typog-grep.pl,
+typog-grep.pod, and teximan2latex.sed.
+
+
+\endpreamble
+
+
+\generate{\file{typog.sty}{\from{typog.dtx}{package}}
+          \file{typog-example.tex}{\from{typog.dtx}{example}}
+          \file{typog-nomt.tex}{\from{typog.dtx}{nomicrotype}}
+          \file{typog.ist}{\from{typog.dtx}{index-style}}}
+
+
+\nopostamble
+\generate{\file{title.mp}{\from{typog.dtx}{title}}
+          \file{slant-angle.mp}{\from{typog.dtx}{slantangle}}
+          \file{crooked-paragraphs.mp}{\from{typog.dtx}{crookedparagraphs}}
+          \file{smooth-parshapes.mp}{\from{typog.dtx}{smoothparshapes}}}
+
+
+\nopreamble
+\generate{\file{teximan2latex.sed}{\from{typog.dtx}{teximan2latex}}
+          \file{typog-grep.pl}{\from{typog.dtx}{typog-grep}}
+          \file{typog-grep.pod}{\from{typog.dtx}{typog-grep-documentation}}}
+
+
+\endbatchfile
+
+
+%%  Local Variables:
+%%  compile-command: "latex typog.ins"
+%%  mode: latex
+%%  End:
