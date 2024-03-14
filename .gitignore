@@ -1,4 +1,6 @@
+\#*#
 *~
+.#*
 
 *.aux
 *.brf
@@ -8,6 +10,7 @@
 *.glo
 *.gls
 *.hd
+*.html
 *.idx
 *.ilg
 *.ind
