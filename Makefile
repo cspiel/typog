@@ -7,7 +7,7 @@
 SHELL := /bin/sh
 
 
-LATEX := /usr/bin/env max_print_line=1024 pdflatex
+LATEX := /usr/bin/env max_print_line=2147483647 pdflatex
 LATEX_FLAGS := -file-line-error -halt-on-error -interaction=nonstopmode
 LATEX_RERUN_TRIGGER := '^Package rerunfilecheck Warning: File [^ ]* has changed'
 LATEX_WARNING := '^LaTeX (|[A-Za-z0-9_]* )Warning:'
@@ -142,7 +142,6 @@ spell-check:
 
 .PHONY: update-docs
 update-docs: doc ex typog-grep.1.pdf
-	test -d docs
 	cp -f typog.pdf typog-example.pdf typog-grep.1.pdf docs
 
 
@@ -153,8 +152,8 @@ all:    Make everything there is to make.  This is the .DEFAULT_GOAL.
 
 clean:  Remove some products.
 
-cpio:   Create a cpio(1) archive of the project source files whose
-        name is time-stamped.
+cpio:   In the parent directory create a cpio(1) archive of the
+        project source files whose name is time-stamped.
 
 doc:    Build "typog.pdf" the Typog documentation.
 
@@ -170,8 +169,8 @@ pdf:    Build doc: and gauge:.
 sty:    Only extract "typog.sty" from "typog.dtx".  This
         operation requires LaTeX (-> $(LATEX)) and nothing else.
 
-tar:    Create a tar(1) file of the project source files whose name is
-        time-stamped.
+tar:    In the parent directory create a tar(1) file of the project
+        source files whose name is time-stamped.
 
 tool-check: Check whether some of the required tools to build the
         project are available.
@@ -217,7 +216,8 @@ help:
 
 
 define MAKE_INDEX_AND_GLOSSARY
-sed -e '/@/d'  < $*.idx  > ,$*.idx;  mv ,$*.idx $*.idx;  \
+sed -e '/@/d' -e 's/{\\ttfamily /{\\ttfamily\\hskip0pt\\relax /' < $*.idx  > ,$*.idx;  \
+mv ,$*.idx $*.idx;  \
 $(MAKEINDEX) $(MAKEINDEX_FLAGS) -s typog.ist -t $*.ilg -o $*.ind $*.idx;  \
 $(MAKEINDEX) $(MAKEINDEX_FLAGS) -s gglo.ist -t $*.glg -o $*.gls $*.glo
 endef
