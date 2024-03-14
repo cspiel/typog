@@ -60,18 +60,23 @@
 \usepackage[xcharter]{newtxmath}
 \setstretch{1.02083}% \baselineskip: 12.25pt
 
+\makeatletter
+\def\@get@fontclan#1-#2\relax{#1}
+\newcommand*{\fontclan}{\expandafter\@get@fontclan\f@family\relax}
+\makeatother
 
-\newcommand*{\textnumerator}[1]{{\fontfamily{SourceSerifPro-Numr}\selectfont #1}}
-\newcommand*{\textdenominator}[1]{{\fontfamily{SourceSerifPro-Dnom}\selectfont #1}}
-\newcommand*{\textsuperior}[1]{{\fontfamily{SourceSerifPro-Sup}\selectfont #1}}
+\newcommand*{\textdenominator}[1]{{\fontfamily{\fontclan-Dnom}\selectfont #1}}
+\newcommand*{\textinferior}[1]{{\fontfamily{\fontclan-Inf}\selectfont #1}}
+\newcommand*{\textnumerator}[1]{{\fontfamily{\fontclan-Numr}\selectfont #1}}
+\newcommand*{\textsuperior}[1]{{\fontfamily{\fontclan-Sup}\selectfont #1}}
 
 \newcommand*{\nativetextfraction}[2]
             {\mbox{\textnumerator{#1}\textfractionsolidus\textdenominator{#2}}}
 
 \makeatletter
-\renewcommand*{\@makefnmark}{\hbox{\normalfont\textsuperior{\@thefnmark}}}
+\renewcommand*{\@makefnmark}{\hbox{\sf\textsuperior{\@thefnmark}}}
 \newenvironment*{tabfigures}
-                {\edef\rmdefault{SourceSerifPro-T\sourceserifpro@figurestyle}\rm}
+                {\edef\rmdefault{\fontclan-T\sourceserifpro@figurestyle}\rm}
                 {}
 
 \newcommand*{\texteb}[1]{{\def\bfseries@sf{eb}\textbf{#1}}}
@@ -274,7 +279,7 @@
 
 \makeatletter
 \apptocmd{\index@prologue}
-         {\marginnote{Page ranges are stuck together with
+         {\marginnote{In the Index page ranges are stuck together with
              \hyperref[syn:figuredash]{\cs{figuredash*}}.}}
          {\relax}
          {\AppendingFailed}
@@ -778,7 +783,8 @@ end
 %    \singlespacing
 %    \noindent
 %    The font sample on the title page was generated with the help of \MP{} using
-%    \doublequotes{\acronym{URW} Palladio~L}\index{font>\acronym{URW} Palladio~L}.
+%    \doublequotes{\acronym{URW} Palladio~L}\index{font>URW Palladio L=\acronym{URW} Palladio
+%    L}.
 %  \endgroup
 %
 %
@@ -837,12 +843,6 @@ end
 %  The package was only tested with \programname{pdfTeX}~3.14159265-2.6-1.40.21 from the
 %  TeX~Live distribution of~2020 as shipped by
 %  \href{https://packages.debian.org/search?keywords=texlive}{Debian}.
-%
-%
-%  \subsection{Naming Convention}\label{sec:naming-convention}
-%
-%  Every environment whose name ends with \code{\dots par} issues a \cs{par} at its end.
-%  Environments with different name suffixes never close with~\cs{par}.
 %
 %
 %  \sectionfinish
@@ -1002,8 +1002,13 @@ end
 %    \capitalemdash*~\propername{Larry Wall}
 %  \end{whittyquote}
 %
+%  \noindent
 %  This is the \doublequotes{User Manual}~section of the documentation, where we describe all
 %  user-relevant macros and environments that are defined in package~\packagename{typog}.
+%
+%  We follow the naming convention that every environment whose name ends with \code{\dots par}
+%  issues a \cs{par} at its end.  Environments with different name suffixes never close
+%  with~\cs{par}.
 %
 %  \bigskip
 %
@@ -1073,7 +1078,7 @@ end
 %  \begin{whittyquote}
 %    Never forget: The visual output counts;  \\
 %    it must always be checked, [\dots].  \\
-%    \marginnote{The em-dash at then end of the quote was height-adjusted with
+%    \marginnote{The em-dash at then end of the quote is height-adjusted with
 %    \hyperref[syn:capitalemdash]{\cs{capitalemdash*}}.}%
 %    \capitalemdash*~\propername{Udo Wermuth}~\cite{wermuth:2017a}
 %  \end{whittyquote}
@@ -1193,15 +1198,27 @@ end
 %
 %  \begin{tips}
 %    \begin{itemize}[nestedinspecialsection, notopsep]
-%    \item It may be necessary to run whatever \TeX~engine with a larger-than-usual log-file
-%      line length, e.\,g.,
+%    \item It may be necessary to run whatever \LaTeX~engine with a larger log-file line length,
+%      to prevent wrapped lines.  With short lines the wannabe \acronym{XML} opening tags can
+%      get wrapped and thus become unrecognizable to dumb postprocessors.  To avoid wrapped
+%      lines prepend
 %
 %      \begin{codeexample}
-%        /usr/bin/env max\_print\_line=1024 pdflatex
+%        /usr/bin/env max\_print\_line=2147483647
 %      \end{codeexample}
 %
-%      With short lines the wannabe \acronym{XML} opening tags can get wrapped and thus become
-%      unrecognizable to dumb postprocessors.
+%      to the command-line.  The value~\(2147483647 = 2^{31} - 1\) effectively disables all line
+%      wrapping by \LaTeX.
+%
+%      As both \command{pdflatex} and \command{lualatex} support changing their configuration on
+%      a by-call basis with option~\code{-cnf-line=\meta{STRING}} an alternative to the above
+%      example is to add
+%
+%      \begin{codeexample}
+%        -cnf-line=max\_print\_line=2147483647
+%      \end{codeexample}
+%
+%      to the respective command-line.
 %
 %    \item If more trace information is needed just add \cs{tracing\dots} calls right after
 %      \code{\string\begin\{typoginspect\}}
@@ -1993,25 +2010,28 @@ end
 %        \midrule
 %        0  &      Alegreya\index{font>Alegreya}, Arvo\index{font>Arvo},
 %                  Bitter\index{font>Bitter}, Clara\index{font>Clara},
-%                  \acronym{EB}~Garamond\index{font>\acronym{EB}~Garamond},
+%                  \acronym{EB}~Garamond\index{font>EB Garamond=\acronym{EB} Garamond},
 %                  Gentium\index{font>Gentium},
 %                  Ibarra Real Nova\index{font>Ibarra Real Nova},
-%                  \acronym{INRIA}~Serif\index{font>\acronym{INRIA}~Serif},
+%                  \acronym{Inria}~Serif\index{font>Inria Serif=\acronym{Inria} Serif},
 %                  Libertine\index{font>Libertine}, Libertinus\index{font>Libertinus},
 %                  Merriweather\index{font>Merriweather},
-%                  \acronym{PT}~Serif\index{font>\acronym{PT}~Serif},
+%                  \acronym{PT}~Serif\index{font>PT Serif=\acronym{PT} Serif},
 %                  Roboto Slab\index{font>Roboto Slab}, Spectral\index{font>Spectral},
-%                  \acronym{STIX}\index{font>\acronym{STIX}}, and many more  \\
+%                  \acronym{STIX}\index{font>STIX=\acronym{STIX}}, and many more  \\
 %        .05  &    fbb\index{font>fbb}, Source Serif Pro\index{font>Source Serif Pro}  \\
 %        .0667  &  Libre Baskerville\index{font>Libre Baskerville},
 %                  Crimson Pro\index{font>Crimson Pro},
 %                  Erewhon\index{font>Erewhon}, Droid Serif\index{font>Droid Serif}  \\
-%        .1  &     \acronym{GFS}~Artemisia\index{font>\acronym{GFS}~Artemisia},
+%        .1  &     \acronym{GFS}~Artemisia\index{font>GFS Artemisia=\acronym{GFS} Artemisia},
 %                  Libre Caslon\index{font>Libre Caslon},
 %                  Coelacanth\index{font>Coelacanth}, Crimson Pro\index{font>Crimson Pro},
-%                  Crimson Text\index{font>Crimson Text}, Gyre~Pagella\index{font>Gyre~Pagella},
-%                  Quattrocento\index{font>}, \acronym{TX}~Fonts\index{font>},
-%                  \acronym{ADF}~Venturis\index{font>\acronym{ADF}~Venturis}, and many more   \\
+%                  Crimson Text\index{font>Crimson Text},
+%                  \TeX{} Gyre~Pagella\index{font>TeX Gyre Pagella=\TeX{} Gyre Pagella},
+%                  Quattrocento\index{font>},
+%                  \acronym{TX}~Fonts\index{font>TX Fonts=\acronym{TX} Fonts},
+%                  \acronym{ADF}~Venturis\index{font>ADF Venturis=\acronym{ADF} Venturis},
+%                  and many more   \\
 %        \bottomrule
 %      \end{tabular}
 %    \end{tabfigures}
@@ -2121,15 +2141,15 @@ end
 %          em  &  em  &  \\
 %        \midrule
 %        0  &  .05\hphantom{00}  &
-%          \acronym{EB}~Garamond\index{font>\acronym{EB}~Garamond},
+%          \acronym{EB}~Garamond\index{font>EB Garamond=\acronym{EB} Garamond},
 %          Libertinus\index{font>Libertinus},
 %          Merriweather\index{font>Merriweather}, and many more  \\
 %        .025  &  .05\hphantom{00}  &  Gentium\index{font>Gentium}  \\
 %        .04\hphantom{0}  &  .0667  &
-%          \acronym{ADF}~Baskervald\index{font>\acronym{ADF}~Baskervald}  \\
+%          \acronym{ADF}~Baskervald\index{font>ADF Baskervald=\acronym{ADF} Baskervald}  \\
 %        .05\hphantom{0}  &  .0625  &
-%          \acronym{GFS}~Artemisia\index{font>\acronym{GFS}~Artemisia},
-%          \acronym{GFS}~Didot\index{font>\acronym{GFS}~Didot}  \\
+%          \acronym{GFS}~Artemisia\index{font>GFS Artemisia=\acronym{GFS} Artemisia},
+%          \acronym{GFS}~Didot\index{font>GFS Didot=\acronym{GFS} Didot}  \\
 %        \bottomrule
 %      \end{tabular}
 %    \end{tabfigures}
@@ -3011,7 +3031,7 @@ end
 %      of the table) for \cs{emergencystretch} with the actual line length, this means, in these
 %      levels
 %      \begin{equation*}
-%        \cs{emergencystretch} = G \times \cs{linewidth} \, / \, \cs{textwidth}.
+%        \cs{emergencystretch} = G \times \frac{\cs{linewidth}}{\cs{textwidth}}.
 %      \end{equation*}
 %      to prevent excessive stretchability in narrow lines.
 %    \end{tablenotes}
@@ -3360,6 +3380,14 @@ end
 %  \FloatBarrier
 %  \subsection{Smooth Ragged}\label{sec:smooth-ragged}\index{ragged right}
 %
+%  \begin{whittyquote}
+%    The attention someone gives  \\
+%    to what he or she makes  \\
+%    is reflected in the end result,  \\
+%    whether it is obvious or not.  \\
+%    \capitalemdash*~\propername{Erik Spiekermann}
+%  \end{whittyquote}
+%
 %  \begin{caution}
 %    This set of environments still is experimental.
 %  \end{caution}
@@ -3595,9 +3623,9 @@ end
 %  \item[\cs{smoothraggedrightfuzzfactor}=\meta{factor}]
 %    The environment adds glue to every line-width\footnote{The shortest line only gets
 %    stretchability, the longest only receives shrinkability.  All other lines are both
-%    stretchable and shrinkable.}  to get a more convincing \doublequotes{ragged appearance} and
-%    to reduce the number of overfull lines.  The algorithm divides the smooth margin into 3, 5,
-%    or~7 parts depending on the chosen \cs{smoothraggedrightgenerator} (see below).  The
+%    stretchable and shrinkable.}  to achieve a more convincing \doublequotes{ragged appearance}
+%    and to reduce the number of overfull lines.  The algorithm divides the smooth margin into
+%    3, 5, or~7 parts depending on the chosen \cs{smoothraggedrightgenerator} (see below).  The
 %    \cs{smoothraggedrightfuzzfactor} is the amount of glue of each line expressed as a multiple
 %    of the distance between the division points.  The default of 1.0 means to add as much glue
 %    such that the lines just do not overlap (assuming justification is feasible).
