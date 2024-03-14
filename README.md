@@ -1,6 +1,26 @@
 #  TypoG &ndash; Typographic Fine-Tuning for LaTeX
 
-LaTeX package `typog` provides macros for (micro-)typographic enhancements.
+LaTeX package `typog` provides macros for (micro-)typographic enhancements;
+it covers a variety of topics:
+
+* Precise hyphenation control
+* Disable/break ligatures
+* Manual italic correction
+* Extra kerning for slash and hyphen
+* Raising selected characters (e.g. hyphen, en-dash, and em-dash)
+* Aligning of the last line of a paragraph
+* Filling of the last line last line of a paragraph
+* Word spacing control
+* [Microtype](https://github.com/schlcht/microtype) front-end
+* Slightly sloppy paragraphs
+* Vertically partially-tied paragraphs
+* Breakable displayed equations
+* Smooth ragged-right paragraphs
+
+Moreover `typog` provides an environment to flag interesting parts of
+the information deluge typically accumulating in a LaTeX *log*-file
+and an associated tool, **typog-grep**, that selectively retrieves
+these parts.
 
 
 ##  Installation
@@ -18,8 +38,10 @@ To build the documentation it is easier to use the GNU *Makefile*:
 
         make
 
-To construct the manual *typog.pdf* or the usage example *typog-example.pdf* a working MetaPost
-installation and some POD utilities of a Perl distribution are required.  Cautious users can run
+To construct the manual *typog.pdf* or the usage example *typog-example.pdf* a working
+[MetaPost](https://tug.org/metapost.html) installation and some
+[POD](https://perldoc.perl.org/perlpod) utilities of a [Perl](https://www.perl.org/)
+distribution are required.  Cautious users can run
 
         make tool-check
 
