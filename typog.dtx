@@ -41,7 +41,7 @@
 \usepackage{fullwidth}
 \usepackage{hypdoc}
 \usepackage{hyphenat}
-\iffalse\usepackage[shrink=10, stretch=10]{microtype}\else\newcommand*{\textls}[2][]{#2}\fi
+\usepackage[shrink=10, stretch=10]{microtype}
 \usepackage{needspace}
 \usepackage{placeins}
 \usepackage{ragged2e}
@@ -55,8 +55,8 @@
 
 
 \usepackage[default, lining, proportional, regular, semibold]{sourceserifpro}
-\usepackage[lining, proportional, semibold]{sourcesanspro}
-\usepackage[semibold]{sourcecodepro}
+\usepackage[lining, proportional, regular, semibold]{sourcesanspro}
+\usepackage[lining, regular]{sourcecodepro}
 \usepackage[xcharter]{newtxmath}
 \setstretch{1.02083}% \baselineskip: 12.25pt
 
@@ -79,7 +79,18 @@
                 {\edef\rmdefault{\fontclan-T\sourceserifpro@figurestyle}\rm}
                 {}
 
-\newcommand*{\texteb}[1]{{\def\bfseries@sf{eb}\textbf{#1}}}
+\newcommand*{\elseries}{\def\mdseries@rm{el}\def\mdseries@sf{el}\def\mdseries@tt{el}}
+\newcommand*{\textel}[1]{{\elseries\textmd{#1}}}
+\newcommand*{\lseries}{\def\mdseries@rm{l}\def\mdseries@sf{l}\def\mdseries@tt{l}}
+\newcommand*{\textl}[1]{{\lseries\textmd{#1}}}
+%%--\newcommand*{\mdseries}{\def\mdseries@rm{m}\def\mdseries@sf{m}\def\mdseries@tt{m}}
+%%--\newcommand*{\textmd}[1]{{\mdseries\textmd{#1}}}
+\newcommand*{\sbseries}{\def\bfseries@rm{sb}\def\bfseries@sf{sb}\def\bfseries@tt{sb}}
+\newcommand*{\textsb}[1]{{\sbseries\textbf{#1}}}
+\newcommand*{\bseries}{\def\bfseries@rm{b}\def\bfseries@sf{b}\def\bfseries@tt{b}}
+\newcommand*{\textb}[1]{{\bseries\textbf{#1}}}
+\newcommand*{\ebseries}{\def\bfseries@rm{k}\def\bfseries@sf{eb}\def\bfseries@tt{k}}
+\newcommand*{\texteb}[1]{{\ebseries\textbf{#1}}}
 \makeatother
 
 
@@ -215,7 +226,7 @@
 
 
 \setlength{\skip\footins}{25pt}
-\setlength{\overfullrule}{3pt}
+\setlength{\overfullrule}{0pt}
 \renewcommand*{\sidecaptionsep}{16pt}
 
 
@@ -297,19 +308,18 @@
              \sffamily
              \nofontexpansion
              \slightlysloppy[1]
-             \tightspacing[1]
              \adjdemerits=3000
              \doublehyphendemerits=3000
              \exhyphenpenalty=20
              \finalhyphendemerits=1500
              \hyphenpenalty=20
              \footnotesize
+             \setlength{\smoothraggedrightragwidth}{1em}
              \def\smoothraggedrightgenerator{quintuplet}%
              \smoothraggedrightpar}
 \newcommand*{\marginnote}[1]{\marginpar{\marginnoteformat #1}}
-\setlength{\marginparpush}{6pt}
-\addtolength{\marginparsep}{15pt}
-\addtolength{\marginparwidth}{-15pt}
+\addtolength{\marginparsep}{25pt}
+\addtolength{\marginparwidth}{-20pt}
 \newcommand*{\shiftedmarginnote}[1]
             {\marginpar{\moveleft \leftmargin
                                   \hbox{\parbox{\dimexpr\marginparwidth - \marginparsep}
@@ -490,7 +500,7 @@
                  \end{maxipage}}
 
 
-\hyphenation{
+\hyphenation{% https://hyphenateit.com/en-us
   Double-guillemet-left
   Double-guillemet-right
   Double-quotes
@@ -515,6 +525,8 @@
   double-quotes
   ex-hyphen-penalty
   figure-dash
+  guille-met
+  guille-mets
   inter-display-line-penalty
   inter-text
   kerned-hyphen
@@ -538,6 +550,7 @@
   post-display-penalty
   pre-display-penalty
   raise-capital-guillemets
+  raise-capital-hyphen
   raise-capital-times
   raise-number-dash
   set-font-expand
@@ -812,17 +825,16 @@ end
 %  typesetting process whether during the draft phase or in the final printed
 %  manuscript.\marginnote{Throughout the whole document we indicate actual uses of the package's
 %  features in the margin.  All these notes are examples themselves as they are typeset with
-%  \hyperref[syn:slightlysloppy]{\code{slightlysloppy}},
-%  \hyperref[syn:tightspacing]{\code{tightspacing}}, and
-%  \hyperref[syn:smoothraggedrightpar]{\code{smoothraggedrightpar}}.}  The second part,
+%  \hyperref[syn:slightlysloppy]{\code{slightlysloppy}}, and
+%  \hyperref[syn:smoothraggedrightpar]{\code{smoothraggedrightpar}}.  The title page has already
+%  demonstrated the effect of \hyperref[syn:lastlinecenteredpar]{\code{lastlinecenteredpar}} in
+%  justified paragraphs in the abstract and the copyright notice.}  The second part,
 %  \cref{sec:latex-hyphenation}, expands the hyphenation facilities of \LaTeX.  The third part,
 %  \cref{sec:break-ligatures,sec:manual-italic-correction,sec:extra-kerning,sec:raise-characters},
 %  deals with positioning glyphs in a more pleasant way.  The fourth part discusses dearly
 %  missed macros for better control of the last line of a paragraph
-%  (\cref{sec:align-last-line,sec:fill-last-line}).\marginnote{The title page has already
-%  demonstrated the effect of \hyperref[syn:lastlinecenteredpar]{\code{lastlinecenteredpar}} in justified
-%  paragraphs in the abstract and the copyright notice.}  Part five covers the manipulation of
-%  the length of a paragraph: spacing~(\cref{sec:spacing-control}), font
+%  (\cref{sec:align-last-line,sec:fill-last-line}).  Part five covers the manipulation of the
+%  length of a paragraph: spacing~(\cref{sec:spacing-control}), font
 %  tracking~(\cref{sec:tracking-control}), and font
 %  expansion~(\cref{sec:font-expansion-control}).  In the sixth part we address some
 %  shortcomings of spacing control, in particular a replacement for the macro~\cs{sloppy}
@@ -1424,8 +1436,12 @@ end
 %    e.\,g., in a narrow index or a \cs{marginpar}:
 %
 %    \begin{codeexample}
-%      \cs{marginpar}\{\cs{allowhyphenation} Kontakttransformationen\}\specialsectionendhere
+%      \cs{marginpar}\{\cs{allowhyphenation} Kontakttransformationen\}
 %    \end{codeexample}
+%
+%    \noindent
+%    A common trick to sweet-talk \TeX{} into hyphenating the first word of a paragraph is to
+%    put \cs{hskip0pt} in front of it.
 %  \end{usecases}
 %
 %  \begin{table}\small
@@ -2819,8 +2835,9 @@ end
 %
 %  \begin{SCtable}
 %    \caption[Shrink values of \code{setfontshrink}]%
-%      {Preconfigured values for |shrink| inside of the environment~\code{setfontshrink}.  Note
-%       that all |stretch|~values are zero, so the fonts only can shrink.}
+%      {\slightlysloppy[2] Preconfigured values for |shrink| inside of
+%       environment~\code{setfontshrink}.  Note that all |stretch| values are zero, so the fonts
+%       only can shrink.}
 %    \label{tab:setfontshrink-values}
 %
 %    \begin{tabfigures}
@@ -2841,8 +2858,9 @@ end
 %  \begin{SCtable}
 %    \centering
 %    \caption[Stretch values of \code{setfontstretch}]%
-%      {Preconfigured values for |stretch| inside of the environment~\code{setfontstretch}.
-%       Note that all |shrink|~values are zero, so the fonts only can stretch.}
+%      {\slightlysloppy[2] Preconfigured values for |stretch| inside of
+%       environment~\code{setfontstretch}.  Note that all |shrink| values are zero, so the fonts
+%       only can stretch.}
 %    \label{tab:setfontstretch-values}
 %
 %    \begin{tabfigures}
@@ -2882,8 +2900,8 @@ end
 %
 %  \begin{SCtable}
 %    \caption[Shrink and stretch values of \code{setfontexpand}]%
-%      {Preconfigured values for |shrink| and |stretch| inside of the
-%       environment~\code{setfontexpand}.  Note that both |shrink| and |stretch|~values are
+%      {\slightlysloppy[2] Preconfigured values for |shrink| and |stretch| inside of
+%       environment~\code{setfontexpand}.  Note that both |shrink| and |stretch| values are
 %       nonzero, so the fonts can shrink or expand.}
 %    \label{tab:setfontexpand-values}
 %
@@ -3282,7 +3300,7 @@ end
 %      \cs{shortintertext}\footnote{Defined in
 %      package~\packagename{mathtools}~\cite{package:mathtools}.}  it is desirable to make the
 %      display breakable.  This is achieved with \cs{allowdisplaybreaks} or the
-%      environment~\code{breakabledisplay} described
+%      environment~\code{breakabledisplay} which will be described
 %      in~\cref{sec:breakable-display}.\specialsectionendhere
 %    \end{itemize}
 %  \end{tips}\unskip
@@ -3948,7 +3966,7 @@ end
 %    \begin{macrocode}
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesPackage{typog}[2024/03/07  v0.1  TypoGraphic extensions]
+\ProvidesPackage{typog}[2024/03/16  v0.1  TypoGraphic extensions]
 
 \RequirePackage{everyhook}
 \RequirePackage{xkeyval}
@@ -6570,7 +6588,7 @@ end
 \bigskip
 
 \noindent
-The section numbers correspond the subsections of section~3
+The section numbers correspond to the subsections of section~3
 in the official documentation of package~\packagename{typog}.
 
 \bigskip
@@ -7862,6 +7880,13 @@ s/@@/@/g
 
 ##  Convert selected macro names.
 s/\\jobname/\\textbackslash jobname/g
+
+##  Make qualified Perl names breakable.
+s/::/::\\discretionary{}{}{}/g
+
+##  Replace TeX and LaTeX with their logos.
+s/LaTeX/\\LaTeX{}/g
+s/TeX/\\TeX{}/g
 %</teximan2latex>
 %  \fi
 %

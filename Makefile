@@ -142,7 +142,7 @@ spell-check:
 
 .PHONY: update-docs
 update-docs: doc ex typog-grep.1.pdf
-	cp -f typog.pdf typog-example.pdf typog-grep.1.pdf docs
+	cp -f typog.pdf typog-example.pdf typog-grep.1 typog-grep.1.pdf docs
 
 
 define HELP_SCREEN
