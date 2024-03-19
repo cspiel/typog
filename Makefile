@@ -34,11 +34,11 @@ POD2TEXI_FLAGS :=
 
 GROFF := groff
 ##  Codes of serif fonts that work for PDF output
-##  	U-BM: URW Bookman L
-##  	U-N:  URW Century Schoolbook L
-##  	U-P:  URW Palladio L
-##  	U-T:  URW Nimbus Roman No9 L
-GROFF_FLAGS := -Tpdf -dpaper=a4 -fU-P -man -wall
+##  	BM: URW Bookman L
+##  	N:  URW Century Schoolbook L
+##  	P:  URW Palladio L
+##  	T:  URW Nimbus Roman No9 L
+GROFF_FLAGS := -Tpdf -dpaper=a4 -fP -man -wall
 
 
 SPELLCHECK := aspell
