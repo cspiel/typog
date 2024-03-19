@@ -24,6 +24,7 @@
 \RecordChanges
 
 
+\PassOptionsToClass{a4paper}{article}
 \PassOptionsToPackage{hyperfootnotes=false}{hyperref}
 \PassOptionsToPackage{charter, scale=1.06}{newtxmath}
 \PassOptionsToPackage{dvipsnames}{xcolor}
@@ -58,7 +59,7 @@
 \usepackage[lining, proportional, regular, semibold]{sourcesanspro}
 \usepackage[lining, regular]{sourcecodepro}
 \usepackage[xcharter]{newtxmath}
-\setstretch{1.02083}% \baselineskip: 12.25pt
+\setstretch{1.04166}% \baselineskip: 12.5pt
 
 \makeatletter
 \def\@get@fontclan#1-#2\relax{#1}
@@ -226,7 +227,7 @@
 
 
 \setlength{\skip\footins}{25pt}
-\setlength{\overfullrule}{0pt}
+\setlength{\overfullrule}{3pt}
 \renewcommand*{\sidecaptionsep}{16pt}
 
 
@@ -259,7 +260,7 @@
 \newcommand*{\citenum}[1]{\@nameuse{b@#1}}
 \makeatother
 
-\newcommand*{\code}[1]{\texttt{#1}}
+\def\code#1{\texttt{#1}}
 
 \newrobustcmd*{\command}[1]{\mbox{\textbf{#1}}}
 
@@ -306,15 +307,11 @@
 \newcommand*{\marginnoteformat}
             {\setstretch{1}%\overfullrule=0pt
              \sffamily
+             \footnotesize
              \nofontexpansion
              \slightlysloppy[1]
-             \adjdemerits=3000
-             \doublehyphendemerits=3000
-             \exhyphenpenalty=20
-             \finalhyphendemerits=1500
-             \hyphenpenalty=20
-             \footnotesize
-             \setlength{\smoothraggedrightragwidth}{1em}
+             \loosespacing[1]
+             \setlength{\smoothraggedrightragwidth}{1.5em}
              \def\smoothraggedrightgenerator{quintuplet}%
              \smoothraggedrightpar}
 \newcommand*{\marginnote}[1]{\marginpar{\marginnoteformat #1}}
@@ -370,10 +367,11 @@
 \newcommand*{\sectionfinish}
             {\vfill
              {\centering
-              \textcolor{customred2}
+              \textcolor{customred4}
                         {\filledsquare{5pt}\enspace\filledsquare{5pt}}%
               \par}%
              \vfill}
+\let\sectionfinish=\relax
 
 \newcommand*{\singlequotes}[1]{\mbox{\singleguillemetright #1\singleguillemetleft}}
 
@@ -383,7 +381,7 @@
 \definecolor{customred3}{rgb}{.686, .043, .043}
 \definecolor{customred4}{rgb}{.569, .000, .000}
 \definecolor{customred5}{rgb}{.420, .000, .000}
-\newcommand*{\markercolor}{customred5}
+\newcommand*{\markercolor}{customred4}
 \newcommand*{\specialsectionmarker}{\color{\markercolor}\filledsquare{5pt}}
 \newcommand*{\specialsectionbegin}
             {\llap{\raisebox{1pt}{\specialsectionmarker}%
@@ -825,11 +823,13 @@ end
 %  typesetting process whether during the draft phase or in the final printed
 %  manuscript.\marginnote{Throughout the whole document we indicate actual uses of the package's
 %  features in the margin.  All these notes are examples themselves as they are typeset with
-%  \hyperref[syn:slightlysloppy]{\code{slightlysloppy}}, and
-%  \hyperref[syn:smoothraggedrightpar]{\code{smoothraggedrightpar}}.  The title page has already
-%  demonstrated the effect of \hyperref[syn:lastlinecenteredpar]{\code{lastlinecenteredpar}} in
-%  justified paragraphs in the abstract and the copyright notice.}  The second part,
-%  \cref{sec:latex-hyphenation}, expands the hyphenation facilities of \LaTeX.  The third part,
+%  \hyperref[syn:slightlysloppy]{\code{slightlysloppy}},
+%  \hyperref[syn:loosespacing]{\code{loosespacing}}, and
+%  \hyperref[syn:smoothraggedrightpar]{\code{smoothraggedrightpar}}.~\visualpar The title page
+%  has already demonstrated the effect of
+%  \hyperref[syn:lastlinecenteredpar]{\code{lastlinecenteredpar}} in justified paragraphs for
+%  the abstract and the copyright notice.}  The second part, \cref{sec:latex-hyphenation},
+%  expands the hyphenation facilities of \LaTeX.  The third part,
 %  \cref{sec:break-ligatures,sec:manual-italic-correction,sec:extra-kerning,sec:raise-characters},
 %  deals with positioning glyphs in a more pleasant way.  The fourth part discusses dearly
 %  missed macros for better control of the last line of a paragraph
@@ -843,7 +843,7 @@ end
 %  equations we define a breakable variant in the seventh part~(\cref{sec:breakable-display}).
 %
 %  In the last part, \cref{sec:smooth-ragged}, we introduce a novel way of generating ragged
-%  paragraphs, which still is very experimental.
+%  paragraphs, which still is experimental.
 %
 %
 %  \subsection{Prerequisites}\label{sec:packageprerequisites}
@@ -852,8 +852,8 @@ end
 %  it are based on package~\packagename{microtype}.  However, if the respective functionality is
 %  not used, \packagename{typog} can be applied without \packagename{microtype}.
 %
-%  The package was only tested with \programname{pdfTeX}~3.14159265-2.6-1.40.21 from the
-%  TeX~Live distribution of~2020 as shipped by
+%  The package was tested with \programname{pdfTeX}~3.141592653-2.6-1.40.24 from the
+%  TeX~Live distribution of~2022 as shipped by
 %  \href{https://packages.debian.org/search?keywords=texlive}{Debian}.
 %
 %
@@ -912,8 +912,8 @@ end
 %      Italics correction in math mode.  See \cref{sec:manual-italic-correction} and also the
 %      complementary configuration
 %      option~\hyperref[item:textitalicscorrection]{|textitalicscorrection|}.  Default
-%      value:~\the\typogget{mathitalicscorrection}.\footnote{Note: 1\,mu is
-%      \nativetextfraction{1}{18}\,em of the math font's~em.}
+%      value:~\the\typogget{mathitalicscorrection}.\footnote{Note that 1\,mu is
+%      \nativetextfraction{1}{18}\,em of the mathematical font's~em.}
 %
 %    \item[|raise*=|\meta{dim}]\label{item:raise}
 %      Set the length by which selected characters (dash, hyphen, times, and number dash) are
@@ -1059,8 +1059,8 @@ end
 %  \noindent
 %  \DescribeMacro{\typogget}
 %  Sometimes the user needs to access internal configuration values of
-%  package~\packagename{typog}.  This can be done in a safe way without resorting to
-%  \cs{makeatletter}/\cs{makeatother}-bracketed code with the help of the following macro.
+%  package~\packagename{typog}.  This can be done in a safe way without resorting to code that
+%  is bracketed by \cs{makeatletter}/\cs{makeatother} with the help of the following macro.
 %
 %  \begin{synopsis}\label{syn:typogget}
 %     \cs{typogget}\marg{key}
@@ -1128,7 +1128,6 @@ end
 %
 %  \DescribeEnv{typoginspect}
 %  \DescribeEnv{typoginspectpar}
-%  \\[-2\baselineskip]
 %  The environments |typoginspect| and |typoginspectpar| turn on the tracing of paragraphs and
 %  pages; optionally they display the parbox' contents.  These environments can assist the user
 %  in identifying typographic problems in a quantitative way without getting distracted by
@@ -1562,7 +1561,7 @@ end
 %    hyphenation for fonts in \cs{ttfamily} by un-defining their \cs{hyphenchar}s.  If these are
 %    reassigned, the usual hyphenation occurs again.
 %
-%    So, a fictitious macro `\cs{code}' to typeset code sequences could look like this:
+%    So, a fictitious macro `\cs{code}' to typeset short pieces of code could look like this:
 %
 %    \begin{codeexample}
 %      \cs{newcommand*}\= \{\cs{code}\}[1] \\
@@ -1573,7 +1572,7 @@ end
 %
 %  \DescribeMacro{\breakpoint}
 %  The empty discretionary construct~\cite[p.~95]{knuth:1986}, \cs{discretionary\{\}\{\}\{\}},
-%  is so helpful that it deserves its own macro.
+%  is so helpful that it deserves its own macro --~with a descriptive name.
 %
 %  \begin{synopsis}
 %    \cs{breakpoint*}  \\
@@ -1805,7 +1804,7 @@ end
 %             larger~\(\alpha\) --~despite being a member of the same font~-- but its serif adds
 %             as much to the width as the slanted stem.\label{fig:slant-angle}}
 %    \vspace{-3\baselineskip}
-%    \llap{\parbox{\dimexpr \marginparwidth - \marginparsep}
+%    \llap{\parbox{\marginparwidth}
 %                 {\marginnoteformat
 %                  We center the last lines of each figure and table caption with the help of
 %                  \hyperref[syn:lastlinecenteredpar]{\code{lastlinecenteredpar}}.}
@@ -1853,7 +1852,6 @@ end
 %
 %  \DescribeMacro{\kernedhyphen*}
 %  \DescribeMacro{\kernedhyphen}
-%  \\[-2\baselineskip]
 %  Macros \cs{kernedhyphen*} and \cs{kernedhyphen} expand to a hyphen~(\sample{-}) with given
 %  kerning to its left and to its right.
 %
@@ -1878,8 +1876,6 @@ end
 %  \DescribeMacro{\leftkernedhyphen}
 %  \DescribeMacro{\rightkernedhyphen*}
 %  \DescribeMacro{\rightkernedhyphen}
-%  \\[-4\baselineskip]
-%  \indent
 %  We also define specialized versions for kerning on the left-hand side or the right-hand side
 %  only.  These macros work like their two-argument counterparts and set the appropriate other
 %  kerning to zero.
@@ -1944,7 +1940,6 @@ end
 %
 %  \DescribeMacro{\capitalendash}
 %  \DescribeMacro{\capitaldash}
-%  \\[-2\baselineskip]
 %  The situation of the en-dash~\sample{--} is almost identical to the one of the hyphen
 %  character~\sample{-} described in the previous section or the number dash to be introduced in
 %  the next section.
@@ -2060,8 +2055,7 @@ end
 %  \begin{usecase}
 %    The key customers of \cs{figuredash} are the |PAGES|~entries of bibliography
 %    databases.~\visualpar In an index generated with \command{makeindex} the range
-%    delimiter~\code{delim\_r}\marginnote{The \hyperref[sec:index]{index} of this document uses
-%    \cs{figuredash*}, too.} is a candidate for \cs{figuredash*}.
+%    delimiter~\code{delim\_r} is a candidate for \cs{figuredash*}.
 %  \end{usecase}
 %
 %
@@ -2104,7 +2098,6 @@ end
 %  \DescribeMacro{\singleguillemetright}
 %  \DescribeMacro{\doubleguillemetleft}
 %  \DescribeMacro{\doubleguillemetright}
-%  \\[-4\baselineskip]
 %  \begin{synopsis}\label{syn:singleguillemetleft}\label{syn:doubleguillemetleft}
 %    \begin{tabbing}
 %      \cs{singleguillemetleft}\qquad\= \cs{singleguillemetright}  \\
@@ -2126,7 +2119,6 @@ end
 %  \DescribeMacro{\Singleguillemetright}
 %  \DescribeMacro{\Doubleguillemetleft}
 %  \DescribeMacro{\Doubleguillemetright}
-%  \\[-4\baselineskip]
 %  \begin{synopsis}\label{syn:Singleguillemetleft}\label{syn:Doubleguillemetleft}
 %    \begin{tabbing}
 %      \cs{Singleguillemetleft}\qquad\= \cs{Singleguillemetright}  \\
@@ -2238,8 +2230,6 @@ end
 %
 %  \DescribeEnv{lastlineraggedleftpar}
 %  \DescribeEnv{lastlineflushrightpar}
-%  \\[-2\baselineskip]
-%  \indent
 %  The environment |lastlineraggedleftpar|\index{paragraph>align last line>flush right} adjusts
 %  the various skips such that the last lines of the paragraphs gets typeset flush with the
 %  right margin.
@@ -2486,13 +2476,13 @@ end
 %
 %        Join the last words or inline equation at the end of the paragraph with an~\cs{mbox}.
 %
-%      \item \cs{linebreak}.\label{enum:linebreak}\index{paragraph>fill last line>linebreak=\cs{linebreak}}\footnote{\bibauthor{U. Wermuth}, personal communication, August~2, 2022.}
+%      \item \cs{linebreak}\label{enum:linebreak}\index{paragraph>fill last line>linebreak=\cs{linebreak}}
 %
 %        Add a \cs{linebreak} to the back part of the paragraph (approximately where the
 %        \cs{mbox} of item~\ref{enum:mbox-last-words} would start) in a way that the last line
-%        receives the desired length.  In turn the next-to-last line may become unsightly.
-%        Counteract this degradation for example with recipes~\ref{enum:vary-spacing}
-%        to~\ref{enum:vary-font-expansion}.
+%        receives the desired length~\cite{wermuth:2022-8-2}.  In turn the next-to-last lines
+%        may become unsightly.  Counteract this degradation e.\,g.~with
+%        recipes~\ref{enum:vary-spacing} to~\ref{enum:vary-font-expansion}.
 %    \end{enumerate}
 %
 %    Tying and \cs{mbox}ing lend themselves to generalizations.  We need not only tie at end of
@@ -2516,7 +2506,7 @@ end
 %
 %    Enclose the paragraph in a \hyperref[syn:setfonttracking]{\code{setfonttracking}}~group.
 %    See \cref{sec:tracking-control}.  Increase or decrease the tracking in steps of
-%    \nativetextfraction{1}{1000}\,em until the last line looks ok.
+%    \nativetextfraction{1}{1000}\,em until the last line looks good.
 %
 %  \item Vary font expansion.\label{enum:vary-font-expansion}\index{font>expansion}
 %
@@ -2545,7 +2535,6 @@ end
 %
 %  \DescribeEnv{shortenpar}
 %  \DescribeEnv{prolongpar}
-%  \\[-2\baselineskip]
 %  The two environments |shortenpar|\index{paragraph>fill last
 %  line>shortenpar=\code{shortenpar}} and |prolongpar|\index{paragraph>fill last
 %  line>prolongpar=\code{prolongpar}} can be employed in quite general situations when a
@@ -2667,8 +2656,6 @@ end
 %
 %  \DescribeEnv{loosespacing}
 %  \DescribeEnv{tightspacing}
-%  \\[-2\baselineskip]
-%  \indent
 %  Environments |loosespacing| and |tightspacing| introduce four \meta{level}s of
 %  \singlequotes{looseness} or \singlequotes{tightness}, where \meta{level}~=~0 disables the
 %  functionalities.  The higher the \meta{level} the looser or tighter the text will by typeset,
@@ -2762,7 +2749,7 @@ end
 %
 %  The functionalities are just front-ends of selected macros in
 %  package~\packagename{microtype}.  All macros and environments introduced in this section
-%  require package~\packagename{microtype}~\cite{package:microtype}.
+%  require that package~\packagename{microtype}~\cite{package:microtype} has been loaded.
 %
 %
 %  \subsubsection{Tracking}\label{sec:tracking-control}\index{font>tracking}
@@ -2821,7 +2808,6 @@ end
 %
 %  \DescribeEnv{setfontshrink}
 %  \DescribeEnv{setfontstretch}
-%  \\[-2\baselineskip]
 %  Adjust the limits of either only stretchability or only shrinkability and zero the other
 %  component, i.\,e., shrinkability and stretchability, respectively.
 %
@@ -2880,7 +2866,7 @@ end
 %
 %  The three (nonzero) shrink limits of \code{setfontshrink} can be configured with package
 %  option~\hyperref[item:shrinklimits]{\code{shrinklimits}} and --~in the same way~-- the three
-%  (nonzero) stretch of \code{setfontstretch} can be configured with package
+%  (nonzero) stretch limits of \code{setfontstretch} with package
 %  option~\hyperref[item:stretchlimits]{\code{stretchlimits}}.
 %
 %  \begin{usecases}
@@ -2987,16 +2973,14 @@ end
 %  \subsection{Sloppy Paragraphs}\label{sec:sloppy-paragraphs}\index{paragraph>sloppy}
 %
 %  Experienced \LaTeX{} users know that \cs{sloppy} is more of a problem by itself and not
-%  really a viable solution of the \doublequotes{overfull~box} syndrom.
+%  really a viable solution of the \doublequotes{overfull~box} syndrome.
 %
 %  \DescribeMacro{\slightlysloppy}
 %  \DescribeEnv{slightlysloppypar}
-%  \\[-2\baselineskip]
-%  \indent
 %  We define the macro~\cs{slightlysloppy} and the associated environment,
 %  \code{slightlysloppypar}, with a user-selectable \meta{sloppiness} parameter.  The
 %  constructions recover the known settings \cs{fussy} (\meta{sloppiness}~=~0) and \cs{sloppy}
-%  (\meta{sloppiness}~\(\ge\)~8), and introduce three intermediate
+%  (\meta{sloppiness}~\(\ge\)~8), and introduce seven intermediate
 %  \meta{sloppiness}~levels.\footnote{Also compare the findings for \cs{emergencystretch} in
 %  Ref.~\citenum{wermuth:2017a}.}  The default \meta{sloppiness} is 1.
 %
@@ -3084,8 +3068,6 @@ end
 %
 %  \DescribeMacro{\vtietop}
 %  \DescribeEnv{vtietoppar}
-%  \\[-2\baselineskip]
-%  \indent
 %  Avoid a club\index{forlorn line>club} line in each partial paragraph.
 %
 %  \begin{synopsis}\label{syn:vtietop}\label{syn:vtietoppar}
@@ -3155,8 +3137,6 @@ end
 %  \noindent
 %  \DescribeMacro{\vtiebot}
 %  \DescribeEnv{vtiebotpar}
-%  \\[-2\baselineskip]
-%  \indent
 %  Avoid a widow\index{forlorn line>widow} line in each partial paragraph.
 %
 %  \begin{synopsis}\label{syn:vtiebot}\label{syn:vtiebotpar}
@@ -3396,6 +3376,7 @@ end
 %
 %
 %  \FloatBarrier
+%  \clearpage
 %  \subsection{Smooth Ragged}\label{sec:smooth-ragged}\index{ragged right}
 %
 %  \begin{whittyquote}
@@ -3406,27 +3387,27 @@ end
 %    \capitalemdash*~\propername{Erik Spiekermann}
 %  \end{whittyquote}
 %
-%  \begin{caution}
-%    This set of environments still is experimental.
-%  \end{caution}
-%
 %  \noindent
 %  Package \packagename{typog} implements a novel approach to typeset ragged paragraphs.
 %  Instead of setting the glue inside of a paragraph to zero and letting the line-widths vary
 %  accordingly~\cite{wermuth:2020} we prescribe the line-widths with the \cs{parshape}~primitive
 %  and leave alone the stretchability or shrinkability of the glue.
 %
-%  \hangindent=5.5em\hangafter=-3
-%  \DescribeEnv{smoothraggedrightshapetriplet}
-%  \DescribeEnv{smoothraggedrightshapequintuplet}
-%  \DescribeEnv{smoothraggedrightshapeseptuplet}
-%  We introduce three environments that allow for setting three, five, or seven different
-%  line-lengths: \code{smoothraggedrightshapetriplet}, \code{smoothraggedrightshapequintuplet},
-%  and \code{smoothraggedrightshapeseptuplet}; they work for paragraphs up to
-%  \makeatletter
-%    \typog@triplet@max@lines, \typog@quintuplet@max@lines, or \typog@septuplet@max@lines~lines,
-%  \makeatother
-%  respectively.\par
+%  \begin{slightlysloppypar}
+%    \hangindent=5.5em\hangafter=-5
+%    \DescribeEnv{smoothraggedrightshapetriplet}
+%    \DescribeEnv{smoothraggedrightshapequintuplet}
+%    \DescribeEnv{smoothraggedrightshapeseptuplet}
+%    We introduce three environments that allow for setting three, five, or seven different
+%    line-lengths: \code{smoothraggedrightshapetriplet},
+%    \code{smoothraggedrightshapequintuplet}, and \code{smoothraggedrightshapeseptuplet}; they
+%    work for paragraphs up to
+%    \makeatletter
+%      \typog@triplet@max@lines, \typog@quintuplet@max@lines, or \typog@septuplet@max@lines~lines,
+%    \makeatother
+%    respectively.
+%  \end{slightlysloppypar}
+%
 %
 %  \begin{maxipage}
 %    \begin{synopsis}\label{syn:smoothraggedrightshapetriplet}\label{syn:smoothraggedrightshapequintuplet}\label{syn:smoothraggedrightshapeseptuplet}
@@ -3739,7 +3720,6 @@ end
 %    \clearpage
 %    \phantomsection
 %    \resetfancyhead
-%    \addcontentsline{toc}{section}{Changes}
 %    \PrintChanges
 %
 %    \sectionfinish
@@ -3915,6 +3895,11 @@ end
 %              TUGboat, 41(1), 73\figuredash94, 2020,
 %              \biburl{https://tug.org/TUGboat/tb41-1/tb127wermuth-ragged.pdf}.
 %
+%      \bibitem{wermuth:2022-8-2}
+%              \bibauthor{Wermuth, Udo}.
+%              Personal communication.
+%              August~2, 2022.
+%
 %      \bibitem{package:hyphenat}
 %              \bibauthor{Wilson, Peter}.
 %              \bibtitle{Package~\packagename{hyphenat}}.
@@ -3939,8 +3924,6 @@ end
 %
 %    \sectionfinish
 %    \clearpage
-%    \phantomsection
-%    \addcontentsline{toc}{section}{Index}
 %    \begin{RaggedRight}
 %      \setcounter{IndexColumns}{2}
 %      \setlength{\columnsep}{30pt}
@@ -4044,6 +4027,7 @@ end
     \ifdefined\pdfstringdefDisableCommands
       \pdfstringdefDisableCommands{#1}%
     \fi}}
+
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -4055,6 +4039,7 @@ end
 %  \begin{macro}{\iftypog@microtype@preloaded}
 %    \begin{macrocode}
 \newif\iftypog@microtype@preloaded
+
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -4075,12 +4060,14 @@ end
                   {package microtype not (pre-)loaded}%
                   {package microtype must be loaded before package typog}}
 \fi
+
 %    \end{macrocode}
 %  \end{macro}
 %
 %  \begin{macro}{\iftypog@microtype@loaded}
 %    \begin{macrocode}
 \newif\iftypog@microtype@loaded
+
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -4412,6 +4399,7 @@ end
 \newcommand*{\typog@round@dim@to@tenths}[1]
   {\fp_to_decimal:n {round(10 * \dim_to_fp:n{#1} / 1\p@) / 10}}
 \ExplSyntaxOff
+
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -4422,6 +4410,7 @@ end
 %    \begin{macrocode}
 \newcommand*{\typog@formatsizeinfo}[3]
   {#1#3\kernedslash #2#3}
+
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -4557,6 +4546,7 @@ end
      \nobreak
      \hskip\z@skip
    \fi}
+
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -4567,6 +4557,7 @@ end
 \unless\ifdefined\allowhyphenation
   \let\allowhyphenation=\typog@allowhyphenation
 \fi
+
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -4600,6 +4591,7 @@ end
 %
 %    \begin{macrocode}
 \newcommand*{\typog@hyphen}{\char`-}
+
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -4612,6 +4604,7 @@ end
      {\discretionary{\typog@hyphen}{}{\kern\dimen0}%
       \typog@allowhyphenation
       \IfNoValueF{#2}{\ignorespaces}}}
+
 %    \end{macrocode}
 %
 %  The \acronym{PDF}-ready version of \cs{nolig} cannot be implemented with \cs{futurelet}.
@@ -4887,6 +4880,7 @@ end
     \fi}
   \let\capitaldash=\capitalendash
 }
+
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -5097,6 +5091,7 @@ end
 %    \begin{macrocode}
 \let\lastlineflushrightpar=\lastlineraggedleftpar
 \let\endlastlineflushrightpar=\endlastlineraggedleftpar
+
 %    \end{macrocode}
 %  \end{environment}
 %
@@ -5127,6 +5122,7 @@ end
      \typeout{@ looseness \the\looseness}%
    \fi}
   {\par}
+
 %    \end{macrocode}
 %  \end{environment}
 %
@@ -5176,6 +5172,7 @@ end
    \parfillskip=\dimen0 \@minus \dimen0
    \relax}
   {\par}
+
 %    \end{macrocode}
 %  \end{environment}
 %
@@ -5213,6 +5210,7 @@ end
       \skip0=\dimen0 \@plus 1fil \@minus \dimen0}
    \parfillskip=\skip0}
   {\par}
+
 %    \end{macrocode}
 %  \end{environment}
 %
@@ -5406,6 +5404,7 @@ end
                    which is required for typog's font expansion}%
                   {require package microtype before package typog}}
 \fi
+
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -5424,6 +5423,7 @@ end
    \fi
    \ignorespaces}
   {\ignorespacesafterend}
+
 %    \end{macrocode}
 %  \end{environment}
 %
@@ -5442,6 +5442,7 @@ end
    \fi
    \ignorespaces}
   {\ignorespacesafterend}
+
 %    \end{macrocode}
 %  \end{environment}
 %
@@ -5460,6 +5461,7 @@ end
    \fi
    \ignorespaces}
   {\ignorespacesafterend}
+
 %    \end{macrocode}
 %  \end{environment}
 %
@@ -5484,6 +5486,7 @@ end
 %    \begin{macrocode}
 \let\nofontexpand=\nofontexpansion
 \let\endnofontexpand=\endnofontexpansion
+
 %    \end{macrocode}
 %  \end{environment}
 %
@@ -5518,6 +5521,7 @@ end
                      \else
                        \dimexpr (#1) * \linewidth / \textwidth
                      \fi}
+
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -5634,6 +5638,7 @@ end
 \newcommand*{\typog@geometric@mean}[2]
             {\fp_to_int:n {sqrt((#1) * (#2))}}
 \ExplSyntaxOff
+
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -5642,6 +5647,7 @@ end
 %
 %    \begin{macrocode}
 \newcounter{typog@mean@penalty}
+
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -5699,6 +5705,7 @@ end
          \value{typog@mean@penalty}
          \clubpenalty
    \fi}
+
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -5708,6 +5715,7 @@ end
   {\vtietop[#1]}
   {\par
    \ignorespacesafterend}
+
 %    \end{macrocode}
 %  \end{environment}
 %
@@ -5717,6 +5725,7 @@ end
   {\let\typog@old@item=\@item
    \def\@item[##1]{\typog@old@item[##1]\vtietop[#1]}%
    \ignorespaces}
+
 %    \end{macrocode}
 %
 %  We define an extra style for the users of \packagename{enumitem}.
@@ -5726,6 +5735,7 @@ end
 \ifdefined\SetEnumitemKey
   \SetEnumitemKey{vtietop}{first=\splicevtietop}
 \fi
+
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -5783,6 +5793,7 @@ end
          \value{typog@mean@penalty}
          \widowpenalty
    \fi}
+
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -5792,6 +5803,7 @@ end
   {\vtiebot[#1]}
   {\par
    \ignorespacesafterend}
+
 %    \end{macrocode}
 %  \end{environment}
 %
@@ -5849,6 +5861,7 @@ end
          \value{typog@mean@penalty}
          \displaywidowpenalty
    \fi}
+
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -5857,6 +5870,7 @@ end
 \NewDocumentEnvironment{vtiebotdisp}{O{3}}
   {\typog@vtiebotdisp{#1}}
   {\ignorespacesafterend}
+
 %    \end{macrocode}
 %  \end{environment}
 %
@@ -5962,6 +5976,7 @@ end
                   {\skip0 \skip1  \skip0 \skip2  \skip0 \skip3}}
    \parshape=\typog@triplet@max@lines\typog@@triplet@linespecs\relax}
   {\par}
+
 %    \end{macrocode}
 %  \end{environment}
 %
@@ -6015,6 +6030,7 @@ end
    \parshape=\typog@quintuplet@max@lines\typog@@quintuplet@linespecs\relax}
   {\par}
 %    \end{macrocode}
+
 %  \end{environment}
 %
 %
@@ -6102,6 +6118,7 @@ end
 %    \begin{macrocode}
 \newlength{\smoothraggedrightragwidth}
 \setlength{\smoothraggedrightragwidth}{2em}
+
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -6111,8 +6128,10 @@ end
 %
 %    \begin{macrocode}
 \newdimen{\typog@fuzzwidth}
+
 \define@key[typog]{smoothraggedrightpar}{linewidth}%
            {\def\typog@@linewidth{#1}}
+
 \NewDocumentEnvironment{smoothraggedrightpar}{O{}}
   {\edef\typog@@linewidth{\linewidth}%
    \setkeys[typog]{smoothraggedrightpar}{#1}%
@@ -6249,7 +6268,7 @@ end
 %
 %  \iffalse
 %<*example>
-\documentclass{article}
+\documentclass[a4paper]{article}
 
 \tracingonline=0
 
@@ -6260,7 +6279,6 @@ end
 \usepackage{float}
 \usepackage[T1]{fontenc}
 \usepackage{fullwidth}
-\usepackage[legalpaper]{geometry}
 \usepackage{hyphenat}
 \usepackage{mathtools}
 \usepackage[activate=true, verbose=true]{microtype}
@@ -7883,10 +7901,6 @@ s/\\jobname/\\textbackslash jobname/g
 
 ##  Make qualified Perl names breakable.
 s/::/::\\discretionary{}{}{}/g
-
-##  Replace TeX and LaTeX with their logos.
-s/LaTeX/\\LaTeX{}/g
-s/TeX/\\TeX{}/g
 %</teximan2latex>
 %  \fi
 %
