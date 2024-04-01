@@ -297,4 +297,5 @@ typog.pdf: typog.dtx  \
            crooked-paragraphs-3.mps crooked-paragraphs-4.mps  \
            slant-angle-1.mps title-1.mps  \
            smooth-parshapes-1.mps smooth-parshapes-2.mps smooth-parshapes-3.mps  \
-           typog-grep.tex
+           typog-grep.tex  \
+           | typog.sty
