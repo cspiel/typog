@@ -18,7 +18,7 @@
 
 \tracingonline=0
 
-\OnlyDescription
+%--\OnlyDescription
 \EnableCrossrefs
 \CodelineIndex
 \RecordChanges
@@ -43,6 +43,7 @@
 \usepackage{hypdoc}
 \usepackage{hyphenat}
 \usepackage[shrink=10, stretch=10]{microtype}
+\usepackage{multirow}
 \usepackage{needspace}
 \usepackage{placeins}
 \usepackage{ragged2e}
@@ -66,6 +67,11 @@
 \newcommand*{\fontclan}{\expandafter\@get@fontclan\f@family\relax}
 \makeatother
 
+\newcommand*{\proportionalliningfigures}{\fontfamily{\fontclan-LF}\selectfont}
+\newcommand*{\proportionaloldstylefigures}{\fontfamily{\fontclan-OsF}\selectfont}
+\newcommand*{\tabularliningfigures}{\fontfamily{\fontclan-TLF}\selectfont}
+\newcommand*{\tabularoldstylefigures}{\fontfamily{\fontclan-TOsF}\selectfont}
+
 \newcommand*{\textdenominator}[1]{{\fontfamily{\fontclan-Dnom}\selectfont #1}}
 \newcommand*{\textinferior}[1]{{\fontfamily{\fontclan-Inf}\selectfont #1}}
 \newcommand*{\textnumerator}[1]{{\fontfamily{\fontclan-Numr}\selectfont #1}}
@@ -77,8 +83,8 @@
 \makeatletter
 \renewcommand*{\@makefnmark}{\hbox{\sf\textsuperior{\@thefnmark}}}
 \newenvironment*{tabfigures}
-                {\edef\rmdefault{\fontclan-T\sourceserifpro@figurestyle}\rm}
-                {}
+                {\edef\rmdefault{\fontclan-T\sourceserifpro@figurestyle}\rm\ignorespaces}
+                {\ignorespacesafterend}
 
 \newcommand*{\elseries}{\def\mdseries@rm{el}\def\mdseries@sf{el}\def\mdseries@tt{el}}
 \newcommand*{\textel}[1]{{\elseries\textmd{#1}}}
@@ -266,7 +272,7 @@
 
 \newcommand*{\doublequotes}[1]{\doubleguillemetright\kern-.03333em #1\doubleguillemetleft}
 
-\newcommand*{\dumpmacro}[1]{\texttt{\detokenize\expandafter{#1}\unskip}}
+\newcommand*{\dumpmacro}[1]{\texttt{\detokenize\expandafter{#1}}}
 
 \newcommand*{\filesystem}[1]{\mbox{\textit{#1\/}}}
 
@@ -372,6 +378,12 @@
               \par}%
              \vfill}
 \let\sectionfinish=\relax
+
+\newcommand*{\sinceversion}[1]{% modeled after \NewIn of "doc.dtx"
+  \leavevmode
+  \marginpar{\hfill\textcolor{\markercolor}{\sf\scshape\proportionaloldstylefigures #1}}%
+  \ignorespaces
+}
 
 \newcommand*{\singlequotes}[1]{\mbox{\singleguillemetright #1\singleguillemetleft}}
 
@@ -540,6 +552,9 @@
   mar-gin-al
   math-italics-correction
   micro-type
+  narrow-space
+  narrow-space-scale
+  narrow-space-strength
   number-dash
   par-box
   par-indent
@@ -582,6 +597,9 @@
   vtie-bot-par
   vtie-top
   vtie-top-par
+  wide-space
+  wide-space-scale
+  wide-space-strength
   widow-penalties
 }
 
@@ -770,9 +788,10 @@ end
 %    \footnotesize
 %    \noindent
 %    This package is copyright \textcopyright~2024 Ch.~L.~Spiel.  It may be distributed
-%    and\kernedslash*or modified under the conditions of the \LaTeX{} Project Public License,
-%    either version~1.3c of this license or (at your option) any later version.  This work has
-%    the \acronym{LPPL} maintenance status \doublequotes{author-maintained}.
+%    and\kernedslash*or modified under the conditions of the \LaTeX{} Project Public License
+%    \acronym{(LPPL)}, either version~1.3c of this license or --~at your option~-- any later
+%    version.  This work has the \acronym{LPPL} maintenance status
+%    \doublequotes{author-maintained}.
 %  \end{lastlinecenteredpar}
 %
 %
@@ -1238,7 +1257,8 @@ end
 %  \end{tips}
 %
 %
-%  \paragraph{Investigating the badness of a paragraph.}\index{paragraph>badness}
+%  \phantomsection
+%  \paragraph{Investigating the badness of a paragraph.}\label{sec:investigating-paragraph-badness}\index{paragraph>badness}
 %
 %  It is generally unnecessary to determine the \emph{exact} classification of a paragraph's
 %  badness~\cite[p.~97n]{knuth:1986}, though the curious user can switch on logging of
@@ -1869,8 +1889,8 @@ end
 %  The optional argument~\meta{raise}, also given in \nativetextfraction{1}{1000}\,em, allows to
 %  adjust the height of the hyphen similar to the macros described in
 %  \cref{sec:raise-characters}.  In text mode the special argument~\sample{|*|} for \meta{raise}
-%  transfers the current value of \hyperref[item:raisecapitalhyphen]{|raisecapitalhyphen|}.  The
-%  default for \meta{raise} is zero.
+%  transfers the current value of \hyperref[item:raisecapitalhyphen]{\code{raisecapitalhyphen}}.
+%  The default for \meta{raise} is zero.
 %
 %  \DescribeMacro{\leftkernedhyphen*}
 %  \DescribeMacro{\leftkernedhyphen}
@@ -1896,6 +1916,18 @@ end
 %
 %  \subsection{Raise Selected Characters}\label{sec:raise-characters}
 %  \index{raised character}
+%
+%  Usually all hyphens and dashes of a font are designed to join lowercase letters.  This holds
+%  also true for most of our \cs{labelitem}\meta{N} markers, bullets, stars, and even fancy
+%  dingbats.  If these hyphens and dashes connect uppercase letters (or lining numerals) they
+%  sometimes appear to low; they disrespect the glyphs' symmetry axis.  A similar situation
+%  arises if |itemize|~list markers precede an uppercase letter, a lining numeral, or a big
+%  mathematical operator.
+%
+%  We introduce a set of macros for the most common cases that allow typsetting these characters
+%  at a user definable, adjusted height above the baseline.  Users can base their own
+%  definitions of raised characters on their associated dimensions.\footnote{Also compare with
+%  Ex.~12 in Ref.~\citenum{wermuth:2023} for an attempt to automate vertical alignment.}
 %
 %  \begin{caution}
 %    The height adjustment disables a font's built-in kerning.
@@ -2624,27 +2656,16 @@ end
 %  \cref{sec:microtype-frontend}.
 %
 %
-%  \subsubsection{Wide Space}\label{sec:wide-space}\index{wide space}
-%
-%  \DescribeMacro{\widespace}
-%  Typeset a wide, sentence-ending space as if in \cs{nonfrenchspacing}~mode.
-%
-%  \begin{synopsis}\label{syn:widespace}
-%     \cs{widespace}
-%  \end{synopsis}
-%
-%  Macro~\cs{widespace} inserts a space that is as wide as the font's sentence-ending space in
-%  \cs{nonfrenchspacing}~mode, this is \(|\fontdim2| + |\fontdim7|\), but its width is
-%  independent of any \cs{frenchspacing} or \cs{nonfrenchspacing}~settings.
-%
-%  \begin{usecase}
-%    Useful as a sentence-ending space if, for example, the sentence ends in an abbreviation
-%    with a period \emph{and} the next sentence should be delimited in a clearer way.
-%  \end{usecase}
-%
-%
 %  \subsubsection[Looser\kernedslash Tighter]{Looser or Tighter Spacing}\label{sec:looser-tighter-spacing}\index{font>spacing>loose}\index{font>spacing>tight}
 %
+%
+%  \begin{whittyquote}
+%    Never try to adjust lines by squeezing or stretching the tracking.  \\
+%    Go for the subtle solution: adjust word spacing instead.  \\
+%    \capitalemdash*~\propername{Jan Middendorp}~\cite[p.~119]{middendorp:2014}
+%  \end{whittyquote}
+%
+%  \noindent
 %  The environments in this section directly influence the spacing, this is, they change the
 %  width and stretchability of the horizontal space.
 %
@@ -2668,9 +2689,9 @@ end
 %  Environment~|loosespacing| increases the width of a space by the percentages given in the
 %  \cref{tab:loosespacing}.
 %
-%  \begin{SCtable}
+%  \begin{SCtable}[10]
 %    \caption[Spacing changes made by \code{loosespacing}]%
-%      {Adjustments made by environment~|loosespacing| to \cs{spaceskip}.
+%      {Adjustments made by environment |loosespacing| to \cs{spaceskip}.
 %       The mapping of \meta{level} to the exact skip definitions are
 %       \(1 \mapsto \formatskip{1.05}{.5}{.1}\),
 %       \(2 \mapsto \formatskip{1.1}{.5}{.1}\),
@@ -2681,15 +2702,17 @@ end
 %    \label{tab:loosespacing}
 %
 %    \begin{tabfigures}
+%      \def~{\hphantom{0}}%
 %      \begin{tabular}{@{}ccl@{}}
 %        \toprule
 %        \meta{level}  &  Adjustment  &  Comment  \\
+%        {}            &  \%          &  \\
 %        \midrule
 %        0  &  n/a  &  neutral  \\
-%        1  &  +5~\%\hphantom{0}  &  default  \\
-%        2  &  +10~\%  &  \\
-%        3  &  +20~\%  &  \\
-%        \(\ge\)\:4  &  +30~\%  &  \\
+%        1  &  +5~  &  default  \\
+%        2  &  +10  &  \\
+%        3  &  +20  &  \\
+%        \(\ge\)\:4  &  +30  &  \\
 %        \bottomrule
 %      \end{tabular}
 %    \end{tabfigures}
@@ -2704,9 +2727,9 @@ end
 %  Environment~|tightspacing| decreases the width of a space by the percentages given in
 %  \cref{tab:tightspacing}.
 %
-%  \begin{SCtable}
+%  \begin{SCtable}[10]
 %    \caption[Spacing changes made by \code{tightspacing}]%
-%      {Adjustments made by environment~|tightspacing| to \cs{spaceskip}.
+%      {Adjustments made by environment |tightspacing| to \cs{spaceskip}.
 %       The mapping of \meta{level} to the exact skip definitions are
 %       \(1 \mapsto \formatskip{.9875}{.0125}{.5\hphantom{000}}\)\!,
 %       \(2 \mapsto \formatskip{.975}{.025}{.5\hphantom{00}}\)\!,
@@ -2717,15 +2740,17 @@ end
 %    \label{tab:tightspacing}
 %
 %    \begin{tabfigures}
+%      \def~{\hphantom{0}}%
 %      \begin{tabular}{@{}ccl@{}}
 %        \toprule
 %        \meta{level}  &  Adjustment  &  Comment  \\
+%        {}            &  \%          &  \\
 %        \midrule
 %        0  &  n/a  &  neutral  \\
-%        1  &  \hphantom{0}{-}1.25~\%  &  default  \\
-%        2  &  \hphantom{0}{-}2.5~\%\hphantom{0}  &  \\
-%        3  &  \hphantom{0}{-}5~\%\hphantom{.00}  &  \\
-%        \(\ge\)\:4  &  -10~\%\hphantom{.00}  &  \\
+%        1  &  ~{-}1.25  &  default  \\
+%        2  &  ~{-}2.5~  &  \\
+%        3  &  ~{-}5\hphantom{.00}  &  \\
+%        \(\ge\)\:4  &  -10\hphantom{.00}  &  \\
 %        \bottomrule
 %      \end{tabular}
 %    \end{tabfigures}
@@ -2742,6 +2767,172 @@ end
 %    Nudge line breaks or hyphenation points.~\visualpar Separate clashing descenders and
 %    ascenders.~\visualpar Eliminate rivers.
 %  \end{usecases}
+%
+%
+%  \subsubsection{Wide Space}\label{sec:wide-space}\index{wide space}
+%
+%  The \cs{widespace} macro and its companion \cs{narrowspace} derive their appearances from
+%  several of the current font's \cs{fontdimen}\meta{number}s.  \TeX{} addresses the latter by
+%  integers, which is totally non-memnonic.  Therefore, we play softball by first presenting
+%  \cref{tab:fontdimen} that associates the \cs{fontdimen}\meta{number}s with their meanings and
+%  also reports on their current values (for this document).\footnote{The association is given
+%  in Appendix~F (p.~433) of Ref.~\citenum{knuth:1986}.  For a concise and understandable
+%  explanation of the \TeX~\cs{fontdimen} parameters consult Ref.~\citenum{carlisle:2013}.}
+%
+%  \begin{SCtable}
+%    \caption[\cs{fontdimen}\meta{number} parameters]
+%            {The first column~\sample{\#} states the index of the \cs{fontdimen} parameter:
+%             \meta{number}.  Column~2 presents short descriptions of the
+%             \cs{fontdimen}\meta{number} parameters.  As examples, the values for the current
+%             font are shown in column~3; they are normalized to the quad-size.\bottomstrut}
+%    \label{tab:fontdimen}
+%
+%    \begin{tabfigures}
+%      \def~{\hphantom{0}}%
+%      \ExplSyntaxOn
+%      \def\straightfontdimen#1{\fp_eval:n {\the\fontdimen#1\font}}
+%      \def\roundfontdimen#1{\fp_eval:n {round (1000 * \the\fontdimen#1\font) / 1000}}
+%      \def\relativefontdimen#1{\fp_eval:n {round (1000 * \the\fontdimen#1\font / \the\fontdimen6\font) / 10}}
+%      \ExplSyntaxOff
+%
+%      \begin{tabular}{@{}lll@{}}
+%        \toprule
+%        \#  &  Description  &  Value  \\
+%        {}  &  &  \multicolumn{1}{c}{\%}  \\
+%        \midrule
+%        1  &  Slant per 1\,pt height &  ~~\relativefontdimen1\topstrut  \\
+%        2  &  Interword space width  &  ~\relativefontdimen2  \\
+%        3  &  Interword stretch  &  ~\relativefontdimen3  \\
+%        4  &  Interword shrink  &  ~~\relativefontdimen4  \\
+%        5  &  \sample{\itcorr{2}x\itcorr{2}} height  &  ~\relativefontdimen5  \\
+%        6  &  \cs{quad} height  &  \relativefontdimen6  \\
+%        7  &  Extra space width  &  ~~\relativefontdimen7  \\
+%        \bottomrule
+%      \end{tabular}
+%    \end{tabfigures}
+%  \end{SCtable}
+%
+%  \DescribeMacro{\widespace}
+%  \sinceversion{Starred form since v0.2}
+%  Typeset a wide, sentence-ending space as if in \cs{nonfrenchspacing}~mode.  Consult
+%  \Cref{tab:space-sizes} for a comparison of the various sizes.
+%
+%  \begin{synopsis}\label{syn:widespace}
+%     \cs{widespace}  \\
+%     \cs{widespace*}
+%  \end{synopsis}
+%
+%  The unstarred macro~\cs{widespace} inserts a space that is as wide as the font's
+%  sentence-ending space in \cs{nonfrenchspacing}~mode, this is
+%  \begin{equation*}
+%    |\fontdimen2| + \cs{widespacestrength} \times |\fontdimen7|.
+%  \end{equation*}
+%
+%  \noindent
+%  Its width is independent of any \cs{frenchspacing} or \cs{nonfrenchspacing}~settings, but
+%  depends on \cs{widespacestrength} which defaults
+%  to~\widespacestrength\widespace\marginnote{The sentence that ends with
+%  \singlequotes{\widespacestrength} uses \cs{widespace} after the period.} The latter can be
+%  overridden by the user to get a more or less pronounced effect.
+%
+%  If |\fontdimen7| happens to be zero \cs{widespace} uses
+%  \begin{equation*}
+%    \cs{widespacescale} \times |\fontdimen2|
+%  \end{equation*}
+%
+%  \noindent
+%  as width instead, where \cs{widespacescale} defaults to \widespacescale.  The stretchability
+%  and shrinkability of \cs{widespace} always are scaled with \cs{widespacescale}.  The
+%  \cs{widespacescale} too can be redefined by the user to achieve different effects.
+%
+%  The starred form, \cs{widespace*}, unconditionally uses the \(|\fontdimen7| = 0\) code-path.
+%
+%  \begin{usecase}
+%    Useful as a sentence-ending space if, for example, the sentence ends in an abbreviation
+%    with a period or decimal number without trailing digits \emph{and} the next sentence should
+%    be delimited in a clearer way.~\visualpar Open tight lines with a series
+%    of~\cs{widespace}s.\footnote{\label{fn:widespace}See also \doublequotes{Investigating the
+%    badness of a paragraph} on \Cpageref{sec:investigating-paragraph-badness}.}
+%  \end{usecase}
+%
+%
+%  \subsubsection{Narrow Space}\label{sec:narrow-space}\index{narrow space}
+%
+%  \DescribeMacro{\narrowspace}
+%  \sinceversion{Since v0.2}
+%  Typeset a narrow space.  Consult \Cref{tab:space-sizes} for a comparison of the various
+%  sizes.
+%
+%  \begin{synopsis}\label{syn:narrowspace}
+%     \cs{narrowspace}  \\
+%     \cs{narrowspace*}
+%  \end{synopsis}
+%
+%  The unstarred macro~\cs{narrowspace} inserts a narrow space with the width
+%  \begin{equation*}
+%    |\fontdimen2| - \cs{narrowspacestrength} \times |\fontdimen7|
+%  \end{equation*}
+%
+%  \noindent
+%  if |\fontdimen7| is different from zero or otherwise
+%  \begin{equation*}
+%    \cs{narrowspacescale} \times |\fontdimen2|.
+%  \end{equation*}
+%
+%  \noindent
+%  The starred version, \cs{narrowspace*}, unconditionally uses the \(\cs{fontdimen7} = 0\)
+%  code-path.  Refer to \Cref{tab:fontdimen} for the meanings of the various
+%  \cs{fontdimen}~parameters.
+%
+%  The stretchability and shrinkability of \cs{narrowspace} always get scaled with
+%  \cs{narrowspacescale}.  Both factors, \cs{narrowspacestrength} and \cs{narrowspacescale} can
+%  be redefined by the user; their defaults are \narrowspacestrength{} and \narrowspacescale,
+%  respectively.
+%
+%  \begin{usecase}
+%    Tighten loose lines with a series of~\cs{narrowspace}s.\footnote{Footnote
+%    \ref{fn:widespace} again applies.}
+%  \end{usecase}
+%
+%  \begin{table}
+%    \centering
+%    \caption[Comparison of some space sizes]
+%            {Exemplary comparison of standard \cs{space} versus \cs{narrowspace} and
+%             \cs{widespace}.  All values are relative to the size of the current font's quad
+%             size.  \cs{narrowspace} and \cs{widespace} use the package's defaults.~\visualpar
+%             The upper values in the Width-column for \cs{narrowspace}, and \cs{widespace}
+%             refer to the \(\cs{fontdimen7} \not= 0\) case and the lower ones to the
+%             \(\cs{fontdimen7} = 0\) code-path.}
+%    \label{tab:space-sizes}
+%
+%    \begin{tabfigures}
+%      \def~{\hphantom{0}}%
+%      \ExplSyntaxOn
+%      \def\relativedimen#1{\fp_eval:n {round (1000 * (#1) / \the\fontdimen6\font) / 10}}
+%      \def\relativefontdimen#1{\relativedimen{\the\fontdimen#1\font}}
+%      \ExplSyntaxOff
+%      \def\nrows{1.75}
+%
+%      \begin{tabular}{@{}llll@{}}
+%        \toprule
+%        Name  &  Width  &  Stretch  &  Shrink  \\
+%        {}    &  \%     &  \%       &  \%  \\
+%        \midrule
+%        \multirow{\nrows}{*}{\cs{narrowspace}}  &
+%        \relativedimen{\the\fontdimen2\font - \narrowspacestrength * \the\fontdimen7\font}  &
+%        \multirow{\nrows}{*}{\relativedimen{\narrowspacescale * \the\fontdimen3\font}}  &
+%        \multirow{\nrows}{*}{\relativedimen{\narrowspacescale * \the\fontdimen4\font}}  \\[-.25\normalbaselineskip]
+%        {}  &  \relativedimen{\narrowspacescale * \the\fontdimen2\font}  &  &  \\
+%        \cs{space}  &  \relativefontdimen2  &  \relativefontdimen3  &  \relativefontdimen4  \\
+%        \multirow{\nrows}{*}{\cs{widespace}}  &
+%        \relativedimen{\the\fontdimen2\font + \widespacestrength * \the\fontdimen7\font}  &
+%        \multirow{\nrows}{*}{\relativedimen{\widespacescale * \the\fontdimen3\font}}  &
+%        \multirow{\nrows}{*}{\relativedimen{\widespacescale * \the\fontdimen4\font}}  \\[-.25\normalbaselineskip]
+%        {}  &  \relativedimen{\widespacescale * \the\fontdimen2\font}  &  &  \\
+%        \bottomrule
+%      \end{tabular}
+%    \end{tabfigures}
+%  \end{table}
 %
 %
 %  \subsection{\packagename{Microtype} Front\capitalhyphen End}\label{sec:microtype-frontend}
@@ -3655,7 +3846,7 @@ end
 %  \end{usecases}
 %
 %
-%  \addtocontents{toc}{\hfill\textit{Table of Contents continued on next page.}}
+%  \addtocontents{toc}{\par\bigskip\hfill\textit{Table of Contents continued on next page.}}
 %  \addtocontents{toc}{\clearpage}
 %
 %
@@ -3699,7 +3890,7 @@ end
 %  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
-%  \StopEventually{
+%  \MaybeStop{
 %    \sectionfinish
 %    \clearpage
 %    \section{typog-grep}
@@ -3720,12 +3911,13 @@ end
 %    \clearpage
 %    \phantomsection
 %    \resetfancyhead
+%    \addcontentsline{toc}{section}{Change History}
 %    \PrintChanges
 %
 %    \sectionfinish
 %    \clearpage
 %    \phantomsection
-%    \addcontentsline{toc}{section}{Bibliography}
+%    \addcontentsline{toc}{section}{References}
 %    \begin{RaggedRight}
 %      \begin{thebibliography}{88}
 %      \bibitem{abrahams:2020}
@@ -3776,6 +3968,12 @@ end
 %              1996,
 %              \biburl{http://uk-tug-archive.tug.org/wp-installed-content/uploads/2008/12/61.pdf}.
 %
+%      \bibitem{carlisle:2013}
+%              \bibauthor{Carlisle, David}.
+%              \bibtitle{What do different \cs{fontdimen<num>} mean}.
+%              2013\figuredash*1\figuredash*2,
+%              \biburl{https://tex.stackexchange.com/questions/88991/what-do-different-fontdimennum-mean}.
+%
 %      \bibitem{package:cleveref}
 %              \bibauthor{Cubitt, Toby}.
 %              \bibtitle{Package~\packagename{cleveref}}.
@@ -3815,6 +4013,12 @@ end
 %              \biburl{https://ctan.org/pkg/layout}.
 %              The package was converted to \LaTeXe\ by \bibauthor{J. L. Braams}
 %              and modified by \bibauthor{H. Umeki}.
+%
+%      \bibitem{middendorp:2014}
+%              \bibauthor{Middendorp, Jan}.
+%              \bibtitle{Shaping Text}.
+%              \acronym{BIS}~publishers, Amsterdam,
+%              2014.
 %
 %      \bibitem{mittelbach:2018c}
 %              \bibauthor{Mittelbach, Frank}.
@@ -3900,6 +4104,12 @@ end
 %              Personal communication.
 %              August~2, 2022.
 %
+%      \bibitem{wermuth:2023}
+%              \bibauthor{Wermuth, Udo}.
+%              \bibtitle{Vertical alignments in plain \TeX}.
+%              TUGboat, 44(3), 427\figuredash440, 2023,
+%              \biburl{https://tug.org/TUGboat/tb44-3/tb138wermuth-valign.pdf}.
+%
 %      \bibitem{package:hyphenat}
 %              \bibauthor{Wilson, Peter}.
 %              \bibtitle{Package~\packagename{hyphenat}}.
@@ -3928,6 +4138,8 @@ end
 %      \setcounter{IndexColumns}{2}
 %      \setlength{\columnsep}{30pt}
 %      \label{sec:index}
+%      \phantomsection
+%      \addcontentsline{toc}{section}{Index}
 %      \PrintIndex
 %    \end{RaggedRight}
 %  }
@@ -3949,7 +4161,7 @@ end
 %    \begin{macrocode}
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesPackage{typog}[2024/03/16  v0.1  TypoGraphic extensions]
+\ProvidesPackage{typog}[2024/03/29  v0.2  TypoGraphic extensions]
 
 \RequirePackage{everyhook}
 \RequirePackage{xkeyval}
@@ -5217,12 +5429,82 @@ end
 %
 %  \subsection{Spacing}
 %
-%  \begin{macro}{\widespace}
+%  \begin{macro}{\widespacestrength}
+%    Weight factor (``strength'') for \cs{fontdimen7}, the extra width of a sentence-ending
+%    space, we apply to construct our \cs{widespace} if \(\cs{fontdimen7} \not= 0\).  Can be
+%    increased to get a more pronounced effect.
+%
 %    \begin{macrocode}
-\NewDocumentCommand{\widespace}{}
-  {\hskip \glueexpr\dimexpr\fontdimen2\font + \fontdimen7\font\relax
-          \@plus \fontdimen3\font
-          \@minus \fontdimen4\font}
+\newcommand*{\widespacestrength}{1.}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\widespacescale}
+%    Scale factor we apply to the glue of the normal space to setup the glue of our
+%    \cs{widespacescale}.  Also used in the fall-back calculation for the width if
+%    \(\cs{fontdimen7} = 0\).
+%
+%    \begin{macrocode}
+\newcommand*{\widespacescale}{1.125}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\widespace}
+%    \changes{v0.2}{2024-3-29}{Add fallback if \cs{fontdimen7} is zero.  Extend with a starred version.}
+%    \begin{macrocode}
+\NewDocumentCommand{\widespace}{s}
+  {\IfBooleanTF{#1}%
+    {\dimen0=\widespacescale\fontdimen2\font}%
+    {\ifdim\fontdimen7\font=\z@
+       \dimen0=\widespacescale\fontdimen2\font
+     \else
+       \dimen0=\dimexpr\fontdimen2\font +
+               \widespacestrength\fontdimen7\font
+     \fi}%
+   \hskip \glueexpr\dimen0
+          \@plus \widespacescale\fontdimen3\font
+          \@minus \widespacescale\fontdimen4\font
+   \ignorespaces}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\narrowspacestrength}
+%    Weight factor (``strength'') for \cs{fontdimen7}, the extra width of a sentence-ending
+%    space, we apply to construct our \cs{narrowspace} if \(\cs{fontdimen7} \not= 0\).  Can be
+%    increased to get a more pronounced effect.
+%
+%    \begin{macrocode}
+\newcommand*{\narrowspacestrength}{.5}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\narrowspacescale}
+%    Scale factor we apply to the glue of the normal space to setup the glue of our
+%    \cs{narrowspacescale}.  Also used in the fall-back calculation for the width if
+%    \(\cs{fontdimen7} = 0\).
+%
+%    \begin{macrocode}
+\newcommand*{\narrowspacescale}{.9375}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\narrowspace}
+%    \changes{v0.2}{2024-3-29}{New macro.}
+%    \begin{macrocode}
+\NewDocumentCommand{\narrowspace}{s}
+  {\IfBooleanTF{#1}%
+     {\dimen0=\narrowspacescale\fontdimen2\font}%
+     {\ifdim\fontdimen7\font=\z@
+        \dimen0=\narrowspacescale\fontdimen2\font
+      \else
+        \dimen0=\dimexpr\fontdimen2\font -
+                \narrowspacestrength\fontdimen7\font
+      \fi}%
+   \hskip \glueexpr\dimen0
+          \@plus \narrowspacescale\fontdimen3\font
+          \@minus \narrowspacescale\fontdimen4\font
+   \ignorespaces}
 
 %    \end{macrocode}
 %  \end{macro}
@@ -7291,7 +7573,7 @@ in particular if the chapters' ends are marked with centered dingbats.
 \clearpage
 \section{Spacing}
 
-\subsection{Wide Space}
+\subsection{Narrow\kernedslash Wide Space}
 
 The current font's parameters are shown in \cref{tab:fontdim}.\footnote{For a concise and
 understandable explanation of the plethora of font parameters
@@ -7318,16 +7600,29 @@ consult \propername{David Carlisle's} excellent post on \propername{StackExchang
 
 \begin{center}
   \setlength{\overfullrule}{0pt}
-  \newcommand*{\widespacesampletext}{``some\widespace text\widespace with\widespace spaces''}
+  \newcommand*{\spacesampletext}[1]{some#1text#1with#1spaces\rule{0.1pt}{1em}}
+  \newsavebox{\narrowspacesample}
+  \sbox{\narrowspacesample}{\spacesampletext{\narrowspace}}
   \newsavebox{\widespacesample}
-  \sbox{\widespacesample}{\widespacesampletext}
+  \sbox{\widespacesample}{\spacesampletext{\widespace}}
 
-  \begin{tabular}{@{}l@{\enspace}l@{\enspace--\quad}l@{}}
-    Compare  &  ``some text with spaces''  &  default  \\
+  \begin{tabular}{@{}ll@{\qquad}l@{}}
+    Compare  &  \spacesampletext{\space}  &  default space, natural glue \\
+    with     &  \usebox{\narrowspacesample}  &  \code{\string\narrowspace}, natural glue  \\
+    {}       &  \makebox[\wd\narrowspacesample][l]{\hbox to 0pt{\spacesampletext{\narrowspace}}}  &
+    \code{\string\narrowspace}, tight box  \\
+    {}       &  \makebox[\wd\narrowspacesample][l]{\hbox spread 5pt{\spacesampletext{\narrowspace}}}  &
+    \code{\string\narrowspace}, spread 5pt  \\
+    and again  &  \spacesampletext{\space}  &  default space, natural glue \\
     with     &  \usebox{\widespacesample}  &  \code{\string\widespace}, natural glue  \\
-    {}       &  \makebox[\wd\widespacesample][l]{\hbox to 0pt{\widespacesampletext}}  &  same, tight
+    {}       &  \makebox[\wd\widespacesample][l]{\hbox to 0pt{\spacesampletext{\widespace}}}  &
+    \code{\string\widespace}, tight box  \\
+    {}       &  \makebox[\wd\widespacesample][l]{\hbox spread 5pt{\spacesampletext{\widespace}}}  &
+    \code{\string\widespace}, spread 5pt
   \end{tabular}
 \end{center}
+
+\noindent Starred form eats spaces?  Narrow\narrowspace*  Space.  Wide\widespace*  Space.
 
 
 \subsection{Looser\kernedslash*Tighter}
