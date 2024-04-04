@@ -669,7 +669,7 @@ quote             '!'
 %  \DoNotIndex{\smoothraggedrightshapequintuplet}
 %  \DoNotIndex{\smoothraggedrightshapeseptuplet}
 %  \DoNotIndex{\smoothraggedrightshapetriplet}
-%  \DoNotIndex{\space,\spaceskip,\stepcounter,\@strength}
+%  \DoNotIndex{\space,\spaceskip,\stepcounter,\@strength,\string}
 %  \DoNotIndex{\textemdash,\textendash,\textsf,\textsl,\texttimes,\textwidth,\the,\times,\tl,\tolerance}
 %  \DoNotIndex{\tracingnone,\tracingpages,\tracingparagraphs}
 %  \DoNotIndex{\typeout,\typoginspect,\typoglogo}
@@ -1591,12 +1591,13 @@ end
 %  \end{tip}
 %
 %  \DescribeMacro{\breakpoint}
+%  \DescribeMacro{\breakpoint*}
 %  The empty discretionary construct~\cite[p.~95]{knuth:1986}, \cs{discretionary\{\}\{\}\{\}},
 %  is so helpful that it deserves its own macro --~with a descriptive name.
 %
 %  \begin{synopsis}
-%    \cs{breakpoint*}  \\
-%    \cs{breakpoint}
+%    \cs{breakpoint}  \\
+%    \cs{breakpoint*}
 %  \end{synopsis}
 %
 %  The starred form inserts an empty discretionary,\index{hyphenation>empty discretionary} which
@@ -1686,11 +1687,12 @@ end
 %  \subsection{Manual Italic Correction}\label{sec:manual-italic-correction}\label{italic correction}
 %
 %  \DescribeMacro{\itcorr}
+%  \DescribeMacro{\itcorr*}
 %  The italic correction offered by \TeX{} or \LaTeX{} sometimes needs a helping hand.
 %
 %  \begin{synopsis}\label{syn:itcorr}
-%    \cs{itcorr*}\marg{strength}  \\
-%    \cs{itcorr}\marg{strength}
+%    \cs{itcorr}\marg{strength}  \\
+%    \cs{itcorr*}\marg{strength}
 %  \end{synopsis}
 %
 %  In text mode macro~\cs{itcorr} inserts a kern whose width is proportional to \cs{fontdim1},
@@ -1843,12 +1845,13 @@ end
 %  \index{kerning>forward slash}
 %
 %  \DescribeMacro{\kernedslash}
+%  \DescribeMacro{\kernedslash*}
 %  Macro~\cs{kernedslash} expands to a forward slash~(\sample{\itcorr{3}\char`/}) with some
 %  extra space around it.
 %
 %  \begin{synopsis}\label{syn:kernedslash}
-%     \cs{kernedslash*}  \\
-%     \cs{kernedslash}
+%     \cs{kernedslash}  \\
+%     \cs{kernedslash*}
 %  \end{synopsis}
 %
 %  The starred form is unbreakable, the non-starred version introduces a break point with
@@ -1870,14 +1873,14 @@ end
 %  \subsubsection{Hyphen}\label{sec:hyphen-with-kern}
 %  \index{kerning>hyphen}
 %
-%  \DescribeMacro{\kernedhyphen*}
 %  \DescribeMacro{\kernedhyphen}
+%  \DescribeMacro{\kernedhyphen*}
 %  Macros \cs{kernedhyphen*} and \cs{kernedhyphen} expand to a hyphen~(\sample{-}) with given
 %  kerning to its left and to its right.
 %
 %  \begin{synopsis}\label{syn:kernedhyphen}
-%     \cs{kernedhyphen*}\oarg{raise}\marg{left-kerning}\marg{right-kerning}  \\
-%     \cs{kernedhyphen}\oarg{raise}\marg{left-kerning}\marg{right-kerning}
+%     \cs{kernedhyphen}\oarg{raise}\marg{left-kerning}\marg{right-kerning}  \\
+%     \cs{kernedhyphen*}\oarg{raise}\marg{left-kerning}\marg{right-kerning}
 %  \end{synopsis}
 %
 %  Typeset an unbreakable hyphen with \cs{kernedhyphen*} or a breakable hyphen (like \cs{hyp} of
@@ -1892,19 +1895,19 @@ end
 %  transfers the current value of \hyperref[item:raisecapitalhyphen]{\code{raisecapitalhyphen}}.
 %  The default for \meta{raise} is zero.
 %
-%  \DescribeMacro{\leftkernedhyphen*}
 %  \DescribeMacro{\leftkernedhyphen}
-%  \DescribeMacro{\rightkernedhyphen*}
+%  \DescribeMacro{\leftkernedhyphen*}
 %  \DescribeMacro{\rightkernedhyphen}
+%  \DescribeMacro{\rightkernedhyphen*}
 %  We also define specialized versions for kerning on the left-hand side or the right-hand side
 %  only.  These macros work like their two-argument counterparts and set the appropriate other
 %  kerning to zero.
 %
 %  \begin{synopsis}\label{syn:leftkernedhyphen}\label{syn:rightkernedhyphen}
-%    \cs{leftkernedhyphen*}\oarg{raise}\marg{left-kerning}  \\
 %    \cs{leftkernedhyphen}\oarg{raise}\marg{left-kerning}  \\
-%    \cs{rightkernedhyphen*}\oarg{raise}\marg{right-kerning}  \\
-%    \cs{rightkernedhyphen}\oarg{raise}\marg{right-kerning}
+%    \cs{leftkernedhyphen*}\oarg{raise}\marg{left-kerning}  \\
+%    \cs{rightkernedhyphen}\oarg{raise}\marg{right-kerning}  \\
+%    \cs{rightkernedhyphen*}\oarg{raise}\marg{right-kerning}
 %  \end{synopsis}
 %
 %  \begin{usecases}
@@ -1942,13 +1945,14 @@ end
 %  \index{raised character>hyphen}
 %
 %  \DescribeMacro{\capitalhyphen}
+%  \DescribeMacro{\capitalhyphen*}
 %  In many fonts the height of the hyphen character~\sample{-} above the baseline is optimized
 %  for lowercase letters.  In languages that capitalize their nouns as, e.\,g., German, this may
 %  be too low for compounds involving capitals.
 %
 %  \begin{synopsis}\label{syn:capitalhyphen}
-%     \cs{capitalhyphen*}  \\
-%     \cs{capitalhyphen}
+%     \cs{capitalhyphen}  \\
+%     \cs{capitalhyphen*}
 %  \end{synopsis}
 %
 %  The unstarred version introduces a hyphenation opportunity right after the hyphen character
@@ -1971,15 +1975,17 @@ end
 %  \index{raised character>en-dash}
 %
 %  \DescribeMacro{\capitalendash}
+%  \DescribeMacro{\capitalendash*}
 %  \DescribeMacro{\capitaldash}
+%  \DescribeMacro{\capitaldash*}
 %  The situation of the en-dash~\sample{--} is almost identical to the one of the hyphen
 %  character~\sample{-} described in the previous section or the number dash to be introduced in
 %  the next section.
 %
 %  \begin{synopsis}\label{syn:capitalendash}\label{syn:capitaldash}
 %    \begin{tabbing}
-%      \cs{capitalendash*}\qquad\= \cs{capitaldash*} (alias)  \\
-%      \cs{capitalendash} \> \cs{capitaldash} (alias)
+%      \cs{capitalendash}\qquad\= \cs{capitaldash} (alias)  \\
+%      \cs{capitalendash*} \> \cs{capitaldash*} (alias)
 %    \end{tabbing}
 %  \end{synopsis}
 %
@@ -1995,12 +2001,13 @@ end
 %
 %  \noindent
 %  \DescribeMacro{\capitalemdash}
+%  \DescribeMacro{\capitalemdash*}
 %  For completeness we also introduce a raised em-dash~\sample{---}.  It behaves just like its
 %  en-dash sibling.
 %
 %  \begin{synopsis}\label{syn:capitalemdash}
-%    \cs{capitalemdash*}  \\
-%    \cs{capitalemdash}
+%    \cs{capitalemdash}  \\
+%    \cs{capitalemdash*}
 %  \end{synopsis}
 %
 %  \begin{usecases}
@@ -2014,6 +2021,7 @@ end
 %  \index{raised character>number dash}
 %
 %  \DescribeMacro{\figuredash}
+%  \DescribeMacro{\figuredash*}
 %  The en-dash often gets used as separator for numerical ranges.  In most fonts it has the
 %  correct height above baseline for oldstyle numerals,
 %  e.\,g.~\oldstylenums{12}--\oldstylenums{34}--\oldstylenums{56}--\oldstylenums{78}, but with
@@ -2026,8 +2034,8 @@ end
 %  \cref{sec:capital-hyphen,sec:capital-dash}.
 %
 %  \begin{synopsis}\label{syn:figuredash}
-%     \cs{figuredash*}  \\
-%     \cs{figuredash}
+%     \cs{figuredash}  \\
+%     \cs{figuredash*}
 %  \end{synopsis}
 %
 %  The unstarred version introduces a hyphenation opportunity right after the en-dash with
@@ -2813,6 +2821,7 @@ end
 %  \end{SCtable}
 %
 %  \DescribeMacro{\widespace}
+%  \DescribeMacro{\widespace*}
 %  \sinceversion{Starred form since v0.2}
 %  Typeset a wide, sentence-ending space as if in \cs{nonfrenchspacing}~mode.  Consult
 %  \Cref{tab:space-sizes} for a comparison of the various sizes.
@@ -2859,6 +2868,7 @@ end
 %  \subsubsection{Narrow Space}\label{sec:narrow-space}\index{narrow space}
 %
 %  \DescribeMacro{\narrowspace}
+%  \DescribeMacro{\narrowspace*}
 %  \sinceversion{Since v0.2}
 %  Typeset a narrow space.  Consult \Cref{tab:space-sizes} for a comparison of the various
 %  sizes.
