@@ -1165,6 +1165,11 @@ end
 %  \hyperref[syn:kernedslash]{\cs{kernedslash}}, which is introduced in
 %  \cref{sec:slash-with-kern}.
 %
+%  \begin{note}
+%    The \cs{baselineskip} can contain a rubber (stretch/shrink) component, however,
+%    \cs{fontsizeinfo} will not display these parts.
+%  \end{note}
+%
 %  \begin{usecases}
 %    Colophon.~\visualpar  Font test pages.
 %  \end{usecases}
@@ -3620,6 +3625,12 @@ end
 %  \begin{codeexample}
 %    \cs{setlength}\{\cs{baselineskip}\}\{\meta{baseline-skip}\}
 %  \end{codeexample}
+%
+%  \begin{note}
+%    The \meta{baseline-skip} can contain a rubber (stretch/shrink) component, however,
+%    \cs{setbaselineskip} will discard of it and issue a warning that only the fixed-length part
+%    will be used in the computation.
+%  \end{note}
 %
 %  \begin{example}
 %    Let us assume we want to lighten the gray value of the copy a tad with a \cs{baselineskip}
