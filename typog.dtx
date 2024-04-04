@@ -691,7 +691,7 @@ quote             '!'
 %  \DoNotIndex{\z@,\z@skip}
 %
 %
-%  \changes{v0.1}{2024-3-7}{Initial version}
+%  \changes{v0.1}{2024-3-7}{Initial version.}
 %
 %
 %  \pagenumbering{roman}
@@ -6391,6 +6391,7 @@ end
 %  \end{macro}
 %
 %  \begin{macro}{\setbaselineskip}
+%    \changes{v0.3}{2024-04-04}{New macro.}
 %    Given the \meta{target-baselineskip} as argument iterate setting \cs{setstretch} until the
 %    error drops below our threshold.
 %
@@ -6480,6 +6481,7 @@ end
 %  \end{macro}
 %
 %  \begin{ldimen}{\typogfontsize}
+%    \changes{v0.3}{2024-04-04}{New dimen.}
 %    Define the default font-size/quad size.
 %
 %    \begin{macrocode}
@@ -6490,6 +6492,7 @@ end
 %  \end{ldimen}
 %
 %  \begin{macro}{\setbaselineskippercentage}
+%    \changes{v0.3}{2024-04-04}{New macro.}
 %    \begin{macrocode}
 \newcommand*{\setbaselineskippercentage}[1]
   {\setbaselineskip{\dimexpr #1\typogfontsize / 100}}
@@ -6498,6 +6501,7 @@ end
 %  \end{macro}
 %
 %  \begin{macro}{\setleading}
+%    \changes{v0.3}{2024-04-04}{New macro.}
 %    We are careful and evaluate the macro's argument in a dimen context, so that minus signs at
 %    the beginning don't get us out of whack.
 %
@@ -6509,6 +6513,7 @@ end
 %  \end{macro}
 %
 %  \begin{macro}{\setleadingpercentage}
+%    \changes{v0.3}{2024-04-04}{New macro.}
 %    \begin{macrocode}
 \newcommand*{\setleadingpercentage}[1]
   {\setbaselineskip{\dimexpr \typogfontsize + #1\typogfontsize / 100}}
