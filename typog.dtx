@@ -166,6 +166,7 @@
   leftmargin=!
 }
 
+
 \SetEnumitemKey{nestedinspecialsection}{
   leftmargin=10pt
 }
@@ -896,38 +897,47 @@ end
 %
 %  \subsection*{Package \meta{OPTIONs}\kernedslash Configuration \meta{key}s}
 %
-%  \index{options|(}
+%  \index{package options|(}
 %  The package \meta{OPTIONs} serve as configuration \meta{key}s, too.  This means they can be
 %  set with \hyperref[syn:typogsetup]{\code{typogsetup}} and their values can be retrieved with
 %  \hyperref[syn:typogget]{\cs{typogget}}.  Options that rely on package~\packagename{microtype}
 %  are indicated with \doublequotes{\microtyperequiredmarker}.
 %
 %  \begin{typogsetup}{}
+%    \newcommand*{\indexpackageoption}[1]
+%                {\index{package option>#1=\code{#1}}\index{#1=\code{#1}~(option)}\ignorespaces}
 %    \begin{description}
 %        [before={\let\oldmakelabel=\makelabel
 %                 \renewcommand{\makelabel}[1]
 %                              {\oldmakelabel{\termparbox{##1}}\phantomsection}},
+%         font=\normalfont,
 %         style=nextline,
 %         vtietop]
 %    \item[|breakpenalty=|\meta{penalty}]\label{item:breakpenalty}
+%      \indexpackageoption{penalty}
 %      \shiftedmarginnote{This sub-section is typeset with all \packagename{typog}~parameters
 %        reset to their defaults by wrapping it in a
 %        \hyperref[syn:typogsetup]{\code{typogsetup}}~environment with an empty argument.}
 %        Penalty for a line break at various points.  Default
 %        value:~\the\typogget{breakpenalty}; initialized by the current
-%        \cs{exhyphenpenalty}:~\the\exhyphenpenalty).
+%        \cs{exhyphenpenalty}:~\the\exhyphenpenalty.
 %
-%    \item[|debug|]\label{item:debug}
-%      Write package-specific debug information to log file.  Opposite: |nodebug|.  Default:
-%      false.
+%    \item[|debug|, |nodebug|]\label{item:debug}
+%      \indexpackageoption{debug}
+%      \indexpackageoption{nodebug}
+%      Write package-specific debug information to the log file.  Opposite: |nodebug|.  The
+%      default is not to log debug information.
 %
 %    \item[|ligaturekern=|\meta{dim}]\label{item:ligaturekern}
-%      Set \meta{dim} of the kern that is inserted to split a ligature.  See
+%      \indexpackageoption{ligaturekern}
+%      Set \meta{dim} of the kern that is inserted to split a ligature in
+%      macro\hyperref[syn:nolig]{\cs{nolig}}.  See
 %      \cref{sec:break-ligatures}.\shiftedmarginnote{We access the configuration values with
 %      \hyperref[syn:typogget]{\cs{typogget}}.}  Default
 %      value:~\milliem{\typogget{ligaturekern}}.
 %
 %    \item[|mathitalicscorrection=|\meta{dim}]\label{item:mathitalicscorrection}
+%      \indexpackageoption{mathitalicscorrection}
 %      Italics correction in math mode.  See \cref{sec:manual-italic-correction} and also the
 %      complementary configuration
 %      option~\hyperref[item:textitalicscorrection]{|textitalicscorrection|}.  Default
@@ -935,17 +945,20 @@ end
 %      \nativetextfraction{1}{18}\,em of the mathematical font's~em.}
 %
 %    \item[|raise*=|\meta{dim}]\label{item:raise}
+%      \indexpackageoption{raise*}
 %      Set the length by which selected characters (dash, hyphen, times, and number dash) are
 %      raised.  Default value:~0pt.
 %
 %      Only the raise amounts for guillemets are unaffected by this option.
 %
 %    \item[|raisecapitaldash=|\meta{dim}]\label{item:raisecapitaldash}
+%      \indexpackageoption{raisecapitaldash}
 %      Set the length that the \cs{textendash} is raised in
 %      \hyperref[syn:capitaldash]{\cs{capitaldash}}.  See \cref{sec:capital-dash}.  Default
 %      value:~\milliem{\the\typogget{raisecapitaldash}}.
 %
 %    \item[|raisecapitalhyphen=|\meta{dim}]\label{item:raisecapitalhyphen}
+%      \indexpackageoption{raisecapitalhyphen}
 %      Set the length that the hyphen character~\sample{-} is raised in
 %      \hyperref[syn:capitalhyphen]{\cs{capitalhyphen}}.  See
 %      \cref{sec:capital-hyphen}.\shiftedmarginnote{This description list is protected against
@@ -954,27 +967,33 @@ end
 %      value:~\milliem{\the\typogget{raisecapitalhyphen}}.
 %
 %    \item[|raisecapitaltimes=|\meta{dim}]\label{item:raisecapitaltimes}
+%      \indexpackageoption{raisecapitaltimes}
 %      Set the length that the multiplication symbol~\sample{\texttimes} is raised in
 %      \hyperref[syn:capitaltimes]{\cs{capitaltimes}}.  See \cref{sec:mult-sign}.  Default
 %      value:~\milliem{\the\typogget{raisecapitaltimes}}.
 %
 %    \item[|raisecapitalguillemets=|\meta{dim}]\label{item:raisecapitalguillemets}
+%      \indexpackageoption{raisecapitalguillemets}
 %      Set the length that single and double guillemets are raised in the uppercase versions of
 %      the guillemet macros.  See \cref{sec:guillemets}.  Default
 %      value:~\milliem{\the\typogget{raisecapitalguillemets}}.
 %
 %    \item[|raiseguillemets=|\meta{dim}]\label{item:raiseguillemets}
+%      \indexpackageoption{raiseguillemets}
 %      Set the length that single and double guillemets are raised in the lowercase versions of
 %      the guillemet macros.  See \cref{sec:guillemets}.  Default
 %      value:~\milliem{\the\typogget{raiseguillemets}}.
 %
 %    \item[|raisefiguredash=|\meta{dim}]\label{item:raisefiguredash}
+%      \indexpackageoption{raisefiguredash}
 %      Set the length that the \cs{textendash} is raised in
 %      \hyperref[syn:figuredash]{\cs{figuredash}}.  See \cref{sec:number-dash}.  Default
 %      value:~\milliem{\the\typogget{raisefiguredash}}.
 %
 %    \item[|shrinklimits=\{|\meta{limit-1}, \meta{limit-2}, \meta{limit-3}|\}|\quad\microtyperequiredmarker\label{item:shrinklimits}  \\
 %          |stretchlimits=\{|\meta{limit-1}, \meta{limit-2}, \meta{limit-3}|\}|\quad\microtyperequiredmarker]\label{item:stretchlimits}
+%      \indexpackageoption{shrinklimits}
+%      \indexpackageoption{stretchlimits}
 %      Set the three limits, given in \nativetextfraction{1}{1000}\,em, of shrinkability and
 %      stretchability for the respective levels.  They are used in
 %      \hyperref[syn:setfontshrink]{\code{setfontshrink}} (|shrinklimits| triple only),
@@ -995,10 +1014,12 @@ end
 %      \emph{not} in the document body.
 %
 %    \item[|slashkern=|\meta{dim}]\label{item:slashkern}
+%      \indexpackageoption{slashkern}
 %      Set the size of the kerns before and after \hyperref[syn:kernedslash]{\cs{kernedslash}}.
 %      See \cref{sec:slash-with-kern}.  Default value:~\milliem{\typogget{slashkern}}.
 %
 %    \item[|textitalicscorrection=|\meta{dim}]\label{item:textitalicscorrection}
+%      \indexpackageoption{textitalicscorrection}
 %      Italics correction fallback-value; used if \cs{fontdimen1} is zero.  See
 %      \cref{sec:manual-italic-correction} on manual italic correction and also the
 %      complementary configuration
@@ -1006,6 +1027,7 @@ end
 %      value:~\milliem{\typogget{textitalicscorrection}}.
 %
 %    \item[|trackingttspacing=|\code{\{\meta{outer-spacing}\}}\quad\microtyperequiredmarker]\label{item:trackingttspacing}
+%      \indexpackageoption{trackingttspacing}
 %      Set the outer spacing of all typewriter fonts if used in environment~\code{settracking}
 %      as described in \cref{sec:tracking-control}.
 %
@@ -1020,7 +1042,7 @@ end
 %      By default this option is unset.
 %    \end{description}
 %  \end{typogsetup}
-%  \index{options|)}
+%  \index{package options|)}
 %
 %
 %  \sectionfinish
