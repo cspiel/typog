@@ -3003,8 +3003,21 @@ end
 %  \index{microtype=\packagename{microtype} (package)}
 %
 %  The functionalities are just front-ends of selected macros in
-%  package~\packagename{microtype}.  All macros and environments introduced in this section
-%  require that package~\packagename{microtype}~\cite{package:microtype} has been loaded.
+%  package~\packagename{microtype} -- welcome syntactic sugar.
+%
+%  \begin{important}
+%    All macros and environments introduced in this section require that
+%    package~\packagename{microtype}~\cite{package:microtype} has been loaded, preferably
+%    \emph{before} package~\packagename{typog}
+%
+%    \begin{codeexample}
+%      \cs{usepackage}[\meta{microtype-options}\dots]\{microtype\}  \\
+%      \cs{usepackage}[\meta{typog-options}\dots]\{typog\}
+%    \end{codeexample}
+%
+%    \noindent
+%    in the document preamble.
+%  \end{important}
 %
 %
 %  \subsubsection{Tracking}\label{sec:tracking-control}\index{font>tracking}
@@ -3643,6 +3656,18 @@ end
 %  and the \cs{baselineskip} in printable form check out \cref{sec:font-information} on
 %  \cpageref{sec:font-information}.}  This is where the following macros go to bat.
 %
+%  \begin{important}
+%    All macros that are introduced in this section rely on macro~\cs{setstretch}.  So
+%    package~\packagename{setspace} must have been loaded with
+%
+%    \begin{codeexample}
+%      \cs{usepackage}\{setspace\}
+%    \end{codeexample}
+%
+%    \noindent
+%    in the document preamble.
+%  \end{important}
+%
 %  \DescribeMacro{\setbaselineskip}
 %  \sinceversion{Since v0.3}
 %  Set the line skip using an absolute length -- technically: a |dimen|.
@@ -3658,11 +3683,9 @@ end
 %    \cs{setlength}\{\cs{baselineskip}\}\{\meta{baseline-skip}\}
 %  \end{codeexample}
 %
-%  \begin{note}
-%    The \meta{baseline-skip} can contain a rubber (stretch/shrink) component, however,
-%    \cs{setbaselineskip} will discard of it and issue a warning that only the fixed-length part
-%    will be used in the computation.
-%  \end{note}
+%  The \meta{baseline-skip} can contain a rubber (stretch/shrink) component, however,
+%  \cs{setbaselineskip} will discard of it and issue a warning that only the fixed-length part
+%  will be used in the computation.
 %
 %  \begin{example}
 %    Let us assume we want to lighten the gray value of the copy a tad with a \cs{baselineskip}
