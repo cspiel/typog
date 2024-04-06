@@ -6457,10 +6457,10 @@ end
 %    \begin{macrocode}
   \dim_set:Nn \l_tmpa_dim {\glueexpr #1}
 
-  \message{typog:\space \string\setbaselineskip:\space
-    initial\space baselineskip:\space \the\baselineskip^^J}
-  \message{typog:\space \string\setbaselineskip:\space
-    target\space baselineskip:\space \dim_use:N \l_tmpa_dim^^J}
+  \typog@typeout{\string\setbaselineskip:\space
+    initial\space baselineskip:\space \the\baselineskip}
+  \typog@typeout{\string\setbaselineskip:\space
+    target\space baselineskip:\space \dim_use:N \l_tmpa_dim}
 
   \dim_compare:nNnTF {\baselineskip} > {\c_zero_dim}
   {}
@@ -6512,11 +6512,11 @@ end
     {}
   }
 
-  \message{typog:\space \string\setbaselineskip:\space
+  \typog@typeout{\string\setbaselineskip:\space
     final\space \string\setstretch\space argument:\space
-    \fp_use:N \l_tmpa_fp^^J}
-  \message{typog:\space \string\setbaselineskip:\space
-    final\space baselineskip:\space \the\baselineskip^^J}
+    \fp_use:N \l_tmpa_fp}
+  \typog@typeout{\string\setbaselineskip:\space
+    final\space baselineskip:\space \the\baselineskip}
 }
 \ExplSyntaxOff
 
