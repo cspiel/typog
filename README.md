@@ -15,6 +15,7 @@ it covers a variety of topics:
 * Slightly sloppy paragraphs
 * Vertically partially-tied paragraphs
 * Breakable displayed equations
+* Setspace front-end
 * Smooth ragged-right paragraphs
 
 Moreover `typog` provides an environment to flag interesting parts of

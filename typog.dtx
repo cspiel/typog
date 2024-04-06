@@ -322,6 +322,7 @@
              \def\smoothraggedrightgenerator{quintuplet}%
              \smoothraggedrightpar}
 \newcommand*{\marginnote}[1]{\marginpar{\marginnoteformat #1}}
+\addtolength{\marginparpush}{3pt}
 \addtolength{\marginparsep}{25pt}
 \addtolength{\marginparwidth}{-20pt}
 \newcommand*{\shiftedmarginnote}[1]
@@ -511,6 +512,13 @@
                  \end{maxipage}}
 
 
+\NewDocElement[macrolike = true,
+               idxtype = dim.,
+               idxgroup = dimensions,
+               printtype = \textit{dimen}]
+              {LaTeXDimen}{ldimen}
+
+
 \hyphenation{% https://hyphenateit.com/en-us
   Double-guillemet-left
   Double-guillemet-right
@@ -567,9 +575,13 @@
   raise-capital-hyphen
   raise-capital-times
   raise-number-dash
+  set-baseline-skip
+  set-baseline-skip-percentage
   set-font-expand
   set-font-shrink
   set-font-stretch
+  set-leading
+  set-leading-percentage
   short-inter-text
   single-guillemet-left
   single-guillemet-right
@@ -626,7 +638,7 @@ quote             '!'
 %  \DoNotIndex{\addtolength,\advance,\aftergroup,\allowdisplaybreaks,\arabic}
 %  \DoNotIndex{\AtBeginDocument,\autotransfer}
 %  \DoNotIndex{\baselineskip}
-%  \DoNotIndex{\char,\clubpenalties,\clubpenalty,\count,\csname}
+%  \DoNotIndex{\c,\char,\clubpenalties,\clubpenalty,\count,\cs,\csname}
 %  \DoNotIndex{\DeclareRobustCommand,\def,\define@choicekey,\define@key,\detokenize}
 %  \DoNotIndex{\dim,\dimen,\dimexpr,\discretionary,\displaywidowpenalties,\displaywidowpenalty}
 %  \DoNotIndex{\edef,\else,\emergencystretch,\empty,\endcsname}
@@ -647,10 +659,10 @@ quote             '!'
 %  \DoNotIndex{\@ifnextchar,\IfNoValueF,\IfNoValueTF,\ifnum}
 %  \DoNotIndex{\iftypog@microtype@loadedfalse}
 %  \DoNotIndex{\iftypog@microtype@preloadedfalse}
-%  \DoNotIndex{\ifvmode,\ifx,\ignorespaces,\inputlineno,\interlinepenalty}
+%  \DoNotIndex{\ifvmode,\ifx,\ignorespaces,\inputlineno,\int,\interlinepenalty}
 %  \DoNotIndex{\jobname}
 %  \DoNotIndex{\kern}
-%  \DoNotIndex{\lastlinefit,\lastlineflushrightpar,\lastlineraggedleftpar,\leftmargin,\leftskip,\let}
+%  \DoNotIndex{\l,\lastlinefit,\lastlineflushrightpar,\lastlineraggedleftpar,\leftmargin,\leftskip,\let}
 %  \DoNotIndex{\linepenalty,\linewidth,\@listdepth,\looseness,\lsstyle}
 %  \DoNotIndex{\@M,\m@th,\mathbin,\mathord,\maxdimen,\message,\microtypecontext,\microtypesetup}
 %  \DoNotIndex{\@minus,\mkern,\m@ne,\mspace,\MT@letterspace@,\MT@MT,\muexpr}
@@ -661,10 +673,10 @@ quote             '!'
 %  \DoNotIndex{\p@,\PackageError,\PackageWarning}
 %  \DoNotIndex{\par,\parfillskip,\parindent,\parshape,\pdf@strcmp}
 %  \DoNotIndex{\pdfstringdefDisableCommands}
-%  \DoNotIndex{\penalty,\@plus,\PopPostHook,\postdisplaypenalty,\predisplaypenalty}
+%  \DoNotIndex{\penalty,\@plus,\PopPostHook,\postdisplaypenalty,\predisplaypenalty,\prg}
 %  \DoNotIndex{\pretolerance,\protected,\ProvidesPackage,\PushPostHook}
 %  \DoNotIndex{\raisebox,\refstepcounter,\relax,\RenewExpandableDocumentCommand,\RequirePackage,\rightskip}
-%  \DoNotIndex{\setcounter,\SetEnumitemKey,\SetExpansion,\setkeys,\setlength}
+%  \DoNotIndex{\setcounter,\SetEnumitemKey,\SetExpansion,\setkeys,\setlength,\setstretch}
 %  \DoNotIndex{\showboxbreadth,\showboxdepth,\skip,\sloppy}
 %  \DoNotIndex{\smoothraggedrightpar}
 %  \DoNotIndex{\smoothraggedrightshapequintuplet}
@@ -680,7 +692,7 @@ quote             '!'
 %  \DoNotIndex{\z@,\z@skip}
 %
 %
-%  \changes{v0.1}{2024-3-7}{Initial version}
+%  \changes{v0.1}{2024-3-7}{Initial version.}
 %
 %
 %  \pagenumbering{roman}
@@ -702,7 +714,8 @@ quote             '!'
 %        Package~\packagename{typog} provides macros and environments for
 %        \mbox{(micro-)\itcorr{2}}\breakpoint typographic enhancements.  It also supplies some
 %        means to avoid common typographic problems as, for example, orphan or widow lines.
-%        Moreover it supplies a high-level front-end of package~\packagename{microtype}.
+%        Moreover it supplies high-level front-ends for packages~\packagename{microtype} and
+%        \packagename{setspace}.
 %      \end{lastlinecenteredpar}
 %    \end{abstract}
 %  \endgroup
@@ -830,37 +843,50 @@ end
 %  \end{whittyquote}
 %
 %  \noindent
-%  \LaTeX{} is the start of good typesetting not the end.  This package provides some tools for
-%  even better looking documents.  When applied correctly its effects appear subtle and
-%  inconspicuous.
+%  \LaTeX{} is the beginning of good typesetting -- not the end.  This package provides some
+%  tools for even better looking documents.  When applied correctly its effects appear subtle
+%  and inconspicuous.
 %
 %
 %  \subsection{Overview}\label{sec:overview}
 %
 %  Package~\packagename{typog} focuses on (micro-)typographic improvements.
 %
-%  The first section (\cref{sec:information}) tends to the wish for more information in the
-%  typesetting process whether during the draft phase or in the final printed
-%  manuscript.\marginnote{Throughout the whole document we indicate actual uses of the package's
-%  features in the margin.  All these notes are examples themselves as they are typeset with
+%  \Cref{sec:information} tends to the wish for more information in the typesetting process
+%  whether during the draft phase or in the final printed manuscript.\marginnote{Throughout the
+%  whole document we indicate actual uses of the package's features in the margin.  All these
+%  notes are examples themselves as they are typeset with
 %  \hyperref[syn:slightlysloppy]{\code{slightlysloppy}},
 %  \hyperref[syn:loosespacing]{\code{loosespacing}}, and
 %  \hyperref[syn:smoothraggedrightpar]{\code{smoothraggedrightpar}}.~\visualpar The title page
 %  has already demonstrated the effect of
 %  \hyperref[syn:lastlinecenteredpar]{\code{lastlinecenteredpar}} in justified paragraphs for
-%  the abstract and the copyright notice.}  The second part, \cref{sec:latex-hyphenation},
-%  expands the hyphenation facilities of \LaTeX.  The third part,
-%  \cref{sec:break-ligatures,sec:manual-italic-correction,sec:extra-kerning,sec:raise-characters},
-%  deals with positioning glyphs in a more pleasant way.  The fourth part discusses dearly
-%  missed macros for better control of the last line of a paragraph
-%  (\cref{sec:align-last-line,sec:fill-last-line}).  Part five covers the manipulation of the
-%  length of a paragraph: spacing~(\cref{sec:spacing-control}), font
-%  tracking~(\cref{sec:tracking-control}), and font
-%  expansion~(\cref{sec:font-expansion-control}).  In the sixth part we address some
-%  shortcomings of spacing control, in particular a replacement for the macro~\cs{sloppy}
-%  (\cref{sec:sloppy-paragraphs}).  \Cref{sec:vtie-paragraph} presents special functions to
-%  avoid club or widow lines in a paragraph.  As a simple extension of displayed mathematical
-%  equations we define a breakable variant in the seventh part~(\cref{sec:breakable-display}).
+%  the abstract and the copyright notice.}
+%
+%  \Cref{sec:latex-hyphenation} expands the hyphenation facilities of \LaTeX.
+%
+%  \Cref{sec:break-ligatures,sec:manual-italic-correction,sec:extra-kerning,sec:raise-characters}
+%  deal with vertically positioning glyphs in a more pleasant way.
+%
+%  \Cref{sec:align-last-line,sec:fill-last-line} discuss dearly missed macros for better control
+%  of the last line of a paragraph.
+%
+%  \Cref{sec:spacing-control} covers the manipulation of the length of a paragraph.
+%
+%  \Cref{sec:microtype-frontend} expounds on the \packagename{microtype} front-end: font
+%  tracking~(\ref{sec:tracking-control}), font expansion~(\ref{sec:font-expansion-control}), and
+%  character protrusion~(\ref{sec:protrusion}).
+%
+%  In \cref{sec:sloppy-paragraphs} we address some shortcomings of spacing control with a
+%  replacement for the macro~\cs{sloppy} and the related environment~\code{sloppypar}.
+%
+%  \Cref{sec:vtie-paragraph} presents several special functions to avoid club or widow lines in
+%  a paragraph.
+%
+%  As a simple extension of displayed mathematical equations we define a breakable variant in
+%  \cref{sec:breakable-display}.
+%
+%  \Cref{sec:setspace-frontend} introduces the \packagename{setspace} front-end.
 %
 %  In the last part, \cref{sec:smooth-ragged}, we introduce a novel way of generating ragged
 %  paragraphs, which still is experimental.
@@ -870,7 +896,8 @@ end
 %
 %  Package \packagename{typog} requires \eTeX; it relies on the \LaTeXIII{}~interface.  Parts of
 %  it are based on package~\packagename{microtype}.  However, if the respective functionality is
-%  not used, \packagename{typog} can be applied without \packagename{microtype}.
+%  not used, \packagename{typog} can be used without \packagename{microtype}.  The same holds
+%  true for the \packagename{setspace} front-end.
 %
 %  The package was tested with \programname{pdfTeX}~3.141592653-2.6-1.40.24 from the
 %  TeX~Live distribution of~2022 as shipped by
@@ -879,7 +906,7 @@ end
 %
 %  \sectionfinish
 %  \clearpage
-%  \section{Package Options\kernedslash Configuration}\label{sec:package-options}
+%  \section{Package Options}\label{sec:package-options}
 %
 %  Package \packagename{typog} does not override any existing macros or environments when
 %  loaded, unless explicitly told by a package option.
@@ -888,14 +915,14 @@ end
 %    \begin{tabbing}
 %      |\usepackage[|\,\dots|]{microtype}|
 %          \=\texttt{\%\space}\textit{Only required for macros and}  \\
-%          \>\texttt{\%\space}\textit{environments in \cref{sec:tracking-control,sec:font-expansion-control}.}  \\
+%          \>\texttt{\%\space}\textit{environments in \cref{sec:microtype-frontend}.}  \\
+%      \\[-.5em]
+%      |\usepackage[|\,\dots|]{setspace}|
+%          \=\texttt{\%\space}\textit{Only required for macros in \cref{sec:setspace-frontend}.}  \\
 %      \\[-.5em]
 %      |\usepackage[|\meta{OPTION}\dots|]{typog}|
 %    \end{tabbing}
 %  \end{synopsis}
-%
-%
-%  \subsection*{Package \meta{OPTIONs}\kernedslash Configuration \meta{key}s}
 %
 %  \index{package options|(}
 %  The package \meta{OPTIONs} serve as configuration \meta{key}s, too.  This means they can be
@@ -1159,6 +1186,11 @@ end
 %  starred version~\cs{cs-name*} omits the units.  The separating slash is
 %  \hyperref[syn:kernedslash]{\cs{kernedslash}}, which is introduced in
 %  \cref{sec:slash-with-kern}.
+%
+%  \begin{note}
+%    The \cs{baselineskip} can contain a rubber (stretch/shrink) component, however,
+%    \cs{fontsizeinfo} will not display these parts.
+%  \end{note}
 %
 %  \begin{usecases}
 %    Colophon.~\visualpar  Font test pages.
@@ -3600,6 +3632,167 @@ end
 %
 %  \FloatBarrier
 %  \clearpage
+%  \subsection{\packagename{Setspace} Front-End}\label{sec:setspace-frontend}
+%
+%  Package \packagename{setspace} \cite{package:setspace} is a base hit when it comes to
+%  consistently setting the line skip for a document via the macro~\cs{setstretch}.  The
+%  interface of \cs{setstretch} though is unintuitive as it asks for an obscure factor.  The
+%  \LaTeX{} user however prefers to keep her eyes on the ball and set the line
+%  skip\index{baseline skip} directly (e.\,g.~12.5pt) or the lines' leading\index{leading} to a
+%  length or percentage of the font's size.\footnote{To find out about the current font's size
+%  and the \cs{baselineskip} in printable form check out \cref{sec:font-information} on
+%  \cpageref{sec:font-information}.}  This is where the following macros go to bat.
+%
+%  \DescribeMacro{\setbaselineskip}
+%  \sinceversion{Since v0.3}
+%  Set the line skip using an absolute length -- technically: a |dimen|.
+%
+%  \begin{synopsis}\label{syn:setbaselineskip}
+%    \cs{setbaselineskip}\marg{baseline-skip}
+%  \end{synopsis}
+%
+%  Set the \cs{baselineskip} to \meta{baseline-skip}.  This is what a non-initiated user expects
+%  from the assignment
+%
+%  \begin{codeexample}
+%    \cs{setlength}\{\cs{baselineskip}\}\{\meta{baseline-skip}\}
+%  \end{codeexample}
+%
+%  \begin{note}
+%    The \meta{baseline-skip} can contain a rubber (stretch/shrink) component, however,
+%    \cs{setbaselineskip} will discard of it and issue a warning that only the fixed-length part
+%    will be used in the computation.
+%  \end{note}
+%
+%  \begin{example}
+%    Let us assume we want to lighten the gray value of the copy a tad with a \cs{baselineskip}
+%    increased to~12.5pt.  To this end we say:
+%
+%    \begin{codeexample}
+%      \cs{setbaselineskip}\{12.5pt\}\specialsectionendhere
+%    \end{codeexample}
+%  \end{example}
+%
+%  \DescribeMacro{\setbaselineskippercentage}
+%  \sinceversion{Since v0.3}
+%  Set the \cs{baselineskip} with a relative value calculated as a percentage of the current
+%  font's design size.
+%
+%  \begin{synopsis}\label{syn:setbaselineskippercentage}
+%    \cs{setbaselineskippercentage}\marg{baselineskip-percentage}
+%  \end{synopsis}
+%
+%  Set \cs{baselineskip} to \(\cs{typogfontsize} \times \meta{baselineskip-percentage} / 100\).
+%
+%  \begin{example}
+%    We modify the previous example and assume a font design size of 10pt, but now write
+%
+%    \begin{codeexample}
+%      \cs{setbaselineskippercentage}\{125\}
+%    \end{codeexample}
+%
+%    \noindent
+%    which sets \cs{baselineskip} to \(10\text{pt} \times 125 / 100 = 12.5\text{pt}\).
+%  \end{example}
+%
+%  \DescribeMacro{\setleading}
+%  \sinceversion{Since v0.3}
+%  Set the \cs{baselineskip} with an absolute length that gets \emph{added to} \cs{typogfontsize}.
+%
+%  \begin{synopsis}\label{syn:setleading}
+%    \cs{setleading}\marg{leading}
+%  \end{synopsis}
+%
+%  Set the \cs{baselineskip} to \cs{typogfontsize} plus \meta{leading}.  Note that
+%  \meta{leading} can be negative, e.\,g.~to set solid.
+%
+%  \begin{example}
+%    Another solution of the previous example, given a font design size of 10pt is to write
+%
+%    \begin{codeexample}
+%      \cs{setleading}\{2.5pt\}
+%    \end{codeexample}
+%
+%    \noindent
+%    which sets \cs{baselineskip} to \(10\text{pt} + 2.5\text{pt} = 12.5\text{pt}\).
+%  \end{example}
+%
+%  \DescribeMacro{\setleadingpercentage}
+%  \sinceversion{Since v0.3}
+%  Set the \cs{baselineskip} to \cs{typogfontsize} \emph{plus} a relative value calculated as a
+%  percentage of \cs{typogfontsize}.
+%
+%  \begin{synopsis}\label{syn:setleadingpercentage}
+%    \cs{setleadingpercentage}\marg{leading-percentage}
+%  \end{synopsis}
+%
+%  Set \cs{baselineskip} to \(\cs{typogfontsize} \times (1 + \meta{leading-percentage} / 100)\).
+%
+%  \begin{example}
+%    We modify the previous example and again assume a font design size of 10pt, but now write
+%
+%    \begin{codeexample}
+%      \cs{setleadingpercentage}\{25\}
+%    \end{codeexample}
+%
+%    \noindent
+%    which sets \cs{baselineskip} to \(10\text{pt} \times (1 + 25 / 100) = 12.5\text{pt}\).
+%  \end{example}
+%
+%  \smallskip
+%
+%  \DescribeLaTeXDimen{\typogfontsize}
+%  \sinceversion{Since v0.3}
+%  The macros \cs{setbaselineskippercentage}, \cs{setleading}, and \cs{setleadingpercentage} all
+%  depend on the font size.  By changing \cs{typogfontsize} the macros can be configured for
+%  different font sizes.
+%
+%  The length \cs{typogfontsize} gets initialized at the begin of the document to the default
+%  font's quad size:\footnote{For an overview of the various
+%  \cs{fontdimen}\meta{number}~parameters consult \cref{tab:fontdimen} on
+%  \cpageref{tab:fontdimen}.}
+%
+%  \begin{codeexample}
+%    \cs{typogfontsize}=\cs{fontdimen6}\cs{font}
+%  \end{codeexample}
+%
+%  \noindent
+%  which is also called its \doublequotes{nominal size} or its \doublequotes{design size}.  This
+%  assignment can be repeated at any point in the document to record a reference font's size.
+%  To set just \cs{typogfontsize} without changing the current font, encapsulate the font change
+%  in a group and export the new value:
+%
+%  \begin{codeexample}
+%    \cs{begingroup}  \\
+%    ~~\cs{usefont}\{T1\}\{Arvo-TLF\}\{m\}\{n\}\cs{selectfont}  \\
+%    ~~\cs{normalsize}  \\
+%    ~~\cs{global}\cs{typogfontsize}=\cs{fontdimen6}\cs{font}  \\
+%    \cs{endgroup}
+%  \end{codeexample}
+%
+%  An alternative to relying on the design size is using the actual size of an uppercase letter:
+%
+%  \begin{codeexample}
+%    \cs{settoheight}\{\cs{typogfontsize}\}\{CEMNORSUVWXZ\}
+%  \end{codeexample}
+%
+%  \noindent
+%  With \cs{typogfontsize} defined this way it becomes trivial to set solid:
+%
+%  \begin{codeexample}
+%    \cs{setleading}\{0pt\}
+%  \end{codeexample}
+%
+%  \noindent
+%  or
+%
+%  \begin{codeexample}
+%    \cs{setleadingpercentage}\{0\}
+%  \end{codeexample}
+%
+%
+%  \FloatBarrier
+%  \clearpage
 %  \subsection{Smooth Ragged}\label{sec:smooth-ragged}\index{ragged right}
 %
 %  \begin{whittyquote}
@@ -4193,7 +4386,7 @@ end
 %    \begin{macrocode}
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesPackage{typog}[2024/03/29  v0.2  TypoGraphic extensions]
+\ProvidesPackage{typog}[2024/04/02  v0.3  TypoGraphic extensions]
 
 \RequirePackage{everyhook}
 \RequirePackage{xkeyval}
@@ -6220,6 +6413,158 @@ end
 %  \end{environment}
 %
 %
+%  \subsection{Setspace Front-End}
+%
+%  \begin{macro}{\typog@iter@limit}
+%    The maximum number of iterations we perform before bailing out with an error.  Can be
+%    changed by the user if convergence is slow.
+%
+%    \begin{macrocode}
+\newcommand*{\typog@setbaselineskip@iter@limit}{10}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typog@setbaselineskip@relative@error}
+%    The maximum relative error of the ratio we tolerate for the final baselineskip over the
+%    target baselineskip.  Can also be changed by the user if necessary.
+%
+%    \begin{macrocode}
+\newcommand*{\typog@setbaselineskip@relative@error}{.001}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\setbaselineskip}
+%    \changes{v0.3}{2024-04-04}{New macro.}
+%    Given the \meta{target-baselineskip} as argument iterate setting \cs{setstretch} until the
+%    error drops below our threshold.
+%
+%    \begin{macrocode}
+\ExplSyntaxOn
+\cs_new:Npn \setbaselineskip #1
+{
+%    \end{macrocode}
+%
+%  Initialize our ``emergency-stop'' loop counter.
+%
+%    \begin{macrocode}
+  \int_set:Nn \l_tmpa_int {1}
+  \int_set:Nn \l_tmpb_int {\typog@setbaselineskip@iter@limit}
+%    \end{macrocode}
+%
+%  Note that the call to \cs{glueexpr} is required to consume dimensions that carry
+%  stretchability via |plus| or |minus|.
+%
+%    \begin{macrocode}
+  \dim_set:Nn \l_tmpa_dim {\glueexpr #1}
+
+  \message{typog:\space \string\setbaselineskip:\space
+    initial\space baselineskip:\space \the\baselineskip^^J}
+  \message{typog:\space \string\setbaselineskip:\space
+    target\space baselineskip:\space \dim_use:N \l_tmpa_dim^^J}
+
+  \dim_compare:nNnTF {\baselineskip} > {\c_zero_dim}
+  {}
+  {
+    \PackageError{typog}
+                 {\string\setbaselineskip:\space
+                   baselineskip\space not\space positive}
+                 {}
+  }
+
+  \dim_compare:nNnTF {\l_tmpa_dim} > {\c_zero_dim}
+  {}
+  {
+    \PackageError{typog}
+                 {\string\setbaselineskip:\space target\space
+                   baselineskip\space must\space be\space
+                   positive}
+                 {}
+  }
+
+  \skip_if_eq:nnTF {\l_tmpa_dim} {\glueexpr #1}
+  {}
+  {
+    \PackageWarning{typog}
+                   {\string\setbaselineskip:\space argument\space
+                     is\space a\space skip;\space
+                     will\space ignore\space glue}
+                   {}
+  }
+
+  \fp_set:Nn \l_tmpa_fp {\l_tmpa_dim / \baselineskip}
+  \fp_until_do:nNnn {abs(\l_tmpa_dim / \baselineskip - 1)} <
+                    {\typog@setbaselineskip@relative@error}
+  {
+    \setstretch{\fp_use:N \l_tmpa_fp}
+    \fp_set:Nn \l_tmpa_fp
+               {\l_tmpa_fp * \l_tmpa_dim / \baselineskip}
+
+    \int_incr:N \l_tmpa_int
+    \int_compare:nNnTF {\l_tmpa_int} > {\l_tmpb_int}
+    {
+      \PackageError{typog}
+                   {\string\setbaselineskip:\space excessive\space
+                     number\space of\space iterations:\space
+                     \int_use:N \l_tmpa_int\space >\space
+                     \int_use:N \l_tmpb_int}
+                   {}
+    }
+    {}
+  }
+
+  \message{typog:\space \string\setbaselineskip:\space
+    final\space \string\setstretch\space argument:\space
+    \fp_use:N \l_tmpa_fp^^J}
+  \message{typog:\space \string\setbaselineskip:\space
+    final\space baselineskip:\space \the\baselineskip^^J}
+}
+\ExplSyntaxOff
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{ldimen}{\typogfontsize}
+%    \changes{v0.3}{2024-04-04}{New dimen.}
+%    Define the default font-size/quad size.
+%
+%    \begin{macrocode}
+\newdimen{\typogfontsize}
+\AtBeginDocument{\typogfontsize=\fontdimen6\font}
+
+%    \end{macrocode}
+%  \end{ldimen}
+%
+%  \begin{macro}{\setbaselineskippercentage}
+%    \changes{v0.3}{2024-04-04}{New macro.}
+%    \begin{macrocode}
+\newcommand*{\setbaselineskippercentage}[1]
+  {\setbaselineskip{\dimexpr #1\typogfontsize / 100}}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\setleading}
+%    \changes{v0.3}{2024-04-04}{New macro.}
+%    We are careful and evaluate the macro's argument in a dimen context, so that minus signs at
+%    the beginning don't get us out of whack.
+%
+%    \begin{macrocode}
+\newcommand*{\setleading}[1]
+  {\setbaselineskip{\typogfontsize + \dimexpr #1}}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\setleadingpercentage}
+%    \changes{v0.3}{2024-04-04}{New macro.}
+%    \begin{macrocode}
+\newcommand*{\setleadingpercentage}[1]
+  {\setbaselineskip{\dimexpr \typogfontsize + #1\typogfontsize / 100}}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%
 %  \subsection{Smooth Ragged}
 %
 %  \begin{macro}{\typog@repeat}
@@ -6436,13 +6781,18 @@ end
 %    \end{macrocode}
 %  \end{macro}
 %
+%  \begin{ldimen}{\typog@fuzzwidth}
+%    \begin{macrocode}
+\newdimen{\typog@fuzzwidth}
+
+%    \end{macrocode}
+%  \end{ldimen}
+%
 %  \begin{environment}{smoothraggedrightpar}
 %    The longest line will be \cs{linewidth} wide
 %    unless overridden by optional argument~|linewidth|.
 %
 %    \begin{macrocode}
-\newdimen{\typog@fuzzwidth}
-
 \define@key[typog]{smoothraggedrightpar}{linewidth}%
            {\def\typog@@linewidth{#1}}
 
@@ -6797,6 +7147,20 @@ end
 \newcommand*{\texbookparshapeskipsamplecredits}
             {\medskip\noindent
              \textsl{The sample text was taken from The~\TeX{}book~\cite[p.~101]{knuth:1986}.}}
+
+\newcommand*{\texbookbaselineskipsample}
+            {When you are typsetting a document that spans several pages, it's generally best to
+             define \code{\string\baselineskip} so that it cannot stretch or shrink, because
+             this will give more uniformity to the pages.  A small variation in the distance
+             between the baselines---say only half a point---can make a substantial difference
+             in the appearance of the type, since it significantly affects the proportion of
+             white to black.  On the other hand, if you are preparing a one-page document, you
+             might want to give the baselineskip some stretchability, so that \TeX{} will help
+             you fit the copy on the page.}
+\newcommand*{\texbookbaselineskipsamplecredits}
+            {\medskip\noindent
+             \textsl{The sample text was taken from The~\TeX{}book~\cite[p.~78]{knuth:1986}.}}
+
 
 
 \newcommand*{\examplepreset}{\microtypesetup{activate=false}}
@@ -8021,6 +8385,56 @@ have their merits and their own flaws.
     \end{align*}
   \end{breakabledisplay}
 \end{typoginspect}
+
+
+\clearpage
+\section{\packagename{Setspace} Front-End}
+
+\fontsizeinfo{defaultsize}
+Current settings are \defaultsize{}
+%--\settoheight{\typogfontsize}{CEMNORSUVWXZ}
+and \code{\string\typogfontsize} is \the\typogfontsize.
+
+
+\newcommand*{\absbls}{12pt plus 1pt minus .5pt}
+\paragraph{\code{\string\setbaselineskip\{\absbls\}}}
+\setbaselineskip{\absbls}
+\fontsizeinfo{baselinesetsize}
+New settings: \baselinesetsize.
+
+\texbookbaselineskipsample
+
+
+\newcommand*{\relbls}{130}
+\paragraph{\code{\string\setbaselineskippercentage\{\relbls\}}}
+\setbaselineskippercentage{\relbls}
+\fontsizeinfo{baselinesetsize}
+New settings: \baselinesetsize.
+
+\texbookbaselineskipsample
+
+
+\newcommand*{\absled}{1.5pt}
+\paragraph{\code{\string\setleading\{\absled\}}}
+\setleading{\absled}
+\fontsizeinfo{baselinesetsize}
+New settings: \baselinesetsize.
+
+\texbookbaselineskipsample
+
+
+\newcommand*{\relled}{30}
+\paragraph{\code{\string\setleadingpercentage\{\relled\}}}
+\setleadingpercentage{\relled}
+\fontsizeinfo{baselinesetsize}
+New settings: \baselinesetsize.
+
+\texbookbaselineskipsample
+
+\medskip
+
+\setstretch{1}
+\texbookbaselineskipsamplecredits
 
 
 \clearpage
