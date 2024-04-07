@@ -60,7 +60,7 @@
 \usepackage[lining, proportional, regular, semibold]{sourcesanspro}
 \usepackage[lining, regular]{sourcecodepro}
 \usepackage[xcharter]{newtxmath}
-\setstretch{1.04166}% \baselineskip: 12.5pt
+\setbaselineskip{12.5pt}
 
 \makeatletter
 \def\@get@fontclan#1-#2\relax{#1}
@@ -6565,8 +6565,8 @@ end
 %    Define the default font-size/quad size.
 %
 %    \begin{macrocode}
-\newdimen{\typogfontsize}
-\AtBeginDocument{\typogfontsize=\fontdimen6\font}
+\dim_new:N \typogfontsize
+\AtBeginDocument{\dim_set:Nn \typogfontsize {\fontdimen6\font}}
 
 %    \end{macrocode}
 %  \end{ldimen}
@@ -6574,7 +6574,7 @@ end
 %  \begin{macro}{\setbaselineskippercentage}
 %    \changes{v0.3}{2024-04-04}{New macro.}
 %    \begin{macrocode}
-\newcommand*{\setbaselineskippercentage}[1]
+\cs_new:Npn \setbaselineskippercentage #1
   {\setbaselineskip{\typogfontsize * \fp_to_int:n {(#1) * 10} / 1000}}
 
 %    \end{macrocode}
@@ -6583,7 +6583,7 @@ end
 %  \begin{macro}{\setleading}
 %    \changes{v0.3}{2024-04-04}{New macro.}
 %    \begin{macrocode}
-\newcommand*{\setleading}[1]
+\cs_new:Npn \setleading #1
   {\setbaselineskip{\typogfontsize + \dim_eval:n {#1}}}
 
 %    \end{macrocode}
@@ -6592,7 +6592,7 @@ end
 %  \begin{macro}{\setleadingpercentage}
 %    \changes{v0.3}{2024-04-04}{New macro.}
 %    \begin{macrocode}
-\newcommand*{\setleadingpercentage}[1]
+\cs_new:Npn \setleadingpercentage #1
   {\setbaselineskip{\typogfontsize * \fp_to_int:n {1000 + (#1) * 10} / 1000}}
 \ExplSyntaxOff
 
