@@ -3813,6 +3813,21 @@ end
 %    \cs{setleadingpercentage}\{0\}
 %  \end{codeexample}
 %
+%  \begin{tip}
+%    All macros in this section actually accept expressions of their respective argument types,
+%    though the sick rules of \TeX{} \meta{dimen}- and \meta{skip}-expressions apply.
+%
+%    Here are some forms that do work:
+%
+%    \begin{codeexample}
+%      \cs{setbaselineskip}\{12pt + 0.6667pt\}  \\
+%      \cs{setbaselineskip}\{12pt * 110 / 100\}  \\
+%      \cs{setbaselineskippercentage}\{100 + 25\}  \\
+%      \cs{setleading}\{1pt / -2.0\}  \\
+%      \cs{setleadingpercentage}\{10 - 25 / 2\}\specialsectionendhere
+%    \end{codeexample}
+%  \end{tip}
+%
 %
 %  \FloatBarrier
 %  \clearpage
@@ -6541,7 +6556,6 @@ end
   \typog@typeout{\string\setbaselineskip:\space
     final\space baselineskip:\space \the\baselineskip}
 }
-\ExplSyntaxOff
 
 %    \end{macrocode}
 %  \end{macro}
@@ -6561,19 +6575,16 @@ end
 %    \changes{v0.3}{2024-04-04}{New macro.}
 %    \begin{macrocode}
 \newcommand*{\setbaselineskippercentage}[1]
-  {\setbaselineskip{\dimexpr #1\typogfontsize / 100}}
+  {\setbaselineskip{\typogfontsize * \fp_to_int:n {(#1) * 10} / 1000}}
 
 %    \end{macrocode}
 %  \end{macro}
 %
 %  \begin{macro}{\setleading}
 %    \changes{v0.3}{2024-04-04}{New macro.}
-%    We are careful and evaluate the macro's argument in a dimen context, so that minus signs at
-%    the beginning don't get us out of whack.
-%
 %    \begin{macrocode}
 \newcommand*{\setleading}[1]
-  {\setbaselineskip{\typogfontsize + \dimexpr #1}}
+  {\setbaselineskip{\typogfontsize + \dim_eval:n {#1}}}
 
 %    \end{macrocode}
 %  \end{macro}
@@ -6582,7 +6593,8 @@ end
 %    \changes{v0.3}{2024-04-04}{New macro.}
 %    \begin{macrocode}
 \newcommand*{\setleadingpercentage}[1]
-  {\setbaselineskip{\dimexpr \typogfontsize + #1\typogfontsize / 100}}
+  {\setbaselineskip{\typogfontsize * \fp_to_int:n {1000 + (#1) * 10} / 1000}}
+\ExplSyntaxOff
 
 %    \end{macrocode}
 %  \end{macro}
@@ -8421,6 +8433,9 @@ and \code{\string\typogfontsize} is \the\typogfontsize.
 
 \newcommand*{\absbls}{12pt plus 1pt minus .5pt}
 \paragraph{\code{\string\setbaselineskip\{\absbls\}}}
+\setbaselineskip{10pt + 2.75pt}% addition
+\setbaselineskip{10.5pt * 100 / 105}% scaling
+\setbaselineskip{11.8pt * 85 / 100}% scaling
 \setbaselineskip{\absbls}
 \fontsizeinfo{baselinesetsize}
 New settings: \baselinesetsize.
@@ -8430,6 +8445,7 @@ New settings: \baselinesetsize.
 
 \newcommand*{\relbls}{130}
 \paragraph{\code{\string\setbaselineskippercentage\{\relbls\}}}
+\setbaselineskippercentage{1 + 2 + .3333 * 100 + 100 * 0.6667}% float expression
 \setbaselineskippercentage{\relbls}
 \fontsizeinfo{baselinesetsize}
 New settings: \baselinesetsize.
@@ -8439,6 +8455,7 @@ New settings: \baselinesetsize.
 
 \newcommand*{\absled}{1.5pt}
 \paragraph{\code{\string\setleading\{\absled\}}}
+\setleading{1pt / -2.0}% negative leading
 \setleading{\absled}
 \fontsizeinfo{baselinesetsize}
 New settings: \baselinesetsize.
@@ -8448,6 +8465,7 @@ New settings: \baselinesetsize.
 
 \newcommand*{\relled}{30}
 \paragraph{\code{\string\setleadingpercentage\{\relled\}}}
+\setleadingpercentage{10 - 25 / 2}% negative leading
 \setleadingpercentage{\relled}
 \fontsizeinfo{baselinesetsize}
 New settings: \baselinesetsize.
