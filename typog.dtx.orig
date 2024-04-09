@@ -252,14 +252,14 @@
 \newcommand*{\bottomstrut}{\rule[-.5em]{0pt}{0pt}}
 
 \newenvironment*{codeexample}
-                {\vspace{.5\smallskipamount}
+                {\vspace{.5\smallskipamount}%
                  \par
                  \centering
-                 \begin{minipage}{\linewidth}
+                 \begin{minipage}{\linewidth}%
                  \ttfamily
                  \begin{tabbing}}
-                {\end{tabbing}
-                 \end{minipage}
+                {\end{tabbing}%
+                 \end{minipage}%
                  \par
                  \vspace{.5\smallskipamount}}
 
@@ -413,23 +413,26 @@
              \fi}
 \newtoggle{printspecialsectionmarker}
 \NewDocumentEnvironment{specialsection}{m m}
-                       {\Needspace{4\baselineskip}%
+                       {\medskip
+                        \Needspace{4\baselineskip}%
                         \toggletrue{printspecialsectionmarker}%
                         \begin{list}
                               {\specialsectionheading{#1\ifblank{#2}{}{\textup{\space---\space#2}}}}
-                              {\itemindent=0pt
-                               \labelwidth=10pt
+                              {%--\leftmargin=25pt
+                               %--\itemindent=0pt
+                               %--\parindent=15pt
+                               %--\labelwidth=20pt
+                               %--\labelsep=5pt
                                \leftmargin=15pt
-                               \listparindent=15pt
-                               \parsep=0pt
-                               \topsep=\medskipamount}
+                               \labelwidth=10pt
+                               \parsep=2pt
+                               \topsep=0pt}%
                         \newcommand*{\specialsectionendhere}
                                     {\specialsectionend
-                                     \global\togglefalse{printspecialsectionmarker}}
+                                     \global\togglefalse{printspecialsectionmarker}}%
                         \item
                         \nointerlineskip
-                        \leavevmode\par
-                        \noindent}
+                        \leavevmode\par}
                        {\iftoggle{printspecialsectionmarker}{\specialsectionend}{\relax}%
                         \end{list}}
 
@@ -448,22 +451,20 @@
 
 \newcommand*{\specialcodesectionheading}[1]{\textcolor{\markercolor}{\textbf{\textit{#1}}}}
 \newenvironment*{specialcodesection}[1]
-                {\Needspace{4\baselineskip}%
+                {\medskip
+                 \Needspace{4\baselineskip}%
                  \begin{tcolorbox}[colback=white, colframe=\markercolor,
                                    bottomrule=0pt, leftrule=5pt, rightrule=0pt, toprule=0pt]
                  \sf\typogsetupsf
                  \begin{list}
                        {\specialcodesectionheading{#1}}
-                       {\itemindent=0pt
+                       {\leftmargin=25pt
                         \labelwidth=20pt
-                        \leftmargin=25pt
-                        \listparindent=15pt
-                        \parsep=0pt
-                        \topsep=\medskipamount}
+                        \parsep=2pt
+                        \topsep=0pt}%
                  \item
                  \nointerlineskip
-                 \leavevmode\par
-                 \noindent}
+                 \leavevmode\par}%
                 {\end{list}
                  \end{tcolorbox}}
     \newenvironment*{anticipatedchange}
@@ -512,19 +513,19 @@
 \newcommand*{\visualpar}{\textcolor{\markercolor}{\P}\linebreak[1]\enspace}
 
 \newenvironment*{whittyquote}
-                {\begin{flushright}
+                {\begin{flushright}%
                  \renewcommand*{\propername}[1]{\mbox{##1}}%
                  \sf\typogsetupsf}
                 {\end{flushright}}
 
 \newenvironment*{widecodeexample}
-                {\begin{maxipage}
+                {\begin{maxipage}%
                  \flushright
-                 \begin{minipage}{\textwidth}
+                 \begin{minipage}{\textwidth}%
                  \ttfamily
                  \begin{tabbing}}
-                {\end{tabbing}
-                 \end{minipage}
+                {\end{tabbing}%
+                 \end{minipage}%
                  \end{maxipage}}
 
 
@@ -6593,7 +6594,6 @@ end
 %        \cs{setbaselineskip}\{12.5pt\}
 %      \end{codeexample}
 %
-%      \noindent
 %      in the preamble would set the baselineskip to 140\% in the document.  Therefore,
 %      \cs{setbaselineskip} is delayed too and the order of the calls thus preserved.
 %    \end{implementationnote}
