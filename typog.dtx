@@ -3712,6 +3712,18 @@ end
 %    \end{codeexample}
 %  \end{example}
 %
+%  \DescribeMacro{\resetbaselineskip}
+%  \sinceversion{Since v0.3}
+%  Reset the the \cs{baselineskip} to its original value.
+%
+%  \begin{synopsis}\label{syn:resetbaselineskip}
+%    \cs{resetbaselineskip}
+%  \end{synopsis}
+%
+%  This macro simply expands to |\setstretch{1}|.  So, we rely on \packagename{setspace}'s
+%  notion of what is a single-line \cs{baselineskip}.
+%
+%
 %  \DescribeMacro{\setbaselineskippercentage}
 %  \sinceversion{Since v0.3}
 %  Set the \cs{baselineskip} with a relative value calculated as a percentage of the current
@@ -6602,6 +6614,21 @@ end
 \cs_new:Npn \setbaselineskip #1
 {
   \AfterPreamble{\typog@setbaselineskip{#1}}
+  \ignorespaces
+}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\resetbaselineskip}
+%    \changes{v0.3}{2024-04-04}{New macro.}
+%
+%    Set the \cs{baselineskip} to \singlequotes{neutral}.
+%
+%    \begin{macrocode}
+\cs_new:Npn \resetbaselineskip
+{
+  \AfterPreamble{\setstretch{1}}
 }
 
 %    \end{macrocode}
@@ -6648,6 +6675,7 @@ end
                      is\space uninitialized?}
     }
   }
+  \ignorespaces
 }
 
 %    \end{macrocode}
@@ -6671,6 +6699,7 @@ end
                      is\space uninitialized?}
     }
   }
+  \ignorespaces
 }
 
 %    \end{macrocode}
@@ -6695,6 +6724,7 @@ end
                      is\space uninitialized?}
     }
   }
+  \ignorespaces
 }
 \ExplSyntaxOff
 
@@ -8535,6 +8565,7 @@ and \code{\string\typogfontsize} is \the\typogfontsize.
 
 \newcommand*{\absbls}{12pt plus 1pt minus .5pt}
 \paragraph{\code{\string\setbaselineskip\{\absbls\}}}
+\resetbaselineskip
 \setbaselineskip{10pt + 2.75pt}% addition
 \setbaselineskip{10.5pt * 100 / 105}% scaling
 \setbaselineskip{11.8pt * 85 / 100}% scaling
