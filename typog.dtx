@@ -3767,10 +3767,10 @@ end
 %  \DescribeLaTeXDimen{\typogfontsize}
 %  \sinceversion{Since v0.3}
 %  The macros \cs{setbaselineskippercentage}, \cs{setleading}, and \cs{setleadingpercentage} all
-%  depend on the font size.  By changing \cs{typogfontsize} the macros can be configured for
-%  different font sizes.
+%  depend on the font size.  By changing \cs{typogfontsize} they can be configured for different
+%  font sizes.
 %
-%  The length \cs{typogfontsize} gets initialized at the begin of the document to the default
+%  The length \cs{typogfontsize} gets initialized at the end of the preamble to the default
 %  font's quad size:\footnote{For an overview of the various
 %  \cs{fontdimen}\meta{number}~parameters consult \cref{tab:fontdimen} on
 %  \cpageref{tab:fontdimen}.}
@@ -4426,6 +4426,7 @@ end
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
 \ProvidesPackage{typog}[2024/04/02  v0.3  TypoGraphic extensions]
 
+\RequirePackage{etoolbox}
 \RequirePackage{everyhook}
 \RequirePackage{xkeyval}
 
@@ -4900,8 +4901,8 @@ end
 %    and an associated starred version.
 %
 %    \begin{implementationnote}
-%      \cs{@ifstar} caused too many problems
-%      which \cs{@ifnextchar} in combination with \cs{@gobble} avoid.
+%      \cs{@ifstar} caused too many problems which \cs{@ifnextchar} in combination with
+%      \cs{@gobble} avoid.
 %    \end{implementationnote}
 %
 %    \begin{macrocode}
@@ -6471,14 +6472,13 @@ end
 %    \end{macrocode}
 %  \end{macro}
 %
-%  \begin{macro}{\setbaselineskip}
-%    \changes{v0.3}{2024-04-04}{New macro.}
+%  \begin{macro}{\typog@setbaselineskip}
 %    Given the \meta{target-baselineskip} as argument iterate setting \cs{setstretch} until the
 %    error drops below our threshold.
 %
 %    \begin{macrocode}
 \ExplSyntaxOn
-\cs_new:Npn \setbaselineskip #1
+\cs_new:Npn \typog@setbaselineskip #1
 {
 %    \end{macrocode}
 %
@@ -6560,13 +6560,55 @@ end
 %    \end{macrocode}
 %  \end{macro}
 %
+%  \begin{macro}{\setbaselineskip}
+%    \changes{v0.3}{2024-04-04}{New macro.}
+%
+%    Set the \cs{baselineskip} to an absolute length.
+%
+%    \begin{implementationnote}
+%      Viewed as a standalone macro \cs{setbaselineskip} does not need the decoration
+%      \cs{AfterPreamble}.  However, all of its siblings, \cs{setbaselineskippercentage},
+%      \cs{setleading}, and \cs{setleadingpercentage} then would behave differently as they are
+%      delayed to the end of the preamble, but \cs{setbaselineskip} immediately becomes
+%      effective.  For example, the successive calls
+%
+%      \begin{codeexample}
+%        \cs{setbaselineskippercentage}\{140\}  \\
+%        \cs{setbaselineskip}\{12.5pt\}
+%      \end{codeexample}
+%
+%      \noindent
+%      in the preamble would set the baselineskip to 140\% in the document.  Therefore,
+%      \cs{setbaselineskip} is delayed too and the order of the calls thus preserved.
+%    \end{implementationnote}
+%
+%    \begin{macrocode}
+\cs_new:Npn \setbaselineskip #1
+{
+  \AfterPreamble{\typog@setbaselineskip{#1}}
+}
+
+%    \end{macrocode}
+%  \end{macro}
+%
 %  \begin{ldimen}{\typogfontsize}
 %    \changes{v0.3}{2024-04-04}{New dimen.}
 %    Define the default font-size/quad size.
 %
 %    \begin{macrocode}
 \dim_new:N \typogfontsize
-\AtBeginDocument{\dim_set:Nn \typogfontsize {\fontdimen6\font}}
+%    \end{macrocode}
+%
+%    Initialize \cs{typogfontsize} at the end of the preamble, which is after all fonts have
+%    been setup.
+%
+%    \begin{macrocode}
+\AfterEndPreamble{
+  \dim_set:Nn \typogfontsize {\fontdimen6\font}
+  \typog@typeout{\string\typogfontsize =
+    \dim_use:N \typogfontsize\space
+    (at\space begin\space of\space document)}
+}
 
 %    \end{macrocode}
 %  \end{ldimen}
@@ -6575,7 +6617,22 @@ end
 %    \changes{v0.3}{2024-04-04}{New macro.}
 %    \begin{macrocode}
 \cs_new:Npn \setbaselineskippercentage #1
-  {\setbaselineskip{\typogfontsize * \fp_to_int:n {(#1) * 10} / 1000}}
+{
+  \AfterPreamble{
+    \dim_compare:nNnTF {\typogfontsize} > {\c_zero_dim}
+    {
+      \typog@setbaselineskip{
+        \fp_eval:n {(#1) / 100} \typogfontsize}
+    }
+    {
+      \PackageError{typog}
+                   {\string\setbaselineskippercentage:\space
+                    \string\typogfontsize <= 0}
+                   {Maybe\space \string\typogfontsize\space
+                     is\space uninitialized?}
+    }
+  }
+}
 
 %    \end{macrocode}
 %  \end{macro}
@@ -6584,7 +6641,21 @@ end
 %    \changes{v0.3}{2024-04-04}{New macro.}
 %    \begin{macrocode}
 \cs_new:Npn \setleading #1
-  {\setbaselineskip{\typogfontsize + \dim_eval:n {#1}}}
+{
+  \AfterPreamble{
+    \dim_compare:nNnTF {\typogfontsize} > {\c_zero_dim}
+    {
+      \typog@setbaselineskip{\typogfontsize + \dimexpr #1}
+    }
+    {
+      \PackageError{typog}
+                   {\string\setleading:\space
+                    \string\typogfontsize <= 0}
+                   {Maybe\space \string\typogfontsize\space
+                     is\space uninitialized?}
+    }
+  }
+}
 
 %    \end{macrocode}
 %  \end{macro}
@@ -6593,7 +6664,22 @@ end
 %    \changes{v0.3}{2024-04-04}{New macro.}
 %    \begin{macrocode}
 \cs_new:Npn \setleadingpercentage #1
-  {\setbaselineskip{\typogfontsize * \fp_to_int:n {1000 + (#1) * 10} / 1000}}
+{
+  \AfterPreamble{
+    \dim_compare:nNnTF {\typogfontsize} > {\c_zero_dim}
+    {
+      \typog@setbaselineskip{
+        \fp_eval:n {1 + (#1) / 100} \typogfontsize}
+    }
+    {
+      \PackageError{typog}
+                   {\string\setleadingpercentage:\space
+                    \string\typogfontsize <= 0}
+                   {Maybe\space \string\typogfontsize\space
+                     is\space uninitialized?}
+    }
+  }
+}
 \ExplSyntaxOff
 
 %    \end{macrocode}
