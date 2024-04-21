@@ -104,16 +104,21 @@
 \usepackage{cleveref}
 
 
+\expandafter\GetFileInfo\expandafter{\jobname.sty}
+\def\aspdfdate#1/#2/#3\relax{D:#1#2#3}
+\edef\pdffiledate{\expandafter\aspdfdate\filedate\relax}
+
 \hypersetup{
   citecolor = blue,
   colorlinks = true,
   linkcolor = blue,
   linktocpage = false,
   pdfauthor={Dr. Christoph L. Spiel},
-  pdfkeywords={LaTeX, typography, ligature, italic-correction, paragraph justification, sloppy, ragged},
+  pdfcreationdate={\pdffiledate},
+  pdfkeywords={LaTeX, typography, ligature, italic-correction, paragraph justification, baselineskip, sloppy, ragged},
   pdflang=en-US,
   pdfsubject={Typographic fine-tuning for LaTeX},
-  pdftitle={Package typog},
+  pdftitle={Package typog \fileversion},
   raiselinks = false,
   urlcolor = [rgb]{0, 0, .5}% = navy
 }
@@ -712,9 +717,6 @@ quote             '!'
 %
 %
 %  \pagenumbering{roman}
-%
-%  \expandafter\GetFileInfo\expandafter{\jobname.sty}
-%
 %
 %  \title{\typoglogo{} \capitalendash{} Typographic Fine\rightkernedhyphen*[20]{-120}Tuning}
 %  \author{Ch.~L.~Spiel\footnote{\quarterspace\texttt{cspiel@users.sourceforge.org}}}
