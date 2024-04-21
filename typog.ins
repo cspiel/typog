@@ -44,23 +44,25 @@ typog-grep.pod, and teximan2latex.sed.
 \endpreamble
 
 
-\generate{\file{typog.sty}{\from{typog.dtx}{package}}
-          \file{typog-example.tex}{\from{typog.dtx}{example}}
-          \file{typog-nomt.tex}{\from{typog.dtx}{nomicrotype}}
-          \file{typog.ist}{\from{typog.dtx}{index-style}}}
+\edef\source{\jobname.dtx}
+
+\generate{\file{typog.sty}{\from{\source}{package}}
+          \file{typog-example.tex}{\from{\source}{example}}
+          \file{typog-nomt.tex}{\from{\source}{nomicrotype}}
+          \file{typog.ist}{\from{\source}{index-style}}}
 
 
 \nopostamble
-\generate{\file{title.mp}{\from{typog.dtx}{title}}
-          \file{slant-angle.mp}{\from{typog.dtx}{slantangle}}
-          \file{crooked-paragraphs.mp}{\from{typog.dtx}{crookedparagraphs}}
-          \file{smooth-parshapes.mp}{\from{typog.dtx}{smoothparshapes}}}
+\generate{\file{title.mp}{\from{\source}{title}}
+          \file{slant-angle.mp}{\from{\source}{slantangle}}
+          \file{crooked-paragraphs.mp}{\from{\source}{crookedparagraphs}}
+          \file{smooth-parshapes.mp}{\from{\source}{smoothparshapes}}}
 
 
 \nopreamble
-\generate{\file{teximan2latex.sed}{\from{typog.dtx}{teximan2latex}}
-          \file{typog-grep.pl}{\from{typog.dtx}{typog-grep}}
-          \file{typog-grep.pod}{\from{typog.dtx}{typog-grep-documentation}}}
+\generate{\file{teximan2latex.sed}{\from{\source}{teximan2latex}}
+          \file{typog-grep.pl}{\from{\source}{typog-grep}}
+          \file{typog-grep.pod}{\from{\source}{typog-grep-documentation}}}
 
 
 \endbatchfile
