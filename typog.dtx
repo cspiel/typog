@@ -538,6 +538,14 @@
                idxgroup = dimensions,
                printtype = \textit{dimen}]
               {LaTeXDimen}{ldimen}
+\pretocmd{\DescribeLaTeXDimen}{\needspace{25pt}}{\relax}{\PrependingFailed}
+
+\NewDocElement[macrolike = false,
+               idxtype = enumitem-key,
+               idxgroup = enumitem-keys,
+               printtype = \textit{enumitem key}]
+              {EnumItemKey}{enumitemkey}
+\pretocmd{\DescribeEnumItemKey}{\needspace{25pt}}{\relax}{\PrependingFailed}
 
 
 \hyphenation{% https://hyphenateit.com/en-us
@@ -3406,11 +3414,11 @@ end
 %  \end{codeexample}
 %
 %  \noindent
-%  or shorter and with the default \meta{number-of-lines},~3,
-%  using the \packagename{enumitem} style~\code{vtietop}:
+%  or shorter and with the default \meta{number-of-lines},~3, using the \packagename{enumitem}
+%  style\footnote{The documentation of \packagename{enumitem} prosaically calls them
+%  \singlequotes{keys} (Section~3) not \singlequotes{styles}.}~\code{vtietop}:
 %
-%  \marginpar{\RaggedLeft\small\packagename{enumitem} style \code{vtietop}}
-%  \index{enumitem=\packagename{enumitem} (package)>style \code{vtietop}}
+%  \DescribeEnumItemKey{vtietop}
 %  \begin{codeexample}
 %    \cs{usepackage}\{enumitem\}  \\
 %    \cs{begin}\= \{description\}[vtietop]  \\
@@ -3707,16 +3715,27 @@ end
 %
 %  \begin{example}
 %    Let us assume we want to lighten the gray value of the copy a tad with a \cs{baselineskip}
-%    increased to~12.5pt.  To this end we say:
+%    increased (from e.g.~12pt) to~12.5pt.  To this end we say:
 %
 %    \begin{codeexample}
 %      \cs{setbaselineskip}\{12.5pt\}\specialsectionendhere
 %    \end{codeexample}
 %  \end{example}
 %
+%  \begin{tip}
+%    To set the \cs{baselineskip} relative to the current value use
+%
+%    \begin{codeexample}
+%      \cs{setbaselineskip}\{\meta{factor}\cs{baselineskip}\}
+%    \end{codeexample}
+%
+%    \noindent
+%    where \meta{factor} is a floating-point number.
+%  \end{tip}
+%
 %  \DescribeMacro{\resetbaselineskip}
 %  \sinceversion{Since v0.3}
-%  Reset the the \cs{baselineskip} to its original value.
+%  Reset the \cs{baselineskip} to its original value.
 %
 %  \begin{synopsis}\label{syn:resetbaselineskip}
 %    \cs{resetbaselineskip}
@@ -4454,7 +4473,8 @@ end
 %    \begin{macrocode}
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
-\ProvidesPackage{typog}[2024/04/02  v0.3  TypoGraphic extensions]
+\ProvidesPackage{typog}
+                [2024/04/02  v0.3  TypoGraphic extensions]
 
 \RequirePackage{etoolbox}
 \RequirePackage{everyhook}
@@ -4462,16 +4482,7 @@ end
 
 %    \end{macrocode}
 %
-%
 %  \bigskip
-%
-%  \subsection*{Coding Conventions}
-%
-%  \begin{enumerate}[noitemsep]
-%    \item All package-related names start with |typog@|.
-%    \item Persistent values get a single~|@|, temporary ones a double-at.
-%  \end{enumerate}
-%
 %
 %  \subsection*{Declarations of Lengths, Skips, etc.}
 %
