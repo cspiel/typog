@@ -1698,6 +1698,27 @@ end
 %    \end{codeexample}
 %  \end{usecase}
 %
+%  \DescribeEnv{hyphenmin}
+%  \sinceversion{Since v0.3}
+%  Set the values of \cs{lefthyphenmin} and \cs{righthyphenmin} confined to an environment.
+%
+%  \begin{synopsis}\label{syn:hyphenmin}
+%    |hyphenmin|\oarg{left-hyphen-minimum}\marg{hyphen-minimum}
+%  \end{synopsis}
+%
+%  Without optional argument |hyphenmin| sets both \cs{lefthyphenmin} and \cs{righthyphenmin} to
+%  \meta{hyphen-minimum}.  When called with an optional argument it sets \cs{lefthyphenmin} to
+%  \meta{left-hyphen-minimum} and \cs{righthyphenmin} to \meta{hyphen-minimum}.\footnote{The
+%  current values for \cs{lefthyphenmin} and \cs{righthyphenmin} in this document
+%  are~\the\lefthyphenmin{} and~\the\righthyphenmin, respectively.}
+%
+%  \begin{usecase}
+%    If the hyphen minimums were \emph{increased} e.\,g.~in the preamble: Reduce the hyphen
+%    minimum in the index or other multi-column environments with narrow lines to regain
+%    hyphenation possibilities.~\visualpar Use a large \meta{hyphen-minimum} to disable
+%    hyphenation.
+%  \end{usecase}
+%
 %
 %  \subsection{Disable\kernedslash Break Ligatures}\label{sec:break-ligatures}
 %  \index{ligature}
@@ -5100,6 +5121,20 @@ end
 %    \end{macrocode}
 %  \end{macro}
 %
+%  \begin{environment}{hyphenmin}
+%    \changes{v0.3}{2024-05-04}{New environment.}
+%    No trickery here. -- We use the mandatory argument for the value of \cs{lefthyphenmin} if
+%    the optional argument has been omitted.
+%
+%    \begin{macrocode}
+\NewDocumentEnvironment{hyphenmin}{o m}
+  {\lefthyphenmin=\IfNoValueTF{#1}{#2}{#1}%
+   \righthyphenmin=#2}
+  {}
+
+%    \end{macrocode}
+%  \end{environment}
+%
 %
 %  \subsection{Disable/Break Ligatures}
 %
@@ -7561,6 +7596,27 @@ decorated with the results of \code{\string\fontsizeinfo}.
 \end{quote}
 
 \noindent Starred form eats spaces?  a\breakpoint*  b.  Unstarred: a\breakpoint  b.
+
+\medskip
+
+\begin{quote}
+  \setlength{\overfullrule}{0pt}
+  \parbox[t]{0pt}{%
+    \begin{hyphenmin}{6}
+      Set minimum hyphenation values for both \code{\string\lefthyphenmin} and
+      \code{\string\righthyphenmin}: \the\lefthyphenmin{} and \the\righthyphenmin.
+  \end{hyphenmin}}
+  \hspace{100pt}
+  \parbox[t]{0pt}{%
+    \begin{hyphenmin}[4]{5}
+      Set minimum hyphenation values for \code{\string\lefthyphenmin} and
+      \code{\string\righthyphenmin} separately: \the\lefthyphenmin{} and \the\righthyphenmin.
+  \end{hyphenmin}}
+  \hspace{100pt}
+  \parbox[t]{0pt}{%
+    Returned to the default values for \code{\string\lefthyphenmin} and
+    \code{\string\righthyphenmin}: \the\lefthyphenmin{} and \the\righthyphenmin.}
+\end{quote}
 
 
 \section{Disable\kernedslash*Break Ligatures}
