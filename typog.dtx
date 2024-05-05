@@ -1124,7 +1124,9 @@ end
 %  argument of \code{typogsetup} resets all \meta{keys} to their default values.
 %
 %  \begin{synopsis}\label{syn:typogsetup}
-%     |typogsetup|\marg{keys}
+%     \cs{begin}|{typogsetup}|\marg{keys}
+%     \dots{}
+%     \cs{end}|{typogsetup}|
 %  \end{synopsis}
 %
 %  The package can be (re-)configured\index{reconfigure} at any point with
@@ -1233,8 +1235,12 @@ end
 %  unrelated information in the trace or the \filesystem{log}-file.
 %
 %  \begin{synopsis}\label{syn:typoginspect}
-%    |typoginspect|\oarg{option}\marg{id}  \\
-%    |typoginspectpar|\oarg{option}\marg{id}
+%    \cs{begin}|{typoginspect}|\oarg{option}\marg{id}
+%    \dots{}
+%    \cs{end}|{typoginspect}|  \\[\smallskipamount]
+%    \cs{begin}|{typoginspectpar}|\oarg{option}\marg{id}  \\
+%    \hspace*{1em}\dots  \\
+%    \cs{end}|{typoginspectpar}|
 %  \end{synopsis}
 %
 %  The \meta{id} is an arbitrary string that identifies the results in the
@@ -1703,7 +1709,9 @@ end
 %  Set the values of \cs{lefthyphenmin} and \cs{righthyphenmin} confined to an environment.
 %
 %  \begin{synopsis}\label{syn:hyphenmin}
-%    |hyphenmin|\oarg{left-hyphen-minimum}\marg{hyphen-minimum}
+%    \cs{begin}|{hyphenmin}|\oarg{left-hyphen-minimum}\marg{hyphen-minimum}  \\
+%    \hspace*{1em}\dots  \\
+%    \cs{end}|{hyphenmin}|
 %  \end{synopsis}
 %
 %  Without optional argument |hyphenmin| sets both \cs{lefthyphenmin} and \cs{righthyphenmin} to
@@ -2376,7 +2384,9 @@ end
 %  right margin.
 %
 %  \begin{synopsis}\label{syn:lastlineraggedleftpar}\label{syn:lastlineflushrightpar}
-%    |lastlineraggedleftpar|  \\
+%    \cs{begin}|{lastlineraggedleftpar}|  \\
+%    \hspace*{1em}\dots  \\
+%    \cs{end}|{lastlineraggedleftpar}|  \\[\smallskipamount]
 %    |lastlineflushrightpar|~(alias)
 %  \end{synopsis}
 %
@@ -2387,7 +2397,9 @@ end
 %  this environment.\footnote{Also compare the approach taken in Ref.~\citenum{wermuth:2018}.}
 %
 %  \begin{synopsis}\label{syn:lastlinecenteredpar}
-%    |lastlinecenteredpar|
+%    \cs{begin}|{lastlinecenteredpar}|  \\
+%    \hspace*{1em}\dots  \\
+%    \cs{end}|{lastlinecenteredpar}|
 %  \end{synopsis}
 %
 %  \begin{usecases}
@@ -2690,7 +2702,9 @@ end
 %  \singlequotes{Accidentally}, they also change the length of the last line of the paragraph.
 %
 %  \begin{synopsis}\label{syn:shortenpar}
-%    |shortenpar|
+%    \cs{begin}|{shortenpar}|
+%    \dots{}
+%    \cs{end}|{shortenpar}|
 %  \end{synopsis}
 %
 %  Environment |shortenpar| decreases the \cs{looseness} of the paragraph.\footnote{Command
@@ -2700,7 +2714,9 @@ end
 %  or the whole paragraph is loose.
 %
 %  \begin{synopsis}\label{syn:prolongpar}
-%    |prolongpar|
+%    \cs{begin}|{prolongpar}|
+%    \dots{}
+%    \cs{end}|{prolongpar}|
 %  \end{synopsis}
 %
 %  This environment increases the \cs{looseness} of the paragraph, which is why it works best
@@ -2718,7 +2734,9 @@ end
 %  can be helpful for \hyperref[item:o1]{case~O1}, i.\,e., a too short last line.
 %
 %  \begin{synopsis}\label{syn:covernextindentpar}
-%    |covernextindentpar|\oarg{dim}
+%    \cs{begin}|{covernextindentpar}|\oarg{dim}  \\
+%    \hspace*{1em}\dots  \\
+%    \cs{end}|{covernextindentpar}|
 %  \end{synopsis}
 %
 %  The environment asks \TeX{} to extend the last line of a paragraph such that it takes at
@@ -2734,7 +2752,9 @@ end
 %  i.\,e., a last line in a paragraph that is almost full or completely filled.
 %
 %  \begin{synopsis}\label{syn:openlastlinepar}
-%    |openlastlinepar|\oarg{dim}
+%    \cs{begin}|{openlastlinepar}|\oarg{dim}  \\
+%    \hspace*{1em}\dots  \\
+%    \cs{end}|{openlastlinepar}|
 %  \end{synopsis}
 %
 %  It may resolve \hyperref[item:o2]{case~O2} as it attempts to prevent a completely filled line
@@ -2792,7 +2812,9 @@ end
 %  respectively.
 %
 %  \begin{synopsis}\label{syn:loosespacing}
-%    |loosespacing|\oarg{level}
+%    \cs{begin}|{loosespacing}|\oarg{level}
+%    \dots{}
+%    \cs{end}|{loosespacing}|
 %  \end{synopsis}
 %
 %  Environment~|loosespacing| increases the width of a space by the percentages given in the
@@ -2830,7 +2852,9 @@ end
 %  The default level of |loosespacing| is~1.
 %
 %  \begin{synopsis}\label{syn:tightspacing}
-%    |tightspacing|\oarg{level}
+%    \cs{begin}|{tightspacing}|\oarg{level}
+%    \dots{}
+%    \cs{end}|{tightspacing}|
 %  \end{synopsis}
 %
 %  Environment~|tightspacing| decreases the width of a space by the percentages given in
@@ -3079,7 +3103,9 @@ end
 %  Override the default tracking for all fonts.
 %
 %  \begin{synopsis}\label{syn:setfonttracking}
-%    |setfonttracking|\marg{delta}
+%    \cs{begin}|{setfonttracking}|\marg{delta}  \\
+%    \hspace*{1em}\dots  \\
+%    \cs{end}|{setfonttracking}|
 %  \end{synopsis}
 %
 %  The environment~|setfonttracking| manages a group for \cs{lsstyle} of
@@ -3127,8 +3153,12 @@ end
 %  component, i.\,e., shrinkability and stretchability, respectively.
 %
 %  \begin{synopsis}\label{syn:setfontshrink}\label{syn:setfontstretch}
-%    |setfontshrink|\marg{level}  \\
-%    |setfontstretch|\marg{level}
+%    \cs{begin}|{setfontshrink}|\marg{level}
+%    \dots{}
+%    \cs{end}|{setfontshrink}|  \\
+%    \cs{begin}|{setfontstretch}|\marg{level}
+%    \dots{}
+%    \cs{end}|{setfontstretch}|
 %  \end{synopsis}
 %
 %  A \meta{level} of zero is a no-op.  \Cref{tab:setfontshrink-values,tab:setfontstretch-values}
@@ -3194,7 +3224,9 @@ end
 %  Manipulate both, |stretch| and |shrink|~values at the same time.
 %
 %  \begin{synopsis}\label{syn:setfontexpand}
-%    |setfontexpand|\marg{level}
+%    \cs{begin}|{setfontexpand}|\marg{level}
+%    \dots{}
+%    \cs{end}|{setfontexpand}|
 %  \end{synopsis}
 %
 %  \Cref{tab:setfontexpand-values} gives an overview of the values associated with \meta{level}.
@@ -3254,8 +3286,10 @@ end
 %  environment.
 %
 %  \begin{synopsis}\label{syn:nofontexpansion}\label{syn:nofontexpand}
-%     |nofontexpansion|  \\
-%     |nofontexpand|~(alias)
+%    \cs{begin}|{nofontexpansion}|
+%    \dots{}
+%    \cs{end}|{nofontexpansion}|  \\[\smallskipamount]
+%    |nofontexpand|~(alias)
 %  \end{synopsis}
 %
 %  The name |nofontexpand| is an alias for~|nofontexpansion|.
@@ -3275,7 +3309,9 @@ end
 %  environment.
 %
 %  \begin{synopsis}\label{syn:nocharprotrusion}
-%     |nocharprotrusion|
+%    \cs{begin}|{nocharprotrusion}|
+%    \dots{}
+%    \cs{end}|{nocharprotrusion}|
 %  \end{synopsis}
 %
 %  \begin{usecases}
@@ -3300,8 +3336,10 @@ end
 %  Ref.~\citenum{wermuth:2017a}.}  The default \meta{sloppiness} is 1.
 %
 %  \begin{synopsis}\label{syn:slightlysloppy}\label{syn:slightlysloppypar}
-%     \cs{slightlysloppy}\oarg{sloppiness}  \\
-%     |slightlysloppypar|\oarg{sloppiness}
+%    \cs{slightlysloppy}\oarg{sloppiness}  \\[\smallskipamount]
+%    \cs{begin}|{slightlysloppypar}|\oarg{sloppiness}  \\
+%    \hspace*{1em}\dots  \\
+%    \cs{end}|{slightlysloppypar}|
 %  \end{synopsis}
 %
 %  \Cref{tab:slightlysloppy} summarizes the adjustments that \cs{slightlysloppy} makes depending
@@ -3386,8 +3424,10 @@ end
 %  Avoid a club\index{forlorn line>club} line in each partial paragraph.
 %
 %  \begin{synopsis}\label{syn:vtietop}\label{syn:vtietoppar}
-%    \cs{vtietop}\oarg{number-of-lines}  \\
-%    |vtietoppar|\oarg{number-of-lines}
+%    \cs{vtietop}\oarg{number-of-lines}  \\[\smallskipamount]
+%    \cs{begin}|{vtietoppar}|\oarg{number-of-lines}
+%    \dots{}
+%    \cs{end}|{vtietoppar}|
 %  \end{synopsis}
 %
 %  Vertically tie the first \meta{number\hyp{}of\hyp{}lines} in a paragraph.  Zero or one for
@@ -3455,8 +3495,10 @@ end
 %  Avoid a widow\index{forlorn line>widow} line in each partial paragraph.
 %
 %  \begin{synopsis}\label{syn:vtiebot}\label{syn:vtiebotpar}
-%    \cs{vtiebot}\oarg{number-of-lines}  \\
-%    |vtiebotpar|\oarg{number-of-lines}
+%    \cs{vtiebot}\oarg{number-of-lines}  \\[\smallskipamount]
+%    \cs{begin}|{vtiebotpar}|\oarg{number-of-lines}
+%    \dots{}
+%    \cs{end}|{vtiebotpar}|
 %  \end{synopsis}
 %
 %  Vertically tie the last \meta{number\hyp{}of\hyp{}lines} in a paragraph.  Zero or one for
@@ -3468,7 +3510,9 @@ end
 %  Avoid a display widow\index{forlorn line>display widow} line in each partial paragraph.
 %
 %  \begin{synopsis}\label{syn:vtiebotdisp}\label{syn:vtiebotdisppar}
-%    |vtiebotdisp|\oarg{before-disp-number-of-lines}
+%    \cs{begin}|vtiebotdisp|\oarg{before-disp-number-of-lines}  \\
+%    \hspace*{1em}\dots  \\
+%    \cs{end}|{vtiebotdisp}|
 %  \end{synopsis}
 %
 %  Vertically tie the last \meta{before\hyp{}disp\hyp{}number\hyp{}of\hyp{}lines} in a paragraph
@@ -3493,8 +3537,10 @@ end
 %
 %  \begin{synopsis}\label{syn:vtiebotdisptop}\label{syn:vtiebotdisptoppar}
 %    \begin{tabbing}
-%      |vtiebotdisptoppar|\= \oarg{before-disp-number-of-lines}  \\
-%                         \> \oarg{after-disp-number-of-lines}
+%      \cs{begin}|{vtiebotdisptoppar}|\= \oarg{before-disp-number-of-lines}  \\
+%                                     \> \oarg{after-disp-number-of-lines}  \\
+%      \hspace*{1em}\dots  \\
+%      \cs{end}|{vtiebotdisptoppar}|
 %    \end{tabbing}
 %  \end{synopsis}
 %
@@ -3622,7 +3668,9 @@ end
 %  process.
 %
 %  \begin{synopsis}\label{syn:breakabledisplay}
-%     |breakabledisplay|\oarg{level}
+%    \cs{begin}|{breakabledisplay}|\oarg{level}  \\
+%    \hspace*{1em}\dots  \\
+%    \cs{end}|{breakabledisplay}|
 %  \end{synopsis}
 %
 %  Environment~|breakabledisplay| simply passes on \meta{level} to \cs{allowdisplaybreaks}.
@@ -3935,9 +3983,15 @@ end
 %
 %  \begin{maxipage}
 %    \begin{synopsis}\label{syn:smoothraggedrightshapetriplet}\label{syn:smoothraggedrightshapequintuplet}\label{syn:smoothraggedrightshapeseptuplet}
-%      |smoothraggedrightshapetriplet|\oarg{option\dots}\marg{width1}\marg{width2}\marg{width3}  \\
-%      |smoothraggedrightshapequintuplet|\oarg{option\dots}\marg{width1}\marg{width2}\dots\marg{width5} \\
-%      |smoothraggedrightshapeseptuplet|\oarg{option\dots}\marg{width1}\marg{width2}\dots\marg{width7}
+%       \cs{begin}|{smoothraggedrightshapetriplet}|\oarg{option\dots}\marg{width1}\marg{width2}\marg{width3}  \\
+%       \hspace*{1em}\dots  \\
+%       \cs{end}|{smoothraggedrightshapetriplet}|  \\[\smallskipamount]
+%       \cs{begin}|{smoothraggedrightshapequintuplet}|\oarg{option\dots}\marg{width1}\marg{width2}\dots\marg{width5} \\
+%       \hspace*{1em}\dots  \\
+%       \cs{end}|{smoothraggedrightshapequintuplet}|  \\[\smallskipamount]
+%       \cs{begin}|smoothraggedrightshapeseptuplet|\oarg{option\dots}\marg{width1}\marg{width2}\dots\marg{width7}
+%       \hspace*{1em}\dots  \\
+%       \cs{end}|{smoothraggedrightshapeseptuplet}|
 %    \end{synopsis}
 %  \end{maxipage}
 %
@@ -3965,7 +4019,9 @@ end
 %  the length-difference of the longest and the shortest lines.
 %
 %  \begin{synopsis}\label{syn:smoothraggedrightpar}
-%    |smoothraggedrightpar|\oarg{option\dots}
+%    \cs{begin}|{smoothraggedrightpar}|\oarg{option\dots}  \\
+%    \hspace*{1em}\dots  \\
+%    \cs{end}|{smoothraggedrightpar}|
 %  \end{synopsis}
 %
 %  The line lengths equally divide the ragged margin, i.\,e., they are arithmetic means with
@@ -4128,7 +4184,9 @@ end
 %  \code{smoothraggedrightpar}.  It takes the same optional arguments.
 %
 %  \begin{synopsis}\label{syn:smoothraggedright}
-%    |smoothraggedright|\oarg{option\dots}
+%    \cs{begin}|{smoothraggedright}|\oarg{option\dots}  \\
+%    \hspace*{1em}\dots  \\
+%    \cs{end}|{smoothraggedright}|
 %  \end{synopsis}
 %
 %
