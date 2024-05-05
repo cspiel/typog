@@ -3744,12 +3744,14 @@ end
 %
 %  Package \packagename{setspace} \cite{package:setspace} is a base hit when it comes to
 %  consistently setting the line skip for a document via the macro~\cs{setstretch}.  The
-%  interface of \cs{setstretch} though is unintuitive as it asks for an obscure factor.  The
-%  \LaTeX{} user however prefers to keep her eyes on the ball and set the line
-%  skip\index{baseline skip} directly (e.\,g.~12.5pt) or the lines' leading\index{leading} to a
-%  length or percentage of the font's size.\footnote{To find out about the current font's size
-%  and the \cs{baselineskip} in printable form check out \cref{sec:font-information} on
-%  \cpageref{sec:font-information}.}  This is where the following macros go to bat.
+%  interface of \cs{setstretch} though is unintuitive as it asks for an obscure
+%  factor.\fontsizeinfo{setspacefontsizeinfo}\marginnote{In the copy of this document gets
+%  typeset with~\setspacefontsizeinfo*.}  The \LaTeX{} user however prefers to keep her eyes on
+%  the ball and set the line skip\index{baseline skip} directly (e.\,g.~12.5pt) or the lines'
+%  leading\index{leading} to a length or percentage of the font's size.\footnote{To find out
+%  about the current font's size and the \cs{baselineskip} in printable form check out
+%  \cref{sec:font-information} on \cpageref{sec:font-information}.}  This is where the following
+%  macros go to bat.
 %
 %  \begin{important}
 %    All macros that are introduced in this section rely on macro~\cs{setstretch}.  So
