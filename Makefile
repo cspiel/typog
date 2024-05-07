@@ -103,7 +103,8 @@ clean:
 	$(RM) ./*.1 ./*.aux ./*.brf ./*.glg ./*.glo ./*.gls
 	$(RM) ./*.hd ./*.idx ./*.ilg ./*.ind ./*.loe ./*.lof ./*.log ./*.lot
 	$(RM) ./*.mps ./*.mpx ./*.out ./*.pdf ./*.toc
-	$(RM) mptextmp.* mpxerr.tex README README.html
+	$(RM) mptextmp.* mpxerr.tex
+	$(RM) README README.html RELEASE-HOWTO RELEASE-HOWTO.html
 
 
 .PHONY: mostlyclean
