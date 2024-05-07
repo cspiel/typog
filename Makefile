@@ -266,6 +266,13 @@ endef
 	$(POD2TEXI) $(POD2TEXI_FLAGS) ./$<  |  sed -f teximan2latex.sed  > $@
 
 
+%.html: %.md
+	markdown $<  > $@
+
+%: %.html
+	w3m -cols 79 $<  > $@
+
+
 crooked-paragraphs.mp slant-angle.mp smooth-parshapes.mp title.mp  \
 teximan2latex.sed  \
 typog-grep.pl typog-grep typog-grep.pod  \
@@ -274,13 +281,6 @@ typog.sty typog.ist typog-example.tex typog-nomt.tex:  \
 	$(LATEX) $(LATEX_FLAGS) $<
 	chmod 755 typog-grep.pl
 	ln -sf typog-grep.pl typog-grep
-
-
-README.html: README.md
-	markdown $<  > $@
-
-README: README.html
-	w3m -cols 79 $<  > $@
 
 
 crooked-paragraphs-1.mps crooked-paragraphs-2.mps  \

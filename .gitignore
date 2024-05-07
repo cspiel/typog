@@ -28,6 +28,7 @@
 *.sty
 *.toc
 
+/RELEASE-HOWTO
 /typog-example.*
 /typog-grep*
 /typog-nomt.*
