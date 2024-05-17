@@ -1216,6 +1216,12 @@ end
 %  where \meta{keys} have the same format as the package options described in
 %  \cref{sec:package-options}.
 %
+%  \begin{note}
+%    Use \code{\string\PassOptionsToPackage\{\meta{keys}\}\{typog\}} to pass \meta{keys} to
+%    \packagename{typog} before loading it and \code{\string\typogsetup\{\meta{keys}\}} after
+%    \code{\string\usepackage\{typog\}}.
+%  \end{note}
+%
 %  \begin{usecases}
 %    \cs{typogsetup} can substitute configuring the package at load-time or serve as an
 %    addition.~\visualpar Using the |typogsetup|~environment allows to fine-tune the parameters
@@ -2102,6 +2108,14 @@ end
 %  \subsection{Raise Selected Characters}\label{sec:raise-characters}
 %  \index{raised character}
 %
+%  \begin{whittyquote}
+%    Perfection of planned layout  \\
+%    is archieved only by institutions  \\
+%    on the point of collapse.  \\
+%    \capitalemdash*~\propername{Cyril Northcote Parkinson}
+%  \end{whittyquote}
+%
+%  \noindent
 %  Usually all hyphens and dashes of a font are designed to join lowercase letters.  This holds
 %  also true for most of our \cs{labelitem}\meta{N} markers, bullets, stars, and even fancy
 %  dingbats.  If these hyphens and dashes connect uppercase letters (or lining numerals) they
@@ -2588,8 +2602,8 @@ end
 %  \end{gather*}
 %
 %  \noindent
-%  The central step always shows neutral alignment~(0pt) by definition.  The contents of
-%  \meta{sample} does not get printed.
+%  The central step --~which is always surrounded by a bit more space~-- shows the neutral
+%  alignment, this is~0pt.  \cs{typogadjuststairs} never prints the contents of \meta{sample}.
 %
 %  \begin{example}
 %    Play ball!
@@ -2599,8 +2613,8 @@ end
 %    \end{center}
 %
 %    This is the result of \code{\string\typogadjuststairs\{.25pt\}\{9\}\{ABC\}} with the
-%    document's current definitions of \cs{labelitem}\meta{N}.  The fifth label~item in each
-%    line is the uncorrected one.
+%    document's definitions of \cs{labelitem}\meta{N}.  The fifth label~item in each line is the
+%    uncorrected one.
 %  \end{example}
 %
 %  \noindent
@@ -2612,9 +2626,8 @@ end
 %  \code{\string\typoguppercaseadjustcheck} and \code{\string\typoglowercaseadjustcheck}.
 %  Experienced users with a keen eye for type can apply these macros even in the initial setup.
 %  An accurate determination of \code{uppercaselabelitemadjustments} and
-%  \code{lowercaselabelitemadjustments} is preferably done at a high magnification (\(\approx
-%  400~\% on a 100\,dpi screen or equivalently 400\,dpi at a 1:1~magnification\)) with a
-%  representative sample of (initial) letters.
+%  \code{lowercaselabelitemadjustments} is preferably done at a high magnification (400~\% to
+%  600~\% on a 100\,dpi screen) with a representative sample of initial letters.
 %
 %  \begin{synopsis}
 %    \label{syn:typoguppercaseadjustcheck}
@@ -6475,6 +6488,19 @@ end
 %    \end{macrocode}
 %  \end{macro}
 %
+%  \begin{macro}{\typog@uppercase@adjusted@labelitems}
+%    Return all four labelitems in a horizontal box after they have been adjusted with the
+%    uppercase-constants set.
+%
+%    \begin{macrocode}
+\newcommand*{\typog@uppercase@adjusted@labelitems}
+  {\hbox{\raisebox{\typog@adjust@uppercase@labelitemi}{\labelitemi}%
+         \raisebox{\typog@adjust@uppercase@labelitemii}{\labelitemii}%
+         \raisebox{\typog@adjust@uppercase@labelitemiii}{\labelitemiii}%
+         \raisebox{\typog@adjust@uppercase@labelitemiv}{\labelitemiv}}}
+%    \end{macrocode}
+%  \end{macro}
+%
 %  \begin{macro}{\typoguppercaseadjustcheck}
 %    \changes{v0.4}{2024-05-14}{New macro.}
 %    We stuff the user's sample text into a box only to measure its height.  We typeset all four
@@ -6483,32 +6509,35 @@ end
 %    \begin{macrocode}
 \NewDocumentCommand{\typoguppercaseadjustcheck}{O{.5} m}
   {\setbox0=\hbox{#2}%
-   \setbox1=\hbox{\raisebox{\typog@adjust@uppercase@labelitemi}
-                           {\labelitemi}%
-                  \raisebox{\typog@adjust@uppercase@labelitemii}
-                           {\labelitemii}%
-                  \raisebox{\typog@adjust@uppercase@labelitemiii}
-                           {\labelitemiii}%
-                  \raisebox{\typog@adjust@uppercase@labelitemiv}
-                           {\labelitemiv}}%
+   \setbox1=\typog@uppercase@adjusted@labelitems
    \mbox{\rlap{\raisebox{\fpeval{#1}\ht0}
                         {\rule{\dimexpr\wd1}{.125pt}}}%
          \box1}}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typog@lowercase@adjusted@labelitems}
+%    Return all four labelitems in a horizontal box after they have been adjusted with the
+%    lowercase-constants set.
+%
+%    \begin{macrocode}
+\newcommand*{\typog@lowercase@adjusted@labelitems}
+  {\hbox{\raisebox{\typog@adjust@lowercase@labelitemi}{\labelitemi}%
+         \raisebox{\typog@adjust@lowercase@labelitemii}{\labelitemii}%
+         \raisebox{\typog@adjust@lowercase@labelitemiii}{\labelitemiii}%
+         \raisebox{\typog@adjust@lowercase@labelitemiv}{\labelitemiv}}}
 %    \end{macrocode}
 %  \end{macro}
 %
 %  \begin{macro}{\typoglowercaseadjustcheck}
+%    \changes{v0.4}{2024-05-14}{New macro.}
+%    Same code as \cs{typoguppercaseadjustcheck} for lowercase.
+%
 %    \begin{macrocode}
 \NewDocumentCommand{\typoglowercaseadjustcheck}{O{.5} m}
   {\setbox0=\hbox{#2}%
-   \setbox1=\hbox{\raisebox{\typog@adjust@lowercase@labelitemi}
-                           {\labelitemi}%
-                  \raisebox{\typog@adjust@lowercase@labelitemii}
-                           {\labelitemii}%
-                  \raisebox{\typog@adjust@lowercase@labelitemiii}
-                           {\labelitemiii}%
-                  \raisebox{\typog@adjust@lowercase@labelitemiv}
-                           {\labelitemiv}}%
+   \setbox1=\typog@lowercase@adjusted@labelitems
    \mbox{\rlap{\raisebox{\fpeval{#1}\ht0}
                         {\rule{\dimexpr\wd1}{.125pt}}}%
                \box1}}
@@ -7550,7 +7579,7 @@ end
 %      \end{codeexample}
 %
 %      \noindent
-%      in the preamble would set the baselineskip to 140\% in the document.  Therefore,
+%      in the preamble would set the baselineskip to 140~\% in the document.  Therefore,
 %      \cs{setbaselineskip} is delayed too and the order of the calls thus preserved.
 %    \end{implementationnote}
 %
@@ -8960,7 +8989,7 @@ four for lowercase.
 \noadjustlabelitems{*}% not necessary, but we want to exercise the macro
 
 The left example shows the result of \code{\string\typogadjuststairs\{.25pt\}\{11\}\{ABC\}} and
-the one on the right hand side just uses the same parameters except for the sample~\sample{abc},
+the one on the right hand side just uses the same parameters except for the sample~\sample{ace},
 this is, only lowercase letters.
 
 \begin{center}
@@ -8970,7 +8999,7 @@ this is, only lowercase letters.
   \end{minipage}
   \begin{minipage}[t]{12em}
     \centering
-    \typogadjuststairs{.25pt}{11}{abc}
+    \typogadjuststairs{.25pt}{11}{ace}
   \end{minipage}
 \end{center}
 
