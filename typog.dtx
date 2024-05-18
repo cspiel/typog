@@ -2567,8 +2567,8 @@ end
 %  typeset too high or too low with respect to this reference line.
 %
 %  \begin{note}
-%    The macros use the actual height of a given sample~text.  So a lowercase~sample should not
-%    contain any letters featuring ascenders.
+%    The macros use the actual height of a given sample~text.  So, a lowercase~sample should not
+%    contain any letters with ascenders.
 %
 %    Swashes whether upper- or lowercase always need special attention.
 %  \end{note}
@@ -2577,10 +2577,10 @@ end
 %  \sinceversion{Since v0.4}
 %  To get a quick overview how the four \code{itemize}~labels align vertically
 %  \cs{typogadjuststairs} draws them at user-defined steps, typically
-%  \nativetextfraction{1}{4}pt, \nativetextfraction{1}{3}pt, or \nativetextfraction{1}{2}pt.  It
-%  ignores any existing adjustments and in that way can be utilized as a first configuration
-%  step or, for a small \meta{step-size} and a high \meta{number-of-steps}, for an easy
-%  refinement.
+%  \nativetextfraction{1}{4}\,pt, \nativetextfraction{1}{3}\,pt, or
+%  \nativetextfraction{1}{2}\,pt.  It ignores any existing adjustments and in that way can be
+%  utilized as a first configuration step or, for a small \meta{step-size} and a high
+%  \meta{number-of-steps}, for an easy refinement.
 %
 %  \begin{synopsis}
 %    \begin{tabbing}
@@ -2626,8 +2626,8 @@ end
 %  \code{\string\typoguppercaseadjustcheck} and \code{\string\typoglowercaseadjustcheck}.
 %  Experienced users with a keen eye for type can apply these macros even in the initial setup.
 %  An accurate determination of \code{uppercaselabelitemadjustments} and
-%  \code{lowercaselabelitemadjustments} is preferably done at a high magnification (400~\% to
-%  600~\% on a 100\,dpi screen) with a representative sample of initial letters.
+%  \code{lowercaselabelitemadjustments} is preferably done at a high magnification (400\% to
+%  600\% on a 100\,dpi screen) with a representative sample of initial letters.
 %
 %  \begin{synopsis}
 %    \label{syn:typoguppercaseadjustcheck}
@@ -3070,8 +3070,8 @@ end
 %  \subsection{Spacing}\label{sec:spacing-control}\index{font>spacing}
 %
 %  \begin{whittyquote}
-%    90~\% of design is typography.  \\
-%    And the other 90~\% is whitespace.  \\
+%    90\% of design is typography.  \\
+%    And the other 90\% is whitespace.  \\
 %    \capitalemdash*~\propername{Jeffrey Zeldman}
 %  \end{whittyquote}
 %
@@ -5307,7 +5307,7 @@ end
   {\the\typog@adjust@lowercase@labelitemi,\space
    \the\typog@adjust@lowercase@labelitemii,\space
    \the\typog@adjust@lowercase@labelitemiii,\space
-   \the\typog@adjust@lowercase@labelitemi}
+   \the\typog@adjust@lowercase@labelitemiv}
 \DeclareOptionX<typog>{raisecapitaldash}[\z@]%
   {\setlength{\typog@raisecapitaldash}{#1}}
 \DeclareOptionX<typog>{raisecapitalguillemets}[\z@]%
@@ -5363,7 +5363,7 @@ end
   {\the\typog@adjust@uppercase@labelitemi,\space
    \the\typog@adjust@uppercase@labelitemii,\space
    \the\typog@adjust@uppercase@labelitemiii,\space
-   \the\typog@adjust@uppercase@labelitemi}
+   \the\typog@adjust@uppercase@labelitemiv}
 
 \newcommand*{\typog@initialize@options}
   {\ExecuteOptionsX<typog>{
@@ -6378,6 +6378,14 @@ end
 %
 %  Here come our convenience macros to simplify an accurate setup of the label adjustments.
 %
+%  \begin{macro}{\typog@hairline@width}
+%    Line width of the horizontal reference lines in our convenience macros.
+%
+%    \begin{macrocode}
+\newcommand*{\typog@hairline@width}{.125pt}
+%    \end{macrocode}
+%  \end{macro}
+%
 %  \begin{macro}{\typogadjuststairsfor}
 %    The arguments are:
 %    \#1: \meta{scale-factor},
@@ -6445,7 +6453,7 @@ end
 %    Answer just a single box.
 %
 %    \begin{macrocode}
-   \mbox{\rlap{\raisebox{\fpeval{#1}\ht0}{\rule{\wd1}{.125pt}}}\box1}}
+   \mbox{\rlap{\raisebox{\fpeval{#1}\ht0}{\rule{\wd1}{\typog@hairline@width}}}\box1}}
 
 %    \end{macrocode}
 %  \end{macro}
@@ -6511,7 +6519,7 @@ end
   {\setbox0=\hbox{#2}%
    \setbox1=\typog@uppercase@adjusted@labelitems
    \mbox{\rlap{\raisebox{\fpeval{#1}\ht0}
-                        {\rule{\dimexpr\wd1}{.125pt}}}%
+                        {\rule{\wd1}{\typog@hairline@width}}}%
          \box1}}
 
 %    \end{macrocode}
@@ -6539,7 +6547,7 @@ end
   {\setbox0=\hbox{#2}%
    \setbox1=\typog@lowercase@adjusted@labelitems
    \mbox{\rlap{\raisebox{\fpeval{#1}\ht0}
-                        {\rule{\dimexpr\wd1}{.125pt}}}%
+                        {\rule{\wd1}{\typog@hairline@width}}}%
                \box1}}
 
 %    \end{macrocode}
@@ -7579,7 +7587,7 @@ end
 %      \end{codeexample}
 %
 %      \noindent
-%      in the preamble would set the baselineskip to 140~\% in the document.  Therefore,
+%      in the preamble would set the baselineskip to 140\% in the document.  Therefore,
 %      \cs{setbaselineskip} is delayed too and the order of the calls thus preserved.
 %    \end{implementationnote}
 %
@@ -9003,9 +9011,11 @@ this is, only lowercase letters.
   \end{minipage}
 \end{center}
 
-For this document the calls \code{\string\typoguppercaseadjustcheck\{ABC\}} and
-\code{\string\typoglowercaseadjustcheck\{ace\}} yield \sample{\typoguppercaseadjustcheck{ABC}}
-and \sample{\typoglowercaseadjustcheck{ace}}, where the adjustments in effect are
+For this document the calls
+\code{\string\typoguppercaseadjustcheck\{ABC\-DEF\-GHI\-JKL\-MNO\-PQR\-STU\-VWX\-YZ\}} and
+\code{\string\typoglowercaseadjustcheck\{ace\-gmn\-opq\-rsu\-vwx\-yz\}} yield
+\sample{\typoguppercaseadjustcheck{ABCDEFGHIJKLMNOPQRSTUVWXYZ}} and
+\sample{\typoglowercaseadjustcheck{acegmnopqrsuvwxyz}}, where the adjustments in effect are
 \code{\{\typogget{uppercaselabelitemadjustments}\}} and
 \code{\{\typogget{lowercaselabelitemadjustments}\}}, respectively.
 
