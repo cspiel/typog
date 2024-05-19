@@ -880,8 +880,7 @@ end
 %    \singlespacing
 %    \noindent
 %    The font sample on the title page was generated with the help of \MP{} using
-%    \doublequotes{\acronym{URW} Palladio~L}\index{font>URW Palladio L=\acronym{URW} Palladio
-%    L}.
+%    \doublequotes{\acronym{URW} Palladio}\index{font>URW Palladio=\acronym{URW} Palladio}.
 %  \endgroup
 %
 %
@@ -1024,8 +1023,9 @@ end
 %      nesting level of the |itemize|~list starting at one.  An empty \meta{dimN} is equivalent
 %      to 0pt.  The adjustments apply to the lowercase setting
 %      (\hyperref[syn:lowercaseadjustlabelitems]{\code{\string\lowercaseadjustlabelitems}}).
-%      See \cref{sec:adjust-label-items} (in particular subsection~\singlequotes{Setup})
-%      and also configuration option
+%      See \cref{sec:adjust-label-items} (in particular subsection~\singlequotes{Setup} and
+%      \cref{tab:labelitemadjustvalues} on \cpageref{tab:labelitemadjustvalues}) and also
+%      configuration option
 %      \hyperref[item:uppercaselabelitemadjustments]{\code{uppercaseadjustlabelitem}}.
 %
 %      All four lengths default to~0pt.
@@ -1152,8 +1152,9 @@ end
 %      nesting level of the |itemize|~list starting at one.  An empty \meta{dimN} is equivalent
 %      to 0pt.  The adjustments apply to the uppercase setting
 %      (\hyperref[syn:uppercaseadjustlabelitems]{\code{\string\uppercaseadjustlabelitems}}).
-%      See \cref{sec:adjust-label-items} (in particular subsection~\singlequotes{Setup}) and
-%      also configuration option
+%      See \cref{sec:adjust-label-items} (in particular subsection~\singlequotes{Setup} and
+%      \cref{tab:labelitemadjustvalues} on \cpageref{tab:labelitemadjustvalues}) and also
+%      configuration option
 %      \hyperref[item:lowercaselabelitemadjustments]{\code{lowercaseadjustlabelitem}}.
 %
 %      All four lengths default to~0pt.
@@ -2108,14 +2109,6 @@ end
 %  \subsection{Raise Selected Characters}\label{sec:raise-characters}
 %  \index{raised character}
 %
-%  \begin{whittyquote}
-%    Perfection of planned layout  \\
-%    is archieved only by institutions  \\
-%    on the point of collapse.  \\
-%    \capitalemdash*~\propername{Cyril Northcote Parkinson}
-%  \end{whittyquote}
-%
-%  \noindent
 %  Usually all hyphens and dashes of a font are designed to join lowercase letters.  This holds
 %  also true for most of our \cs{labelitem}\meta{N} markers, bullets, stars, and even fancy
 %  dingbats.  If these hyphens and dashes connect uppercase letters (or lining numerals) they
@@ -2261,7 +2254,7 @@ end
 %                  Gentium\index{font>Gentium},
 %                  Ibarra Real Nova\index{font>Ibarra Real Nova},
 %                  \acronym{Inria}~Serif\index{font>Inria Serif=\acronym{Inria} Serif},
-%                  Libertine\index{font>Libertine}, Libertinus\index{font>Libertinus},
+%                  Libertine\index{font>Libertine}, Libertinus\index{font>Libertinus Serif},
 %                  Merriweather\index{font>Merriweather},
 %                  \acronym{PT}~Serif\index{font>PT Serif=\acronym{PT} Serif},
 %                  Roboto Slab\index{font>Roboto Slab}, Spectral\index{font>Spectral},
@@ -2378,20 +2371,21 @@ end
 %    \label{tab:raiseguillemets}
 %
 %    \begin{tabfigures}
+%      \def~{\hphantom{0}}
 %      \begin{tabular}{@{}cc>{\RaggedRight}p{20em}@{}}
 %        \toprule
 %          \multicolumn{2}{@{}c}{Raise}  &  Font Name  \\
 %          Lowercase  &  Uppercase  &  \\
 %          em  &  em  &  \\
 %        \midrule
-%        0  &  .05\hphantom{00}  &
+%        0  &  .05~~  &
 %          \acronym{EB}~Garamond\index{font>EB Garamond=\acronym{EB} Garamond},
-%          Libertinus\index{font>Libertinus},
+%          Libertinus\index{font>Libertinus Serif},
 %          Merriweather\index{font>Merriweather}, and many more  \\
-%        .025  &  .05\hphantom{00}  &  Gentium\index{font>Gentium}  \\
-%        .04\hphantom{0}  &  .0667  &
+%        .025  &  .05~~  &  Gentium\index{font>Gentium}  \\
+%        .04~  &  .0667  &
 %          \acronym{ADF}~Baskervald\index{font>ADF Baskervald=\acronym{ADF} Baskervald}  \\
-%        .05\hphantom{0}  &  .0625  &
+%        .05~  &  .0625  &
 %          \acronym{GFS}~Artemisia\index{font>GFS Artemisia=\acronym{GFS} Artemisia},
 %          \acronym{GFS}~Didot\index{font>GFS Didot=\acronym{GFS} Didot}  \\
 %        \bottomrule
@@ -2454,9 +2448,17 @@ end
 %  \end{futuredirection}
 %
 %
-%  \subsubsection[Label Items]{Label Items -- Environment~\code{itemize}}\label{sec:adjust-label-items}
+%  \subsection[Label Items]{Label Items -- Environment~\code{itemize}}\label{sec:adjust-label-items}
 %  \index{label items}
 %
+%  \begin{whittyquote}
+%    Perfection of planned layout  \\
+%    is archieved only by institutions  \\
+%    on the point of collapse.  \\
+%    \capitalemdash*~\propername{Cyril Northcote Parkinson}
+%  \end{whittyquote}
+%
+%  \noindent
 %  The symbols that \LaTeX{} uses to distinguish the items of |itemize|~lists do not always
 %  align well in the vertical direction with the following text.  Sometimes the label is too
 %  low, especially if followed by an uppercase (initial) letter.  In rare occasions the label is
@@ -2661,6 +2663,108 @@ end
 %    where we have bracketed the macro calls with a selection of the letters used in the
 %    respective~\meta{sample}s.
 %  \end{example}
+%
+%  In \Cref{tab:labelitemadjustvalues} on \cpageref{tab:labelitemadjustvalues} we collected some
+%  suggestions for adjustment values in the \emph{default} case when the label items are not
+%  redefined by the user and expand like
+%
+%  \begingroup
+%    \def\arraystretch{1}
+%    \begin{tabular}{@{}l@{\enspace\(\vdash\)\enspace}l@{}}
+%      \cs{labelitemi}    &  \dumpmacro{\labelitemi},  \\
+%      \cs{labelitemii}   &  \dumpmacro{\labelitemii},  \\
+%      \cs{labelitemiii}  &  \dumpmacro{\labelitemiii}, and  \\
+%      \cs{labelitemiv}   &  \dumpmacro{\labelitemiv}.
+%    \end{tabular}
+%  \endgroup
+%
+%  \noindent
+%  They display as \sample{\labelitemi}, \sample{\labelitemii}, \sample{\labelitemiii}, and
+%  \sample{\labelitemiv}, respectively.
+%
+%  \begin{table}
+%    \centering
+%    \caption[Label item adjustment suggestions]%
+%            {Some suggested values for the vertical adjustments of label items.  The table
+%             assumes that the default definitions for \cs{labelitem}\meta{N} are in effect.
+%             All lengths are given as printer points~(pt) and refer to a document font size of
+%             10\,pt.}
+%    \label{tab:labelitemadjustvalues}
+%
+%    \makeatletter
+%    \newcommand*{\palladiomark}{\tablenotemark{\@fnsymbol{1}}}
+%    \newcommand*{\kpmark}{\tablenotemark{\@fnsymbol{2}}}
+%    \newcommand*{\utopiamark}{\tablenotemark{\@fnsymbol{3}}}
+%    \newcommand*{\guessmark}{\tablenotemark{\@fnsymbol{4}}}
+%    \makeatother
+%
+%    \begin{tabfigures}
+%      \fullwidthsetup{skipabove=0pt, skipbelow=0pt}
+%      \begin{maxipage}\flushright
+%        \def~{\hphantom{0}}
+%        \def\mc#1{#1~~~}
+%        \begin{tabular}{@{}l*{4}{r}@{\qquad}*{4}{r}@{}}
+%          \toprule
+%            Font Name  &
+%            \multicolumn{4}{c}{Uppercase Adjustments}  &  \multicolumn{4}{c@{}}{Lowercase Adjustments}  \\
+%            {}  &
+%            \mc{1}  &  \mc{2}  &  \mc{3}  &  \mc{4}  &
+%            \mc{1}  &  \mc{2}  &  \mc{3}  &  \mc{4}  \\
+%          \midrule
+%            \acronym{ADF} Venturis\index{font>ADF Venturis=\acronym{ADF} Venturis}  &
+%            .0~~  &  1.0~~  &  .75~  &  1.0~~  &
+%            \textminus.75~  &  .0~~  &  \textminus.25~  &  .0~~  \\
+%            \acronym{CM} Roman\index{font>Computer Modern Roman}  &
+%            1.0~~  & .75~  &  1.0~~  &  1.0~~  &
+%            \textminus.25~  &  \textminus.5~~  &  \textminus.25~  &  \textminus.25~  \\
+%            Gentium\index{font>Gentium}  &
+%            .0~~  &  .75~  &  .0~~  &  .0~~  &
+%            \textminus.5~~  &  \textminus.25~  &  \textminus.75~  &  \textminus1.0~~  \\
+%            \acronym{GFS} Didot\index{font>GFS Didot=\acronym{GFS} Didot}  &
+%            \textminus1.5~~  &  .75~  &  1.0~~  &  1.25~  &
+%            \textminus2.75~  &  \textminus.25~  &  \textminus.25~  &  .25~  \\
+%            \acronym{KP} Serif\kpmark\index{font>KP Serif=\acronym{KP} Serif}  &
+%            .0~~  &  1.0~~  &  1.25~  &  .75~  &
+%            \textminus1.0~~  &  .0~~  &  .0~~  &  \textminus.5~~  \\
+%            Libertinus Serif\index{font>Libertinus Serif}  &
+%            1.0~~  &  .75~  &  1.125  &  .75~  &
+%            .0~~  &  \textminus.325  &  .0~~  &  \textminus.25~  \\
+%            \acronym{ML} Modern\index{font>ML Modern=\acronym{ML} Modern}  &
+%            1.25~  &  .75~  &  1.0~~  &  .125  &
+%            .0~~  &  \textminus.5~~  &  \textminus.25~  &  \textminus.125  \\
+%            Source Serif Pro\index{font>Source Serif Pro}  &
+%            .125  &  .75~  &  \textminus1.0~~  &  .125  &
+%            \textminus.75~  &  .0~~  &  \textminus2.0~~  &  \textminus.75~  \\
+%            \acronym{STIX}\index{font>STIX=\acronym{STIX}}  &
+%            1.0~~  &  1.0~~  &  .75~  &  1.0~~  &
+%            .0~~  &  .0~~  &  .0~~  &  .0~~  \\
+%            \acronym{URW} Palladio\palladiomark\index{font>URW Palladio=\acronym{URW} Palladio}  &
+%            .25~  &  1.125  &  1.0~~  &  1.0~~  &
+%            \textminus1.0~~  &  \textminus.125  &  \textminus.125  &  \textminus.125  \\
+%            Utopia Regular\utopiamark\index{font>Utopia Regular}  &
+%            .0~~  &  1.0~~  &  .75~  &  1.0~~  &
+%            \textminus.75~  &  .0~~  &  \textminus.25~  &  .0~~  \\
+%            \emph{educated guess}\guessmark  &
+%            .75~  &  .75~  &  .75~  &  .75~  &
+%            \textminus.25~  &  \textminus.25~  &  \textminus.25~  &  \textminus.25~  \\
+%          \bottomrule
+%        \end{tabular}
+%      \end{maxipage}
+%    \end{tabfigures}
+%
+%    \begin{tablenotes}
+%      \kpmark\enspace Load with \code{\string\usepackage\{kpfonts\}}.
+%
+%      \palladiomark\enspace Contained in package~\packagename{mathpazo}.
+%
+%      \utopiamark\enspace Utopia is available through package~\packagename{fourier} or
+%      package~\packagename{mathdesign}.  In the latter case pass option~\code{adobe-utopia} to
+%      the package.
+%
+%      \guessmark\enspace These two sets should be a good starting point for many font
+%      combinations.
+%    \end{tablenotes}
+%  \end{table}
 %
 %
 %  \subsection[Align Last Line]
@@ -3157,29 +3261,29 @@ end
 %  \cref{tab:tightspacing}.
 %
 %  \begin{SCtable}[10]
+%    \def~{\hphantom{0}}
 %    \caption[Spacing changes made by \code{tightspacing}]%
 %      {Adjustments made by environment |tightspacing| to \cs{spaceskip}.
 %       The mapping of \meta{level} to the exact skip definitions are
-%       \(1 \mapsto \formatskip{.9875}{.0125}{.5\hphantom{000}}\)\!,
-%       \(2 \mapsto \formatskip{.975}{.025}{.5\hphantom{00}}\)\!,
-%       \(3 \mapsto \formatskip{.95}{.05}{.5\hphantom{0}}\)\!, and
+%       \(1 \mapsto \formatskip{.9875}{.0125}{.5~~~}\)\!,
+%       \(2 \mapsto \formatskip{.975}{.025}{.5~~}\)\!,
+%       \(3 \mapsto \formatskip{.95}{.05}{.5~}\)\!, and
 %       \(\ge 4 \mapsto \formatskip{.9}{.1}{.5}\),
 %       where all factors scale with \cs{dimen2},
 %       the current font's space-width.}
 %    \label{tab:tightspacing}
 %
 %    \begin{tabfigures}
-%      \def~{\hphantom{0}}%
 %      \begin{tabular}{@{}ccl@{}}
 %        \toprule
 %        \meta{level}  &  Adjustment  &  Comment  \\
 %        {}            &  \%          &  \\
 %        \midrule
 %        0  &  n/a  &  neutral  \\
-%        1  &  ~{-}1.25  &  default  \\
-%        2  &  ~{-}2.5~  &  \\
-%        3  &  ~{-}5\hphantom{.00}  &  \\
-%        \(\ge\)\:4  &  -10\hphantom{.00}  &  \\
+%        1  &  ~\textminus 1.25  &  default  \\
+%        2  &  ~\textminus 2.5~  &  \\
+%        3  &  ~\textminus 5\hphantom{.}~~  &  \\
+%        \(\ge\)\:4  &  \textminus 10\hphantom{.}~~  &  \\
 %        \bottomrule
 %      \end{tabular}
 %    \end{tabfigures}
@@ -3337,17 +3441,17 @@ end
 %    \label{tab:space-sizes}
 %
 %    \begin{tabfigures}
-%      \def~{\hphantom{0}}%
+%      \def~{\hphantom{0}}
 %      \ExplSyntaxOn
 %      \def\relativedimen#1{\fp_eval:n {round (1000 * (#1) / \the\fontdimen6\font) / 10}}
 %      \def\relativefontdimen#1{\relativedimen{\the\fontdimen#1\font}}
 %      \ExplSyntaxOff
 %      \def\nrows{1.75}
 %
-%      \begin{tabular}{@{}llll@{}}
+%      \begin{tabular}{@{}l*{3}{r}@{}}
 %        \toprule
 %        Name  &  Width  &  Stretch  &  Shrink  \\
-%        {}    &  \%     &  \%       &  \%  \\
+%        {}    &  \%~    &  \%~      &  \%~  \\
 %        \midrule
 %        \multirow{\nrows}{*}{\cs{narrowspace}}  &
 %        \relativedimen{\the\fontdimen2\font - \narrowspacestrength * \the\fontdimen7\font}  &
@@ -3468,13 +3572,14 @@ end
 %    \label{tab:setfontshrink-values}
 %
 %    \begin{tabfigures}
+%      \def~{\hphantom{0}}
 %      \begin{tabular}{@{}cccl@{}}
 %        \toprule
 %        \meta{level}  &  |stretch|  &  |shrink|  &  Comment  \\
 %        {}  &  \nativetextfraction{1}{1000}\,em  &  \nativetextfraction{1}{1000}\,em  &  \\
 %        \midrule
 %        0  &  n/a  &  n/a  &  no operation  \\
-%        1  &  0  &  \hphantom{0}\makeatletter\typog@shrink@i\makeatother  &  default  \\
+%        1  &  0  &  ~\makeatletter\typog@shrink@i\makeatother  &  default  \\
 %        2  &  0  &  \makeatletter\typog@shrink@ii\makeatother  &  \\
 %        3  &  0  &  \makeatletter\typog@shrink@iii\makeatother  &  \\
 %        \bottomrule
@@ -3491,13 +3596,14 @@ end
 %    \label{tab:setfontstretch-values}
 %
 %    \begin{tabfigures}
+%      \def~{\hphantom{0}}
 %      \begin{tabular}{@{}cccl@{}}
 %        \toprule
 %        \meta{level}  &  |stretch|  &  |shrink|  \\
 %        {}  &  \nativetextfraction{1}{1000}\,em  &  \nativetextfraction{1}{1000}\,em  &  \\
 %        \midrule
 %        0  &  n/a  &  n/a  &  no operation  \\
-%        1  &  \hphantom{0}\makeatletter\typog@stretch@i\makeatother  &  0  &  default  \\
+%        1  &  ~\makeatletter\typog@stretch@i\makeatother  &  0  &  default  \\
 %        2  &  \makeatletter\typog@stretch@ii\makeatother  &  0  &  \\
 %        3  &  \makeatletter\typog@stretch@iii\makeatother  &  0  &  \\
 %        \bottomrule
@@ -3535,13 +3641,14 @@ end
 %    \label{tab:setfontexpand-values}
 %
 %    \begin{tabfigures}
+%      \def~{\hphantom{0}}
 %      \begin{tabular}{@{}cccl@{}}
 %        \toprule
 %        \meta{level}  &  |stretch|  &  |shrink|  &  Comment  \\
 %        {}  &  \nativetextfraction{1}{1000}\,em  &  \nativetextfraction{1}{1000}\,em  &  \\
 %        \midrule
 %        0  &  n/a  &  n/a  &  no operation  \\
-%        1  &  \hphantom{0}\makeatletter\typog@stretch@i\makeatother  &  \hphantom{0}\makeatletter\typog@stretch@i\makeatother  &  default  \\
+%        1  &  ~\makeatletter\typog@stretch@i\makeatother  &  ~\makeatletter\typog@stretch@i\makeatother  &  default  \\
 %        2  &  \makeatletter\typog@stretch@ii\makeatother  &  \makeatletter\typog@stretch@ii\makeatother  &  \\
 %        3  &  \makeatletter\typog@stretch@iii\makeatother  &  \makeatletter\typog@stretch@iii\makeatother  &  \\
 %        \bottomrule
@@ -3653,21 +3760,22 @@ end
 %
 %    \begin{suspendshortverb}
 %      \begin{tabfigures}
+%        \def~{\hphantom{0}}
 %        \begin{tabular}{@{}ccccl@{}}
 %          \toprule
 %          \meta{sloppiness}  &  \cs{toler-}  &  \cs{hfuzz}  &  \cs{emergency-}  &  Comment  \\
 %          {}  &  \code{ance}  &  \cs{vfuzz}  &  \code{stretch}~\(G\)  &  \\
 %          {}  &  &  pt  &  em  &  \\
 %          \midrule
-%          0  &  \hphantom{0}200\hphantom{\tolerancemark}  &  .1\hphantom{0}  &  0\hphantom{.000\scaledmark}  &  \TeX: \verb+\fussy+  \\
-%          1  &  \hphantom{0}330\tolerancemark  &  .15  &  \hphantom{0}.375\scaledmark  &  default \\
-%          2  &  \hphantom{0}530\tolerancemark  &  .2\hphantom{0}  &  \hphantom{0}.75\scaledmark\hphantom{0}  &  \\
-%          3  &  \hphantom{0}870\tolerancemark  &  .25  &  1.125\scaledmark  &  \\
-%          4  &  1410\tolerancemark  &  .3\hphantom{0}  &  1.5\scaledmark\hphantom{00}  &  \\
+%          0  &  ~200\hphantom{\tolerancemark}  &  .1~  &  0\hphantom{.000\scaledmark}  &  \TeX: \verb+\fussy+  \\
+%          1  &  ~330\tolerancemark  &  .15  &  ~.375\scaledmark  &  default \\
+%          2  &  ~530\tolerancemark  &  .2~  &  ~.75\scaledmark~  &  \\
+%          3  &  ~870\tolerancemark  &  .25  &  1.125\scaledmark  &  \\
+%          4  &  1410\tolerancemark  &  .3~  &  1.5\scaledmark~~  &  \\
 %          5  &  2310\tolerancemark  &  .35  &  1.875\scaledmark  &  \\
-%          6  &  3760\tolerancemark  &  .4\hphantom{0}  &  2.25\scaledmark\hphantom{0}  &  \\
+%          6  &  3760\tolerancemark  &  .4~  &  2.25\scaledmark~  &  \\
 %          7  &  6130\tolerancemark  &  .45  &  2.625\scaledmark  &  \\
-%          \(\ge\)\:8  &  9999\hphantom{\tolerancemark}  &  .5\hphantom{0}  &  3\hphantom{.000\scaledmark}  &  \TeX: \verb+\sloppy+  \\
+%          \(\ge\)\:8  &  9999\hphantom{\tolerancemark}  &  .5~  &  3\hphantom{.000\scaledmark}  &  \TeX: \verb+\sloppy+  \\
 %          \bottomrule
 %        \end{tabular}
 %      \end{tabfigures}
@@ -3984,16 +4092,17 @@ end
 %    \newcommand*{\clubmark}{\tablenotemark{\dag}}
 %
 %    \begin{tabfigures}
+%      \def~{\hphantom{0}}
 %      \begin{tabular}{@{}ccl@{}}
 %        \toprule
 %        \meta{level}  &  \cs{interdisplay-}  &  Comment  \\
 %        {}            &  \code{linepenalty}  &  \\
 %        \midrule
 %        0  &  10000  &  no operation  \\
-%        1  &  \hphantom{0}9999  &  \\
-%        2  &  \hphantom{0}6999  &  \\
-%        3  &  \hphantom{0}2999  &  default  \\
-%        4  &  \hphantom{0000}0\rlap{\clubmark}  &  \\
+%        1  &  ~9999  &  \\
+%        2  &  ~6999  &  \\
+%        3  &  ~2999  &  default  \\
+%        4  &  ~~~~0\rlap{\clubmark}  &  \\
 %        \bottomrule
 %      \end{tabular}
 %    \end{tabfigures}
@@ -7169,7 +7278,7 @@ end
 %    \item[Initialize.] \code{load("list\_functions")\$}
 %    \item[\cs{tolerance}:] \code{logspace(log10(200), log10(9999), 9), numer;}
 %    \item[\cs{emergencystretch}:] \code{linspace(0, 3, 9), numer;}
-%    \item[\cs{hfuzz}:] \code{linspace(0.1, 0.5, 9);}
+%    \item[\cs{hfuzz}:] \code{linspace(.1, .5, 9);}
 %    \end{description}
 %  \end{implementationnote}
 %
@@ -8944,7 +9053,7 @@ We again compare the default implementation with the adjusted one.
 \end{quote}
 
 
-\subsection{Label Items}
+\section{Label Items}
 
 The current configurations for the uppercase and lowercase adjustments are
 \{\typogget{uppercaselabelitemadjustments}\} and \{\typogget{lowercaselabelitemadjustments}\},
@@ -9244,7 +9353,7 @@ consult \propername{David Carlisle's} excellent post on \propername{StackExchang
 
 \begin{center}
   \setlength{\overfullrule}{0pt}
-  \newcommand*{\spacesampletext}[1]{some#1text#1with#1spaces\rule{0.1pt}{1em}}
+  \newcommand*{\spacesampletext}[1]{some#1text#1with#1spaces\rule{.1pt}{1em}}
   \newsavebox{\narrowspacesample}
   \sbox{\narrowspacesample}{\spacesampletext{\narrowspace}}
   \newsavebox{\widespacesample}
@@ -9659,7 +9768,7 @@ New settings: \baselinesetsize.
 
 \newcommand*{\relbls}{130}
 \paragraph{\code{\string\setbaselineskippercentage\{\relbls\}}}
-\setbaselineskippercentage{1 + 2 + .3333 * 100 + 100 * 0.6667}% float expression
+\setbaselineskippercentage{1 + 2 + .3333 * 100 + 100 * .6667}% float expression
 \setbaselineskippercentage{\relbls}
 \fontsizeinfo{baselinesetsize}
 New settings: \baselinesetsize.
@@ -9805,7 +9914,9 @@ visually: \rule{.1pt}{.8em}\kern\parindent\rule{.1pt}{.8em};
                   {\singleguillemetright}
                   {\singleguillemetleft}
 
-\usepackage[]{typog}
+\usepackage[uppercaselabelitemadjustments={.1em, .075em, .1em, .1em},
+            lowercaselabelitemadjustments={-.025em, -.05em, -.025em, -.025em}]
+           {typog}
 
 
 \newcommand*{\packagename}[1]{\mbox{\textsf{#1}}}
@@ -9820,13 +9931,47 @@ visually: \rule{.1pt}{.8em}\kern\parindent\rule{.1pt}{.8em};
 
 \bigskip
 
-\noindent
+
+\section*{No Microtype}
+
 This example \LaTeX-document uses package~\packagename{typog}
 \emph{without} package~\packagename{microtype}.
 
 We want \packagename{typog} to be as usable as possible even without
 the nice features that \packagename{microtype} offers.
 After all \packagename{typog} is just a front-end for it.
+
+
+\section*{No EnumItem}
+
+We intentionally do not load package~\packagename{enumitem}, either.
+So, we can test whether \packagename{typog} correctly patches the
+plain \LaTeX{} definition if environment~\texttt{itemize}.
+
+The vertical alignment of the label items was setup for
+uppercase (ABC\typoguppercaseadjustcheck{ABCXYZ}XYZ) and for
+lowercase (ace\typoglowercaseadjustcheck{acexyz}xyz), though
+this is not necessary for the test.
+
+\uppercaseadjustlabelitems{*}
+\begin{itemize}
+\item Level i
+\item Sublist \dots
+  \begin{itemize}
+  \item Level ii
+  \item Sublist \dots
+    \begin{itemize}
+    \item Level iii
+    \item Sublist \dots
+      \begin{itemize}
+      \item Level iv
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+
+\section*{CSQuotes}
 
 As we are testing a special configuration here anyhow,
 we hook up our quotes with package~csquotes
