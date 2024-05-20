@@ -242,7 +242,7 @@
 
 \setlength{\skip\footins}{25pt}
 \setlength{\overfullrule}{3pt}
-\renewcommand*{\sidecaptionsep}{16pt}
+\renewcommand*{\sidecaptionsep}{25pt}
 
 
 
@@ -520,7 +520,7 @@
 
 \newenvironment*{whittyquote}
                 {\begin{flushright}
-                 \renewcommand*{\propername}[1]{\mbox{##1}}%
+                 \renewcommand*{\propername}[1]{\itshape\mbox{##1}}%
                  \sf\typogsetupsf}
                 {\end{flushright}}
 
@@ -918,7 +918,10 @@ end
 %  \Cref{sec:latex-hyphenation} expands the hyphenation facilities of \LaTeX.
 %
 %  \Cref{sec:break-ligatures,sec:manual-italic-correction,sec:extra-kerning,sec:raise-characters}
-%  deal with vertically positioning glyphs in a more pleasant way.
+%  deal with vertically positioning glyphs in a more pleasant way.  Also in the realm of
+%  vertical alignments is \cref{sec:adjust-label-items} that explains how to height-adjust the
+%  labels in |itemize|~lists to perfection whether the items are followed by uppercase or by
+%  lowercase letters.
 %
 %  \Cref{sec:align-last-line,sec:fill-last-line} discuss dearly missed macros for better control
 %  of the last line of a paragraph.
@@ -1021,14 +1024,14 @@ end
 %      \sinceversion{Since v0.4}
 %      Vertical shifts \meta{dimN} to apply to \cs{labelitem}\meta{N}, where \meta{N} is the
 %      nesting level of the |itemize|~list starting at one.  An empty \meta{dimN} is equivalent
-%      to 0pt.  The adjustments apply to the lowercase setting
+%      to 0\,pt.  The adjustments apply to the lowercase setting
 %      (\hyperref[syn:lowercaseadjustlabelitems]{\code{\string\lowercaseadjustlabelitems}}).
 %      See \cref{sec:adjust-label-items} (in particular subsection~\singlequotes{Setup} and
 %      \cref{tab:labelitemadjustvalues} on \cpageref{tab:labelitemadjustvalues}) and also
 %      configuration option
 %      \hyperref[item:uppercaselabelitemadjustments]{\code{uppercaseadjustlabelitem}}.
 %
-%      All four lengths default to~0pt.
+%      All four lengths default to~0\,pt.
 %
 %      \begin{important}
 %        \slightlysloppy
@@ -1050,7 +1053,7 @@ end
 %    \item[|raise*=|\meta{dim}]\label{item:raise}
 %      \indexpackageoption{raise*}
 %      Set the length by which selected characters (dash, hyphen, times, and number dash) are
-%      raised.  Default value:~0pt.
+%      raised.  Default value:~0\,pt.
 %
 %      Only the raise amounts for guillemets are unaffected by this option.
 %
@@ -1150,14 +1153,14 @@ end
 %      \sinceversion{Since v0.4}
 %      Vertical shifts \meta{dimN} to apply to \cs{labelitem}\meta{N}, where \meta{N} is the
 %      nesting level of the |itemize|~list starting at one.  An empty \meta{dimN} is equivalent
-%      to 0pt.  The adjustments apply to the uppercase setting
+%      to 0\,pt.  The adjustments apply to the uppercase setting
 %      (\hyperref[syn:uppercaseadjustlabelitems]{\code{\string\uppercaseadjustlabelitems}}).
 %      See \cref{sec:adjust-label-items} (in particular subsection~\singlequotes{Setup} and
 %      \cref{tab:labelitemadjustvalues} on \cpageref{tab:labelitemadjustvalues}) and also
 %      configuration option
 %      \hyperref[item:lowercaselabelitemadjustments]{\code{lowercaseadjustlabelitem}}.
 %
-%      All four lengths default to~0pt.
+%      All four lengths default to~0\,pt.
 %
 %      \begin{important}
 %        \slightlysloppy
@@ -1367,7 +1370,8 @@ end
 %
 %  \begin{itemize}[noindent]
 %  \item Any text tool can be used to ferret out the tags.  \propername{Emacs} users will find
-%    \mbox{\code{(occur \meta{regexp})}} to be useful.
+%    \mbox{\code{(occur \meta{regexp})}} to be useful.\shiftedmarginnote{This \code{itemize}
+%    list demonstrates vertically adjusted label items (\cref{sec:adjust-label-items}).}
 %
 %  \item As long as the tags are not nested \programname{sed} or \programname{perl}
 %    extract the information gathered by~|typoginspect|, for example:
@@ -2232,48 +2236,52 @@ end
 %  The actual amount the en-dash gets raised in \cs{figuredash} is determined by
 %  \hyperref[item:raisefiguredash]{|raisefiguredash|}.
 %
-%  Values of .05em to .1em are typical for fonts that need this kind of correction and~.1em is a
-%  good starting point.  \Cref{tab:raisefiguredash} summarizes some findings.
+%  Values of .05\,em to .1\,em are typical for fonts that need this kind of correction
+%  and~.1\,em is a good starting point.  \Cref{tab:raisefiguredash} summarizes some findings.
 %
 %  \begin{table}
 %    \centering
 %    \caption[Suggested raise amounts for \cs{figuredash}]%
-%            {Suggested values for raising the en-dash between lining numerals of some selected
-%             fonts.}
+%            {Suggested values for raising \cs{figuredash}, which actually is an en-dash,
+%             between lining numerals of some selected fonts in multiples of~1\,em.}
 %    \label{tab:raisefiguredash}
 %
 %    \begin{tabfigures}
-%      \begin{tabular}{@{}l>{\RaggedRight}p{20em}@{}}
+%      \def~{\hphantom{0}}
+%      \begin{tabularx}{\linewidth}{@{}>{\RaggedRight}Xl@{}}
 %        \toprule
-%          Raise  &  Font Name  \\
-%          em  &  \\
+%        Font  &  Raise  \\
 %        \midrule
-%        0  &      Alegreya\index{font>Alegreya}, Arvo\index{font>Arvo},
-%                  Bitter\index{font>Bitter}, Clara\index{font>Clara},
-%                  \acronym{EB}~Garamond\index{font>EB Garamond=\acronym{EB} Garamond},
-%                  Gentium\index{font>Gentium},
-%                  Ibarra Real Nova\index{font>Ibarra Real Nova},
-%                  \acronym{Inria}~Serif\index{font>Inria Serif=\acronym{Inria} Serif},
-%                  Libertine\index{font>Libertine}, Libertinus\index{font>Libertinus Serif},
-%                  Merriweather\index{font>Merriweather},
-%                  \acronym{PT}~Serif\index{font>PT Serif=\acronym{PT} Serif},
-%                  Roboto Slab\index{font>Roboto Slab}, Spectral\index{font>Spectral},
-%                  \acronym{STIX}\index{font>STIX=\acronym{STIX}}, and many more  \\
-%        .05  &    fbb\index{font>fbb}, Source Serif Pro\index{font>Source Serif Pro}  \\
-%        .0667  &  Libre Baskerville\index{font>Libre Baskerville},
-%                  Crimson Pro\index{font>Crimson Pro},
-%                  Erewhon\index{font>Erewhon}, Droid Serif\index{font>Droid Serif}  \\
-%        .1  &     \acronym{GFS}~Artemisia\index{font>GFS Artemisia=\acronym{GFS} Artemisia},
-%                  Libre Caslon\index{font>Libre Caslon},
-%                  Coelacanth\index{font>Coelacanth}, Crimson Pro\index{font>Crimson Pro},
-%                  Crimson Text\index{font>Crimson Text},
-%                  \TeX{} Gyre~Pagella\index{font>TeX Gyre Pagella=\TeX{} Gyre Pagella},
-%                  Quattrocento\index{font>},
-%                  \acronym{TX}~Fonts\index{font>TX Fonts=\acronym{TX} Fonts},
-%                  \acronym{ADF}~Venturis\index{font>ADF Venturis=\acronym{ADF} Venturis},
-%                  and many more   \\
+%        Alegreya\index{font>Alegreya}, Arvo\index{font>Arvo},
+%        Bitter\index{font>Bitter}, Clara\index{font>Clara},
+%        \acronym{EB}~Garamond\index{font>EB Garamond=\acronym{EB} Garamond},
+%        Gentium\index{font>Gentium},
+%        Ibarra Real Nova\index{font>Ibarra Real Nova},
+%        \acronym{Inria}~Serif\index{font>Inria Serif=\acronym{Inria} Serif},
+%        Libertine\index{font>Libertine}, Libertinus\index{font>Libertinus Serif},
+%        Merriweather\index{font>Merriweather},
+%        \acronym{PT}~Serif\index{font>PT Serif=\acronym{PT} Serif},
+%        Roboto Slab\index{font>Roboto Slab}, Spectral\index{font>Spectral},
+%        \acronym{STIX}\index{font>STIX=\acronym{STIX}}, and many more  &
+%        .0  \\
+%        fbb\index{font>fbb}, Source Serif Pro\index{font>Source Serif Pro}  &
+%        .05  \\
+%        Libre Baskerville\index{font>Libre Baskerville},
+%        Crimson Pro\index{font>Crimson Pro},
+%        Erewhon\index{font>Erewhon}, Droid Serif\index{font>Droid Serif}  &
+%        .0667  \\
+%        \acronym{GFS}~Artemisia\index{font>GFS Artemisia=\acronym{GFS} Artemisia},
+%        Libre Caslon\index{font>Libre Caslon},
+%        Coelacanth\index{font>Coelacanth}, Crimson Pro\index{font>Crimson Pro},
+%        Crimson Text\index{font>Crimson Text},
+%        \TeX{} Gyre~Pagella\index{font>TeX Gyre Pagella=\TeX{} Gyre Pagella},
+%        Quattrocento\index{font>},
+%        \acronym{TX}~Fonts\index{font>TX Fonts=\acronym{TX} Fonts},
+%        \acronym{ADF}~Venturis\index{font>ADF Venturis=\acronym{ADF} Venturis},
+%        and many more  &
+%        .1  \\
 %        \bottomrule
-%      \end{tabular}
+%      \end{tabularx}
 %    \end{tabfigures}
 %  \end{table}
 %
@@ -2360,36 +2368,36 @@ end
 %  or lining numerals is \cs{Singleguillemetleft} and \cs{Singleguillemetright} and
 %  \cs{Doubleguillemetleft} and \cs{doubleguillemetright}.  Mnemonic: These macros start with an
 %  uppercase letter.  Their height above the baseline is adjusted with
-%  \hyperref[item:raisecapitalguillemets]{|raisecapitalguillemets|}.  Values of .025em to .075em
-%  are typical for fonts that need this kind of correction.  \Cref{tab:raiseguillemets}
+%  \hyperref[item:raisecapitalguillemets]{|raisecapitalguillemets|}.  Values of .025\,em to
+%  .075\,em are typical for fonts that need this kind of correction.  \Cref{tab:raiseguillemets}
 %  summarizes some findings.
 %
 %  \begin{table}
 %    \centering
 %    \caption[Suggested raise amounts for guillemets]%
-%            {Suggested values for raising guillemets of some selected fonts.}
+%            {Suggested values for raising guillemets of some selected fonts in multiples
+%             of~1\,em.}
 %    \label{tab:raiseguillemets}
 %
 %    \begin{tabfigures}
 %      \def~{\hphantom{0}}
-%      \begin{tabular}{@{}cc>{\RaggedRight}p{20em}@{}}
+%      \begin{tabularx}{\linewidth}{@{}>{\RaggedRight}Xcc@{}}
 %        \toprule
-%          \multicolumn{2}{@{}c}{Raise}  &  Font Name  \\
-%          Lowercase  &  Uppercase  &  \\
-%          em  &  em  &  \\
+%        Font  &  Uppercase  &  Lowercase  \\
 %        \midrule
-%        0  &  .05~~  &
-%          \acronym{EB}~Garamond\index{font>EB Garamond=\acronym{EB} Garamond},
-%          Libertinus\index{font>Libertinus Serif},
-%          Merriweather\index{font>Merriweather}, and many more  \\
-%        .025  &  .05~~  &  Gentium\index{font>Gentium}  \\
-%        .04~  &  .0667  &
-%          \acronym{ADF}~Baskervald\index{font>ADF Baskervald=\acronym{ADF} Baskervald}  \\
-%        .05~  &  .0625  &
-%          \acronym{GFS}~Artemisia\index{font>GFS Artemisia=\acronym{GFS} Artemisia},
-%          \acronym{GFS}~Didot\index{font>GFS Didot=\acronym{GFS} Didot}  \\
+%        \acronym{EB}~Garamond\index{font>EB Garamond=\acronym{EB} Garamond},
+%        Libertinus\index{font>Libertinus Serif},
+%        Merriweather\index{font>Merriweather}, and many more  &
+%        .05~~  &  .0~~  \\
+%        Gentium\index{font>Gentium}  &
+%        .05~~  &  .025  \\
+%        \acronym{GFS}~Artemisia\index{font>GFS Artemisia=\acronym{GFS} Artemisia},
+%        \acronym{GFS}~Didot\index{font>GFS Didot=\acronym{GFS} Didot}  &
+%        .0625  &  .05~  \\
+%        \acronym{ADF}~Baskervald\index{font>ADF Baskervald=\acronym{ADF} Baskervald}  &
+%        .0667  &  .04~  \\
 %        \bottomrule
-%      \end{tabular}
+%      \end{tabularx}
 %    \end{tabfigures}
 %  \end{table}
 %
@@ -2403,7 +2411,8 @@ end
 %      \cs{let}\cs{sq}=\cs{singlequotes}
 %    \end{codeexample}
 %
-%    and similar definitions for \cs{Singlequotes}, \cs{doublequotes}, and~\cs{Doublequotes}.
+%    \noindent
+%    and similar definitions for \cs{Singlequotes}, \cs{doublequotes}, and \cs{Doublequotes}.
 %
 %    Users working according to the French typesetting conventions will want to add extra
 %    spacing between the guillemets and the macro argument already in these macros.
@@ -2448,7 +2457,9 @@ end
 %  \end{futuredirection}
 %
 %
-%  \subsection[Label Items]{Label Items -- Environment~\code{itemize}}\label{sec:adjust-label-items}
+%  \subsection[Vertically Adjust Label Items]
+%             {Vertically Adjust Label Items of
+%              Environment \code{itemize}}\label{sec:adjust-label-items}
 %  \index{label items}
 %
 %  \begin{whittyquote}
@@ -2466,18 +2477,14 @@ end
 %  alignment with the text font is almost purely accidental.\footnote{The exception being
 %  mathematics typeset as text via package~\packagename{mathastext}~\cite{package:mathastext}.}
 %
-%  \begin{slightlysloppypar}
-%    \noindent
-%    \DescribeMacro{\uppercaseadjustlabelitems}
-%    \DescribeMacro{\lowercaseadjustlabelitems}
-%    \DescribeMacro{\noadjustlabelitems}
-%    \sinceversion{All three since v0.4}
-%    \hangindent=2\parindent\hangafter=-4
-%    Package~\packagename{typog} lets the user vertically align the \code{itemize}~labels for
-%    subsequent uppercase or lowercase letters, where the designations~\singlequotes{uppercase}
-%    and \singlequotes{lowercase} are just names for two four-tuples of lengths (|dimen|s) to
-%    shift the labels up or down.
-%  \end{slightlysloppypar}
+%  \DescribeMacro{\uppercaseadjust\-labelitems}
+%  \DescribeMacro{\lowercaseadjust\-labelitems}
+%  \DescribeMacro{\noadjustlabelitems}
+%  \sinceversion{All three since v0.4}
+%  Package~\packagename{typog} lets the user vertically align the \code{itemize}~labels for
+%  subsequent uppercase or lowercase letters, where the designations~\singlequotes{uppercase}
+%  and \singlequotes{lowercase} are just names for two four-tuples of lengths (technically:
+%  |dimen|s) to shift the labels up or down.
 %
 %  \begin{synopsis}
 %    \label{syn:lowercaseadjustlabelitems}
@@ -2605,7 +2612,7 @@ end
 %
 %  \noindent
 %  The central step --~which is always surrounded by a bit more space~-- shows the neutral
-%  alignment, this is~0pt.  \cs{typogadjuststairs} never prints the contents of \meta{sample}.
+%  alignment, this is~0\,pt.  \cs{typogadjuststairs} never prints the contents of \meta{sample}.
 %
 %  \begin{example}
 %    Play ball!
@@ -2620,10 +2627,9 @@ end
 %  \end{example}
 %
 %  \noindent
-%  \DescribeMacro{\typoguppercaseadjustcheck}
-%  \DescribeMacro{\typoglowercaseadjustcheck}
+%  \DescribeMacro{\typoguppercase\-adjustcheck}
+%  \DescribeMacro{\typoglowercase\-adjustcheck}
 %  \sinceversion{Both since v0.4}
-%  \hangindent=2\parindent\hangafter=-3
 %  For a quick and easy check how the four label items vertically align \emph{as configured} use
 %  \code{\string\typoguppercaseadjustcheck} and \code{\string\typoglowercaseadjustcheck}.
 %  Experienced users with a keen eye for type can apply these macros even in the initial setup.
@@ -2777,8 +2783,8 @@ end
 %  discussion consult Ch.~17, \doublequotes{Paragraph End}, of Ref.~\citenum{eijkhout:2007}.
 %  The following environments allow to adjust the last lines of paragraphs in different ways.
 %
-%  \DescribeEnv{lastlineraggedleftpar}
-%  \DescribeEnv{lastlineflushrightpar}
+%  \DescribeEnv{lastlineraggedleft\-par}
+%  \DescribeEnv{lastlineflushright\-par}
 %  The environment |lastlineraggedleftpar|\index{paragraph>align last line>flush right} adjusts
 %  the various skips such that the last lines of the paragraphs gets typeset flush with the
 %  right margin.
@@ -2962,7 +2968,7 @@ end
 %        \includegraphics{crooked-paragraphs-3.mps}
 %      \end{center}
 %    \end{minipage}\footnotetext{Package~\packagename{parskip} defines \cs{parskip}
-%    as \mbox{6pt plus 2pt} for a base size of~10pt.}
+%    as \mbox{6\,pt plus 2\,pt} for a base size of~10\,pt.}
 %
 %    \medskip
 %    \begin{minipage}{\linewidth}
@@ -2976,7 +2982,7 @@ end
 %
 %    The suggestions for the gap-width vary from two~em to twice the width of a
 %    \singlequotes{typical} \cs{parindent}\footnote{% For example, \LaTeX's class
-%    \packagename{article} uses a \cs{parindent} of~25pt.}  for the gap~\cite{carlisle:1996}.
+%    \packagename{article} uses a \cs{parindent} of~25\,pt.}  for the gap~\cite{carlisle:1996}.
 %  \end{enumerate}
 %
 %  \begin{tip}
@@ -2998,9 +3004,10 @@ end
 %    them should have certain advantageous properties.
 %
 %    \begin{itemize}
-%    \item Technically, the paragraphs need to contain enough glue (see
-%      e.\,g.~\cref{sec:sloppy-paragraphs}) to achieve a low badness such that the desired
-%      paragraph end is deemed feasible by \TeX.
+%    \item Technically, the paragraphs need to contain enough glue (see for example
+%      \cref{sec:sloppy-paragraphs}) to achieve a low badness such that the desired paragraph
+%      end is deemed feasible by \TeX.\shiftedmarginnote{This \code{itemize} list demonstrates
+%      vertically adjusted label items (\cref{sec:adjust-label-items}).}
 %
 %    \item Aesthetically, the paragraphs must be long enough to absorb the change in last-line
 %      fill level otherwise their gray-values visibly deviate from the
@@ -3222,7 +3229,7 @@ end
 %
 %  \begin{SCtable}[10]
 %    \caption[Spacing changes made by \code{loosespacing}]%
-%      {Adjustments made by environment |loosespacing| to \cs{spaceskip}.
+%      {Adjustments made by environment \code{loosespacing} to \cs{spaceskip}.
 %       The mapping of \meta{level} to the exact skip definitions are
 %       \(1 \mapsto \formatskip{1.05}{.5}{.1}\),
 %       \(2 \mapsto \formatskip{1.1}{.5}{.1}\),
@@ -3236,7 +3243,7 @@ end
 %      \def~{\hphantom{0}}%
 %      \begin{tabular}{@{}ccl@{}}
 %        \toprule
-%        \meta{level}  &  Adjustment  &  Comment  \\
+%        \meta{level}  &  Adjustment  &  Note  \\
 %        {}            &  \%          &  \\
 %        \midrule
 %        0  &  n/a  &  neutral  \\
@@ -3263,7 +3270,7 @@ end
 %  \begin{SCtable}[10]
 %    \def~{\hphantom{0}}
 %    \caption[Spacing changes made by \code{tightspacing}]%
-%      {Adjustments made by environment |tightspacing| to \cs{spaceskip}.
+%      {Adjustments made by environment \code{tightspacing} to \cs{spaceskip}.
 %       The mapping of \meta{level} to the exact skip definitions are
 %       \(1 \mapsto \formatskip{.9875}{.0125}{.5~~~}\)\!,
 %       \(2 \mapsto \formatskip{.975}{.025}{.5~~}\)\!,
@@ -3276,7 +3283,7 @@ end
 %    \begin{tabfigures}
 %      \begin{tabular}{@{}ccl@{}}
 %        \toprule
-%        \meta{level}  &  Adjustment  &  Comment  \\
+%        \meta{level}  &  Adjustment  &  Note  \\
 %        {}            &  \%          &  \\
 %        \midrule
 %        0  &  n/a  &  neutral  \\
@@ -3314,10 +3321,11 @@ end
 %
 %  \begin{SCtable}
 %    \caption[\cs{fontdimen}\meta{number} parameters]
-%            {The first column~\sample{\#} states the index of the \cs{fontdimen} parameter:
-%             \meta{number}.  Column~2 presents short descriptions of the
-%             \cs{fontdimen}\meta{number} parameters.  As examples, the values for the current
-%             font are shown in column~3; they are normalized to the quad-size.\bottomstrut}
+%            {All \TeX{} font parameters normalized to the font's quad-size.  The first
+%             column~\sample{\#} states the index of the \cs{fontdimen} parameter:
+%             \meta{number}.  Column~2 presents short descriptions of
+%             \cs{fontdimen}\meta{number}.  As examples, the values for the current font are
+%             shown in column~3.\bottomstrut}
 %    \label{tab:fontdimen}
 %
 %    \begin{tabfigures}
@@ -3331,7 +3339,6 @@ end
 %      \begin{tabular}{@{}lll@{}}
 %        \toprule
 %        \#  &  Description  &  Value  \\
-%        {}  &  &  \multicolumn{1}{c}{\%}  \\
 %        \midrule
 %        1  &  Slant per 1\,pt height &  ~~\relativefontdimen1\topstrut  \\
 %        2  &  Interword space width  &  ~\relativefontdimen2  \\
@@ -3433,11 +3440,12 @@ end
 %    \centering
 %    \caption[Comparison of some space sizes]
 %            {Exemplary comparison of standard \cs{space} versus \cs{narrowspace} and
-%             \cs{widespace}.  All values are relative to the size of the current font's quad
-%             size.  \cs{narrowspace} and \cs{widespace} use the package's defaults.~\visualpar
-%             The upper values in the Width-column for \cs{narrowspace}, and \cs{widespace}
-%             refer to the \(\cs{fontdimen7} \not= 0\) case and the lower ones to the
-%             \(\cs{fontdimen7} = 0\) code-path.}
+%             \cs{widespace}.  All values are relative to the size of the current font's
+%             quad-size and shown as a percentage of it.  \cs{narrowspace} and \cs{widespace}
+%             use the package's defaults.~\visualpar The upper values in the
+%             \singlequotes{Width}~column for \cs{narrowspace} and \cs{widespace} refer to the
+%             \(\cs{fontdimen7} \not= 0\) case and the lower ones to the \(\cs{fontdimen7} = 0\)
+%             code-path.}
 %    \label{tab:space-sizes}
 %
 %    \begin{tabfigures}
@@ -3450,8 +3458,7 @@ end
 %
 %      \begin{tabular}{@{}l*{3}{r}@{}}
 %        \toprule
-%        Name  &  Width  &  Stretch  &  Shrink  \\
-%        {}    &  \%~    &  \%~      &  \%~  \\
+%        Macro  &  Width  &  Stretch  &  Shrink  \\
 %        \midrule
 %        \multirow{\nrows}{*}{\cs{narrowspace}}  &
 %        \relativedimen{\the\fontdimen2\font - \narrowspacestrength * \the\fontdimen7\font}  &
@@ -3565,18 +3572,17 @@ end
 %  summarize the values for |stretch| and |shrink| in these environments.
 %
 %  \begin{SCtable}
-%    \caption[Shrink values of \code{setfontshrink}]%
+%    \caption[Shrink values of \code{setfontshrink}]
 %      {\slightlysloppy[2] Preconfigured values for |shrink| inside of
-%       environment~\code{setfontshrink}.  Note that all |stretch| values are zero, so the fonts
-%       only can shrink.}
+%       environment~\code{setfontshrink} as \nativetextfraction{1}{1000}\,em.  Note that all
+%       |stretch| values are zero, so the fonts only can shrink.}
 %    \label{tab:setfontshrink-values}
 %
 %    \begin{tabfigures}
 %      \def~{\hphantom{0}}
 %      \begin{tabular}{@{}cccl@{}}
 %        \toprule
-%        \meta{level}  &  |stretch|  &  |shrink|  &  Comment  \\
-%        {}  &  \nativetextfraction{1}{1000}\,em  &  \nativetextfraction{1}{1000}\,em  &  \\
+%        \meta{level}  &  |stretch|  &  |shrink|  &  Note  \\
 %        \midrule
 %        0  &  n/a  &  n/a  &  no operation  \\
 %        1  &  0  &  ~\makeatletter\typog@shrink@i\makeatother  &  default  \\
@@ -3589,10 +3595,10 @@ end
 %
 %  \begin{SCtable}
 %    \centering
-%    \caption[Stretch values of \code{setfontstretch}]%
+%    \caption[Stretch values of \code{setfontstretch}]
 %      {\slightlysloppy[2] Preconfigured values for |stretch| inside of
-%       environment~\code{setfontstretch}.  Note that all |shrink| values are zero, so the fonts
-%       only can stretch.}
+%       environment~\code{setfontstretch} as \nativetextfraction{1}{1000}\,em.  Note that all
+%       |shrink| values are zero, so the fonts only can stretch.}
 %    \label{tab:setfontstretch-values}
 %
 %    \begin{tabfigures}
@@ -3600,7 +3606,6 @@ end
 %      \begin{tabular}{@{}cccl@{}}
 %        \toprule
 %        \meta{level}  &  |stretch|  &  |shrink|  \\
-%        {}  &  \nativetextfraction{1}{1000}\,em  &  \nativetextfraction{1}{1000}\,em  &  \\
 %        \midrule
 %        0  &  n/a  &  n/a  &  no operation  \\
 %        1  &  ~\makeatletter\typog@stretch@i\makeatother  &  0  &  default  \\
@@ -3634,18 +3639,17 @@ end
 %  \Cref{tab:setfontexpand-values} gives an overview of the values associated with \meta{level}.
 %
 %  \begin{SCtable}
-%    \caption[Shrink and stretch values of \code{setfontexpand}]%
+%    \caption[Shrink and stretch values of \code{setfontexpand}]
 %      {\slightlysloppy[2] Preconfigured values for |shrink| and |stretch| inside of
-%       environment~\code{setfontexpand}.  Note that both |shrink| and |stretch| values are
-%       nonzero, so the fonts can shrink or expand.}
+%       environment~\code{setfontexpand} as \nativetextfraction{1}{1000}\,em.  Note that both
+%       |shrink| and |stretch| values are nonzero, so the fonts can shrink or expand.}
 %    \label{tab:setfontexpand-values}
 %
 %    \begin{tabfigures}
 %      \def~{\hphantom{0}}
 %      \begin{tabular}{@{}cccl@{}}
 %        \toprule
-%        \meta{level}  &  |stretch|  &  |shrink|  &  Comment  \\
-%        {}  &  \nativetextfraction{1}{1000}\,em  &  \nativetextfraction{1}{1000}\,em  &  \\
+%        \meta{level}  &  |stretch|  &  |shrink|  &  Note  \\
 %        \midrule
 %        0  &  n/a  &  n/a  &  no operation  \\
 %        1  &  ~\makeatletter\typog@stretch@i\makeatother  &  ~\makeatletter\typog@stretch@i\makeatother  &  default  \\
@@ -3763,7 +3767,7 @@ end
 %        \def~{\hphantom{0}}
 %        \begin{tabular}{@{}ccccl@{}}
 %          \toprule
-%          \meta{sloppiness}  &  \cs{toler-}  &  \cs{hfuzz}  &  \cs{emergency-}  &  Comment  \\
+%          \meta{sloppiness}  &  \cs{toler-}  &  \cs{hfuzz}  &  \cs{emergency-}  &  Note  \\
 %          {}  &  \code{ance}  &  \cs{vfuzz}  &  \code{stretch}~\(G\)  &  \\
 %          {}  &  &  pt  &  em  &  \\
 %          \midrule
@@ -4095,7 +4099,7 @@ end
 %      \def~{\hphantom{0}}
 %      \begin{tabular}{@{}ccl@{}}
 %        \toprule
-%        \meta{level}  &  \cs{interdisplay-}  &  Comment  \\
+%        \meta{level}  &  \cs{interdisplay-}  &  Note  \\
 %        {}            &  \code{linepenalty}  &  \\
 %        \midrule
 %        0  &  10000  &  no operation  \\
@@ -4152,7 +4156,7 @@ end
 %  interface of \cs{setstretch} though is unintuitive as it asks for an obscure
 %  factor.\fontsizeinfo{setspacefontsizeinfo}\marginnote{In the copy of this document gets
 %  typeset with~\setspacefontsizeinfo*.}  The \LaTeX{} user however prefers to keep her eyes on
-%  the ball and set the line skip\index{baseline skip} directly (e.\,g.~12.5pt) or the lines'
+%  the ball and set the line skip\index{baseline skip} directly (e.\,g.~12.5\,pt) or the lines'
 %  leading\index{leading} to a length or percentage of the font's size.\footnote{To find out
 %  about the current font's size and the \cs{baselineskip} in printable form check out
 %  \cref{sec:font-information} on \cpageref{sec:font-information}.}  This is where the following
@@ -4191,10 +4195,10 @@ end
 %
 %  \begin{example}
 %    Let us assume we want to lighten the gray value of the copy a tad with a \cs{baselineskip}
-%    increased (from e.g.~12pt) to~12.5pt.  To this end we say:
+%    increased (from e.g.~12\,pt) to~12.5\,pt.  To this end we say:
 %
 %    \begin{codeexample}
-%      \cs{setbaselineskip}\{12.5pt\}\specialsectionendhere
+%      \cs{setbaselineskip}\{12.5\,pt\}\specialsectionendhere
 %    \end{codeexample}
 %  \end{example}
 %
@@ -4221,7 +4225,7 @@ end
 %  notion of what is a single-line \cs{baselineskip}.
 %
 %
-%  \DescribeMacro{\setbaselineskippercentage}
+%  \DescribeMacro{\setbaselineskip\-percentage}
 %  \sinceversion{Since v0.3}
 %  Set the \cs{baselineskip} with a relative value calculated as a percentage of the current
 %  font's design size.
@@ -4233,14 +4237,14 @@ end
 %  Set \cs{baselineskip} to \(\cs{typogfontsize} \times \meta{baselineskip-percentage} / 100\).
 %
 %  \begin{example}
-%    We modify the previous example and assume a font design size of 10pt, but now write
+%    We modify the previous example and assume a font design size of 10\,pt, but now write
 %
 %    \begin{codeexample}
 %      \cs{setbaselineskippercentage}\{125\}
 %    \end{codeexample}
 %
 %    \noindent
-%    which sets \cs{baselineskip} to \(10\text{pt} \times 125 / 100 = 12.5\text{pt}\).
+%    which sets \cs{baselineskip} to \(10\text{\,pt} \times 125 / 100 = 12.5\text{\,pt}\).
 %  \end{example}
 %
 %  \DescribeMacro{\setleading}
@@ -4255,7 +4259,7 @@ end
 %  \meta{leading} can be negative, e.\,g.~to set solid.
 %
 %  \begin{example}
-%    Another solution of the previous example, given a font design size of 10pt is to write
+%    Another solution of the previous example, given a font design size of 10\,pt is to write
 %
 %    \begin{codeexample}
 %      \cs{setleading}\{2.5pt\}
@@ -4265,7 +4269,7 @@ end
 %    which sets \cs{baselineskip} to \(10\text{pt} + 2.5\text{pt} = 12.5\text{pt}\).
 %  \end{example}
 %
-%  \DescribeMacro{\setleadingpercentage}
+%  \DescribeMacro{\setleading\-percentage}
 %  \sinceversion{Since v0.3}
 %  Set the \cs{baselineskip} to \cs{typogfontsize} \emph{plus} a relative value calculated as a
 %  percentage of \cs{typogfontsize}.
@@ -4277,14 +4281,14 @@ end
 %  Set \cs{baselineskip} to \(\cs{typogfontsize} \times (1 + \meta{leading-percentage} / 100)\).
 %
 %  \begin{example}
-%    We modify the previous example and again assume a font design size of 10pt, but now write
+%    We modify the previous example and again assume a font design size of 10\,pt, but now write
 %
 %    \begin{codeexample}
 %      \cs{setleadingpercentage}\{25\}
 %    \end{codeexample}
 %
 %    \noindent
-%    which sets \cs{baselineskip} to \(10\text{pt} \times (1 + 25 / 100) = 12.5\text{pt}\).
+%    which sets \cs{baselineskip} to \(10\text{\,pt} \times (1 + 25 / 100) = 12.5\text{\,pt}\).
 %  \end{example}
 %
 %  \smallskip
@@ -4369,25 +4373,23 @@ end
 %  \noindent
 %  Package \packagename{typog} implements a novel approach to typeset ragged paragraphs.
 %  Instead of setting the glue inside of a paragraph to zero and letting the line-widths vary
-%  accordingly~\cite{wermuth:2020} we prescribe the line-widths with the \cs{parshape}~primitive
-%  and leave alone the stretchability or shrinkability of the glue.
+%  accordingly~\cite{wermuth:2020} we prescribe the line-widths with \TeX's
+%  \cs{parshape}~primitive and leave alone the stretchability or shrinkability of the glue.
 %
-%  \begin{slightlysloppypar}
-%    \noindent
-%    \hangindent=4\parindent\hangafter=-5
-%    \DescribeEnv{smoothraggedrightshapetriplet}
-%    \DescribeEnv{smoothraggedrightshapequintuplet}
-%    \DescribeEnv{smoothraggedrightshapeseptuplet}
+%  \begin{slightlysloppypar}[2]
+%    \DescribeEnv{smoothragged\-right\-shape\-triplet}
+%    \DescribeEnv{smoothragged\-right\-shape\-quintuplet}
+%    \DescribeEnv{smoothragged\-right\-shape\-septuplet}
 %    We introduce three environments that allow for setting three, five, or seven different
-%    line-lengths: \code{smoothraggedrightshapetriplet},
+%    line-lengths (which \TeX{} of course will repeat for paragraphs longer than three, five, or
+%    seven lines): \code{smoothraggedrightshapetriplet},
 %    \code{smoothraggedrightshapequintuplet}, and \code{smoothraggedrightshapeseptuplet}; they
-%    work for paragraphs up to
+%    work for paragraph lengths up to
 %    \makeatletter
-%      \typog@triplet@max@lines, \typog@quintuplet@max@lines, or \typog@septuplet@max@lines~lines,
+%      \typog@triplet@max@lines, \typog@quintuplet@max@lines, and \typog@septuplet@max@lines~lines,
 %    \makeatother
 %    respectively.
 %  \end{slightlysloppypar}
-%
 %
 %  \begin{maxipage}
 %    \begin{synopsis}\label{syn:smoothraggedrightshapetriplet}\label{syn:smoothraggedrightshapequintuplet}\label{syn:smoothraggedrightshapeseptuplet}
@@ -4421,7 +4423,7 @@ end
 %  \end{description}
 %
 %  \noindent
-%  \DescribeEnv{smoothraggedrightpar}
+%  \DescribeEnv{smoothragged\-right\-par}
 %  Environment~|smoothraggedrightpar| builds upon the three generators.  It typesets a single
 %  paragraph with a given \meta{ragwidth} of the ragged, right margin, where the rag~width is
 %  the length-difference of the longest and the shortest lines.
@@ -4630,13 +4632,13 @@ end
 %    The default generator is |triplet|.
 %
 %  \item[\cs{smoothraggedrightleftskip}=\meta{dim}]
-%    Value for |leftskip| to pass to the generator.  Default:~0pt.
+%    Value for |leftskip| to pass to the generator.  Default:~0\,pt.
 %
 %  \item[\cs{smoothraggedrightparindent}=\meta{dim}]
-%    Value for |parindent| to pass to the generator.  Default:~0pt.
+%    Value for |parindent| to pass to the generator.  Default:~0\,pt.
 %
 %  \item[\cs{smoothraggedrightragwidth}=\meta{dim}]
-%     Value for the width of the ragged right margin.  Default:~2em.
+%     Value for the width of the ragged right margin.  Default:~2\,em.
 %  \end{description}
 %
 %  \begin{usecases}
