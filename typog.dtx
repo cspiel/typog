@@ -52,7 +52,9 @@
 \usepackage{tabularx}
 \usepackage{tcolorbox}
 \usepackage{titlesec}\renewcommand*{\bottomtitlespace}{.15\textheight}%nobottomtitles*
-\usepackage[debug, raise*=.05em]{typog}
+\usepackage[debug, raise*=.05em,
+  uppercaselabelitemadjustments={.0125em, .075em, -.1em, .0125em},
+  lowercaselabelitemadjustments={-.075em, 0pt, -.2em, -.075em}]{typog}
 \usepackage{xcolor}
 
 
@@ -240,7 +242,7 @@
 
 \setlength{\skip\footins}{25pt}
 \setlength{\overfullrule}{3pt}
-\renewcommand*{\sidecaptionsep}{16pt}
+\renewcommand*{\sidecaptionsep}{25pt}
 
 
 
@@ -518,7 +520,7 @@
 
 \newenvironment*{whittyquote}
                 {\begin{flushright}
-                 \renewcommand*{\propername}[1]{\mbox{##1}}%
+                 \renewcommand*{\propername}[1]{\itshape\mbox{##1}}%
                  \sf\typogsetupsf}
                 {\end{flushright}}
 
@@ -546,6 +548,20 @@
                printtype = \textit{enumitem key}]
               {EnumItemKey}{enumitemkey}
 \pretocmd{\DescribeEnumItemKey}{\needspace{25pt}}{\relax}{\PrependingFailed}
+
+\NewDocElement[macrolike = true,
+               idxtype = skip,
+               idxgroup = \LaTeX{} length (skip),
+               printtype = \textit{skip}]
+              {LaTeXSkip}{lskip}
+\pretocmd{\DescribeLaTeXSkip}{\needspace{25pt}}{\relax}{\PrependingFailed}
+
+\NewDocElement[macrolike = true,
+               idxtype = counter,
+               idxgroup = \protect\TeX{} counters,
+               printtype = \textit{counter}]
+              {TeXCounter}{tcounter}
+\pretocmd{\DescribeTeXCounter}{\needspace{25pt}}{\relax}{\PrependingFailed}
 
 
 \hyphenation{% https://hyphenateit.com/en-us
@@ -585,6 +601,8 @@
   line-width
   loose-ness
   loose-spacing
+  lower-case-adjust-label-items
+  lower-case-label-item-adjustments
   make-at-letter
   make-at-other
   mar-gin-al
@@ -632,6 +650,8 @@
   tracking-tt-spacing
   typog-get
   typog-setup
+  upper-case-adjust-label-items
+  upper-case-label-item-adjustments
   vtie-bot
   vtie-bot-disp
   vtie-bot-disp-par
@@ -648,6 +668,7 @@
 
 \begin{document}
   \typogsetuprm
+  \uppercaseadjustlabelitems{*}
   \DocInput{typog.dtx}
 \end{document}
 %</driver>
@@ -664,13 +685,14 @@ quote             '!'
 %
 %
 %  \DoNotIndex{\,}
-%  \DoNotIndex{\addtolength,\advance,\aftergroup,\allowdisplaybreaks,\arabic}
-%  \DoNotIndex{\AtBeginDocument,\autotransfer}
-%  \DoNotIndex{\baselineskip}
+%  \DoNotIndex{\\}
+%  \DoNotIndex{\addtocounter,\addtolength,\advance,\aftergroup,\allowdisplaybreaks,\arabic,\arraystretch}
+%  \DoNotIndex{\AfterEndPreamble,\AfterPreamble,\AtBeginDocument,\autotransfer}
+%  \DoNotIndex{\baselineskip,\begin,\begingroup,\booltrue,\box}
 %  \DoNotIndex{\c,\char,\clubpenalties,\clubpenalty,\count,\cs,\csname}
 %  \DoNotIndex{\DeclareRobustCommand,\def,\define@choicekey,\define@key,\detokenize}
 %  \DoNotIndex{\dim,\dimen,\dimexpr,\discretionary,\displaywidowpenalties,\displaywidowpenalty}
-%  \DoNotIndex{\edef,\else,\emergencystretch,\empty,\endcsname}
+%  \DoNotIndex{\edef,\else,\emergencystretch,\empty,\end,\endcsname,\endgroup}
 %  \DoNotIndex{\endlastlineflushrightpar}
 %  \DoNotIndex{\endlastlineraggedleftpar}
 %  \DoNotIndex{\endnofontexpand,\endnofontexpansion}
@@ -679,33 +701,37 @@ quote             '!'
 %  \DoNotIndex{\endsmoothraggedrightshapetriplet}
 %  \DoNotIndex{\endtypoginspect}
 %  \DoNotIndex{\exhyphenpenalty,\expandafter,\ExplSyntaxOff,\ExplSyntaxOn}
-%  \DoNotIndex{\fi,\finalhyphendemerits,\font,\fontdimen,\fp,\fussy,\futurelet}
+%  \DoNotIndex{\fi,\finalhyphendemerits,\font,\fontdimen,\forcsvlist,\fp,\fpeval,\fussy,\futurelet}
 %  \DoNotIndex{\gdef,\global,\glueexpr,\@gobble}
 %  \DoNotIndex{\guillemotleft,\guillemotright,\guilsinglleft,\guilsinglright}
-%  \DoNotIndex{\hbadness,\hfuzz,\hskip,\hspace}
+%  \DoNotIndex{\hbadness,\hbox,\hfuzz,\hskip,\hspace,\ht}
 %  \DoNotIndex{\ignorespaces,\ignorespacesafterend}
-%  \DoNotIndex{\if,\IfBooleanT,\IfBooleanTF,\ifcase,\ifdefined,\ifdim,\iffalse,\ifmmode,\ifMT@expansion}
-%  \DoNotIndex{\@ifnextchar,\IfNoValueF,\IfNoValueTF,\ifnum}
+%  \DoNotIndex{\if,\ifblank,\ifbool,\IfBooleanT,\IfBooleanTF,\ifcase,\ifdefined,\ifdim,\iffalse,\ifmmode}
+%  \DoNotIndex{\ifMT@expansion,\@ifnextchar,\IfNoValueF,\IfNoValueTF,\ifnum,\ifodd,\ifstrequal}
 %  \DoNotIndex{\iftypog@microtype@loadedfalse}
 %  \DoNotIndex{\iftypog@microtype@preloadedfalse}
-%  \DoNotIndex{\ifvmode,\ifx,\ignorespaces,\inputlineno,\int,\interlinepenalty}
+%  \DoNotIndex{\ifvmode,\ifx,\ignorespaces,\inputlineno,\int,\interlinepenalty,\itemize}
 %  \DoNotIndex{\jobname}
 %  \DoNotIndex{\kern}
-%  \DoNotIndex{\l,\lastlinefit,\lastlineflushrightpar,\lastlineraggedleftpar,\leftmargin,\leftskip,\let}
-%  \DoNotIndex{\linepenalty,\linewidth,\@listdepth,\looseness,\lsstyle}
-%  \DoNotIndex{\@M,\m@th,\mathbin,\mathord,\maxdimen,\message,\microtypecontext,\microtypesetup}
+%  \DoNotIndex{\l,\labelitemi,\labelitemii,\labelitemiii,\labelitemiv}
+%  \DoNotIndex{\lastlinefit,\lastlineflushrightpar,\lastlineraggedleftpar}
+%  \DoNotIndex{\lefthyphenmin,\leftmargin,\leftskip,\let,\letcs}
+%  \DoNotIndex{\linepenalty,\linewidth,\@listdepth,\loop,\looseness,\lsstyle}
+%  \DoNotIndex{\@M,\m@th,\mathbin,\mathord,\maxdimen,\mbox,\message,\microtypecontext,\microtypesetup}
 %  \DoNotIndex{\@minus,\mkern,\m@ne,\mspace,\MT@letterspace@,\MT@MT,\muexpr}
-%  \DoNotIndex{\@ne,\NeedsTeXFormat,\NewDocumentCommand,\NewDocumentEnvironment,\newcommand,\newenvironment}
-%  \DoNotIndex{\newcounter,\newdimen,\newif,\newlength,\newmuskip}
+%  \DoNotIndex{\@ne,\NeedsTeXFormat,\newbool,\NewDocumentCommand,\NewDocumentEnvironment}
+%  \DoNotIndex{\newcommand,\newenvironment}
+%  \DoNotIndex{\newcounter,\newdimen,\newif,\newlength,\newline,\newmuskip}
 %  \DoNotIndex{\nobreak,\nofontexpand,\nofontexpansion,\nr,\numexpr}
 %  \DoNotIndex{\or,\optarg}
 %  \DoNotIndex{\p@,\PackageError,\PackageWarning}
-%  \DoNotIndex{\par,\parfillskip,\parindent,\parshape,\pdf@strcmp}
+%  \DoNotIndex{\par,\parfillskip,\parindent,\parshape,\patchcmd,\pdf@strcmp}
 %  \DoNotIndex{\pdfstringdefDisableCommands}
 %  \DoNotIndex{\penalty,\@plus,\PopPostHook,\postdisplaypenalty,\predisplaypenalty,\prg}
 %  \DoNotIndex{\pretolerance,\protected,\ProvidesPackage,\PushPostHook}
-%  \DoNotIndex{\raisebox,\refstepcounter,\relax,\RenewExpandableDocumentCommand,\RequirePackage,\rightskip}
-%  \DoNotIndex{\setcounter,\SetEnumitemKey,\SetExpansion,\setkeys,\setlength,\setstretch}
+%  \DoNotIndex{\raisebox,\refstepcounter,\relax,\RenewExpandableDocumentCommand,\repeat,\RequirePackage}
+%  \DoNotIndex{\righthyphenmin,\rightskip,\rlap,\romannumeral,\rule}
+%  \DoNotIndex{\setbox,\setcounter,\SetEnumitemKey,\SetExpansion,\setkeys,\setlength,\setstretch}
 %  \DoNotIndex{\showboxbreadth,\showboxdepth,\skip,\sloppy}
 %  \DoNotIndex{\smoothraggedrightpar}
 %  \DoNotIndex{\smoothraggedrightshapequintuplet}
@@ -715,9 +741,9 @@ quote             '!'
 %  \DoNotIndex{\textemdash,\textendash,\textsf,\textsl,\texttimes,\textwidth,\the,\times,\tl,\tolerance}
 %  \DoNotIndex{\tracingnone,\tracingpages,\tracingparagraphs}
 %  \DoNotIndex{\typeout,\typoginspect,\typoglogo}
-%  \DoNotIndex{\unless}
+%  \DoNotIndex{\unhbox,\unless}
 %  \DoNotIndex{\val,\value,\vbadness,\vfuzz}
-%  \DoNotIndex{\widowpenalties,\widowpenalty}
+%  \DoNotIndex{\wd,\widowpenalties,\widowpenalty}
 %  \DoNotIndex{\z@,\z@skip}
 %
 %
@@ -854,8 +880,7 @@ end
 %    \singlespacing
 %    \noindent
 %    The font sample on the title page was generated with the help of \MP{} using
-%    \doublequotes{\acronym{URW} Palladio~L}\index{font>URW Palladio L=\acronym{URW} Palladio
-%    L}.
+%    \doublequotes{\acronym{URW} Palladio}\index{font>URW Palladio=\acronym{URW} Palladio}.
 %  \endgroup
 %
 %
@@ -893,7 +918,10 @@ end
 %  \Cref{sec:latex-hyphenation} expands the hyphenation facilities of \LaTeX.
 %
 %  \Cref{sec:break-ligatures,sec:manual-italic-correction,sec:extra-kerning,sec:raise-characters}
-%  deal with vertically positioning glyphs in a more pleasant way.
+%  deal with vertically positioning glyphs in a more pleasant way.  Also in the realm of
+%  vertical alignments is \cref{sec:adjust-label-items} that explains how to height-adjust the
+%  labels in |itemize|~lists to perfection whether the items are followed by uppercase or by
+%  lowercase letters.
 %
 %  \Cref{sec:align-last-line,sec:fill-last-line} discuss dearly missed macros for better control
 %  of the last line of a paragraph.
@@ -990,6 +1018,30 @@ end
 %      \hyperref[syn:typogget]{\cs{typogget}}.}  Default
 %      value:~\milliem{\typogget{ligaturekern}}.
 %
+%    \item[|lowercaselabelitemadjustments=\{|\meta{dim1}, \meta{dim2}, \meta{dim3}, \meta{dim4}|\}|]%
+%      \label{item:lowercaselabelitemadjustments}
+%      \indexpackageoption{lowercaselabelitemadjustments}
+%      \sinceversion{Since v0.4}
+%      Vertical shifts \meta{dimN} to apply to \cs{labelitem}\meta{N}, where \meta{N} is the
+%      nesting level of the |itemize|~list starting at one.  An empty \meta{dimN} is equivalent
+%      to 0\,pt.  The adjustments apply to the lowercase setting
+%      (\hyperref[syn:lowercaseadjustlabelitems]{\code{\string\lowercaseadjustlabelitems}}).
+%      See \cref{sec:adjust-label-items} (in particular subsection~\singlequotes{Setup} and
+%      \cref{tab:labelitemadjustvalues} on \cpageref{tab:labelitemadjustvalues}) and also
+%      configuration option
+%      \hyperref[item:uppercaselabelitemadjustments]{\code{uppercaseadjustlabelitem}}.
+%
+%      All four lengths default to~0\,pt.
+%
+%      \begin{important}
+%        \slightlysloppy
+%        \noindent
+%        Configuring \code{lowercaselabelitemadjustments} (or
+%        \code{uppercaselabelitemadjustments}) does \emph{not activate} the correction
+%        mechanism.  Use one of the macros \code{\string\lowercaseadjustlabelitems} or
+%        \code{\string\uppercaseadjustlabelitems} for that purpose.
+%      \end{important}
+%
 %    \item[|mathitalicscorrection=|\meta{dim}]\label{item:mathitalicscorrection}
 %      \indexpackageoption{mathitalicscorrection}
 %      Italics correction in math mode.  See \cref{sec:manual-italic-correction} and also the
@@ -1001,7 +1053,7 @@ end
 %    \item[|raise*=|\meta{dim}]\label{item:raise}
 %      \indexpackageoption{raise*}
 %      Set the length by which selected characters (dash, hyphen, times, and number dash) are
-%      raised.  Default value:~0pt.
+%      raised.  Default value:~0\,pt.
 %
 %      Only the raise amounts for guillemets are unaffected by this option.
 %
@@ -1094,6 +1146,30 @@ end
 %      \emph{not} in the document body.
 %
 %      By default this option is unset.
+%
+%    \item[|uppercaselabelitemadjustments=\{|\meta{dim1}, \meta{dim2}, \meta{dim3}, \meta{dim4}|\}|]%
+%      \label{item:uppercaselabelitemadjustments}
+%      \indexpackageoption{uppercaselabelitemadjustments}
+%      \sinceversion{Since v0.4}
+%      Vertical shifts \meta{dimN} to apply to \cs{labelitem}\meta{N}, where \meta{N} is the
+%      nesting level of the |itemize|~list starting at one.  An empty \meta{dimN} is equivalent
+%      to 0\,pt.  The adjustments apply to the uppercase setting
+%      (\hyperref[syn:uppercaseadjustlabelitems]{\code{\string\uppercaseadjustlabelitems}}).
+%      See \cref{sec:adjust-label-items} (in particular subsection~\singlequotes{Setup} and
+%      \cref{tab:labelitemadjustvalues} on \cpageref{tab:labelitemadjustvalues}) and also
+%      configuration option
+%      \hyperref[item:lowercaselabelitemadjustments]{\code{lowercaseadjustlabelitem}}.
+%
+%      All four lengths default to~0\,pt.
+%
+%      \begin{important}
+%        \slightlysloppy
+%        \noindent
+%        Configuring \code{uppercaselabelitemadjustments} (or
+%        \code{lowercaselabelitemadjustments}) does \emph{not activate} the correction
+%        mechanism.  Use one of the macros \code{\string\uppercaseadjustlabelitems} or
+%        \code{\string\lowercaseadjustlabelitems} for that purpose.
+%      \end{important}
 %    \end{description}
 %  \end{typogsetup}
 %  \index{package options|)}
@@ -1143,6 +1219,12 @@ end
 %  \noindent
 %  where \meta{keys} have the same format as the package options described in
 %  \cref{sec:package-options}.
+%
+%  \begin{note}
+%    Use \code{\string\PassOptionsToPackage\{\meta{keys}\}\{typog\}} to pass \meta{keys} to
+%    \packagename{typog} before loading it and \code{\string\typogsetup\{\meta{keys}\}} after
+%    \code{\string\usepackage\{typog\}}.
+%  \end{note}
 %
 %  \begin{usecases}
 %    \cs{typogsetup} can substitute configuring the package at load-time or serve as an
@@ -1288,7 +1370,8 @@ end
 %
 %  \begin{itemize}[noindent]
 %  \item Any text tool can be used to ferret out the tags.  \propername{Emacs} users will find
-%    \mbox{\code{(occur \meta{regexp})}} to be useful.
+%    \mbox{\code{(occur \meta{regexp})}} to be useful.\shiftedmarginnote{This \code{itemize}
+%    list demonstrates vertically adjusted label items (\cref{sec:adjust-label-items}).}
 %
 %  \item As long as the tags are not nested \programname{sed} or \programname{perl}
 %    extract the information gathered by~|typoginspect|, for example:
@@ -2153,48 +2236,52 @@ end
 %  The actual amount the en-dash gets raised in \cs{figuredash} is determined by
 %  \hyperref[item:raisefiguredash]{|raisefiguredash|}.
 %
-%  Values of .05em to .1em are typical for fonts that need this kind of correction and~.1em is a
-%  good starting point.  \Cref{tab:raisefiguredash} summarizes some findings.
+%  Values of .05\,em to .1\,em are typical for fonts that need this kind of correction
+%  and~.1\,em is a good starting point.  \Cref{tab:raisefiguredash} summarizes some findings.
 %
 %  \begin{table}
 %    \centering
 %    \caption[Suggested raise amounts for \cs{figuredash}]%
-%            {Suggested values for raising the en-dash between lining numerals of some selected
-%             fonts.}
+%            {Suggested values for raising \cs{figuredash}, which actually is an en-dash,
+%             between lining numerals of some selected fonts in multiples of~1\,em.}
 %    \label{tab:raisefiguredash}
 %
 %    \begin{tabfigures}
-%      \begin{tabular}{@{}l>{\RaggedRight}p{20em}@{}}
+%      \def~{\hphantom{0}}
+%      \begin{tabularx}{\linewidth}{@{}>{\RaggedRight}Xl@{}}
 %        \toprule
-%          Raise  &  Font Name  \\
-%          em  &  \\
+%        Font  &  Raise  \\
 %        \midrule
-%        0  &      Alegreya\index{font>Alegreya}, Arvo\index{font>Arvo},
-%                  Bitter\index{font>Bitter}, Clara\index{font>Clara},
-%                  \acronym{EB}~Garamond\index{font>EB Garamond=\acronym{EB} Garamond},
-%                  Gentium\index{font>Gentium},
-%                  Ibarra Real Nova\index{font>Ibarra Real Nova},
-%                  \acronym{Inria}~Serif\index{font>Inria Serif=\acronym{Inria} Serif},
-%                  Libertine\index{font>Libertine}, Libertinus\index{font>Libertinus},
-%                  Merriweather\index{font>Merriweather},
-%                  \acronym{PT}~Serif\index{font>PT Serif=\acronym{PT} Serif},
-%                  Roboto Slab\index{font>Roboto Slab}, Spectral\index{font>Spectral},
-%                  \acronym{STIX}\index{font>STIX=\acronym{STIX}}, and many more  \\
-%        .05  &    fbb\index{font>fbb}, Source Serif Pro\index{font>Source Serif Pro}  \\
-%        .0667  &  Libre Baskerville\index{font>Libre Baskerville},
-%                  Crimson Pro\index{font>Crimson Pro},
-%                  Erewhon\index{font>Erewhon}, Droid Serif\index{font>Droid Serif}  \\
-%        .1  &     \acronym{GFS}~Artemisia\index{font>GFS Artemisia=\acronym{GFS} Artemisia},
-%                  Libre Caslon\index{font>Libre Caslon},
-%                  Coelacanth\index{font>Coelacanth}, Crimson Pro\index{font>Crimson Pro},
-%                  Crimson Text\index{font>Crimson Text},
-%                  \TeX{} Gyre~Pagella\index{font>TeX Gyre Pagella=\TeX{} Gyre Pagella},
-%                  Quattrocento\index{font>},
-%                  \acronym{TX}~Fonts\index{font>TX Fonts=\acronym{TX} Fonts},
-%                  \acronym{ADF}~Venturis\index{font>ADF Venturis=\acronym{ADF} Venturis},
-%                  and many more   \\
+%        Alegreya\index{font>Alegreya}, Arvo\index{font>Arvo},
+%        Bitter\index{font>Bitter}, Clara\index{font>Clara},
+%        \acronym{EB}~Garamond\index{font>EB Garamond=\acronym{EB} Garamond},
+%        Gentium\index{font>Gentium},
+%        Ibarra Real Nova\index{font>Ibarra Real Nova},
+%        \acronym{Inria}~Serif\index{font>Inria Serif=\acronym{Inria} Serif},
+%        Libertine\index{font>Libertine}, Libertinus\index{font>Libertinus Serif},
+%        Merriweather\index{font>Merriweather},
+%        \acronym{PT}~Serif\index{font>PT Serif=\acronym{PT} Serif},
+%        Roboto Slab\index{font>Roboto Slab}, Spectral\index{font>Spectral},
+%        \acronym{STIX}\index{font>STIX=\acronym{STIX}}, and many more  &
+%        .0  \\
+%        fbb\index{font>fbb}, Source Serif Pro\index{font>Source Serif Pro}  &
+%        .05  \\
+%        Libre Baskerville\index{font>Libre Baskerville},
+%        Crimson Pro\index{font>Crimson Pro},
+%        Erewhon\index{font>Erewhon}, Droid Serif\index{font>Droid Serif}  &
+%        .0667  \\
+%        \acronym{GFS}~Artemisia\index{font>GFS Artemisia=\acronym{GFS} Artemisia},
+%        Libre Caslon\index{font>Libre Caslon},
+%        Coelacanth\index{font>Coelacanth}, Crimson Pro\index{font>Crimson Pro},
+%        Crimson Text\index{font>Crimson Text},
+%        \TeX{} Gyre~Pagella\index{font>TeX Gyre Pagella=\TeX{} Gyre Pagella},
+%        Quattrocento\index{font>},
+%        \acronym{TX}~Fonts\index{font>TX Fonts=\acronym{TX} Fonts},
+%        \acronym{ADF}~Venturis\index{font>ADF Venturis=\acronym{ADF} Venturis},
+%        and many more  &
+%        .1  \\
 %        \bottomrule
-%      \end{tabular}
+%      \end{tabularx}
 %    \end{tabfigures}
 %  \end{table}
 %
@@ -2281,35 +2368,36 @@ end
 %  or lining numerals is \cs{Singleguillemetleft} and \cs{Singleguillemetright} and
 %  \cs{Doubleguillemetleft} and \cs{doubleguillemetright}.  Mnemonic: These macros start with an
 %  uppercase letter.  Their height above the baseline is adjusted with
-%  \hyperref[item:raisecapitalguillemets]{|raisecapitalguillemets|}.  Values of .025em to .075em
-%  are typical for fonts that need this kind of correction.  \Cref{tab:raiseguillemets}
+%  \hyperref[item:raisecapitalguillemets]{|raisecapitalguillemets|}.  Values of .025\,em to
+%  .075\,em are typical for fonts that need this kind of correction.  \Cref{tab:raiseguillemets}
 %  summarizes some findings.
 %
 %  \begin{table}
 %    \centering
 %    \caption[Suggested raise amounts for guillemets]%
-%            {Suggested values for raising guillemets of some selected fonts.}
+%            {Suggested values for raising guillemets of some selected fonts in multiples
+%             of~1\,em.}
 %    \label{tab:raiseguillemets}
 %
 %    \begin{tabfigures}
-%      \begin{tabular}{@{}cc>{\RaggedRight}p{20em}@{}}
+%      \def~{\hphantom{0}}
+%      \begin{tabularx}{\linewidth}{@{}>{\RaggedRight}Xcc@{}}
 %        \toprule
-%          \multicolumn{2}{@{}c}{Raise}  &  Font Name  \\
-%          Lowercase  &  Uppercase  &  \\
-%          em  &  em  &  \\
+%        Font  &  Uppercase  &  Lowercase  \\
 %        \midrule
-%        0  &  .05\hphantom{00}  &
-%          \acronym{EB}~Garamond\index{font>EB Garamond=\acronym{EB} Garamond},
-%          Libertinus\index{font>Libertinus},
-%          Merriweather\index{font>Merriweather}, and many more  \\
-%        .025  &  .05\hphantom{00}  &  Gentium\index{font>Gentium}  \\
-%        .04\hphantom{0}  &  .0667  &
-%          \acronym{ADF}~Baskervald\index{font>ADF Baskervald=\acronym{ADF} Baskervald}  \\
-%        .05\hphantom{0}  &  .0625  &
-%          \acronym{GFS}~Artemisia\index{font>GFS Artemisia=\acronym{GFS} Artemisia},
-%          \acronym{GFS}~Didot\index{font>GFS Didot=\acronym{GFS} Didot}  \\
+%        \acronym{EB}~Garamond\index{font>EB Garamond=\acronym{EB} Garamond},
+%        Libertinus\index{font>Libertinus Serif},
+%        Merriweather\index{font>Merriweather}, and many more  &
+%        .05~~  &  .0~~  \\
+%        Gentium\index{font>Gentium}  &
+%        .05~~  &  .025  \\
+%        \acronym{GFS}~Artemisia\index{font>GFS Artemisia=\acronym{GFS} Artemisia},
+%        \acronym{GFS}~Didot\index{font>GFS Didot=\acronym{GFS} Didot}  &
+%        .0625  &  .05~  \\
+%        \acronym{ADF}~Baskervald\index{font>ADF Baskervald=\acronym{ADF} Baskervald}  &
+%        .0667  &  .04~  \\
 %        \bottomrule
-%      \end{tabular}
+%      \end{tabularx}
 %    \end{tabfigures}
 %  \end{table}
 %
@@ -2323,7 +2411,8 @@ end
 %      \cs{let}\cs{sq}=\cs{singlequotes}
 %    \end{codeexample}
 %
-%    and similar definitions for \cs{Singlequotes}, \cs{doublequotes}, and~\cs{Doublequotes}.
+%    \noindent
+%    and similar definitions for \cs{Singlequotes}, \cs{doublequotes}, and \cs{Doublequotes}.
 %
 %    Users working according to the French typesetting conventions will want to add extra
 %    spacing between the guillemets and the macro argument already in these macros.
@@ -2368,6 +2457,322 @@ end
 %  \end{futuredirection}
 %
 %
+%  \subsection[Vertically Adjust Label Items]
+%             {Vertically Adjust Label Items of
+%              Environment \code{itemize}}\label{sec:adjust-label-items}
+%  \index{label items}
+%
+%  \begin{whittyquote}
+%    Perfection of planned layout  \\
+%    is archieved only by institutions  \\
+%    on the point of collapse.  \\
+%    \capitalemdash*~\propername{Cyril Northcote Parkinson}
+%  \end{whittyquote}
+%
+%  \noindent
+%  The symbols that \LaTeX{} uses to distinguish the items of |itemize|~lists do not always
+%  align well in the vertical direction with the following text.  Sometimes the label is too
+%  low, especially if followed by an uppercase (initial) letter.  In rare occasions the label is
+%  placed too far above the baseline.  If any label has been taken from a math-font vertical
+%  alignment with the text font is almost purely accidental.\footnote{The exception being
+%  mathematics typeset as text via package~\packagename{mathastext}~\cite{package:mathastext}.}
+%
+%  \DescribeMacro{\uppercaseadjust\-labelitems}
+%  \DescribeMacro{\lowercaseadjust\-labelitems}
+%  \DescribeMacro{\noadjustlabelitems}
+%  \sinceversion{All three since v0.4}
+%  Package~\packagename{typog} lets the user vertically align the \code{itemize}~labels for
+%  subsequent uppercase or lowercase letters, where the designations~\singlequotes{uppercase}
+%  and \singlequotes{lowercase} are just names for two four-tuples of lengths (technically:
+%  |dimen|s) to shift the labels up or down.
+%
+%  \begin{synopsis}
+%    \label{syn:lowercaseadjustlabelitems}
+%    \label{syn:noadjustlabelitems}
+%    \label{syn:uppercaseadjustlabelitems}
+%    \cs{uppercaseadjustlabelitems}\marg{levels-to-adjust}  \\
+%    \cs{lowercaseadjustlabelitems}\marg{levels-to-adjust}  \\
+%    \cs{noadjustlabelitems}\marg{levels-to-adjust}
+%  \end{synopsis}
+%
+%  Apply uppercase adjustment, lowercase adjustment or no adjustment to the labels in
+%  |itemize|~environments at the \meta{levels-to-adjust}.  The adjustment values themselves,
+%  this is the vertical shifts are configured with
+%  options~\hyperref[item:uppercaselabelitemadjustments]{\code{uppercaselabelitemadjustments}}
+%  and~\hyperref[item:lowercaselabelitemadjustments]{\code{lowercaselabelitemadjustments}}.
+%  They are doubly font dependent: on the one hand the font where the label itself comes from
+%  and on the other hand the font of the copy.
+%
+%  The argument \meta{levels-to-adjust} is a --~possibly empty~-- comma separated list of the
+%  levels the respective adjustments are to be applied to.  The levels themselves are given as
+%  \emph{decimal} numbers, this is, 1, 2, 3, 4 or the special value~\sample{*} which stands for
+%  all four levels.  An empty argument list also has a special meaning.  Used within any
+%  \code{itemize}~environment it automatically applies the adjustment to exactly this level.
+%
+%  \begin{example}
+%    \begin{typogsetup}{uppercaselabelitemadjustments={.1em}}
+%      With the flexible syntax the following settings are possible.
+%
+%      \renewcommand*{\labelitemi}{{\small$\rhd$}}%
+%      \begin{itemize}\uppercaseadjustlabelitems{}
+%      \item Correct all |itemize| labels for uppercase letters.
+%
+%      \begin{codeexample}
+%        \cs{uppercaseadjustlabelitems}\{*\}
+%      \end{codeexample}
+%
+%      \item Adjust nesting levels~1, 2, and~3 for uppercase letters and level~4 for lowercase.
+%
+%      \begin{codeexample}
+%        \cs{lowercaseadjustlabelitems}\{4\}  \\
+%        \cs{uppercaseadjustlabelitems}\{2,3,1\}
+%      \end{codeexample}
+%
+%      \item Within an |itemize|~environment just turn off any correction for this level whatever
+%      it may be.
+%
+%      \begin{codeexample}
+%        \cs{begin}\{itemize\}  \\
+%        \cs{noadjustlabelitems}\{\}  \\
+%        \cs{item} \dots  \\
+%        \cs{end}\{itemize\}
+%      \end{codeexample}
+%
+%      \item Override \cs{labelitemi} with a right-pointing triangle and adjust its vertical
+%      position inside of a \code{typogsetup}~environment.
+%
+%      \begin{codeexample}
+%        \cs{begin}\=\{typogsetup\}  \\
+%                  \>\{uppercaselabelitemadjustments=\{.1em\}\}  \\
+%        12\=34567890  \kill
+%              \>\cs{renewcommand*}\{\cs{labelitemi}\}\{\{\cs{small}\$\cs{rhd}\$\}\}  \\
+%              \>\cs{begin}\{itemize\}  \\
+%              \>\cs{uppercaseadjustlabelitems}\{\}  \\
+%              \>\cs{item} \dots  \\
+%              \>\cs{end}\{itemize\}  \\
+%        \cs{end}\{typogsetup\}
+%      \end{codeexample}
+%      \end{itemize}
+%
+%      The observant reader will have noticed that the itemized list in this emphasized section
+%      uses the code of the last example.
+%    \end{typogsetup}
+%  \end{example}
+%
+%  \paragraph{Setup.}
+%  To assist the user in finding the desired adjustments of the labels of \packagename{typog}
+%  provides macros that help setting up
+%  \hyperref[item:lowercaselabelitemadjustments]{\code{lowercaselabelitemadjustments}} and
+%  \hyperref[item:uppercaselabelitemadjustments]{\code{uppercaselabelitemadjustments}}.  Their
+%  intended uses are in the draft phase of a document or in non-printed sections of the text.
+%
+%  The macros assume a \singlequotes{correct} height that they derive from the measured height
+%  of a sample text scaled by a user-defined factor, which defaults
+%  to~\nativetextfraction{1}{2}.\footnote{The default factor of~.5 hearkens back to
+%  \propername{Strizver's} suggestion that \doublequotes{[b]ullets should be centered on either
+%  the cap~height or x-height of the neighboring text, \dots.}~\cite[p.~220]{strizver:2014}.}
+%  The then correct height gets indicated by a thin horizontal line parallel to the baseline.
+%  Thus, at sufficiently high magnifications it is possible to judge whether a label gets
+%  typeset too high or too low with respect to this reference line.
+%
+%  \begin{note}
+%    The macros use the actual height of a given sample~text.  So, a lowercase~sample should not
+%    contain any letters with ascenders.
+%
+%    Swashes whether upper- or lowercase always need special attention.
+%  \end{note}
+%
+%  \DescribeMacro{\typogadjuststairs}
+%  \sinceversion{Since v0.4}
+%  To get a quick overview how the four \code{itemize}~labels align vertically
+%  \cs{typogadjuststairs} draws them at user-defined steps, typically
+%  \nativetextfraction{1}{4}\,pt, \nativetextfraction{1}{3}\,pt, or
+%  \nativetextfraction{1}{2}\,pt.  It ignores any existing adjustments and in that way can be
+%  utilized as a first configuration step or, for a small \meta{step-size} and a high
+%  \meta{number-of-steps}, for an easy refinement.
+%
+%  \begin{synopsis}
+%    \begin{tabbing}
+%      \label{syn:typogadjuststairs}
+%      \cs{typogadjuststairs}\=[\meta{scale-factor}=.5]  \\
+%                            \>\marg{step-size}\marg{number-of-steps}  \\
+%                            \>\marg{sample}
+%    \end{tabbing}
+%  \end{synopsis}
+%
+%  Generate stairs of \meta{number-of-steps} vertically shifted label items; use the next odd
+%  number, if \meta{number-of-steps} is even.  Draw a reference hairline at \meta{scale-factor}
+%  times the height of \meta{sample}, where \meta{scale-factor} defaults to~.5.  The stairs
+%  start at a vertical shift of
+%  \begin{gather*}
+%    -\frac{\text{\meta{number-of-steps}} - 1}{2} \times \text{\meta{step-size}}  \\
+%    \intertext{and repeat up}
+%    \frac{\text{\meta{number-of-steps}} - 1}{2} \times \text{\meta{step-size}}.
+%  \end{gather*}
+%
+%  \noindent
+%  The central step --~which is always surrounded by a bit more space~-- shows the neutral
+%  alignment, this is~0\,pt.  \cs{typogadjuststairs} never prints the contents of \meta{sample}.
+%
+%  \begin{example}
+%    Play ball!
+%
+%    \begin{center}
+%      \typogadjuststairs{.25pt}{9}{ABC}
+%    \end{center}
+%
+%    This is the result of \code{\string\typogadjuststairs\{.25pt\}\{9\}\{ABC\}} with the
+%    document's definitions of \cs{labelitem}\meta{N}.  The fifth label~item in each line is the
+%    uncorrected one.
+%  \end{example}
+%
+%  \noindent
+%  \DescribeMacro{\typoguppercase\-adjustcheck}
+%  \DescribeMacro{\typoglowercase\-adjustcheck}
+%  \sinceversion{Both since v0.4}
+%  For a quick and easy check how the four label items vertically align \emph{as configured} use
+%  \code{\string\typoguppercaseadjustcheck} and \code{\string\typoglowercaseadjustcheck}.
+%  Experienced users with a keen eye for type can apply these macros even in the initial setup.
+%  An accurate determination of \code{uppercaselabelitemadjustments} and
+%  \code{lowercaselabelitemadjustments} is preferably done at a high magnification (400\% to
+%  600\% on a 100\,dpi screen) with a representative sample of initial letters.
+%
+%  \begin{synopsis}
+%    \label{syn:typoguppercaseadjustcheck}
+%    \label{syn:typoglowercaseadjustcheck}
+%    \cs{typoguppercaseadjustcheck}[\meta{scale-factor}=.5]\marg{sample}  \\
+%    \cs{typoglowercaseadjustcheck}[\meta{scale-factor}=.5]\marg{sample}
+%  \end{synopsis}
+%
+%  Typeset all four label items adjusted for uppercase or for lowercase with an indicator line
+%  at \meta{scale-factor} times the \meta{sample}'s actual height.  The default
+%  \meta{scale-factor} is~.5.  Both macros refer to the \emph{configureed} values for the
+%  uppercase or lowercase adjustments but are independent of any settings done with
+%  \cs{uppercaseadjustlabelitems}, \cs{lowercaseadjustlabelitems}, or \cs{noadjustlabelitems}.
+%  Again, \meta{sample} does not get printed.
+%
+%  \begin{example}
+%    Uppercase check with \code{\string\typoguppercaseadjustcheck\{ABCXYZ\}}:
+%
+%    \centering
+%    ABC\typoguppercaseadjustcheck{ABCXYZ}XYZ
+%
+%    \justifying
+%    \noindent
+%    and the same for lowercase: \code{\string\typoglowercaseadjustcheck\{acexyz\}}:
+%
+%    \centering
+%    ace\typoglowercaseadjustcheck{acexyz}xyz,
+%
+%    \justifying
+%    \noindent
+%    where we have bracketed the macro calls with a selection of the letters used in the
+%    respective~\meta{sample}s.
+%  \end{example}
+%
+%  In \Cref{tab:labelitemadjustvalues} on \cpageref{tab:labelitemadjustvalues} we collected some
+%  suggestions for adjustment values in the \emph{default} case when the label items are not
+%  redefined by the user and expand like
+%
+%  \begingroup
+%    \def\arraystretch{1}
+%    \begin{tabular}{@{}l@{\enspace\(\vdash\)\enspace}l@{}}
+%      \cs{labelitemi}    &  \dumpmacro{\labelitemi},  \\
+%      \cs{labelitemii}   &  \dumpmacro{\labelitemii},  \\
+%      \cs{labelitemiii}  &  \dumpmacro{\labelitemiii}, and  \\
+%      \cs{labelitemiv}   &  \dumpmacro{\labelitemiv}.
+%    \end{tabular}
+%  \endgroup
+%
+%  \noindent
+%  They display as \sample{\labelitemi}, \sample{\labelitemii}, \sample{\labelitemiii}, and
+%  \sample{\labelitemiv}, respectively.
+%
+%  \begin{table}
+%    \centering
+%    \caption[Label item adjustment suggestions]%
+%            {Some suggested values for the vertical adjustments of label items.  The table
+%             assumes that the default definitions for \cs{labelitem}\meta{N} are in effect.
+%             All lengths are given as printer points~(pt) and refer to a document font size of
+%             10\,pt.}
+%    \label{tab:labelitemadjustvalues}
+%
+%    \makeatletter
+%    \newcommand*{\palladiomark}{\tablenotemark{\@fnsymbol{1}}}
+%    \newcommand*{\kpmark}{\tablenotemark{\@fnsymbol{2}}}
+%    \newcommand*{\utopiamark}{\tablenotemark{\@fnsymbol{3}}}
+%    \newcommand*{\guessmark}{\tablenotemark{\@fnsymbol{4}}}
+%    \makeatother
+%
+%    \begin{tabfigures}
+%      \fullwidthsetup{skipabove=0pt, skipbelow=0pt}
+%      \begin{maxipage}\flushright
+%        \def~{\hphantom{0}}
+%        \def\mc#1{#1~~~}
+%        \begin{tabular}{@{}l*{4}{r}@{\qquad}*{4}{r}@{}}
+%          \toprule
+%            Font Name  &
+%            \multicolumn{4}{c}{Uppercase Adjustments}  &  \multicolumn{4}{c@{}}{Lowercase Adjustments}  \\
+%            {}  &
+%            \mc{1}  &  \mc{2}  &  \mc{3}  &  \mc{4}  &
+%            \mc{1}  &  \mc{2}  &  \mc{3}  &  \mc{4}  \\
+%          \midrule
+%            \acronym{ADF} Venturis\index{font>ADF Venturis=\acronym{ADF} Venturis}  &
+%            .0~~  &  1.0~~  &  .75~  &  1.0~~  &
+%            \textminus.75~  &  .0~~  &  \textminus.25~  &  .0~~  \\
+%            \acronym{CM} Roman\index{font>Computer Modern Roman}  &
+%            1.0~~  & .75~  &  1.0~~  &  1.0~~  &
+%            \textminus.25~  &  \textminus.5~~  &  \textminus.25~  &  \textminus.25~  \\
+%            Gentium\index{font>Gentium}  &
+%            .0~~  &  .75~  &  .0~~  &  .0~~  &
+%            \textminus.5~~  &  \textminus.25~  &  \textminus.75~  &  \textminus1.0~~  \\
+%            \acronym{GFS} Didot\index{font>GFS Didot=\acronym{GFS} Didot}  &
+%            \textminus1.5~~  &  .75~  &  1.0~~  &  1.25~  &
+%            \textminus2.75~  &  \textminus.25~  &  \textminus.25~  &  .25~  \\
+%            \acronym{KP} Serif\kpmark\index{font>KP Serif=\acronym{KP} Serif}  &
+%            .0~~  &  1.0~~  &  1.25~  &  .75~  &
+%            \textminus1.0~~  &  .0~~  &  .0~~  &  \textminus.5~~  \\
+%            Libertinus Serif\index{font>Libertinus Serif}  &
+%            1.0~~  &  .75~  &  1.125  &  .75~  &
+%            .0~~  &  \textminus.325  &  .0~~  &  \textminus.25~  \\
+%            \acronym{ML} Modern\index{font>ML Modern=\acronym{ML} Modern}  &
+%            1.25~  &  .75~  &  1.0~~  &  .125  &
+%            .0~~  &  \textminus.5~~  &  \textminus.25~  &  \textminus.125  \\
+%            Source Serif Pro\index{font>Source Serif Pro}  &
+%            .125  &  .75~  &  \textminus1.0~~  &  .125  &
+%            \textminus.75~  &  .0~~  &  \textminus2.0~~  &  \textminus.75~  \\
+%            \acronym{STIX}\index{font>STIX=\acronym{STIX}}  &
+%            1.0~~  &  1.0~~  &  .75~  &  1.0~~  &
+%            .0~~  &  .0~~  &  .0~~  &  .0~~  \\
+%            \acronym{URW} Palladio\palladiomark\index{font>URW Palladio=\acronym{URW} Palladio}  &
+%            .25~  &  1.125  &  1.0~~  &  1.0~~  &
+%            \textminus1.0~~  &  \textminus.125  &  \textminus.125  &  \textminus.125  \\
+%            Utopia Regular\utopiamark\index{font>Utopia Regular}  &
+%            .0~~  &  1.0~~  &  .75~  &  1.0~~  &
+%            \textminus.75~  &  .0~~  &  \textminus.25~  &  .0~~  \\
+%            \emph{educated guess}\guessmark  &
+%            .75~  &  .75~  &  .75~  &  .75~  &
+%            \textminus.25~  &  \textminus.25~  &  \textminus.25~  &  \textminus.25~  \\
+%          \bottomrule
+%        \end{tabular}
+%      \end{maxipage}
+%    \end{tabfigures}
+%
+%    \begin{tablenotes}
+%      \kpmark\enspace Load with \code{\string\usepackage\{kpfonts\}}.
+%
+%      \palladiomark\enspace Contained in package~\packagename{mathpazo}.
+%
+%      \utopiamark\enspace Utopia is available through package~\packagename{fourier} or
+%      package~\packagename{mathdesign}.  In the latter case pass option~\code{adobe-utopia} to
+%      the package.
+%
+%      \guessmark\enspace These two sets should be a good starting point for many font
+%      combinations.
+%    \end{tablenotes}
+%  \end{table}
+%
+%
 %  \subsection[Align Last Line]
 %             {Align Last Line of a Paragraph}\label{sec:align-last-line}
 %  \index{paragraph>align last line}
@@ -2378,8 +2783,8 @@ end
 %  discussion consult Ch.~17, \doublequotes{Paragraph End}, of Ref.~\citenum{eijkhout:2007}.
 %  The following environments allow to adjust the last lines of paragraphs in different ways.
 %
-%  \DescribeEnv{lastlineraggedleftpar}
-%  \DescribeEnv{lastlineflushrightpar}
+%  \DescribeEnv{lastlineraggedleft\-par}
+%  \DescribeEnv{lastlineflushright\-par}
 %  The environment |lastlineraggedleftpar|\index{paragraph>align last line>flush right} adjusts
 %  the various skips such that the last lines of the paragraphs gets typeset flush with the
 %  right margin.
@@ -2563,7 +2968,7 @@ end
 %        \includegraphics{crooked-paragraphs-3.mps}
 %      \end{center}
 %    \end{minipage}\footnotetext{Package~\packagename{parskip} defines \cs{parskip}
-%    as \mbox{6pt plus 2pt} for a base size of~10pt.}
+%    as \mbox{6\,pt plus 2\,pt} for a base size of~10\,pt.}
 %
 %    \medskip
 %    \begin{minipage}{\linewidth}
@@ -2577,7 +2982,7 @@ end
 %
 %    The suggestions for the gap-width vary from two~em to twice the width of a
 %    \singlequotes{typical} \cs{parindent}\footnote{% For example, \LaTeX's class
-%    \packagename{article} uses a \cs{parindent} of~25pt.}  for the gap~\cite{carlisle:1996}.
+%    \packagename{article} uses a \cs{parindent} of~25\,pt.}  for the gap~\cite{carlisle:1996}.
 %  \end{enumerate}
 %
 %  \begin{tip}
@@ -2599,9 +3004,10 @@ end
 %    them should have certain advantageous properties.
 %
 %    \begin{itemize}
-%    \item Technically, the paragraphs need to contain enough glue (see
-%      e.\,g.~\cref{sec:sloppy-paragraphs}) to achieve a low badness such that the desired
-%      paragraph end is deemed feasible by \TeX.
+%    \item Technically, the paragraphs need to contain enough glue (see for example
+%      \cref{sec:sloppy-paragraphs}) to achieve a low badness such that the desired paragraph
+%      end is deemed feasible by \TeX.\shiftedmarginnote{This \code{itemize} list demonstrates
+%      vertically adjusted label items (\cref{sec:adjust-label-items}).}
 %
 %    \item Aesthetically, the paragraphs must be long enough to absorb the change in last-line
 %      fill level otherwise their gray-values visibly deviate from the
@@ -2775,8 +3181,8 @@ end
 %  \subsection{Spacing}\label{sec:spacing-control}\index{font>spacing}
 %
 %  \begin{whittyquote}
-%    90~\% of design is typography.  \\
-%    And the other 90~\% is whitespace.  \\
+%    90\% of design is typography.  \\
+%    And the other 90\% is whitespace.  \\
 %    \capitalemdash*~\propername{Jeffrey Zeldman}
 %  \end{whittyquote}
 %
@@ -2823,7 +3229,7 @@ end
 %
 %  \begin{SCtable}[10]
 %    \caption[Spacing changes made by \code{loosespacing}]%
-%      {Adjustments made by environment |loosespacing| to \cs{spaceskip}.
+%      {Adjustments made by environment \code{loosespacing} to \cs{spaceskip}.
 %       The mapping of \meta{level} to the exact skip definitions are
 %       \(1 \mapsto \formatskip{1.05}{.5}{.1}\),
 %       \(2 \mapsto \formatskip{1.1}{.5}{.1}\),
@@ -2837,7 +3243,7 @@ end
 %      \def~{\hphantom{0}}%
 %      \begin{tabular}{@{}ccl@{}}
 %        \toprule
-%        \meta{level}  &  Adjustment  &  Comment  \\
+%        \meta{level}  &  Adjustment  &  Note  \\
 %        {}            &  \%          &  \\
 %        \midrule
 %        0  &  n/a  &  neutral  \\
@@ -2862,29 +3268,29 @@ end
 %  \cref{tab:tightspacing}.
 %
 %  \begin{SCtable}[10]
+%    \def~{\hphantom{0}}
 %    \caption[Spacing changes made by \code{tightspacing}]%
-%      {Adjustments made by environment |tightspacing| to \cs{spaceskip}.
+%      {Adjustments made by environment \code{tightspacing} to \cs{spaceskip}.
 %       The mapping of \meta{level} to the exact skip definitions are
-%       \(1 \mapsto \formatskip{.9875}{.0125}{.5\hphantom{000}}\)\!,
-%       \(2 \mapsto \formatskip{.975}{.025}{.5\hphantom{00}}\)\!,
-%       \(3 \mapsto \formatskip{.95}{.05}{.5\hphantom{0}}\)\!, and
+%       \(1 \mapsto \formatskip{.9875}{.0125}{.5~~~}\)\!,
+%       \(2 \mapsto \formatskip{.975}{.025}{.5~~}\)\!,
+%       \(3 \mapsto \formatskip{.95}{.05}{.5~}\)\!, and
 %       \(\ge 4 \mapsto \formatskip{.9}{.1}{.5}\),
 %       where all factors scale with \cs{dimen2},
 %       the current font's space-width.}
 %    \label{tab:tightspacing}
 %
 %    \begin{tabfigures}
-%      \def~{\hphantom{0}}%
 %      \begin{tabular}{@{}ccl@{}}
 %        \toprule
-%        \meta{level}  &  Adjustment  &  Comment  \\
+%        \meta{level}  &  Adjustment  &  Note  \\
 %        {}            &  \%          &  \\
 %        \midrule
 %        0  &  n/a  &  neutral  \\
-%        1  &  ~{-}1.25  &  default  \\
-%        2  &  ~{-}2.5~  &  \\
-%        3  &  ~{-}5\hphantom{.00}  &  \\
-%        \(\ge\)\:4  &  -10\hphantom{.00}  &  \\
+%        1  &  ~\textminus 1.25  &  default  \\
+%        2  &  ~\textminus 2.5~  &  \\
+%        3  &  ~\textminus 5\hphantom{.}~~  &  \\
+%        \(\ge\)\:4  &  \textminus 10\hphantom{.}~~  &  \\
 %        \bottomrule
 %      \end{tabular}
 %    \end{tabfigures}
@@ -2915,10 +3321,11 @@ end
 %
 %  \begin{SCtable}
 %    \caption[\cs{fontdimen}\meta{number} parameters]
-%            {The first column~\sample{\#} states the index of the \cs{fontdimen} parameter:
-%             \meta{number}.  Column~2 presents short descriptions of the
-%             \cs{fontdimen}\meta{number} parameters.  As examples, the values for the current
-%             font are shown in column~3; they are normalized to the quad-size.\bottomstrut}
+%            {All \TeX{} font parameters normalized to the font's quad-size.  The first
+%             column~\sample{\#} states the index of the \cs{fontdimen} parameter:
+%             \meta{number}.  Column~2 presents short descriptions of
+%             \cs{fontdimen}\meta{number}.  As examples, the values for the current font are
+%             shown in column~3.\bottomstrut}
 %    \label{tab:fontdimen}
 %
 %    \begin{tabfigures}
@@ -2932,7 +3339,6 @@ end
 %      \begin{tabular}{@{}lll@{}}
 %        \toprule
 %        \#  &  Description  &  Value  \\
-%        {}  &  &  \multicolumn{1}{c}{\%}  \\
 %        \midrule
 %        1  &  Slant per 1\,pt height &  ~~\relativefontdimen1\topstrut  \\
 %        2  &  Interword space width  &  ~\relativefontdimen2  \\
@@ -3034,25 +3440,25 @@ end
 %    \centering
 %    \caption[Comparison of some space sizes]
 %            {Exemplary comparison of standard \cs{space} versus \cs{narrowspace} and
-%             \cs{widespace}.  All values are relative to the size of the current font's quad
-%             size.  \cs{narrowspace} and \cs{widespace} use the package's defaults.~\visualpar
-%             The upper values in the Width-column for \cs{narrowspace}, and \cs{widespace}
-%             refer to the \(\cs{fontdimen7} \not= 0\) case and the lower ones to the
-%             \(\cs{fontdimen7} = 0\) code-path.}
+%             \cs{widespace}.  All values are relative to the size of the current font's
+%             quad-size and shown as a percentage of it.  \cs{narrowspace} and \cs{widespace}
+%             use the package's defaults.~\visualpar The upper values in the
+%             \singlequotes{Width}~column for \cs{narrowspace} and \cs{widespace} refer to the
+%             \(\cs{fontdimen7} \not= 0\) case and the lower ones to the \(\cs{fontdimen7} = 0\)
+%             code-path.}
 %    \label{tab:space-sizes}
 %
 %    \begin{tabfigures}
-%      \def~{\hphantom{0}}%
+%      \def~{\hphantom{0}}
 %      \ExplSyntaxOn
 %      \def\relativedimen#1{\fp_eval:n {round (1000 * (#1) / \the\fontdimen6\font) / 10}}
 %      \def\relativefontdimen#1{\relativedimen{\the\fontdimen#1\font}}
 %      \ExplSyntaxOff
 %      \def\nrows{1.75}
 %
-%      \begin{tabular}{@{}llll@{}}
+%      \begin{tabular}{@{}l*{3}{r}@{}}
 %        \toprule
-%        Name  &  Width  &  Stretch  &  Shrink  \\
-%        {}    &  \%     &  \%       &  \%  \\
+%        Macro  &  Width  &  Stretch  &  Shrink  \\
 %        \midrule
 %        \multirow{\nrows}{*}{\cs{narrowspace}}  &
 %        \relativedimen{\the\fontdimen2\font - \narrowspacestrength * \the\fontdimen7\font}  &
@@ -3166,20 +3572,20 @@ end
 %  summarize the values for |stretch| and |shrink| in these environments.
 %
 %  \begin{SCtable}
-%    \caption[Shrink values of \code{setfontshrink}]%
+%    \caption[Shrink values of \code{setfontshrink}]
 %      {\slightlysloppy[2] Preconfigured values for |shrink| inside of
-%       environment~\code{setfontshrink}.  Note that all |stretch| values are zero, so the fonts
-%       only can shrink.}
+%       environment~\code{setfontshrink} as \nativetextfraction{1}{1000}\,em.  Note that all
+%       |stretch| values are zero, so the fonts only can shrink.}
 %    \label{tab:setfontshrink-values}
 %
 %    \begin{tabfigures}
+%      \def~{\hphantom{0}}
 %      \begin{tabular}{@{}cccl@{}}
 %        \toprule
-%        \meta{level}  &  |stretch|  &  |shrink|  &  Comment  \\
-%        {}  &  \nativetextfraction{1}{1000}\,em  &  \nativetextfraction{1}{1000}\,em  &  \\
+%        \meta{level}  &  |stretch|  &  |shrink|  &  Note  \\
 %        \midrule
 %        0  &  n/a  &  n/a  &  no operation  \\
-%        1  &  0  &  \hphantom{0}\makeatletter\typog@shrink@i\makeatother  &  default  \\
+%        1  &  0  &  ~\makeatletter\typog@shrink@i\makeatother  &  default  \\
 %        2  &  0  &  \makeatletter\typog@shrink@ii\makeatother  &  \\
 %        3  &  0  &  \makeatletter\typog@shrink@iii\makeatother  &  \\
 %        \bottomrule
@@ -3189,20 +3595,20 @@ end
 %
 %  \begin{SCtable}
 %    \centering
-%    \caption[Stretch values of \code{setfontstretch}]%
+%    \caption[Stretch values of \code{setfontstretch}]
 %      {\slightlysloppy[2] Preconfigured values for |stretch| inside of
-%       environment~\code{setfontstretch}.  Note that all |shrink| values are zero, so the fonts
-%       only can stretch.}
+%       environment~\code{setfontstretch} as \nativetextfraction{1}{1000}\,em.  Note that all
+%       |shrink| values are zero, so the fonts only can stretch.}
 %    \label{tab:setfontstretch-values}
 %
 %    \begin{tabfigures}
+%      \def~{\hphantom{0}}
 %      \begin{tabular}{@{}cccl@{}}
 %        \toprule
 %        \meta{level}  &  |stretch|  &  |shrink|  \\
-%        {}  &  \nativetextfraction{1}{1000}\,em  &  \nativetextfraction{1}{1000}\,em  &  \\
 %        \midrule
 %        0  &  n/a  &  n/a  &  no operation  \\
-%        1  &  \hphantom{0}\makeatletter\typog@stretch@i\makeatother  &  0  &  default  \\
+%        1  &  ~\makeatletter\typog@stretch@i\makeatother  &  0  &  default  \\
 %        2  &  \makeatletter\typog@stretch@ii\makeatother  &  0  &  \\
 %        3  &  \makeatletter\typog@stretch@iii\makeatother  &  0  &  \\
 %        \bottomrule
@@ -3233,20 +3639,20 @@ end
 %  \Cref{tab:setfontexpand-values} gives an overview of the values associated with \meta{level}.
 %
 %  \begin{SCtable}
-%    \caption[Shrink and stretch values of \code{setfontexpand}]%
+%    \caption[Shrink and stretch values of \code{setfontexpand}]
 %      {\slightlysloppy[2] Preconfigured values for |shrink| and |stretch| inside of
-%       environment~\code{setfontexpand}.  Note that both |shrink| and |stretch| values are
-%       nonzero, so the fonts can shrink or expand.}
+%       environment~\code{setfontexpand} as \nativetextfraction{1}{1000}\,em.  Note that both
+%       |shrink| and |stretch| values are nonzero, so the fonts can shrink or expand.}
 %    \label{tab:setfontexpand-values}
 %
 %    \begin{tabfigures}
+%      \def~{\hphantom{0}}
 %      \begin{tabular}{@{}cccl@{}}
 %        \toprule
-%        \meta{level}  &  |stretch|  &  |shrink|  &  Comment  \\
-%        {}  &  \nativetextfraction{1}{1000}\,em  &  \nativetextfraction{1}{1000}\,em  &  \\
+%        \meta{level}  &  |stretch|  &  |shrink|  &  Note  \\
 %        \midrule
 %        0  &  n/a  &  n/a  &  no operation  \\
-%        1  &  \hphantom{0}\makeatletter\typog@stretch@i\makeatother  &  \hphantom{0}\makeatletter\typog@stretch@i\makeatother  &  default  \\
+%        1  &  ~\makeatletter\typog@stretch@i\makeatother  &  ~\makeatletter\typog@stretch@i\makeatother  &  default  \\
 %        2  &  \makeatletter\typog@stretch@ii\makeatother  &  \makeatletter\typog@stretch@ii\makeatother  &  \\
 %        3  &  \makeatletter\typog@stretch@iii\makeatother  &  \makeatletter\typog@stretch@iii\makeatother  &  \\
 %        \bottomrule
@@ -3358,21 +3764,22 @@ end
 %
 %    \begin{suspendshortverb}
 %      \begin{tabfigures}
+%        \def~{\hphantom{0}}
 %        \begin{tabular}{@{}ccccl@{}}
 %          \toprule
-%          \meta{sloppiness}  &  \cs{toler-}  &  \cs{hfuzz}  &  \cs{emergency-}  &  Comment  \\
+%          \meta{sloppiness}  &  \cs{toler-}  &  \cs{hfuzz}  &  \cs{emergency-}  &  Note  \\
 %          {}  &  \code{ance}  &  \cs{vfuzz}  &  \code{stretch}~\(G\)  &  \\
 %          {}  &  &  pt  &  em  &  \\
 %          \midrule
-%          0  &  \hphantom{0}200\hphantom{\tolerancemark}  &  .1\hphantom{0}  &  0\hphantom{.000\scaledmark}  &  \TeX: \verb+\fussy+  \\
-%          1  &  \hphantom{0}330\tolerancemark  &  .15  &  \hphantom{0}.375\scaledmark  &  default \\
-%          2  &  \hphantom{0}530\tolerancemark  &  .2\hphantom{0}  &  \hphantom{0}.75\scaledmark\hphantom{0}  &  \\
-%          3  &  \hphantom{0}870\tolerancemark  &  .25  &  1.125\scaledmark  &  \\
-%          4  &  1410\tolerancemark  &  .3\hphantom{0}  &  1.5\scaledmark\hphantom{00}  &  \\
+%          0  &  ~200\hphantom{\tolerancemark}  &  .1~  &  0\hphantom{.000\scaledmark}  &  \TeX: \verb+\fussy+  \\
+%          1  &  ~330\tolerancemark  &  .15  &  ~.375\scaledmark  &  default \\
+%          2  &  ~530\tolerancemark  &  .2~  &  ~.75\scaledmark~  &  \\
+%          3  &  ~870\tolerancemark  &  .25  &  1.125\scaledmark  &  \\
+%          4  &  1410\tolerancemark  &  .3~  &  1.5\scaledmark~~  &  \\
 %          5  &  2310\tolerancemark  &  .35  &  1.875\scaledmark  &  \\
-%          6  &  3760\tolerancemark  &  .4\hphantom{0}  &  2.25\scaledmark\hphantom{0}  &  \\
+%          6  &  3760\tolerancemark  &  .4~  &  2.25\scaledmark~  &  \\
 %          7  &  6130\tolerancemark  &  .45  &  2.625\scaledmark  &  \\
-%          \(\ge\)\:8  &  9999\hphantom{\tolerancemark}  &  .5\hphantom{0}  &  3\hphantom{.000\scaledmark}  &  \TeX: \verb+\sloppy+  \\
+%          \(\ge\)\:8  &  9999\hphantom{\tolerancemark}  &  .5~  &  3\hphantom{.000\scaledmark}  &  \TeX: \verb+\sloppy+  \\
 %          \bottomrule
 %        \end{tabular}
 %      \end{tabfigures}
@@ -3689,16 +4096,17 @@ end
 %    \newcommand*{\clubmark}{\tablenotemark{\dag}}
 %
 %    \begin{tabfigures}
+%      \def~{\hphantom{0}}
 %      \begin{tabular}{@{}ccl@{}}
 %        \toprule
-%        \meta{level}  &  \cs{interdisplay-}  &  Comment  \\
+%        \meta{level}  &  \cs{interdisplay-}  &  Note  \\
 %        {}            &  \code{linepenalty}  &  \\
 %        \midrule
 %        0  &  10000  &  no operation  \\
-%        1  &  \hphantom{0}9999  &  \\
-%        2  &  \hphantom{0}6999  &  \\
-%        3  &  \hphantom{0}2999  &  default  \\
-%        4  &  \hphantom{0000}0\rlap{\clubmark}  &  \\
+%        1  &  ~9999  &  \\
+%        2  &  ~6999  &  \\
+%        3  &  ~2999  &  default  \\
+%        4  &  ~~~~0\rlap{\clubmark}  &  \\
 %        \bottomrule
 %      \end{tabular}
 %    \end{tabfigures}
@@ -3748,7 +4156,7 @@ end
 %  interface of \cs{setstretch} though is unintuitive as it asks for an obscure
 %  factor.\fontsizeinfo{setspacefontsizeinfo}\marginnote{In the copy of this document gets
 %  typeset with~\setspacefontsizeinfo*.}  The \LaTeX{} user however prefers to keep her eyes on
-%  the ball and set the line skip\index{baseline skip} directly (e.\,g.~12.5pt) or the lines'
+%  the ball and set the line skip\index{baseline skip} directly (e.\,g.~12.5\,pt) or the lines'
 %  leading\index{leading} to a length or percentage of the font's size.\footnote{To find out
 %  about the current font's size and the \cs{baselineskip} in printable form check out
 %  \cref{sec:font-information} on \cpageref{sec:font-information}.}  This is where the following
@@ -3787,10 +4195,10 @@ end
 %
 %  \begin{example}
 %    Let us assume we want to lighten the gray value of the copy a tad with a \cs{baselineskip}
-%    increased (from e.g.~12pt) to~12.5pt.  To this end we say:
+%    increased (from e.g.~12\,pt) to~12.5\,pt.  To this end we say:
 %
 %    \begin{codeexample}
-%      \cs{setbaselineskip}\{12.5pt\}\specialsectionendhere
+%      \cs{setbaselineskip}\{12.5\,pt\}\specialsectionendhere
 %    \end{codeexample}
 %  \end{example}
 %
@@ -3817,7 +4225,7 @@ end
 %  notion of what is a single-line \cs{baselineskip}.
 %
 %
-%  \DescribeMacro{\setbaselineskippercentage}
+%  \DescribeMacro{\setbaselineskip\-percentage}
 %  \sinceversion{Since v0.3}
 %  Set the \cs{baselineskip} with a relative value calculated as a percentage of the current
 %  font's design size.
@@ -3829,14 +4237,14 @@ end
 %  Set \cs{baselineskip} to \(\cs{typogfontsize} \times \meta{baselineskip-percentage} / 100\).
 %
 %  \begin{example}
-%    We modify the previous example and assume a font design size of 10pt, but now write
+%    We modify the previous example and assume a font design size of 10\,pt, but now write
 %
 %    \begin{codeexample}
 %      \cs{setbaselineskippercentage}\{125\}
 %    \end{codeexample}
 %
 %    \noindent
-%    which sets \cs{baselineskip} to \(10\text{pt} \times 125 / 100 = 12.5\text{pt}\).
+%    which sets \cs{baselineskip} to \(10\text{\,pt} \times 125 / 100 = 12.5\text{\,pt}\).
 %  \end{example}
 %
 %  \DescribeMacro{\setleading}
@@ -3851,7 +4259,7 @@ end
 %  \meta{leading} can be negative, e.\,g.~to set solid.
 %
 %  \begin{example}
-%    Another solution of the previous example, given a font design size of 10pt is to write
+%    Another solution of the previous example, given a font design size of 10\,pt is to write
 %
 %    \begin{codeexample}
 %      \cs{setleading}\{2.5pt\}
@@ -3861,7 +4269,7 @@ end
 %    which sets \cs{baselineskip} to \(10\text{pt} + 2.5\text{pt} = 12.5\text{pt}\).
 %  \end{example}
 %
-%  \DescribeMacro{\setleadingpercentage}
+%  \DescribeMacro{\setleading\-percentage}
 %  \sinceversion{Since v0.3}
 %  Set the \cs{baselineskip} to \cs{typogfontsize} \emph{plus} a relative value calculated as a
 %  percentage of \cs{typogfontsize}.
@@ -3873,14 +4281,14 @@ end
 %  Set \cs{baselineskip} to \(\cs{typogfontsize} \times (1 + \meta{leading-percentage} / 100)\).
 %
 %  \begin{example}
-%    We modify the previous example and again assume a font design size of 10pt, but now write
+%    We modify the previous example and again assume a font design size of 10\,pt, but now write
 %
 %    \begin{codeexample}
 %      \cs{setleadingpercentage}\{25\}
 %    \end{codeexample}
 %
 %    \noindent
-%    which sets \cs{baselineskip} to \(10\text{pt} \times (1 + 25 / 100) = 12.5\text{pt}\).
+%    which sets \cs{baselineskip} to \(10\text{\,pt} \times (1 + 25 / 100) = 12.5\text{\,pt}\).
 %  \end{example}
 %
 %  \smallskip
@@ -3965,24 +4373,23 @@ end
 %  \noindent
 %  Package \packagename{typog} implements a novel approach to typeset ragged paragraphs.
 %  Instead of setting the glue inside of a paragraph to zero and letting the line-widths vary
-%  accordingly~\cite{wermuth:2020} we prescribe the line-widths with the \cs{parshape}~primitive
-%  and leave alone the stretchability or shrinkability of the glue.
+%  accordingly~\cite{wermuth:2020} we prescribe the line-widths with \TeX's
+%  \cs{parshape}~primitive and leave alone the stretchability or shrinkability of the glue.
 %
-%  \begin{slightlysloppypar}
-%    \hangindent=5.5em\hangafter=-5
-%    \DescribeEnv{smoothraggedrightshapetriplet}
-%    \DescribeEnv{smoothraggedrightshapequintuplet}
-%    \DescribeEnv{smoothraggedrightshapeseptuplet}
+%  \begin{slightlysloppypar}[2]
+%    \DescribeEnv{smoothragged\-right\-shape\-triplet}
+%    \DescribeEnv{smoothragged\-right\-shape\-quintuplet}
+%    \DescribeEnv{smoothragged\-right\-shape\-septuplet}
 %    We introduce three environments that allow for setting three, five, or seven different
-%    line-lengths: \code{smoothraggedrightshapetriplet},
+%    line-lengths (which \TeX{} of course will repeat for paragraphs longer than three, five, or
+%    seven lines): \code{smoothraggedrightshapetriplet},
 %    \code{smoothraggedrightshapequintuplet}, and \code{smoothraggedrightshapeseptuplet}; they
-%    work for paragraphs up to
+%    work for paragraph lengths up to
 %    \makeatletter
-%      \typog@triplet@max@lines, \typog@quintuplet@max@lines, or \typog@septuplet@max@lines~lines,
+%      \typog@triplet@max@lines, \typog@quintuplet@max@lines, and \typog@septuplet@max@lines~lines,
 %    \makeatother
 %    respectively.
 %  \end{slightlysloppypar}
-%
 %
 %  \begin{maxipage}
 %    \begin{synopsis}\label{syn:smoothraggedrightshapetriplet}\label{syn:smoothraggedrightshapequintuplet}\label{syn:smoothraggedrightshapeseptuplet}
@@ -4016,7 +4423,7 @@ end
 %  \end{description}
 %
 %  \noindent
-%  \DescribeEnv{smoothraggedrightpar}
+%  \DescribeEnv{smoothragged\-right\-par}
 %  Environment~|smoothraggedrightpar| builds upon the three generators.  It typesets a single
 %  paragraph with a given \meta{ragwidth} of the ragged, right margin, where the rag~width is
 %  the length-difference of the longest and the shortest lines.
@@ -4225,13 +4632,13 @@ end
 %    The default generator is |triplet|.
 %
 %  \item[\cs{smoothraggedrightleftskip}=\meta{dim}]
-%    Value for |leftskip| to pass to the generator.  Default:~0pt.
+%    Value for |leftskip| to pass to the generator.  Default:~0\,pt.
 %
 %  \item[\cs{smoothraggedrightparindent}=\meta{dim}]
-%    Value for |parindent| to pass to the generator.  Default:~0pt.
+%    Value for |parindent| to pass to the generator.  Default:~0\,pt.
 %
 %  \item[\cs{smoothraggedrightragwidth}=\meta{dim}]
-%     Value for the width of the ragged right margin.  Default:~2em.
+%     Value for the width of the ragged right margin.  Default:~2\,em.
 %  \end{description}
 %
 %  \begin{usecases}
@@ -4355,6 +4762,12 @@ end
 %              1998,
 %              \biburl{https://mirrors.ctan.org/systems/doc/etex/etex_man.pdf}.
 %
+%      \bibitem{package:mathastext}
+%              \bibauthor{Burnol, Jean-François}.
+%              \bibtitle{Package~\packagename{mathastext}}.
+%              2023,
+%              \biburl{https://ctan.org/pkg/mathastext}.
+%
 %      \bibitem{carlisle:1996}
 %              \bibauthor{Carlisle, David}.
 %              \bibtitle{Russian Paragraph Shapes}.
@@ -4450,6 +4863,13 @@ end
 %              \bibtitle{Output Routines: Examples and Techniques.  Part~I: Introduction and Examples}.
 %              TUGboat, 11(1), 69\figuredash85, 1990,
 %              \biburl{http://www.tug.org/TUGboat/Articles/tb11-1/tb27salomon.pdf}.
+%
+%      \bibitem{strizver:2014}
+%              \bibauthor{Strizver, Ilene}.
+%              \bibtitle{Type rules!: the designer's guide to professional typography},
+%              4\textsuperior{th}~ed.
+%              John Wiley~\& Sons, Hoboken\kernedslash NJ,
+%              2014.
 %
 %      \bibitem{package:setspace}
 %              \bibauthor{Tobin, Geoffrey,} and \bibauthor{Robin Fairbairns}.
@@ -4556,7 +4976,7 @@ end
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
 \ProvidesPackage{typog}
-                [2024/05/08  v0.3a  TypoGraphic extensions]
+                [2024/05/11  v0.4  TypoGraphic extensions]
 
 \RequirePackage{etoolbox}
 \RequirePackage{everyhook}
@@ -4603,6 +5023,16 @@ end
 
 %    \end{macrocode}
 %  \end{macro}
+%
+%  \begin{tcounter}{typog@@iteration}
+%    We want our own counter (currently for keeping track of iterations) that does not get
+%    trampled underfoot too easily.
+%
+%    \begin{macrocode}
+\newcounter{typog@@iteration}
+
+%    \end{macrocode}
+%  \end{tcounter}
 %
 %  \begin{macro}{\typog@trim@spaces}
 %    Pull \cs{tl\_trim\_spaces} into the \singlequotes{classic} namespace.
@@ -4697,8 +5127,88 @@ end
 %  \begin{macro}{\typog@mathitalicscorrection}
 %    \begin{macrocode}
 \newmuskip\typog@mathitalicscorrection
+
 %    \end{macrocode}
 %  \end{macro}
+%
+%  Actual \cs{labelitem}\meta{N} corrections.
+%
+%  \begin{ldimen}{\typog@adjust@labelitemi}
+%    \begin{macrocode}
+\newdimen{\typog@adjust@labelitemi}
+%    \end{macrocode}
+%  \end{ldimen}
+%
+%  \begin{ldimen}{\typog@adjust@labelitemii}
+%    \begin{macrocode}
+\newdimen{\typog@adjust@labelitemii}
+%    \end{macrocode}
+%  \end{ldimen}
+%
+%  \begin{ldimen}{\typog@adjust@labelitemiii}
+%    \begin{macrocode}
+\newdimen{\typog@adjust@labelitemiii}
+%    \end{macrocode}
+%  \end{ldimen}
+%
+%  \begin{ldimen}{\typog@adjust@labelitemiv}
+%    \begin{macrocode}
+\newdimen{\typog@adjust@labelitemiv}
+%    \end{macrocode}
+%  \end{ldimen}
+%
+%  Configuration constants for \cs{labelitem}\meta{N} corrections.
+%
+%  \begin{ldimen}{\typog@adjust@lowercase@labelitemi}
+%    \begin{macrocode}
+\newdimen{\typog@adjust@lowercase@labelitemi}
+%    \end{macrocode}
+%  \end{ldimen}
+%
+%  \begin{ldimen}{\typog@adjust@lowercase@labelitemii}
+%    \begin{macrocode}
+\newdimen{\typog@adjust@lowercase@labelitemii}
+%    \end{macrocode}
+%  \end{ldimen}
+%
+%  \begin{ldimen}{\typog@adjust@lowercase@labelitemiii}
+%    \begin{macrocode}
+\newdimen{\typog@adjust@lowercase@labelitemiii}
+%    \end{macrocode}
+%  \end{ldimen}
+%
+%  \begin{ldimen}{\typog@adjust@lowercase@labelitemiv}
+%    \begin{macrocode}
+\newdimen{\typog@adjust@lowercase@labelitemiv}
+%    \end{macrocode}
+%  \end{ldimen}
+%
+%  \begin{ldimen}{\typog@adjust@uppercase@labelitemi}
+%    \begin{macrocode}
+\newdimen{\typog@adjust@uppercase@labelitemi}
+%    \end{macrocode}
+%  \end{ldimen}
+%
+%  \begin{ldimen}{\typog@adjust@uppercase@labelitemii}
+%    \begin{macrocode}
+\newdimen{\typog@adjust@uppercase@labelitemii}
+%    \end{macrocode}
+%  \end{ldimen}
+%
+%  \begin{ldimen}{\typog@adjust@uppercase@labelitemiii}
+%    \begin{macrocode}
+\newdimen{\typog@adjust@uppercase@labelitemiii}
+%    \end{macrocode}
+%  \end{ldimen}
+%
+%  \begin{ldimen}{\typog@adjust@uppercase@labelitemiv}
+%    \begin{macrocode}
+\newdimen{\typog@adjust@uppercase@labelitemiv}
+
+%    \end{macrocode}
+%  \end{ldimen}
+%
+%  Other lengths\dots
 %
 %  \begin{macro}{\typog@textitalicscorrection}
 %    \begin{macrocode}
@@ -4898,6 +5408,17 @@ end
   {\setlength{\typog@textitalicscorrection}{#1}}
 \DeclareOptionX<typog>{ligaturekern}[.033333em]%
   {\setlength{\typog@ligaturekern}{#1}}
+\DeclareOptionX<typog>{lowercaselabelitemadjustments}%
+  {\typog@typeout{lowercaselabelitemadjustments={#1}}
+   \def\typog@@do##1{\addtocounter{typog@@iteration}{1}
+      \global\setlength{\csname typog@adjust@lowercase@labelitem\romannumeral\thetypog@@iteration\endcsname}{##1}}
+   \setcounter{typog@@iteration}{0}
+   \forcsvlist{\typog@@do}{#1}}
+\newcommand*{\typog@lowercaselabelitemadjustments}
+  {\the\typog@adjust@lowercase@labelitemi,\space
+   \the\typog@adjust@lowercase@labelitemii,\space
+   \the\typog@adjust@lowercase@labelitemiii,\space
+   \the\typog@adjust@lowercase@labelitemiv}
 \DeclareOptionX<typog>{raisecapitaldash}[\z@]%
   {\setlength{\typog@raisecapitaldash}{#1}}
 \DeclareOptionX<typog>{raisecapitalguillemets}[\z@]%
@@ -4943,6 +5464,17 @@ end
      \typog@typeout{trackingttspacing=#1}%
      \SetTracking[outer spacing={#1}]{encoding=*, family=tt*}{0}%
    \fi}
+\DeclareOptionX<typog>{uppercaselabelitemadjustments}%
+  {\typog@typeout{uppercaselabelitemadjustments={#1}}
+   \def\typog@@do##1{\addtocounter{typog@@iteration}{1}
+      \setlength{\csname typog@adjust@uppercase@labelitem\romannumeral\thetypog@@iteration\endcsname}{##1}}
+   \setcounter{typog@@iteration}{0}
+   \forcsvlist{\typog@@do}{#1}}
+\newcommand*{\typog@uppercaselabelitemadjustments}
+  {\the\typog@adjust@uppercase@labelitemi,\space
+   \the\typog@adjust@uppercase@labelitemii,\space
+   \the\typog@adjust@uppercase@labelitemiii,\space
+   \the\typog@adjust@uppercase@labelitemiv}
 
 \newcommand*{\typog@initialize@options}
   {\ExecuteOptionsX<typog>{
@@ -5682,6 +6214,457 @@ end
 %  \end{macro}
 %
 %
+%
+%
+%  \begin{macro}{\@typog@uppercase@adjust@labelitem}
+%    Handle all possible requests for uppercase label item correction.
+%    Patch |itemize|~environments.
+%
+%    \begin{macrocode}
+\newcommand*{\@typog@uppercase@adjust@labelitem}[1]
+  {\@typog@maybe@patch@itemize
+   \ifstrequal{#1}{*}
+              {\setlength{\typog@adjust@labelitemi}
+                         {\typog@adjust@uppercase@labelitemi}
+               \setlength{\typog@adjust@labelitemii}
+                         {\typog@adjust@uppercase@labelitemii}
+               \setlength{\typog@adjust@labelitemiii}
+                         {\typog@adjust@uppercase@labelitemiii}
+               \setlength{\typog@adjust@labelitemiv}
+                         {\typog@adjust@uppercase@labelitemiv}}
+              {\ifcase #1% 0
+                 \relax  % outside of any itemize environment
+               \or % 1
+                 \setlength{\typog@adjust@labelitemi}
+                           {\typog@adjust@uppercase@labelitemi}
+               \or % 2
+                 \setlength{\typog@adjust@labelitemii}
+                           {\typog@adjust@uppercase@labelitemii}
+               \or % 3
+                 \setlength{\typog@adjust@labelitemiii}
+                           {\typog@adjust@uppercase@labelitemiii}
+               \or % 4
+                 \setlength{\typog@adjust@labelitemiv}
+                           {\typog@adjust@uppercase@labelitemiv}
+               \else
+                 \PackageError{typog}
+                              {Itemize level out of range}
+                              {Valid levels are 1, 2, 3, 4, and *}
+               \fi}}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\@typog@lowercase@adjust@labelitem}
+%    Handle all possible requests for lowercase label item correction.
+%    Patch |itemize|~environments.
+%
+%    \begin{macrocode}
+\newcommand*{\@typog@lowercase@adjust@labelitem}[1]
+  {\@typog@maybe@patch@itemize
+   \ifstrequal{#1}{*}
+              {\setlength{\typog@adjust@labelitemi}
+                         {\typog@adjust@lowercase@labelitemi}
+               \setlength{\typog@adjust@labelitemii}
+                         {\typog@adjust@lowercase@labelitemii}
+               \setlength{\typog@adjust@labelitemiii}
+                         {\typog@adjust@lowercase@labelitemiii}
+               \setlength{\typog@adjust@labelitemiv}
+                         {\typog@adjust@lowercase@labelitemiv}}
+              {\ifcase #1% 0
+                 \relax  % outside of any itemize environment
+               \or % 1
+                 \setlength{\typog@adjust@labelitemi}
+                           {\typog@adjust@lowercase@labelitemi}
+               \or % 2
+                 \setlength{\typog@adjust@labelitemii}
+                           {\typog@adjust@lowercase@labelitemii}
+               \or % 3
+                 \setlength{\typog@adjust@labelitemiii}
+                           {\typog@adjust@lowercase@labelitemiii}
+               \or % 4
+                 \setlength{\typog@adjust@labelitemiv}
+                           {\typog@adjust@lowercase@labelitemiv}
+               \else
+                 \PackageError{typog}
+                              {Itemize level out of range}
+                              {Valid levels are 1, 2, 3, 4, and *}
+               \fi}}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\@typog@noadjust@labelitem}
+%    Neutralize all label item corrections.
+%    This function \emph{does not} request patching any |itemize|~environment!
+%
+%    \begin{macrocode}
+\newcommand*{\@typog@noadjust@labelitem}[1]
+  {\ifstrequal{#1}{*}
+              {\setlength{\typog@adjust@labelitemi}{\z@}
+               \setlength{\typog@adjust@labelitemii}{\z@}
+               \setlength{\typog@adjust@labelitemiii}{\z@}
+               \setlength{\typog@adjust@labelitemiv}{\z@}}
+              {\ifcase #1% 0
+                 \relax  % outside of any itemize environment
+               \or % 1
+                 \setlength{\typog@adjust@labelitemi}{\z@}
+               \or % 2
+                 \setlength{\typog@adjust@labelitemii}{\z@}
+               \or % 3
+                 \setlength{\typog@adjust@labelitemiii}{\z@}
+               \or % 4
+                 \setlength{\typog@adjust@labelitemiv}{\z@}
+               \else
+                 \PackageError{typog}
+                              {Itemize level out of range}
+                              {Valid levels are 1, 2, 3, 4, and *}
+               \fi}}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\uppercaseadjustlabelitems}
+%    \changes{v0.4}{2024-05-14}{New macro.}
+%    User macro that handles lists and the treats the empty list specially.  We wrap the code
+%    into \cs{AfterPreamble} because it may be called in the document's preamble where we don't
+%    know whether package~\packagename{enumitem} already has been loaded and we can patch its
+%    variant of \code{itemize}.
+%
+%    \begin{macrocode}
+\NewDocumentCommand{\uppercaseadjustlabelitems}{m}
+  {\AfterPreamble{%
+      \ifblank{#1}
+              {\@typog@uppercase@adjust@labelitem{\@itemdepth}}
+              {\forcsvlist{\@typog@uppercase@adjust@labelitem}{#1}}%
+      \ignorespaces}}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\lowercaseadjustlabelitems}
+%    \changes{v0.4}{2024-05-14}{New macro.}
+%    User macro that handles lists and the treats the empty list specially.
+%
+%    \begin{macrocode}
+\NewDocumentCommand{\lowercaseadjustlabelitems}{m}
+  {\AfterPreamble{%
+      \ifblank{#1}
+              {\@typog@lowercase@adjust@labelitem{\@itemdepth}}
+              {\forcsvlist{\@typog@lowercase@adjust@labelitem}{#1}}%
+      \ignorespaces}}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\noadjustlabelitems}
+%    \changes{v0.4}{2024-05-14}{New macro.}
+%    User macro that handles lists and the treats the empty list specially.
+%
+%    \begin{macrocode}
+\NewDocumentCommand{\noadjustlabelitems}{m}
+  {\ifblank{#1}
+           {\@typog@noadjust@labelitem{\@itemdepth}}
+           {\forcsvlist{\@typog@noadjust@labelitem}{#1}}%
+   \ignorespaces}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  Now we get to the dirty part.  All the above definitions do not get called until we hack the
+%  existing |itemize|-environments, either the one of plain~\LaTeX{} or the one modified by
+%  package~\packagename{enumitem}.
+%
+%  Here comes the result of \code{latexdef -c article -s itemize}, which was used to derive the
+%  patch code:
+%
+%  \begin{verbatim}
+%    \def\itemize{%
+%      \ifnum \@itemdepth > \thr@@
+%        \@toodeep
+%      \else
+%        \advance\@itemdepth\@ne
+%        \edef\@itemitem{labelitem\romannumeral\the\@itemdepth}%
+%        \expandafter
+%        \list
+%          \csname\@itemitem\endcsname
+%          {\def\makelabel##1{\hss\llap{##1}}}%
+%      \fi}\end{verbatim}
+%
+%  \begin{macro}{\@typog@itemize@patch}
+%    This is the additional code we inject into plain \LaTeX's or
+%    package~\packagename{enumitem}'s \cs{itemize}.
+%
+%    \begin{macrocode}
+\newcommand*{\@typog@itemize@patch}
+%    \end{macrocode}
+%
+%    Save the original definition of \cs{@itemitem} for chain-calling it later on.
+%
+%    \begin{macrocode}
+  {\letcs{\@typog@old@itemitem}{\@itemitem}
+%    \end{macrocode}
+%
+%    Sneak in our own macro's name.
+%
+%    \begin{macrocode}
+   \edef\@itemitem{@typog@labelitem\romannumeral\the\@itemdepth}
+%    \end{macrocode}
+%
+%    Redefine under the original macro's name so that our code gets called and the old code
+%    (\cs{@typog@old@itemitem}) is expanded.
+%
+%    \begin{macrocode}
+   \expandafter\def\csname\@itemitem\endcsname
+       {\raisebox{\csname typog@adjust@labelitem\romannumeral\the\@itemdepth\endcsname}
+                 {\@typog@old@itemitem}}}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  If package~\packagename{enumitem} has been loaded, we use the \emph{same} patch.  Here comes
+%  the result of \code{latexdef -c article -p enumitem -s enit@itemize@i} that explains, why no
+%  change is required:
+%
+%  \begin{verbatim}
+%    \def\enit@itemize@i#1#2#3#4{%
+%      \ifnum #1 > #3 \relax
+%        \enit@toodeep
+%      \else
+%        \enit@prelist\@ne{#1}{#2}%
+%        \edef\@itemitem{label#2\romannumeral#1}%
+%        \expandafter
+%        \enit@list
+%          \csname\@itemitem\endcsname
+%          {\let\enit@calc\z@
+%           \def\makelabel##1{\enit@align{\enit@format{##1}}}%
+%           \enit@preset{#2}{#1}{#4}%
+%           \enit@calcleft
+%           \enit@before
+%           \enit@negwidth}%
+%        \enit@keyfirst
+%      \fi}\end{verbatim}
+%
+%  \begin{macro}{\@typog@patch@itemize}
+%    Unconditionally apply the patches that are just \emph{single} macro calls to disturb the
+%    original macros as little as possible.  If we detect \packagename{enumitem} to be present
+%    we modify its definition of \code{itemize} otherwise we wrestle \LaTeX's macro.
+%
+%    \begin{macrocode}
+\newcommand*{\@typog@patch@itemize}
+  {\ifdefined\enit@itemize@i
+     \patchcmd{\enit@itemize@i}
+              {\expandafter}
+              {\@typog@itemize@patch\expandafter}
+              {\typog@typeout{patching enumitem \string\enit@itemize@i\space succeeded}}
+              {\PackageError{typog}
+                            {Patching enumitem macro \string\enit@itemize@i\space failed}
+                            {}}
+   \else
+     \patchcmd{\itemize}
+              {\expandafter}
+              {\@typog@itemize@patch\expandafter}
+              {\typog@typeout{patching \string\itemize\space succeeded}}
+              {\PackageError{typog}
+                            {Patching plain LaTeX macro \string\itemize\space failed}
+                            {}}
+   \fi}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\@typog@maybe@patch@itemize}
+%    Apply the patches only once.
+%
+%    \begin{macrocode}
+\newbool{@typog@itemize@has@been@patched}
+\newcommand*{\@typog@maybe@patch@itemize}
+  {\ifbool{@typog@itemize@has@been@patched}
+          {\relax}
+          {\@typog@patch@itemize
+           \booltrue{@typog@itemize@has@been@patched}}}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  Here come our convenience macros to simplify an accurate setup of the label adjustments.
+%
+%  \begin{macro}{\typog@hairline@width}
+%    Line width of the horizontal reference lines in our convenience macros.
+%
+%    \begin{macrocode}
+\newcommand*{\typog@hairline@width}{.125pt}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typogadjuststairsfor}
+%    The arguments are:
+%    \#1: \meta{scale-factor},
+%    \#2: \meta{step-size},
+%    \#3: \meta{number-of-steps},
+%    \#4: \meta{sample}, and
+%    \#5: \cs{labelitem}\meta{N}.
+%
+%    Generate an ascending stairs of argument~\#5.
+%
+%    \begin{macrocode}
+\newcommand*{\typogadjuststairsfor}[5]
+%    \end{macrocode}
+%
+%    Store (half of) the space between two samples in \cs{dimen0}.
+%
+%    \begin{macrocode}
+  {\dimen0=1pt%
+%    \end{macrocode}
+%
+%    Load the \meta{number-of-steps} and ensure that it is odd.
+%
+%    \begin{macrocode}
+   \count0=#3\relax
+   \unless\ifodd\count0
+     \advance\count0 by 1%
+   \fi
+%    \end{macrocode}
+%
+%    Set the iteration counter.
+%
+%    \begin{macrocode}
+   \setcounter{typog@@iteration}{1}%
+%    \end{macrocode}
+%
+%    Put the \meta{sample} into a box so that we can measure it with \cs{ht}.
+%
+%    \begin{macrocode}
+   \setbox0=\hbox{#4}%
+%    \end{macrocode}
+%
+%    Box~1 is the accumulator for the raised samples.
+%
+%    \begin{macrocode}
+   \setbox1=\hbox{}%
+%    \end{macrocode}
+%
+%    Build the stairs.
+%
+%    \begin{macrocode}
+   \loop
+     \ifnum\thetypog@@iteration=\numexpr\count0 / 2\relax
+       \dimen1=2\dimen0
+     \else
+       \dimen1=\dimen0
+     \fi
+     \dimen2=\dimexpr#2 * (\thetypog@@iteration - \count0 / 2)\relax
+     \setbox1=\hbox{\unhbox1\raisebox{\dimen2}{\kern\dimen1 #5\kern\dimen1}}%
+     \addtocounter{typog@@iteration}{1}%
+     \unless\ifnum\thetypog@@iteration>\count0
+   \repeat
+%    \end{macrocode}
+%
+%    Merge the stairs with a hairline at \#1 times the height of \meta{sample}.
+%    Answer just a single box.
+%
+%    \begin{macrocode}
+   \mbox{\rlap{\raisebox{\fpeval{#1}\ht0}{\rule{\wd1}{\typog@hairline@width}}}\box1}}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typogadjuststairs}
+%    \changes{v0.4}{2024-05-14}{New macro.}
+%    The arguments are:
+%    \#1: \meta{scale-factor},
+%    \#2: \meta{step-size},
+%    \#3: \meta{number-of-steps}, and
+%    \#4: \meta{sample}.
+%
+%    \begin{macrocode}
+\NewDocumentCommand{\typogadjuststairs}{O{.5} m m m}
+  {\begingroup
+   \unless\ifdim #2>\z@
+     \PackageError{typog}
+                  {\string\typogadjuststairs\space non-positive step-size}
+                  {step-size must be a positive dimension}%
+   \fi
+   \ifnum #3<1
+     \PackageError{typog}
+                  {\string\typogadjuststairs\space too few number-of-steps}
+                  {number-of-steps must at least be 1}%
+   \fi
+   \ifblank{#4}
+           {\PackageError{typog}
+                         {sample must not be empty}
+                         {supply either some uppercase or some lowercase letters}}
+           {}%
+   \def\arraystretch{1}%
+   \begin{tabular}{@{}c@{}}
+     \typogadjuststairsfor{#1}{#2}{#3}{#4}{\labelitemi}  \\
+     \typogadjuststairsfor{#1}{#2}{#3}{#4}{\labelitemii}  \\
+     \typogadjuststairsfor{#1}{#2}{#3}{#4}{\labelitemiii}  \\
+     \typogadjuststairsfor{#1}{#2}{#3}{#4}{\labelitemiv}
+   \end{tabular}
+   \endgroup}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typog@uppercase@adjusted@labelitems}
+%    Return all four labelitems in a horizontal box after they have been adjusted with the
+%    uppercase-constants set.
+%
+%    \begin{macrocode}
+\newcommand*{\typog@uppercase@adjusted@labelitems}
+  {\hbox{\raisebox{\typog@adjust@uppercase@labelitemi}{\labelitemi}%
+         \raisebox{\typog@adjust@uppercase@labelitemii}{\labelitemii}%
+         \raisebox{\typog@adjust@uppercase@labelitemiii}{\labelitemiii}%
+         \raisebox{\typog@adjust@uppercase@labelitemiv}{\labelitemiv}}}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typoguppercaseadjustcheck}
+%    \changes{v0.4}{2024-05-14}{New macro.}
+%    We stuff the user's sample text into a box only to measure its height.  We typeset all four
+%    labels and draw a hairline at half the height of the sample right through it.
+%
+%    \begin{macrocode}
+\NewDocumentCommand{\typoguppercaseadjustcheck}{O{.5} m}
+  {\setbox0=\hbox{#2}%
+   \setbox1=\typog@uppercase@adjusted@labelitems
+   \mbox{\rlap{\raisebox{\fpeval{#1}\ht0}
+                        {\rule{\wd1}{\typog@hairline@width}}}%
+         \box1}}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typog@lowercase@adjusted@labelitems}
+%    Return all four labelitems in a horizontal box after they have been adjusted with the
+%    lowercase-constants set.
+%
+%    \begin{macrocode}
+\newcommand*{\typog@lowercase@adjusted@labelitems}
+  {\hbox{\raisebox{\typog@adjust@lowercase@labelitemi}{\labelitemi}%
+         \raisebox{\typog@adjust@lowercase@labelitemii}{\labelitemii}%
+         \raisebox{\typog@adjust@lowercase@labelitemiii}{\labelitemiii}%
+         \raisebox{\typog@adjust@lowercase@labelitemiv}{\labelitemiv}}}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typoglowercaseadjustcheck}
+%    \changes{v0.4}{2024-05-14}{New macro.}
+%    Same code as \cs{typoguppercaseadjustcheck} for lowercase.
+%
+%    \begin{macrocode}
+\NewDocumentCommand{\typoglowercaseadjustcheck}{O{.5} m}
+  {\setbox0=\hbox{#2}%
+   \setbox1=\typog@lowercase@adjusted@labelitems
+   \mbox{\rlap{\raisebox{\fpeval{#1}\ht0}
+                        {\rule{\wd1}{\typog@hairline@width}}}%
+               \box1}}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%
 %  \subsection[Align Last Line]{Align Last Line of a Paragraph}
 %
 %  The code of environment |lastlineraggedleftpar|
@@ -6297,7 +7280,7 @@ end
 %    \item[Initialize.] \code{load("list\_functions")\$}
 %    \item[\cs{tolerance}:] \code{logspace(log10(200), log10(9999), 9), numer;}
 %    \item[\cs{emergencystretch}:] \code{linspace(0, 3, 9), numer;}
-%    \item[\cs{hfuzz}:] \code{linspace(0.1, 0.5, 9);}
+%    \item[\cs{hfuzz}:] \code{linspace(.1, .5, 9);}
 %    \end{description}
 %  \end{implementationnote}
 %
@@ -7224,7 +8207,10 @@ end
 \usepackage[activate=true, verbose=true]{microtype}
 \usepackage{ragged2e}
 \usepackage[nobottomtitles*]{titlesec}\renewcommand*{\bottomtitlespace}{.2\textheight}
-\usepackage[debug, trackingttspacing]{typog}
+\usepackage[debug,
+  trackingttspacing,
+  uppercaselabelitemadjustments={0pt, .1em, .15em, .1em},
+  lowercaselabelitemadjustments={-.0667em, 0pt, .1em, 0pt}]{typog}
 \usepackage{xcolor}
 
 \usepackage[loosest, proportional, scaled=1.064]{erewhon}
@@ -8069,6 +9055,82 @@ We again compare the default implementation with the adjusted one.
 \end{quote}
 
 
+\section{Label Items}
+
+The current configurations for the uppercase and lowercase adjustments are
+\{\typogget{uppercaselabelitemadjustments}\} and \{\typogget{lowercaselabelitemadjustments}\},
+respectively.
+
+\begin{center}
+  \makeatletter
+  \noindent
+  A\raisebox{\typog@adjust@uppercase@labelitemi}{\labelitemi}%
+  B\raisebox{\typog@adjust@uppercase@labelitemii}{\labelitemii}%
+  E\raisebox{\typog@adjust@uppercase@labelitemiii}{\labelitemiii}%
+  G\raisebox{\typog@adjust@uppercase@labelitemiv}{\labelitemiv}H  \\
+  a\raisebox{\typog@adjust@lowercase@labelitemi}{\labelitemi}%
+  b\raisebox{\typog@adjust@lowercase@labelitemii}{\labelitemii}%
+  c\raisebox{\typog@adjust@lowercase@labelitemiii}{\labelitemiii}%
+  e\raisebox{\typog@adjust@lowercase@labelitemiv}{\labelitemiv}g
+  \makeatother
+\end{center}
+
+For the following nested lists we adjust levels one and three for uppercase and levels two and
+four for lowercase.
+
+\begingroup
+  \uppercaseadjustlabelitems{1,3}
+  \lowercaseadjustlabelitems{2,4}
+  \setlength{\itemsep}{0pt}
+  \setlength{\parsep}{0pt}
+  \setlength{\topsep}{0pt}
+  \begin{itemize}
+  \item A
+  \item B
+  \item C
+    \begin{itemize}
+    \item d
+    \item e
+    \item f
+      \begin{itemize}
+      \item G
+      \item H
+      \item I
+        \begin{itemize}
+        \item j
+        \item k
+        \item l
+        \end{itemize}
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+\endgroup
+\noadjustlabelitems{*}% not necessary, but we want to exercise the macro
+
+The left example shows the result of \code{\string\typogadjuststairs\{.25pt\}\{11\}\{ABC\}} and
+the one on the right hand side just uses the same parameters except for the sample~\sample{ace},
+this is, only lowercase letters.
+
+\begin{center}
+  \begin{minipage}[t]{12em}
+    \centering
+    \typogadjuststairs{.25pt}{11}{ABC}
+  \end{minipage}
+  \begin{minipage}[t]{12em}
+    \centering
+    \typogadjuststairs{.25pt}{11}{ace}
+  \end{minipage}
+\end{center}
+
+For this document the calls
+\code{\string\typoguppercaseadjustcheck\{ABC\-DEF\-GHI\-JKL\-MNO\-PQR\-STU\-VWX\-YZ\}} and
+\code{\string\typoglowercaseadjustcheck\{ace\-gmn\-opq\-rsu\-vwx\-yz\}} yield
+\sample{\typoguppercaseadjustcheck{ABCDEFGHIJKLMNOPQRSTUVWXYZ}} and
+\sample{\typoglowercaseadjustcheck{acegmnopqrsuvwxyz}}, where the adjustments in effect are
+\code{\{\typogget{uppercaselabelitemadjustments}\}} and
+\code{\{\typogget{lowercaselabelitemadjustments}\}}, respectively.
+
+
 \clearpage
 \section{Align Last Line}
 
@@ -8293,7 +9355,7 @@ consult \propername{David Carlisle's} excellent post on \propername{StackExchang
 
 \begin{center}
   \setlength{\overfullrule}{0pt}
-  \newcommand*{\spacesampletext}[1]{some#1text#1with#1spaces\rule{0.1pt}{1em}}
+  \newcommand*{\spacesampletext}[1]{some#1text#1with#1spaces\rule{.1pt}{1em}}
   \newsavebox{\narrowspacesample}
   \sbox{\narrowspacesample}{\spacesampletext{\narrowspace}}
   \newsavebox{\widespacesample}
@@ -8708,7 +9770,7 @@ New settings: \baselinesetsize.
 
 \newcommand*{\relbls}{130}
 \paragraph{\code{\string\setbaselineskippercentage\{\relbls\}}}
-\setbaselineskippercentage{1 + 2 + .3333 * 100 + 100 * 0.6667}% float expression
+\setbaselineskippercentage{1 + 2 + .3333 * 100 + 100 * .6667}% float expression
 \setbaselineskippercentage{\relbls}
 \fontsizeinfo{baselinesetsize}
 New settings: \baselinesetsize.
@@ -8854,7 +9916,9 @@ visually: \rule{.1pt}{.8em}\kern\parindent\rule{.1pt}{.8em};
                   {\singleguillemetright}
                   {\singleguillemetleft}
 
-\usepackage[]{typog}
+\usepackage[uppercaselabelitemadjustments={.1em, .075em, .1em, .1em},
+            lowercaselabelitemadjustments={-.025em, -.05em, -.025em, -.025em}]
+           {typog}
 
 
 \newcommand*{\packagename}[1]{\mbox{\textsf{#1}}}
@@ -8869,13 +9933,47 @@ visually: \rule{.1pt}{.8em}\kern\parindent\rule{.1pt}{.8em};
 
 \bigskip
 
-\noindent
+
+\section*{No Microtype}
+
 This example \LaTeX-document uses package~\packagename{typog}
 \emph{without} package~\packagename{microtype}.
 
 We want \packagename{typog} to be as usable as possible even without
 the nice features that \packagename{microtype} offers.
 After all \packagename{typog} is just a front-end for it.
+
+
+\section*{No EnumItem}
+
+We intentionally do not load package~\packagename{enumitem}, either.
+So, we can test whether \packagename{typog} correctly patches the
+plain \LaTeX{} definition if environment~\texttt{itemize}.
+
+The vertical alignment of the label items was setup for
+uppercase (ABC\typoguppercaseadjustcheck{ABCXYZ}XYZ) and for
+lowercase (ace\typoglowercaseadjustcheck{acexyz}xyz), though
+this is not necessary for the test.
+
+\uppercaseadjustlabelitems{*}
+\begin{itemize}
+\item Level i
+\item Sublist \dots
+  \begin{itemize}
+  \item Level ii
+  \item Sublist \dots
+    \begin{itemize}
+    \item Level iii
+    \item Sublist \dots
+      \begin{itemize}
+      \item Level iv
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+
+\section*{CSQuotes}
 
 As we are testing a special configuration here anyhow,
 we hook up our quotes with package~csquotes
