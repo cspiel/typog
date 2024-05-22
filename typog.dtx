@@ -42,10 +42,10 @@
 \usepackage{fullwidth}
 \usepackage{hypdoc}
 \usepackage{hyphenat}
-\usepackage[shrink=10, stretch=10]{microtype}
+\usepackage[kerning=true, shrink=10, stretch=10, verbose=true]{microtype}
 \usepackage{multirow}
 \usepackage{needspace}
-\usepackage{placeins}
+\usepackage[section]{placeins}
 \usepackage{ragged2e}
 \usepackage{setspace}
 \usepackage{sidecap}
@@ -63,6 +63,7 @@
 \usepackage[lining, regular]{sourcecodepro}
 \usepackage[xcharter]{newtxmath}
 \setbaselineskip{12.5pt}
+
 
 \makeatletter
 \def\@get@fontclan#1-#2\relax{#1}
@@ -114,7 +115,7 @@
   citecolor = blue,
   colorlinks = true,
   linkcolor = blue,
-  linktocpage = false,
+  linktocpage = true,
   pdfauthor={Dr. Christoph L. Spiel},
   pdfcreationdate={\pdffiledate},
   pdfkeywords={LaTeX, typography, ligature, italic-correction, paragraph justification, baselineskip, sloppy, ragged},
@@ -126,9 +127,92 @@
 }
 
 
+\SetExtraKerning[context=drop-left-sidebearing, name=source-code-normal, unit=space]
+                {font={T1/SourceCodePro-LF/m/n/44, T1/SourceCodePro-TLF/m/n/44}}
+                {
+                  1={-150,},
+                  2={-120,},
+                  3={-120,},
+                  4={-40,},
+                  A={-100,},
+                  B={-170,}
+                }
+
+\newlength{\sectiontocindent}
+\newlength{\sectionnumberwidth}
+\newlength{\subsectiontocindent}
+\newlength{\subsectionnumberwidth}
+\newlength{\subsubsectiontocindent}
+\newlength{\subsubsectionnumberwidth}
+
+\setlength{\sectiontocindent}{0pt}
+\setlength{\sectionnumberwidth}{40pt}
+\setlength{\subsectiontocindent}{40pt}
+\setlength{\subsectionnumberwidth}{25pt}
+\setlength{\subsubsectiontocindent}{65pt}
+\setlength{\subsubsectionnumberwidth}{30pt}
+
 \makeatletter
-\renewcommand*{\@dotsep}{10000} % suppress leaders
-\patchcmd{\@dottedtocline}{\normalfont}{\bfseries}{\relax}{\PatchingFailed}
+\renewcommand*{\l@section}[2]
+              {\ifnum \c@tocdepth >\z@
+                 \addpenalty\@secpenalty
+                 \addvspace{1.0em \@plus\p@}%
+                 \setlength{\@tempdima}{\sectionnumberwidth}%
+                 \begingroup
+                   \def\numberline##1{\hb@xt@\@tempdima{%
+                       \tt
+                       \fontsize{44}{0}\selectfont
+                       \microtypecontext{kerning=drop-left-sidebearing}%
+                       \iffalse\raisebox{-30pt}[0pt][0pt]{\rule{0.1pt}{40pt}}\fi
+                       \textcolor{customred3}{##1}%
+                       \hfil}}%
+                   \parindent \z@
+                   \rightskip \@pnumwidth
+                   \parfillskip -\@pnumwidth
+                   \leavevmode
+                   \advance\leftskip\@tempdima
+                   \hskip -\leftskip
+                   \bfseries
+                   \iffalse
+                     \nobreak\hfil
+                     \nobreak\hb@xt@\@pnumwidth{\hss #2\kern-\p@\kern\p@}%
+                   \else
+                     {\sffamily\large #1}\quad
+                     {#2}\hfil\hbox{}
+                   \fi
+                   \par
+                 \endgroup
+               \fi}
+
+\renewcommand*{\@dottedtocline}[5]
+              {\ifnum #1>\c@tocdepth
+               \else
+                 \vskip \z@ \@plus.2\p@
+                 \begingroup
+                 \leftskip #2\relax
+                 \rightskip \@tocrmarg
+                 \parfillskip -\rightskip
+                 \parindent #2\relax\@afterindenttrue
+                 \interlinepenalty\@M
+                 \leavevmode
+                 \@tempdima #3\relax
+                 \advance\leftskip \@tempdima
+                 \null\nobreak
+                 \hskip -\leftskip
+                 {#4}\nobreak
+                 \iffalse
+                   \leaders\hbox{$\m@th \mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}\hfill
+                   \nobreak\hb@xt@\@pnumwidth{\hfil\normalfont \normalcolor #5\kern-\p@\kern\p@}%
+                 \else
+                   \hbox{\quad\normalfont\bfseries #5}\nobreak\hfill\hbox{}%
+                 \fi
+                 \par
+                 \endgroup
+               \fi}
+
+\renewcommand*{\l@subsection}{\@dottedtocline{2}{\subsectiontocindent}{\subsectionnumberwidth}}
+\renewcommand*{\l@subsubsection}{\@dottedtocline{3}{\subsubsectiontocindent}{\subsubsectionnumberwidth}}
+\newrobustcmd*{\tocsquashedsubsection}{\def\l@subsection{\@dottedtocline{2}{0pt}{\subsectionnumberwidth}}}
 \makeatother
 
 
@@ -173,7 +257,6 @@
   leftmargin=!
 }
 
-
 \SetEnumitemKey{nestedinspecialsection}{
   leftmargin=10pt
 }
@@ -193,13 +276,15 @@
 
 
 \fancypagestyle{pagenumberonly}{
+  \fancyhf{}
   \fancyhead[L]{}
   \fancyhead[R]{\thepage}
 }
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\rightmark}
-\fancyhead[R]{\thepage}
+\fancypagestyle{fancy}{
+  \fancyhf{}
+  \fancyhead[L]{\rightmark}
+  \fancyhead[R]{\thepage}
+}
 \newcommand*{\resetfancyhead}
             {\fancyhead[L]{\textsf{\textsc{\textls[20]{\nouppercase\rightmark}}}}}
 
@@ -505,6 +590,10 @@
 
 \newcommand*{\thousandsseparator}{\mbox{,}}
 
+\newcommand*{\toccontinuesonnextpage}
+            {\addtocontents{toc}{\par\medskip\hfill
+                                 \textit{Table of Contents continued on next page.}}}
+
 \newcommand*{\topstrut}{\rule{0pt}{1.3em}}
 
 \newcommand*{\typogsetuprm}
@@ -516,11 +605,14 @@
             {\typogsetup{raise*=.06667em,
                          raiseguillemets=.05em}}
 
+\newcommand*{\unmarkedfntext}[1]
+            {{\def\thefootnote{}\footnote{#1}%
+              \addtocounter{footnote}{-1}}}
+
 \newcommand*{\visualpar}{\textcolor{\markercolor}{\P}\linebreak[1]\enspace}
 
 \newenvironment*{whittyquote}
                 {\begin{flushright}
-                 \renewcommand*{\propername}[1]{\itshape\mbox{##1}}%
                  \sf\typogsetupsf}
                 {\end{flushright}}
 
@@ -863,29 +955,26 @@ end
 %
 %
 %  \clearpage
-%  \thispagestyle{pagenumberonly}
+%  \pagestyle{pagenumberonly}
+%
+%  \unmarkedfntext{The font sample on the title page was generated with the help of \MP{} using
+%                  \doublequotes{\acronym{URW} Palladio}\index{font>URW Palladio=\acronym{URW} Palladio}.}
 %  \tableofcontents
+%
+%  \addtocontents{toc}{%
+%    \protect\begin{whittyquote}
+%      Hoffentlich wird es nicht so schlimm, wie es schon ist!  \\
+%      \capitalemdash*~\propername{Karl Valentin}
+%    \protect\end{whittyquote}\par}
+%
 %  \vspace{\fill}
 %
-%
-%  \thispagestyle{pagenumberonly}
 %  \listoftables
-%  \phantomsection
-%  \addcontentsline{toc}{subsection}{List of Tables}
-%  \vspace{\fill}
-%
-%
-%  \begingroup
-%    \footnotesize
-%    \singlespacing
-%    \noindent
-%    The font sample on the title page was generated with the help of \MP{} using
-%    \doublequotes{\acronym{URW} Palladio}\index{font>URW Palladio=\acronym{URW} Palladio}.
-%  \endgroup
 %
 %
 %  \clearpage
 %  \pagenumbering{arabic}
+%  \pagestyle{fancy}
 %  \section{Introduction}\label{sec:introduction}
 %
 %  \begin{whittyquote}
@@ -2477,8 +2566,11 @@ end
 %  alignment with the text font is almost purely accidental.\footnote{The exception being
 %  mathematics typeset as text via package~\packagename{mathastext}~\cite{package:mathastext}.}
 %
-%  \DescribeMacro{\uppercaseadjust\-labelitems}
-%  \DescribeMacro{\lowercaseadjust\-labelitems}
+%  \hangindent=2\parindent
+%  \hangafter=-4
+%  \noindent
+%  \DescribeMacro{\uppercaseadjustlabelitems}
+%  \DescribeMacro{\lowercaseadjustlabelitems}
 %  \DescribeMacro{\noadjustlabelitems}
 %  \sinceversion{All three since v0.4}
 %  Package~\packagename{typog} lets the user vertically align the \code{itemize}~labels for
@@ -2626,9 +2718,11 @@ end
 %    uncorrected one.
 %  \end{example}
 %
+%  \hangindent=2\parindent
+%  \hangafter=-3
 %  \noindent
-%  \DescribeMacro{\typoguppercase\-adjustcheck}
-%  \DescribeMacro{\typoglowercase\-adjustcheck}
+%  \DescribeMacro{\typoguppercaseadjustcheck}
+%  \DescribeMacro{\typoglowercaseadjustcheck}
 %  \sinceversion{Both since v0.4}
 %  For a quick and easy check how the four label items vertically align \emph{as configured} use
 %  \code{\string\typoguppercaseadjustcheck} and \code{\string\typoglowercaseadjustcheck}.
@@ -2783,8 +2877,8 @@ end
 %  discussion consult Ch.~17, \doublequotes{Paragraph End}, of Ref.~\citenum{eijkhout:2007}.
 %  The following environments allow to adjust the last lines of paragraphs in different ways.
 %
-%  \DescribeEnv{lastlineraggedleft\-par}
-%  \DescribeEnv{lastlineflushright\-par}
+%  \DescribeEnv{lastlineraggedleftpar}
+%  \DescribeEnv{lastlineflushrightpar}
 %  The environment |lastlineraggedleftpar|\index{paragraph>align last line>flush right} adjusts
 %  the various skips such that the last lines of the paragraphs gets typeset flush with the
 %  right margin.
@@ -3176,6 +3270,7 @@ end
 %  last line is avoided, but the result may be of \hyperref[item:o1]{type~O1} nonetheless.
 %
 %
+%  \toccontinuesonnextpage
 %  \needtocspace
 %  \Needspace{150pt}
 %  \subsection{Spacing}\label{sec:spacing-control}\index{font>spacing}
@@ -3727,7 +3822,6 @@ end
 %  \end{usecases}
 %
 %
-%  \FloatBarrier
 %  \subsection{Sloppy Paragraphs}\label{sec:sloppy-paragraphs}\index{paragraph>sloppy}
 %
 %  Experienced \LaTeX{} users know that \cs{sloppy} is more of a problem by itself and not
@@ -3811,7 +3905,6 @@ end
 %  \end{usecases}
 %
 %
-%  \FloatBarrier
 %  \subsection{Vertically Partially-Tied Paragraphs}\label{sec:vtie-paragraph}\index{paragraph>vertically tied}
 %
 %  \LaTeX{} provides several macros and environments to tie material vertically~-- most
@@ -4063,7 +4156,6 @@ end
 %  \end{usecases}
 %
 %
-%  \FloatBarrier
 %  \subsection{Breakable Displayed Equations}\label{sec:breakable-display}\index{page break}
 %
 %  \DescribeEnv{breakabledisplay}
@@ -4147,7 +4239,6 @@ end
 %  \end{usecases}
 %
 %
-%  \FloatBarrier
 %  \clearpage
 %  \subsection{\packagename{Setspace} Front-End}\label{sec:setspace-frontend}
 %
@@ -4225,7 +4316,10 @@ end
 %  notion of what is a single-line \cs{baselineskip}.
 %
 %
-%  \DescribeMacro{\setbaselineskip\-percentage}
+%  \hangindent=2\parindent
+%  \hangafter=-2
+%  \noindent
+%  \DescribeMacro{\setbaselineskippercentage}
 %  \sinceversion{Since v0.3}
 %  Set the \cs{baselineskip} with a relative value calculated as a percentage of the current
 %  font's design size.
@@ -4269,7 +4363,7 @@ end
 %    which sets \cs{baselineskip} to \(10\text{pt} + 2.5\text{pt} = 12.5\text{pt}\).
 %  \end{example}
 %
-%  \DescribeMacro{\setleading\-percentage}
+%  \DescribeMacro{\setleadingpercentage}
 %  \sinceversion{Since v0.3}
 %  Set the \cs{baselineskip} to \cs{typogfontsize} \emph{plus} a relative value calculated as a
 %  percentage of \cs{typogfontsize}.
@@ -4358,7 +4452,6 @@ end
 %  \end{tip}
 %
 %
-%  \FloatBarrier
 %  \clearpage
 %  \subsection{Smooth Ragged}\label{sec:smooth-ragged}\index{ragged right}
 %
@@ -4377,9 +4470,12 @@ end
 %  \cs{parshape}~primitive and leave alone the stretchability or shrinkability of the glue.
 %
 %  \begin{slightlysloppypar}[2]
-%    \DescribeEnv{smoothragged\-right\-shape\-triplet}
-%    \DescribeEnv{smoothragged\-right\-shape\-quintuplet}
-%    \DescribeEnv{smoothragged\-right\-shape\-septuplet}
+%    \hangindent=3.5\parindent
+%    \hangafter=-6
+%    \noindent
+%    \DescribeEnv{smoothraggedrightshapetriplet}
+%    \DescribeEnv{smoothraggedrightshapequintuplet}
+%    \DescribeEnv{smoothraggedrightshapeseptuplet}
 %    We introduce three environments that allow for setting three, five, or seven different
 %    line-lengths (which \TeX{} of course will repeat for paragraphs longer than three, five, or
 %    seven lines): \code{smoothraggedrightshapetriplet},
@@ -4423,7 +4519,7 @@ end
 %  \end{description}
 %
 %  \noindent
-%  \DescribeEnv{smoothragged\-right\-par}
+%  \DescribeEnv{smoothraggedrightpar}
 %  Environment~|smoothraggedrightpar| builds upon the three generators.  It typesets a single
 %  paragraph with a given \meta{ragwidth} of the ragged, right margin, where the rag~width is
 %  the length-difference of the longest and the shortest lines.
@@ -4647,10 +4743,6 @@ end
 %  \end{usecases}
 %
 %
-%  \addtocontents{toc}{\par\bigskip\hfill\textit{Table of Contents continued on next page.}}
-%  \addtocontents{toc}{\clearpage}
-%
-%
 %  \sectionfinish
 %  \clearpage
 %  \section{Other Packages for Fine \LaTeX~Typography}\label{sec:other-typography-packages}
@@ -4712,13 +4804,15 @@ end
 %    \clearpage
 %    \phantomsection
 %    \resetfancyhead
-%    \addcontentsline{toc}{section}{Change History}
+%    \addtocontents{toc}{\bigskip}
+%    \addcontentsline{toc}{section}{\numberline{}Change History}
 %    \PrintChanges
 %
 %    \sectionfinish
 %    \clearpage
 %    \phantomsection
-%    \addcontentsline{toc}{section}{References}
+%    \addtocontents{toc}{\medskip}
+%    \addcontentsline{toc}{section}{\numberline{}References}
 %    \begin{RaggedRight}
 %      \begin{thebibliography}{88}
 %      \bibitem{abrahams:2020}
@@ -4947,13 +5041,17 @@ end
 %    \end{RaggedRight}
 %
 %    \sectionfinish
+%
+%
 %    \clearpage
 %    \begin{RaggedRight}
 %      \setcounter{IndexColumns}{2}
 %      \setlength{\columnsep}{30pt}
 %      \label{sec:index}
 %      \phantomsection
-%      \addcontentsline{toc}{section}{Index}
+%      \addtocontents{toc}{\medskip}
+%      \addcontentsline{toc}{section}{\numberline{}Index}
+%      \raggedcolumns
 %      \PrintIndex
 %    \end{RaggedRight}
 %  }
@@ -4963,7 +5061,11 @@ end
 %  \clearpage
 %  \appendix
 %  \section{Package Code}\label{sec:package-code}
-%  \addtocontents{toc}{\begingroup\small}
+%  \addtocontents{toc}{\protect\begin{list}{}{\leftmargin=\subsectiontocindent\parsep=0pt}}
+%  \addtocontents{toc}{\protect\item}
+%  \addtocontents{toc}{\RaggedRight}
+%  \addtocontents{toc}{\small}
+%  \addtocontents{toc}{\tocsquashedsubsection}
 %  \addtocontents{toc}{\protect\begin{multicols}{2}}
 %  \addtocontents{toc}{\protect\raggedcolumns}
 %
@@ -4976,7 +5078,7 @@ end
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
 \ProvidesPackage{typog}
-                [2024/05/11  v0.4  TypoGraphic extensions]
+                [2024/05/21  v0.4  TypoGraphic extensions]
 
 \RequirePackage{etoolbox}
 \RequirePackage{everyhook}
@@ -6214,7 +6316,7 @@ end
 %  \end{macro}
 %
 %
-%
+%  \subsection{Vert. Adjust Label Items}
 %
 %  \begin{macro}{\@typog@uppercase@adjust@labelitem}
 %    Handle all possible requests for uppercase label item correction.
@@ -6939,7 +7041,7 @@ end
 %  \end{environment}
 %
 %
-%  \subsection{Microtype Front\capitalhyphen End}
+%  \subsection{\packagename{Microtype} Front\capitalhyphen End}
 %
 %  \subsubsection*{Tracking}
 %
@@ -7572,7 +7674,7 @@ end
 %  \end{environment}
 %
 %
-%  \subsection{Setspace Front-End}
+%  \subsection{\packagename{Setspace} Front-End}
 %
 %  \begin{macro}{\typog@iter@limit}
 %    The maximum number of iterations we perform before bailing out with an error.  Can be
@@ -8182,7 +8284,7 @@ end
 %
 %
 %  \addtocontents{toc}{\protect\end{multicols}}
-%  \addtocontents{toc}{\endgroup}
+%  \addtocontents{toc}{\protect\end{list}}
 %
 %
 %  \Finale
