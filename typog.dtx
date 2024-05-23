@@ -3639,7 +3639,7 @@ end
 %  \end{codeexample}
 %
 %  If the argument of option~\code{trackingttspacing} is omitted the outer spacing defaults to
-%  \makeatletter\mbox{\typog@trackingttspacing}\makeatother.
+%  \makeatletter\mbox{\typog@config@trackingttspacing}\makeatother.
 %
 %  \begin{usecases}
 %    Nudge line breaks or hyphenation points.~\visualpar Avoid clashes of descenders and
@@ -5228,9 +5228,9 @@ end
 %
 %  Our own state\dots
 %
-%  \begin{macro}{\typog@mathitalicscorrection}
+%  \begin{macro}{\typog@config@mathitalicscorrection}
 %    \begin{macrocode}
-\newmuskip\typog@mathitalicscorrection
+\newmuskip\typog@config@mathitalicscorrection
 
 %    \end{macrocode}
 %  \end{macro}
@@ -5314,63 +5314,63 @@ end
 %
 %  Other lengths\dots
 %
-%  \begin{macro}{\typog@textitalicscorrection}
+%  \begin{macro}{\typog@config@textitalicscorrection}
 %    \begin{macrocode}
-\newlength{\typog@textitalicscorrection}
+\newlength{\typog@config@textitalicscorrection}
 %    \end{macrocode}
 %  \end{macro}
 %
-%  \begin{macro}{\typog@ligaturekern}
+%  \begin{macro}{\typog@config@ligaturekern}
 %    \begin{macrocode}
-\newlength{\typog@ligaturekern}
+\newlength{\typog@config@ligaturekern}
 %    \end{macrocode}
 %  \end{macro}
 %
-%  \begin{macro}{\typog@raisecapitaldash}
+%  \begin{macro}{\typog@config@raisecapitaldash}
 %    \begin{macrocode}
-\newlength{\typog@raisecapitaldash}
+\newlength{\typog@config@raisecapitaldash}
 %    \end{macrocode}
 %  \end{macro}
 %
-%  \begin{macro}{\typog@raisecapitalguillemets}
+%  \begin{macro}{\typog@config@raisecapitalguillemets}
 %    \begin{macrocode}
-\newlength{\typog@raisecapitalguillemets}
+\newlength{\typog@config@raisecapitalguillemets}
 %    \end{macrocode}
 %  \end{macro}
 %
-%  \begin{macro}{\typog@raisecapitalhyphen}
+%  \begin{macro}{\typog@config@raisecapitalhyphen}
 %    \begin{macrocode}
-\newlength{\typog@raisecapitalhyphen}
+\newlength{\typog@config@raisecapitalhyphen}
 %    \end{macrocode}
 %  \end{macro}
 %
-%  \begin{macro}{\typog@raisecapitaltimes}
+%  \begin{macro}{\typog@config@raisecapitaltimes}
 %    \begin{macrocode}
-\newlength{\typog@raisecapitaltimes}
+\newlength{\typog@config@raisecapitaltimes}
 %    \end{macrocode}
 %  \end{macro}
 %
-%  \begin{macro}{\typog@raiseguillemets}
+%  \begin{macro}{\typog@config@raiseguillemets}
 %    \begin{macrocode}
-\newlength{\typog@raiseguillemets}
+\newlength{\typog@config@raiseguillemets}
 %    \end{macrocode}
 %  \end{macro}
 %
-%  \begin{macro}{\typog@raisefiguredash}
+%  \begin{macro}{\typog@config@raisefiguredash}
 %    \begin{macrocode}
-\newlength{\typog@raisefiguredash}
+\newlength{\typog@config@raisefiguredash}
 %    \end{macrocode}
 %  \end{macro}
 %
-%  \begin{macro}{\typog@slashkern}
+%  \begin{macro}{\typog@config@slashkern}
 %    \begin{macrocode}
-\newlength{\typog@slashkern}
+\newlength{\typog@config@slashkern}
 %    \end{macrocode}
 %  \end{macro}
 %
-%  \begin{macro}{\typog@breakpenalty}
+%  \begin{macro}{\typog@config@breakpenalty}
 %    \begin{macrocode}
-\newcommand*{\typog@breakpenalty}{\exhyphenpenalty}
+\newcommand*{\typog@config@breakpenalty}{\exhyphenpenalty}
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -5386,9 +5386,9 @@ end
 %    \end{macrocode}
 %  \end{macro}
 %
-%  \begin{macro}{\typog@trackingttspacing}
+%  \begin{macro}{\typog@config@trackingttspacing}
 %    \begin{macrocode}
-\newcommand*{\typog@trackingttspacing}{300, 90, 60}
+\newcommand*{\typog@config@trackingttspacing}{300, 90, 60}
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -5486,81 +5486,81 @@ end
 
 \newcommand*{\typog@set@shrink@limits}
   {\edef\typog@@star{*}%
-   \edef\typog@@limit{\typog@triple@get@i{\typog@shrinklimits}}%
+   \edef\typog@@limit{\typog@triple@get@i{\typog@config@shrinklimits}}%
    \unless\ifx\typog@@limit\typog@@star\edef\typog@shrink@i{\number\typog@@limit}\fi
-   \edef\typog@@limit{\typog@triple@get@ii{\typog@shrinklimits}}%
+   \edef\typog@@limit{\typog@triple@get@ii{\typog@config@shrinklimits}}%
    \unless\ifx\typog@@limit\typog@@star\edef\typog@shrink@ii{\number\typog@@limit}\fi
-   \edef\typog@@limit{\typog@triple@get@iii{\typog@shrinklimits}}%
+   \edef\typog@@limit{\typog@triple@get@iii{\typog@config@shrinklimits}}%
    \unless\ifx\typog@@limit\typog@@star\edef\typog@shrink@iii{\number\typog@@limit}\fi}
 
 \newcommand*{\typog@set@stretch@limits}
   {\edef\typog@@star{*}%
-   \edef\typog@@limit{\typog@triple@get@i{\typog@stretchlimits}}%
+   \edef\typog@@limit{\typog@triple@get@i{\typog@config@stretchlimits}}%
    \unless\ifx\typog@@limit\typog@@star\edef\typog@stretch@i{\number\typog@@limit}\fi
-   \edef\typog@@limit{\typog@triple@get@ii{\typog@stretchlimits}}%
+   \edef\typog@@limit{\typog@triple@get@ii{\typog@config@stretchlimits}}%
    \unless\ifx\typog@@limit\typog@@star\edef\typog@stretch@ii{\number\typog@@limit}\fi
-   \edef\typog@@limit{\typog@triple@get@iii{\typog@stretchlimits}}%
+   \edef\typog@@limit{\typog@triple@get@iii{\typog@config@stretchlimits}}%
    \unless\ifx\typog@@limit\typog@@star\edef\typog@stretch@iii{\number\typog@@limit}\fi}
 
 \DeclareOptionX<typog>{breakpenalty}%
-  {\renewcommand*{\typog@breakpenalty}{#1}}
+  {\renewcommand*{\typog@config@breakpenalty}{#1}}
 \DeclareOptionX<typog>{debug}{\typog@debugtrue}
 \DeclareOptionX<typog>{mathitalicscorrection}[.4mu]%
-  {\typog@mathitalicscorrection=#1\relax}%
+  {\typog@config@mathitalicscorrection=#1\relax}%
 \DeclareOptionX<typog>{nodebug}{\typog@debugfalse}
 \DeclareOptionX<typog>{textitalicscorrection}[.02em]%
-  {\setlength{\typog@textitalicscorrection}{#1}}
+  {\setlength{\typog@config@textitalicscorrection}{#1}}
 \DeclareOptionX<typog>{ligaturekern}[.033333em]%
-  {\setlength{\typog@ligaturekern}{#1}}
+  {\setlength{\typog@config@ligaturekern}{#1}}
 \DeclareOptionX<typog>{lowercaselabelitemadjustments}%
   {\typog@typeout{lowercaselabelitemadjustments={#1}}
    \def\typog@@do##1{\addtocounter{typog@@iteration}{1}
       \global\setlength{\csname typog@adjust@lowercase@labelitem\romannumeral\thetypog@@iteration\endcsname}{##1}}
    \setcounter{typog@@iteration}{0}
    \forcsvlist{\typog@@do}{#1}}
-\newcommand*{\typog@lowercaselabelitemadjustments}
+\newcommand*{\typog@config@lowercaselabelitemadjustments}
   {\the\typog@adjust@lowercase@labelitemi,\space
    \the\typog@adjust@lowercase@labelitemii,\space
    \the\typog@adjust@lowercase@labelitemiii,\space
    \the\typog@adjust@lowercase@labelitemiv}
 \DeclareOptionX<typog>{raisecapitaldash}[\z@]%
-  {\setlength{\typog@raisecapitaldash}{#1}}
+  {\setlength{\typog@config@raisecapitaldash}{#1}}
 \DeclareOptionX<typog>{raisecapitalguillemets}[\z@]%
-  {\setlength{\typog@raisecapitalguillemets}{#1}}
+  {\setlength{\typog@config@raisecapitalguillemets}{#1}}
 \DeclareOptionX<typog>{raisecapitalhyphen}[\z@]%
-  {\setlength{\typog@raisecapitalhyphen}{#1}}
+  {\setlength{\typog@config@raisecapitalhyphen}{#1}}
 \DeclareOptionX<typog>{raisecapitaltimes}[\z@]%
-  {\setlength{\typog@raisecapitaltimes}{#1}}
+  {\setlength{\typog@config@raisecapitaltimes}{#1}}
 \DeclareOptionX<typog>{raiseguillemets}[\z@]%
-  {\setlength{\typog@raiseguillemets}{#1}}
+  {\setlength{\typog@config@raiseguillemets}{#1}}
 \DeclareOptionX<typog>{raisefiguredash}[\z@]%
-  {\setlength{\typog@raisefiguredash}{#1}}
+  {\setlength{\typog@config@raisefiguredash}{#1}}
 \DeclareOptionX<typog>{raise*}[\z@]%
-  {\setlength{\typog@raisecapitaldash}{#1}%
-   \setlength{\typog@raisecapitalhyphen}{#1}%
-   \setlength{\typog@raisecapitaltimes}{#1}%
-   \setlength{\typog@raisefiguredash}{#1}}
+  {\setlength{\typog@config@raisecapitaldash}{#1}%
+   \setlength{\typog@config@raisecapitalhyphen}{#1}%
+   \setlength{\typog@config@raisecapitaltimes}{#1}%
+   \setlength{\typog@config@raisefiguredash}{#1}}
 \DeclareOptionX<typog>{shrinklimits}%
   [\typog@default@shrink@i, \typog@default@shrink@ii, \typog@default@shrink@iii]%
   {\typog@require@preloaded@microtype
    \ifx\@onlypreamble\@notprerr
      \PackageWarning{typog}{option `shrinklimits' can only be used in the preamble}%
    \else
-     \edef\typog@shrinklimits{#1}%
+     \edef\typog@config@shrinklimits{#1}%
      \typog@set@shrink@limits
    \fi}
 \DeclareOptionX<typog>{slashkern}[.05em]%
-  {\setlength{\typog@slashkern}{#1}}
+  {\setlength{\typog@config@slashkern}{#1}}
 \DeclareOptionX<typog>{stretchlimits}%
   [\typog@default@stretch@i, \typog@default@stretch@ii, \typog@default@stretch@iii]%
   {\typog@require@preloaded@microtype
    \ifx\@onlypreamble\@notprerr
      \PackageWarning{typog}{option `stretchlimits' can only be used in the preamble}%
    \else
-     \edef\typog@stretchlimits{#1}%
+     \edef\typog@config@stretchlimits{#1}%
      \typog@set@stretch@limits
    \fi}
-\DeclareOptionX<typog>{trackingttspacing}[\typog@trackingttspacing]%
+\DeclareOptionX<typog>{trackingttspacing}[\typog@config@trackingttspacing]%
   {\typog@require@preloaded@microtype
    \ifx\@onlypreamble\@notprerr
      \PackageWarning{typog}{option `trackingttspacing' can only be used in the preamble}%
@@ -5574,7 +5574,7 @@ end
       \setlength{\csname typog@adjust@uppercase@labelitem\romannumeral\thetypog@@iteration\endcsname}{##1}}
    \setcounter{typog@@iteration}{0}
    \forcsvlist{\typog@@do}{#1}}
-\newcommand*{\typog@uppercaselabelitemadjustments}
+\newcommand*{\typog@config@uppercaselabelitemadjustments}
   {\the\typog@adjust@uppercase@labelitemi,\space
    \the\typog@adjust@uppercase@labelitemii,\space
    \the\typog@adjust@uppercase@labelitemiii,\space
@@ -5619,8 +5619,10 @@ end
 %  \end{environment}
 %
 %  \begin{macro}{\typogget}
+%    Access the package's configuration (name-)space.
+%
 %    \begin{macrocode}
-\NewDocumentCommand{\typogget}{m}{\csname typog@#1\endcsname}
+\NewDocumentCommand{\typogget}{m}{\csname typog@config@#1\endcsname}
 
 %    \end{macrocode}
 %  \end{macro}
@@ -5847,7 +5849,7 @@ end
 %  \begin{macro}{\nolig}
 %    \begin{macrocode}
 \NewDocumentCommand{\nolig}{s o}
-  {\dimen0=\IfNoValueTF{#2}{\typog@ligaturekern}{#2\typog@dim@unit}%
+  {\dimen0=\IfNoValueTF{#2}{\typog@config@ligaturekern}{#2\typog@dim@unit}%
    \IfBooleanTF{#1}%
      {\kern\dimen0\ignorespaces}%
      {\discretionary{\typog@hyphen}{}{\kern\dimen0}%
@@ -5886,7 +5888,7 @@ end
 %
 %    \begin{macrocode}
 \newcommand*{\typog@itcorr@text@unconditional}[1]
-  {\kern#1\typog@textitalicscorrection}
+  {\kern#1\typog@config@textitalicscorrection}
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -5912,7 +5914,7 @@ end
 %
 %    \begin{macrocode}
 \newcommand*{\typog@itcorr@math}[1]
-  {\mkern#1\typog@mathitalicscorrection}
+  {\mkern#1\typog@config@mathitalicscorrection}
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -5963,11 +5965,11 @@ end
 %
 %    \begin{macrocode}
 \NewDocumentCommand{\kernedslash}{s}
-  {\hspace*{\typog@slashkern}%
+  {\hspace*{\typog@config@slashkern}%
    \typog@forwardslash
    \IfBooleanTF{#1}%
-     {\hspace*{\typog@slashkern}\ignorespaces}%
-     {\typog@breakpoint\typog@allowhyphenation\hspace*{\typog@slashkern}}}
+     {\hspace*{\typog@config@slashkern}\ignorespaces}%
+     {\typog@breakpoint\typog@allowhyphenation\hspace*{\typog@config@slashkern}}}
 %    \end{macrocode}
 %
 %    \acronym{PDF}-substitute definition
@@ -5995,7 +5997,7 @@ end
      \def\typog@@optarg{#2}%
      \hspace*{#3\typog@dim@unit}%
      \raisebox{\ifx\typog@@optarg\typog@@auto
-                 \typog@raisecapitalhyphen
+                 \typog@config@raisecapitalhyphen
                \else
                  \typog@@optarg\typog@dim@unit
                \fi}{\typog@hyphen}%
@@ -6065,7 +6067,7 @@ end
 %
 %    \begin{macrocode}
 \newcommand*{\typog@breakpoint}
-  {\penalty\typog@breakpenalty}
+  {\penalty\typog@config@breakpenalty}
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -6076,7 +6078,7 @@ end
 %
 %    \begin{macrocode}
 \NewDocumentCommand{\capitalhyphen}{s}
-  {\raisebox{\typog@raisecapitalhyphen}{\typog@hyphen}%
+  {\raisebox{\typog@config@raisecapitalhyphen}{\typog@hyphen}%
    \IfBooleanTF{#1}%
      {\ignorespaces}%
      {\typog@breakpoint\typog@allowhyphenation}}
@@ -6110,7 +6112,7 @@ end
 %
 %    \begin{macrocode}
 \NewDocumentCommand{\capitalendash}{s}
-  {\raisebox{\typog@raisecapitaldash}{\textendash}%
+  {\raisebox{\typog@config@raisecapitaldash}{\textendash}%
    \IfBooleanTF{#1}%
      {\ignorespaces}%
      {\typog@breakpoint\typog@allowhyphenation}}
@@ -6140,7 +6142,7 @@ end
 %
 %    \begin{macrocode}
 \NewDocumentCommand{\capitalemdash}{s}
-  {\raisebox{\typog@raisecapitaldash}{\textemdash}%
+  {\raisebox{\typog@config@raisecapitaldash}{\textemdash}%
    \IfBooleanTF{#1}%
      {\ignorespaces}%
      {\typog@breakpoint\typog@allowhyphenation}}
@@ -6168,7 +6170,7 @@ end
 %
 %    \begin{macrocode}
 \NewDocumentCommand{\figuredash}{s}
-  {\raisebox{\typog@raisefiguredash}{\textendash}%
+  {\raisebox{\typog@config@raisefiguredash}{\textendash}%
    \IfBooleanTF{#1}%
      {\ignorespaces}%
      {\typog@breakpoint\typog@allowhyphenation}}
@@ -6187,9 +6189,9 @@ end
 %    \begin{macrocode}
 \NewDocumentCommand{\capitaltimes}{}
   {\ifmmode
-     \mathbin{\raisebox{\typog@raisecapitaltimes}{$\m@th\times$}}%
+     \mathbin{\raisebox{\typog@config@raisecapitaltimes}{$\m@th\times$}}%
    \else
-     \raisebox{\typog@raisecapitaltimes}{\texttimes}%
+     \raisebox{\typog@config@raisecapitaltimes}{\texttimes}%
    \fi}
 %    \end{macrocode}
 %
@@ -6208,7 +6210,7 @@ end
 %    \begin{macrocode}
 \NewDocumentCommand{\singleguillemetleft}{}
   {\typog@allowhyphenation
-   \raisebox{\typog@raiseguillemets}{\guilsinglleft}}
+   \raisebox{\typog@config@raiseguillemets}{\guilsinglleft}}
 %    \end{macrocode}
 %
 %    \acronym{PDF}-substitute definition
@@ -6221,7 +6223,7 @@ end
 %  \begin{macro}{\singleguillemetright}
 %    \begin{macrocode}
 \NewDocumentCommand{\singleguillemetright}{}
-  {\raisebox{\typog@raiseguillemets}{\guilsinglright}%
+  {\raisebox{\typog@config@raiseguillemets}{\guilsinglright}%
    \typog@allowhyphenation}
 %    \end{macrocode}
 %
@@ -6236,7 +6238,7 @@ end
 %    \begin{macrocode}
 \NewDocumentCommand{\doubleguillemetleft}{}
   {\typog@allowhyphenation
-   \raisebox{\typog@raiseguillemets}{\guillemotleft}}
+   \raisebox{\typog@config@raiseguillemets}{\guillemotleft}}
 %    \end{macrocode}
 %
 %    \acronym{PDF}-substitute definition
@@ -6249,7 +6251,7 @@ end
 %  \begin{macro}{\doubleguillemetright}
 %    \begin{macrocode}
 \NewDocumentCommand{\doubleguillemetright}{}
-  {\raisebox{\typog@raiseguillemets}{\guillemotright}%
+  {\raisebox{\typog@config@raiseguillemets}{\guillemotright}%
    \typog@allowhyphenation}
 %    \end{macrocode}
 %
@@ -6264,7 +6266,7 @@ end
 %    \begin{macrocode}
 \NewDocumentCommand{\Singleguillemetleft}{}
   {\typog@allowhyphenation
-   \raisebox{\typog@raisecapitalguillemets}{\guilsinglleft}}
+   \raisebox{\typog@config@raisecapitalguillemets}{\guilsinglleft}}
 %    \end{macrocode}
 %
 %    \acronym{PDF}-substitute definition
@@ -6277,7 +6279,7 @@ end
 %  \begin{macro}{\Singleguillemetright}
 %    \begin{macrocode}
 \NewDocumentCommand{\Singleguillemetright}{}
-  {\raisebox{\typog@raisecapitalguillemets}{\guilsinglright}%
+  {\raisebox{\typog@config@raisecapitalguillemets}{\guilsinglright}%
    \typog@allowhyphenation}
 %    \end{macrocode}
 %
@@ -6292,7 +6294,7 @@ end
 %    \begin{macrocode}
 \NewDocumentCommand{\Doubleguillemetleft}{}
   {\typog@allowhyphenation
-   \raisebox{\typog@raisecapitalguillemets}{\guillemotleft}}
+   \raisebox{\typog@config@raisecapitalguillemets}{\guillemotleft}}
 %    \end{macrocode}
 %
 %    \acronym{PDF}-substitute definition
@@ -6305,7 +6307,7 @@ end
 %  \begin{macro}{\Doubleguillemetright}
 %    \begin{macrocode}
 \NewDocumentCommand{\Doubleguillemetright}{}
-  {\raisebox{\typog@raisecapitalguillemets}{\guillemotright}%
+  {\raisebox{\typog@config@raisecapitalguillemets}{\guillemotright}%
    \typog@allowhyphenation}
 %    \end{macrocode}
 %
@@ -8666,6 +8668,28 @@ in the official documentation of package~\packagename{typog}.
 Unless otherwise noted the font used in the examples is \singlequotes{\examplefontname}.
 
 \bigskip
+
+\section*{Access Configuration Constants}
+
+\begin{list}{}{}
+\newcommand*{\expandsto}{$\mathbin{\mapsto}$}
+\item \code{breakpenalty} \expandsto{} \the\typogget{breakpenalty}
+\item \code{ligaturekern} \expandsto{} \milliem{\typogget{ligaturekern}}
+\item \code{lowercaselabelitemadjustments} \expandsto{} \typogget{lowercaselabelitemadjustments}
+\item \code{mathitalicscorrection} \expandsto{} \the\typogget{mathitalicscorrection}
+\item \code{raisecapitaldash} \expandsto{} \the\typogget{raisecapitaldash}
+\item \code{raisecapitalguillemets} \expandsto{} \the\typogget{raisecapitalguillemets}
+\item \code{raisecapitalhyphen} \expandsto{} \the\typogget{raisecapitalhyphen}
+\item \code{raisecapitaltimes} \expandsto{} \the\typogget{raisecapitaltimes}
+\item \code{raisefiguredash} \expandsto{} \the\typogget{raisefiguredash}
+\item \code{raiseguillemets} \expandsto{} \the\typogget{raiseguillemets}
+\item \code{shrinklimits} \expandsto{} \typogget{shrinklimits}
+\item \code{slashkern} \expandsto{} \the\typogget{slashkern}
+\item \code{stretchlimits} \expandsto{} \typogget{stretchlimits}
+\item \code{textitalicscorrection} \expandsto{} \the\typogget{textitalicscorrection}
+\item \code{trackingttspacing} \expandsto{} \typogget{trackingttspacing}
+\item \code{uppercaselabelitemadjustments} \expandsto{} \typogget{uppercaselabelitemadjustments}
+\end{list}
 
 \section{Information}
 
