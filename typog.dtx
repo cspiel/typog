@@ -1328,7 +1328,7 @@ end
 %  \DescribeMacro{\typogget}
 %  Sometimes the user needs to access internal configuration values of
 %  package~\packagename{typog}.  This can be done in a safe way without resorting to code that
-%  is bracketed by \cs{makeatletter}/\cs{makeatother} with the help of the following macro.
+%  is bracketed by \cs{makeatletter} and \cs{makeatother} with the help of the following macro.
 %
 %  \begin{synopsis}\label{syn:typogget}
 %     \cs{typogget}\marg{key}
@@ -1349,7 +1349,8 @@ end
 %        \> \{\cs{raisebox}\= \{\cs{typogget}\{raisecapitaldash\}\}\{\cs{cdot}\}\}
 %    \end{codeexample}
 %
-%    The latter only is useful inside of an \code{itemize}~environment of course.
+%    The latter only is useful inside of an \code{itemize}~environment of course.  Compare with
+%    the solution in \cref{sec:adjust-label-items} offered by \packagename{typog} since v0.4.
 %  \end{usecase}
 %
 %
@@ -1357,7 +1358,7 @@ end
 %
 %  \begin{whittyquote}
 %    Never forget: The visual output counts;  \\
-%    it must always be checked, [\dots].  \\
+%    it must always be checked, [\dots\itcorr{-4}].  \\
 %    \marginnote{The em-dash at then end of the quote is height-adjusted with
 %    \hyperref[syn:capitalemdash]{\cs{capitalemdash*}}.}%
 %    \capitalemdash*~\propername{Udo Wermuth}~\cite{wermuth:2017a}
@@ -2567,7 +2568,7 @@ end
 %  mathematics typeset as text via package~\packagename{mathastext}~\cite{package:mathastext}.}
 %
 %  \hangindent=2\parindent
-%  \hangafter=-4
+%  \hangafter=-3
 %  \noindent
 %  \DescribeMacro{\uppercaseadjustlabelitems}
 %  \DescribeMacro{\lowercaseadjustlabelitems}
@@ -3943,10 +3944,11 @@ end
 %
 %  \noindent
 %  \DescribeMacro{\splicevtietop}
-%  Inside of a \code{list} a one-off solution simply concatenates \cs{item}[\dots]\cs{vtietop}
-%  to fuse the line with the \code{item\#}, the representation of the \code{enum\#}, or the
-%  description term with the first paragraph.  For a systematic use prefer \cs{splicevtietop}
-%  and apply it as the first thing in the \code{list}~body.
+%  Inside of a \code{list} a one-off solution simply concatenates
+%  \cs{item}[\dots\itcorr{-5}]\cs{vtietop} to fuse the line with the \code{item\#}, the
+%  representation of the \code{enum\#}, or the description term with the first paragraph.  For a
+%  systematic use prefer \cs{splicevtietop} and apply it as the first thing in the
+%  \code{list}~body.
 %
 %  \begin{synopsis}\label{syn:splicevtietop}
 %    \cs{splicevtietop}\oarg{number-of-lines}
@@ -8477,7 +8479,6 @@ end
              concentrate all the badness in one place, making one truly unsightly line instead of
              two moderately bad ones, because a single ``write-off'' produces fewest total
              demerits according to the rules.}
-             %There is a much better way to get the desired effect:~[\dots]
 \newcommand*{\texbooktolerancesamplecredits}
             {\medskip\noindent
              \textsl{The sample text was taken from The~\TeX{}book~\cite[p.~107]{knuth:1986}.}}
@@ -8485,7 +8486,7 @@ end
 \newcommand*{\texbookparfillskipsample}
             {We still haven't discussed the special trick that allows the final line of a paragraph
              to be shorter than the others.  Just before \TeX{} begins to choose breakpoints,
-             it does two important things: [\dots]}
+             it does two important things: [\dots\itcorr{-4}]}
 \newcommand*{\texbooklongparfillskipsample}
             {We still haven't discussed the special trick that allows the final line of a paragraph
              to be shorter than the others.  Just before \TeX{} begins to choose breakpoints,
@@ -8493,7 +8494,7 @@ end
              that glue is discarded.  (The reason is that a blank space often gets into a token list just
              before \code{\char92par} or just before \code{\char36\char36}, and this blank space should not be
              part of the paragraph.)  (2)~Three or more items are put at the end of the
-             current horizontal list~[\dots]}
+             current horizontal list~[\dots\itcorr{-4}]}
 \newcommand*{\texbookparfillskipsamplecredits}
             {\medskip\noindent
              \textsl{The sample text was taken from The~\TeX{}book~\cite[p.~99n]{knuth:1986}.}}
