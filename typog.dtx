@@ -212,7 +212,9 @@
 
 \renewcommand*{\l@subsection}{\@dottedtocline{2}{\subsectiontocindent}{\subsectionnumberwidth}}
 \renewcommand*{\l@subsubsection}{\@dottedtocline{3}{\subsubsectiontocindent}{\subsubsectionnumberwidth}}
-\newrobustcmd*{\tocsquashedsubsection}{\def\l@subsection{\@dottedtocline{2}{0pt}{\subsectionnumberwidth}}}
+\newrobustcmd*{\tocsquashedsubsections}
+              {\def\l@subsection{\@dottedtocline{2}{0pt}{\subsectionnumberwidth}}%
+               \def\l@subsubsection{\@dottedtocline{3}{0pt}{\subsubsectionnumberwidth}}}
 \makeatother
 
 
@@ -591,8 +593,10 @@
 \newcommand*{\thousandsseparator}{\mbox{,}}
 
 \newcommand*{\toccontinuesonnextpage}
-            {\addtocontents{toc}{\par\medskip\hfill
-                                 \textit{Table of Contents continued on next page.}}}
+            {\addtocontents{toc}{\par
+                                 \bigskip
+                                 \hfill\textit{Table of Contents continued on next page.}\par
+                                 \clearpage}}
 
 \newcommand*{\topstrut}{\rule{0pt}{1.3em}}
 
@@ -5067,7 +5071,7 @@ end
 %  \addtocontents{toc}{\protect\item}
 %  \addtocontents{toc}{\RaggedRight}
 %  \addtocontents{toc}{\small}
-%  \addtocontents{toc}{\tocsquashedsubsection}
+%  \addtocontents{toc}{\tocsquashedsubsections}
 %  \addtocontents{toc}{\protect\begin{multicols}{2}}
 %  \addtocontents{toc}{\protect\raggedcolumns}
 %
