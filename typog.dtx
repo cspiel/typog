@@ -544,7 +544,7 @@
 \newenvironment*{specialcodesection}[1]
                 {\Needspace{4\baselineskip}%
                  \begin{tcolorbox}[colback=white, colframe=\markercolor,
-                                   bottomrule=0pt, leftrule=5pt, rightrule=0pt, toprule=0pt]
+                                   bottomrule=.5pt, leftrule=5pt, rightrule=.5pt, toprule=.5pt]
                  \sf\typogsetupsf
                  \begin{list}
                        {\specialcodesectionheading{#1}}
@@ -1516,7 +1516,13 @@ end
 %
 %    \item If more trace information is needed just add \cs{tracing\dots} calls right after
 %      \code{\string\begin\{typoginspect\}}
-%      or~\code{\string\begin\{typoginspectpar\}}.\specialsectionendhere
+%      or~\code{\string\begin\{typoginspectpar\}}.
+%
+%    \item As the overhead of \cs{typoginspect} is relatively low, hairy parts of a document can
+%      permanently be furnished with them, for example, the Index.
+%
+%    \item Any labeled part can treat their ids to \meta{id}.  Think of \cs{caption}s or any
+%      theorem-like environment and their associated, unique \cs{label}s.\specialsectionendhere
 %    \end{itemize}
 %  \end{tips}
 %
@@ -1564,9 +1570,9 @@ end
 %      \begin{enumerate}[beginpenalty=10000, nosep]
 %      \item The shortfall~\sample{s} and
 %      \item glue~\sample{a} or~\sample{g}.\footnote{The author is unaware of any descriptions
-%        of \code{s}, \code{a}, or~\code{g}.  The interested reader is referred to the source
-%        code, e.\,g., \filesystem{pdftex.web}; search for \code{print("\textvisiblespace s=")}.
-%        In the weaved documentation the first relevant section is~\S1851.}
+%        of \sample{s}, \sample{a}, or~\sample{g} and the interested reader is referred to the
+%        source code, e.\,g., \filesystem{pdftex.web}; search for \code{print("\textvisiblespace
+%        s=")}.  In the weaved documentation the first relevant section is~\S1851.}
 %      \end{enumerate}
 %    \item The best\footnote{\singlequotes{Best} means the minimum-demerits path in the graph of
 %      the feasible breakpoints, which has been constructed for the paragraph.}  way to get
@@ -1582,13 +1588,13 @@ end
 %    as parenthesized values (units are thousandths of the current font's~em) like, e.\,g.,
 %
 %    \begin{codeexample}
-%        \textbackslash T1/erewhon-LF/m/n/9/@/@ (-13) \dots
+%      \textbackslash T1/erewhon-LF/m/n/9/@/@ (-13) \dots
 %    \end{codeexample}
 %
 %    or
 %
 %    \begin{codeexample}
-%        \textbackslash T1/erewhon-LF/m/n/9/@/@/10ls (+7) \dots
+%      \textbackslash T1/erewhon-LF/m/n/9/@/@/10ls (+7) \dots
 %    \end{codeexample}
 %
 %    An \sample{ls} appended to the font name specification indicates that
@@ -1814,7 +1820,7 @@ end
 %  Whenever using \cs{-}, the short-hand form of \cs{discretionary\{-\}\{\}\{\}}, authors
 %  writing in a foreign language should reconsider whether it really beats \cs{hyphenation} or
 %  \cs{babelhyphenation}\footnote{\cs{babelhyphenation} is the multi-lingual extension of \TeX's
-%  \cs{hyphenation} and it is defined in package~\packagename{babel}~\cite{package:babel}}.  in
+%  \cs{hyphenation} and it is defined in package~\packagename{babel}~\cite{package:babel}.} in
 %  the particular situation.  However, sometimes \cs{-} actually \emph{is} the way to go.
 %
 %  Let us assume we mark up proper names with
@@ -1839,6 +1845,12 @@ end
 %  \noindent
 %  which are impossible to encode with \cs{hyphenation} or~\cs{babelhyphenation} as these expect
 %  only letters and dashes as their arguments with spaces separating the words.
+%
+%  \index{hyphenation>first word}
+%  \index{hskip=\cs{hskip}}
+%  \TeX{} never hyphenates the initial word in a paragraph and \cs{allowhyphenation} cannot help
+%  in this case.  Start the paragraph with \cs{hskip~0pt} to enable hyphenation even for the
+%  first word.
 %
 %  \begin{tip}[Typewriter Fonts]
 %    Sometimes it is desired to get a hyphenatable typewriter font.  \LaTeX{} suppresses any
@@ -4756,7 +4768,7 @@ end
 %  Many other packages help with getting better output from \LaTeX.  Here is a list --~in
 %  alphabetical order~-- of the ones the author considers particularly valuable.
 %
-%  \sbox{\listlabelbox}{\packagename{microtype}}
+%  \sbox{\listlabelbox}{\packagename{enumitem}}
 %  \begin{description}[font=\normalfont, labelsep*=1em, labelwidth=\wd\listlabelbox, leftmargin=!]
 %  \item[\packagename{enumitem}]
 %    Flexible and consistent definition of all basic \LaTeX-list types plus inline
@@ -4774,6 +4786,9 @@ end
 %    Fine control of spacing, tracking, sidebearings, character protrusion into the margins,
 %    font expansion, and much more~\cite{package:microtype}.
 %
+%    See \Cref{sec:microtype-frontend} for a front-end to \packagename{microtype} offered by
+%    this package.
+%
 %    See also \propername{Khirevich's} discussion~\cite{khirevich:2013}.
 %
 %  \item[\packagename{ragged2e}]
@@ -4781,8 +4796,11 @@ end
 %    |center|~\cite{package:ragged2e}.
 %
 %  \item[\packagename{setspace}]
-%    Consistently set the document's line-spacing, i.\,e.,
+%    Consistently set the line-spacing of a document, i.\,e., control
 %    \cs{baselineskip}~\cite{package:setspace}.
+%
+%    See \Cref{sec:setspace-frontend} for a front-end to \packagename{setspace} offered by this
+%    package.
 %  \end{description}
 %
 %
@@ -10190,6 +10208,7 @@ use strict;
 use warnings;
 
 use Data::Dumper ();
+use Encode ();
 use English;
 use File::Basename ();
 use Getopt::Long;
@@ -10316,6 +10335,11 @@ sub grep_log_file {
     my $id_value;
     my @nesting_levels;
 
+    my $encoder = Encode::find_encoding($options->{ENCODING});
+    unless ($encoder) {
+        issue_warning("encoding @{[quote_literal($options->{ENCODING})]} unknown; proceeding without decoder");
+    }
+
     if ($options->{WORD_REGEXP}) {
         $id_regexp = "\\b$id_regexp\\b";
     }
@@ -10323,6 +10347,8 @@ sub grep_log_file {
     while (my $line = readline $file) {
         chomp $line;
         $line_number++;
+
+        $line = Encode::encode_utf8($encoder->decode($line, Encode::FB_CROAK)) if $encoder;
 
         if ($line =~ $close_tag_regexp) {
             fail_with_error("$filename: $line_number: mismatched open/close tags") unless @nesting_levels;
@@ -10414,9 +10440,16 @@ sub show_ids_in_file {
     my $line_number = 0;
     my @nesting_levels;
 
+    my $encoder = Encode::find_encoding($options->{ENCODING});
+    unless ($encoder) {
+        issue_warning("encoding @{[quote_literal($options->{ENCODING})]} unknown; proceeding without decoder");
+    }
+
     while (my $line = readline $file) {
         chomp $line;
         $line_number++;
+
+        $line = Encode::encode_utf8($encoder->decode($line, Encode::FB_CROAK)) if $encoder;
 
         if ($line =~ $close_tag_regexp) {
             fail_with_error("$filename: $line_number: mismatched open/close tags") unless @nesting_levels;
@@ -10661,6 +10694,7 @@ sub setup_configuation {
 my $default_options = {
     COLORIZE_MODE => 'auto',
     DEBUG => 0,
+    ENCODING => undef,
     ID => 0,
     IGNORE_CASE => 0,
     JOB_NAME => 0,
@@ -10682,6 +10716,7 @@ Options
       --colour [WHEN]         use color to highlight specific log contents
                               WHEN is 'always', 'never', or 'auto'
   -C, --config KEY=VALUE      set configuration KEY to VALUE
+  -E, --encoding ENCODING     set character ENCODING of LOG-FILE
   -i, --[no-]id               print matching id with output lines
   -y, --[no-]ignore-case      ignore case distinctions in patterns and data
   -j, --[no-]job-name         print \\jobname with output lines
@@ -10691,13 +10726,26 @@ Options
   -P, --[no-]pager            redirect output to pager
   -w, --[no-]word-regexp      match only whole words
 
-  -a, --all, --any            show all IDs in LOG-FILE
+  -a, --all, --any            discover all IDs in LOG-FILE
+
       --debug                 turn on debug output
   -h, --help                  display this help and exit
       --show-config           show default configuration and exit
+      --show-encodings        show all known encodings and exit
   -V, --version               show version information and exit
 
 HELP_TEXT
+
+    exit 0;
+}
+
+
+sub show_encodings {
+    my @all_encodings = Encode->encodings(':all');
+
+    foreach my $encoding (@all_encodings) {
+        print "$encoding\n";
+    }
 
     exit 0;
 }
@@ -10757,6 +10805,7 @@ sub get_options {
                              'color|colour=s' => \$options->{COLORIZE_MODE},
                              'C|configuration=s' => sub{setup_configuation($_[1], $configuration)},
                              'debug+' => \$DEBUG,
+                             'E|encoding=s' => \$options->{ENCODING},
                              'h|help' => \&show_help,
                              'i|id!' => \$options->{ID},
                              'y|ignore-case!' => \$options->{IGNORE_CASE},
@@ -10765,6 +10814,7 @@ sub get_options {
                              'N|log-line-number!' => \$options->{LOG_LINE_NUMBER},
                              'p|page-number!' => \$options->{PAGE_NUMBER},
                              'P|pager!' => \$options->{REQUEST_PAGER},
+                             'show-encodings' => \&show_encodings,
                              'show-config' => \&show_configuration,
                              'V|version' => \&show_version,
                              'w|word-regexp!' => \$options->{WORD_REGEXP}) or
@@ -10937,7 +10987,7 @@ The list of options is sorted by the names of the long options.
 =item B<-a>, B<--all>, B<--any>
 
 ID-discovery mode:
-Show all C<typog-inspect> elements independent of any matching patterns.
+Discover all C<typog-inspect> elements independent of any matching patterns.
 
 =item B<--color>, B<colour> I<WHEN>
 
@@ -10951,11 +11001,22 @@ This is the default.
 
 Set one or more configuration I<KEY> to I<VALUE> pairs.
 See S<Sec. CONFIGURATION> below for a description of all available configuration items.
-Use option B<--show-config> to display the default configuration.
+Use S<option B<--show-config>> to display the default configuration.
 
 =item B<--debug>
 
 Turn on debug output on F<stderr>.
+
+=item B<-E>, B<--encoding> I<ENCODING>
+
+Set the I<ENCODING> of F<LOG-FILE> for the translation to UTF-8.
+The default is unset.  Use this option to get rid of pesky
+S<"E<lt>I<HEX-DIGITS>E<gt>" escapes> on UTF-8 terminals.
+See S<option B<--show-encodings>> for the known encodings and
+Encode::Supported for a summary of all encodings.
+
+The I<ENCODING>s C<iso-8859-1> to C<iso-8859-16> are quite widespread
+maybe with the exception of C<iso-8859-12>.
 
 =item B<-h>, B<--help>
 
@@ -10995,6 +11056,10 @@ Redirect output from F<stdout> to the configured pager.
 =item B<--show-config>
 
 Show the default configuration and exit.
+
+=item B<--show-encodings>
+
+Show all known encodings and exit.
 
 =item B<-V>, B<--version>
 
@@ -11185,7 +11250,7 @@ The exit status is 0 if at least one I<ID> matched I<REGEXP>,
 
 =head1 SEE ALSO
 
-B<grep>(1), B<printf>(3), B<Term::ANSIColor>(pm)
+B<grep>(1), B<printf>(3), B<Encode::Supported>, B<Term::ANSIColor>(pm)
 
 
 =cut
