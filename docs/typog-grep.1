@@ -133,7 +133,7 @@
 .\" ========================================================================
 .\"
 .IX Title "TYPOG-GREP 1"
-.TH TYPOG-GREP 1 "2024-05-09" "perl v5.36.0" "User Contributed Perl Documentation"
+.TH TYPOG-GREP 1 "2024-05-27" "perl v5.36.0" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -213,7 +213,7 @@ The list of options is sorted by the names of the long options.
 .IP "\fB\-a\fR, \fB\-\-all\fR, \fB\-\-any\fR" 4
 .IX Item "-a, --all, --any"
 ID-discovery mode:
-Show all \f(CW\*(C`typog\-inspect\*(C'\fR elements independent of any matching patterns.
+Discover all \f(CW\*(C`typog\-inspect\*(C'\fR elements independent of any matching patterns.
 .IP "\fB\-\-color\fR, \fBcolour\fR \fI\s-1WHEN\s0\fR" 4
 .IX Item "--color, colour WHEN"
 Colorize specific log contents for the matching ids.
@@ -225,10 +225,20 @@ This is the default.
 .IX Item "-C, --config KEY=VALUE[:KEY=VALUE[:...]]"
 Set one or more configuration \fI\s-1KEY\s0\fR to \fI\s-1VALUE\s0\fR pairs.
 See Sec.\ \s-1CONFIGURATION\s0 below for a description of all available configuration items.
-Use option \fB\-\-show\-config\fR to display the default configuration.
+Use option\ \fB\-\-show\-config\fR to display the default configuration.
 .IP "\fB\-\-debug\fR" 4
 .IX Item "--debug"
 Turn on debug output on \fIstderr\fR.
+.IP "\fB\-E\fR, \fB\-\-encoding\fR \fI\s-1ENCODING\s0\fR" 4
+.IX Item "-E, --encoding ENCODING"
+Set the \fI\s-1ENCODING\s0\fR of \fILOG-FILE\fR for the translation to \s-1UTF\-8.\s0
+The default is unset.  Use this option to get rid of pesky
+"<\fIHEX-DIGITS\fR>"\ escapes on \s-1UTF\-8\s0 terminals.
+See option\ \fB\-\-show\-encodings\fR for the known encodings and
+Encode::Supported for a summary of all encodings.
+.Sp
+The \fI\s-1ENCODING\s0\fRs \f(CW\*(C`iso\-8859\-1\*(C'\fR to \f(CW\*(C`iso\-8859\-16\*(C'\fR are quite widespread
+maybe with the exception of \f(CW\*(C`iso\-8859\-12\*(C'\fR.
 .IP "\fB\-h\fR, \fB\-\-help\fR" 4
 .IX Item "-h, --help"
 Display brief help then exit.
@@ -259,6 +269,9 @@ Redirect output from \fIstdout\fR to the configured pager.
 .IP "\fB\-\-show\-config\fR" 4
 .IX Item "--show-config"
 Show the default configuration and exit.
+.IP "\fB\-\-show\-encodings\fR" 4
+.IX Item "--show-encodings"
+Show all known encodings and exit.
 .IP "\fB\-V\fR, \fB\-\-version\fR" 4
 .IX Item "-V, --version"
 Show version information and exit.
@@ -425,4 +438,4 @@ The exit status is 0 if at least one \fI\s-1ID\s0\fR matched \fI\s-1REGEXP\s0\fR
 1 if no \fI\s-1ID\s0\fR matched \fI\s-1REGEXP\s0\fR, and 2 if an error occurred.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
-\&\fBgrep\fR(1), \fBprintf\fR(3), \fBTerm::ANSIColor\fR(pm)
+\&\fBgrep\fR(1), \fBprintf\fR(3), \fBEncode::Supported\fR, \fBTerm::ANSIColor\fR(pm)
