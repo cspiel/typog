@@ -33,11 +33,21 @@ POD2TEXI_FLAGS :=
 
 
 GROFF := groff
-##  Codes of serif fonts that work for PDF output
+##  Codes of fonts that work for PDF output as by the contents
+##  of "/usr/share/groff/current/font/devpdf".
+##
+##  Serif
 ##  	BM: URW Bookman L
 ##  	N:  URW Century Schoolbook L
 ##  	P:  URW Palladio L
 ##  	T:  URW Nimbus Roman No9 L
+##
+##  Sans Serif
+##      A:  Avantgarde
+##      H:  Helvetica
+##
+##  Monospace
+##      C:  Courier
 GROFF_FLAGS := -Tpdf -dpaper=a4 -fP -man -wall
 
 

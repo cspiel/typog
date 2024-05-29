@@ -596,7 +596,7 @@
             {\addtocontents{toc}{\par
                                  \bigskip
                                  \hfill\textit{Table of Contents continued on next page.}\par
-                                 \clearpage}}
+                                 \protect\clearpage}}
 
 \newcommand*{\topstrut}{\rule{0pt}{1.3em}}
 
@@ -963,7 +963,12 @@ end
 %
 %  \unmarkedfntext{The font sample on the title page was generated with the help of \MP{} using
 %                  \doublequotes{\acronym{URW} Palladio}\index{font>URW Palladio=\acronym{URW} Palladio}.}
-%  \tableofcontents
+%
+%  \begin{nofontexpansion}
+%    \begin{nocharprotrusion}
+%      \tableofcontents
+%    \end{nocharprotrusion}
+%  \end{nofontexpansion}
 %
 %  \addtocontents{toc}{%
 %    \protect\begin{whittyquote}
@@ -973,7 +978,11 @@ end
 %
 %  \vspace{\fill}
 %
-%  \listoftables
+%  \begin{nofontexpansion}
+%    \begin{nocharprotrusion}
+%      \listoftables
+%    \end{nocharprotrusion}
+%  \end{nofontexpansion}
 %
 %
 %  \clearpage
@@ -1286,9 +1295,9 @@ end
 %  issues a \cs{par} at its end.  Environments with different name suffixes never close
 %  with~\cs{par}.
 %
-%  \bigskip
 %
-%  \noindent
+%  \subsection{Setup and Reconfiguration}\label{sec:setup}
+%
 %  \DescribeEnv{typogsetup}
 %  Configure\index{configuration}\index{setup} the package with the given \meta{keys}.  An empty
 %  argument of \code{typogsetup} resets all \meta{keys} to their default values.
@@ -1330,9 +1339,9 @@ end
 %
 %  \noindent
 %  \DescribeMacro{\typogget}
-%  Sometimes the user needs to access internal configuration values of
-%  package~\packagename{typog}.  This can be done in a safe way without resorting to code that
-%  is bracketed by \cs{makeatletter} and \cs{makeatother} with the help of the following macro.
+%  Sometimes the user needs to access configuration values of package~\packagename{typog}.  This
+%  can be done in a safe way without resorting to code that is bracketed by \cs{makeatletter}
+%  and \cs{makeatother} with the help of the following macro.
 %
 %  \begin{synopsis}\label{syn:typogget}
 %     \cs{typogget}\marg{key}
@@ -2816,57 +2825,56 @@ end
 %    \makeatother
 %
 %    \begin{tabfigures}
-%      \fullwidthsetup{skipabove=0pt, skipbelow=0pt}
-%      \begin{maxipage}\flushright
-%        \def~{\hphantom{0}}
-%        \def\mc#1{#1~~~}
-%        \begin{tabular}{@{}l*{4}{r}@{\qquad}*{4}{r}@{}}
-%          \toprule
-%            Font Name  &
-%            \multicolumn{4}{c}{Uppercase Adjustments}  &  \multicolumn{4}{c@{}}{Lowercase Adjustments}  \\
-%            {}  &
-%            \mc{1}  &  \mc{2}  &  \mc{3}  &  \mc{4}  &
-%            \mc{1}  &  \mc{2}  &  \mc{3}  &  \mc{4}  \\
-%          \midrule
-%            \acronym{ADF} Venturis\index{font>ADF Venturis=\acronym{ADF} Venturis}  &
-%            .0~~  &  1.0~~  &  .75~  &  1.0~~  &
-%            \textminus.75~  &  .0~~  &  \textminus.25~  &  .0~~  \\
-%            \acronym{CM} Roman\index{font>Computer Modern Roman}  &
-%            1.0~~  & .75~  &  1.0~~  &  1.0~~  &
-%            \textminus.25~  &  \textminus.5~~  &  \textminus.25~  &  \textminus.25~  \\
-%            Gentium\index{font>Gentium}  &
-%            .0~~  &  .75~  &  .0~~  &  .0~~  &
-%            \textminus.5~~  &  \textminus.25~  &  \textminus.75~  &  \textminus1.0~~  \\
-%            \acronym{GFS} Didot\index{font>GFS Didot=\acronym{GFS} Didot}  &
-%            \textminus1.5~~  &  .75~  &  1.0~~  &  1.25~  &
-%            \textminus2.75~  &  \textminus.25~  &  \textminus.25~  &  .25~  \\
-%            \acronym{KP} Serif\kpmark\index{font>KP Serif=\acronym{KP} Serif}  &
-%            .0~~  &  1.0~~  &  1.25~  &  .75~  &
-%            \textminus1.0~~  &  .0~~  &  .0~~  &  \textminus.5~~  \\
-%            Libertinus Serif\index{font>Libertinus Serif}  &
-%            1.0~~  &  .75~  &  1.125  &  .75~  &
-%            .0~~  &  \textminus.325  &  .0~~  &  \textminus.25~  \\
-%            \acronym{ML} Modern\index{font>ML Modern=\acronym{ML} Modern}  &
-%            1.25~  &  .75~  &  1.0~~  &  .125  &
-%            .0~~  &  \textminus.5~~  &  \textminus.25~  &  \textminus.125  \\
-%            Source Serif Pro\index{font>Source Serif Pro}  &
-%            .125  &  .75~  &  \textminus1.0~~  &  .125  &
-%            \textminus.75~  &  .0~~  &  \textminus2.0~~  &  \textminus.75~  \\
-%            \acronym{STIX}\index{font>STIX=\acronym{STIX}}  &
-%            1.0~~  &  1.0~~  &  .75~  &  1.0~~  &
-%            .0~~  &  .0~~  &  .0~~  &  .0~~  \\
-%            \acronym{URW} Palladio\palladiomark\index{font>URW Palladio=\acronym{URW} Palladio}  &
-%            .25~  &  1.125  &  1.0~~  &  1.0~~  &
-%            \textminus1.0~~  &  \textminus.125  &  \textminus.125  &  \textminus.125  \\
-%            Utopia Regular\utopiamark\index{font>Utopia Regular}  &
-%            .0~~  &  1.0~~  &  .75~  &  1.0~~  &
-%            \textminus.75~  &  .0~~  &  \textminus.25~  &  .0~~  \\
-%            \emph{educated guess}\guessmark  &
-%            .75~  &  .75~  &  .75~  &  .75~  &
-%            \textminus.25~  &  \textminus.25~  &  \textminus.25~  &  \textminus.25~  \\
-%          \bottomrule
-%        \end{tabular}
-%      \end{maxipage}
+%      \def~{\hphantom{0}}
+%      \def\mc#1{#1~~~}
+%      \noindent
+%      \makebox[0pt]{%
+%      \begin{tabular}{@{}l*{4}{r}@{\qquad}*{4}{r}@{}}
+%        \toprule
+%          Font Name  &
+%          \multicolumn{4}{c}{Uppercase Adjustments}  &  \multicolumn{4}{c@{}}{Lowercase Adjustments}  \\
+%          {}  &
+%          \mc{1}  &  \mc{2}  &  \mc{3}  &  \mc{4}  &
+%          \mc{1}  &  \mc{2}  &  \mc{3}  &  \mc{4}  \\
+%        \midrule
+%          \acronym{ADF} Venturis\index{font>ADF Venturis=\acronym{ADF} Venturis}  &
+%          .0~~  &  1.0~~  &  .75~  &  1.0~~  &
+%          \textminus.75~  &  .0~~  &  \textminus.25~  &  .0~~  \\
+%          \acronym{CM} Roman\index{font>Computer Modern Roman}  &
+%          1.0~~  & .75~  &  1.0~~  &  1.0~~  &
+%          \textminus.25~  &  \textminus.5~~  &  \textminus.25~  &  \textminus.25~  \\
+%          Gentium\index{font>Gentium}  &
+%          .0~~  &  .75~  &  .0~~  &  .0~~  &
+%          \textminus.5~~  &  \textminus.25~  &  \textminus.75~  &  \textminus1.0~~  \\
+%          \acronym{GFS} Didot\index{font>GFS Didot=\acronym{GFS} Didot}  &
+%          \textminus1.5~~  &  .75~  &  1.0~~  &  1.25~  &
+%          \textminus2.75~  &  \textminus.25~  &  \textminus.25~  &  .25~  \\
+%          \acronym{KP} Serif\kpmark\index{font>KP Serif=\acronym{KP} Serif}  &
+%          .0~~  &  1.0~~  &  1.25~  &  .75~  &
+%          \textminus1.0~~  &  .0~~  &  .0~~  &  \textminus.5~~  \\
+%          Libertinus Serif\index{font>Libertinus Serif}  &
+%          1.0~~  &  .75~  &  1.125  &  .75~  &
+%          .0~~  &  \textminus.325  &  .0~~  &  \textminus.25~  \\
+%          \acronym{ML} Modern\index{font>ML Modern=\acronym{ML} Modern}  &
+%          1.25~  &  .75~  &  1.0~~  &  .125  &
+%          .0~~  &  \textminus.5~~  &  \textminus.25~  &  \textminus.125  \\
+%          Source Serif Pro\index{font>Source Serif Pro}  &
+%          .125  &  .75~  &  \textminus1.0~~  &  .125  &
+%          \textminus.75~  &  .0~~  &  \textminus2.0~~  &  \textminus.75~  \\
+%          \acronym{STIX}\index{font>STIX=\acronym{STIX}}  &
+%          1.0~~  &  1.0~~  &  .75~  &  1.0~~  &
+%          .0~~  &  .0~~  &  .0~~  &  .0~~  \\
+%          \acronym{URW} Palladio\palladiomark\index{font>URW Palladio=\acronym{URW} Palladio}  &
+%          .25~  &  1.125  &  1.0~~  &  1.0~~  &
+%          \textminus1.0~~  &  \textminus.125  &  \textminus.125  &  \textminus.125  \\
+%          Utopia Regular\utopiamark\index{font>Utopia Regular}  &
+%          .0~~  &  1.0~~  &  .75~  &  1.0~~  &
+%          \textminus.75~  &  .0~~  &  \textminus.25~  &  .0~~  \\
+%          \emph{educated guess}\guessmark  &
+%          .75~  &  .75~  &  .75~  &  .75~  &
+%          \textminus.25~  &  \textminus.25~  &  \textminus.25~  &  \textminus.25~  \\
+%        \bottomrule
+%      \end{tabular}}
 %    \end{tabfigures}
 %
 %    \begin{tablenotes}
@@ -5080,8 +5088,9 @@ end
 %    \end{RaggedRight}
 %  }
 %
-%
 %  \sectionfinish
+%
+%
 %  \clearpage
 %  \appendix
 %  \section{Package Code}\label{sec:package-code}
@@ -5622,7 +5631,7 @@ end
 %  \fi
 %
 %
-%  \subsection*{Setup}
+%  \subsection{Setup and Reconfiguration}
 %
 %  \begin{environment}{typogsetup}
 %    An empty argument list resets all initialized values to their defaults.
@@ -8689,9 +8698,8 @@ in the official documentation of package~\packagename{typog}.
 \noindent
 Unless otherwise noted the font used in the examples is \singlequotes{\examplefontname}.
 
-\bigskip
 
-\section*{Access Configuration Constants}
+\section{Setup and Reconfiguration}
 
 \begin{list}{}{}
 \newcommand*{\expandsto}{$\mathbin{\mapsto}$}
@@ -11014,9 +11022,11 @@ The default is unset.  Use this option to get rid of pesky
 S<"E<lt>I<HEX-DIGITS>E<gt>" escapes> on UTF-8 terminals.
 See S<option B<--show-encodings>> for the known encodings and
 Encode::Supported for a summary of all encodings.
+See also S<section L</Some Common Encodings>> below.
 
-The I<ENCODING>s C<iso-8859-1> to C<iso-8859-16> are quite widespread
-maybe with the exception of C<iso-8859-12>.
+Apply L<B<iconv>|https://pubs.opengroup.org/onlinepubs/9699919799/utilities/iconv.html>
+(POSIX) or L<B<recode>|https://github.com/rrthomas/recode/> (GNU) on F<LOG-FILE>
+before this tool to S<avoid B<--encoding>>.
 
 =item B<-h>, B<--help>
 
@@ -11242,6 +11252,32 @@ C<bold>, C<dark>, C<italic>, C<underline>, C<reverse>
 =back
 
 
+=head2 Some Common Encodings
+
+The following list shows some encodings
+that are suitable for S<option B<--encoding>>.
+
+=over 4
+
+=item Latin-1, Western European
+
+C<iso-8859-1>, C<cp850>, C<cp860>, C<cp1252>
+
+=item Latin-2, Central European
+
+C<iso-8859-2>, C<cp852>, C<cp1250>
+
+=item Latin-3, South European
+
+C<iso-8859-3>
+
+=item Latin-4, North European
+
+C<iso-8859-4>
+
+=back
+
+
 =head1 EXIT STATUS
 
 The exit status is 0 if at least one I<ID> matched I<REGEXP>,
@@ -11250,7 +11286,7 @@ The exit status is 0 if at least one I<ID> matched I<REGEXP>,
 
 =head1 SEE ALSO
 
-B<grep>(1), B<printf>(3), B<Encode::Supported>, B<Term::ANSIColor>(pm)
+B<grep>(1), B<printf>(3), B<Encode::Supported>(pm), B<Term::ANSIColor>(pm)
 
 
 =cut
