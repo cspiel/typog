@@ -10098,7 +10098,7 @@ visually: \rule{.1pt}{.8em}\kern\parindent\rule{.1pt}{.8em};
 %
 %
 %  \iffalse
-%<*nomicrotype>
+%<*without-microtype>
 \documentclass[]{article}
 
 
@@ -10177,7 +10177,28 @@ to check whether they interact ok.
   \enquote{This is the outer part of the phrase
     which contains the \enquote{inner part}.}}
 \end{document}
-%</nomicrotype>
+%</without-microtype>
+%  \fi
+%
+%
+%
+%  \iffalse
+%<*minimal-test>
+\documentclass{minimal}
+
+\usepackage{typog}
+
+\newcommand*{\raiseamount}{0.5pt}
+
+\begin{document}
+\begin{typogsetup}{raise*=\raiseamount}
+  Em-dash raised by \the\typogget{raisecapitaldash} (expected: \raiseamount).
+\end{typogsetup}
+
+\fontsizeinfo{typoinfo}
+Document class ``minimal'' sets up font size and line spacing as~\typoinfo.
+\end{document}
+%</minimal-test>
 %  \fi
 %
 %
@@ -10207,7 +10228,7 @@ s/@end table/\\end{list}/
 s/@verbatim/\\begin{verbatim}/
 s/@end verbatim/\\end{verbatim}/
 
-##  We substitute @display for our maxipage environment.
+##  We substitute our maxipage environment for @display.
 s/@display/\\begin{maxipage}/
 s/@end display/\\end{maxipage}/
 
@@ -10238,7 +10259,7 @@ s/@@/@/g
 s/\\jobname/\\textbackslash jobname/g
 
 ##  Make qualified Perl names breakable.
-s/::/::\\discretionary{}{}{}/g
+s/::/::\\breakpoint*/g
 %</teximan2latex>
 %  \fi
 %

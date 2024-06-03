@@ -77,7 +77,7 @@ sty: typog.sty
 
 
 .PHONY: pdf
-pdf: doc ex nomt
+pdf: doc ex test
 
 
 .PHONY: doc
@@ -88,8 +88,8 @@ doc: typog.pdf
 ex: typog-example.pdf
 
 
-.PHONY: nomt
-nomt: typog-nomt.pdf
+.PHONY: test
+test: typog-minimal-test.pdf typog-without-microtype-test.pdf
 
 
 .PHONY: man
@@ -202,6 +202,8 @@ tar:    In the parent directory create a tar(1) file of the project
         source files whose name is time-stamped.  Intended for
         quick snapshots.
 
+test:   Run some tests.
+
 tool-check: Check whether some of the required tools to build the
         project are available.
 
@@ -309,7 +311,8 @@ endef
 crooked-paragraphs.mp slant-angle.mp smooth-parshapes.mp title.mp  \
 teximan2latex.sed  \
 typog-grep.pl typog-grep typog-grep.pod  \
-typog.sty typog.ist typog-example.tex typog-nomt.tex:  \
+typog.sty typog.ist typog-example.tex  \
+typog-minimal-test.tex typog-without-microtype-test.tex:  \
   typog.ins typog.dtx
 	$(LATEX) $(LATEX_FLAGS) $<
 	chmod 755 typog-grep.pl

@@ -31,5 +31,6 @@
 /RELEASE-HOWTO
 /typog-example.*
 /typog-grep*
-/typog-nomt.*
+/typog-minimal-test.*
+/typog-without-microtype-test.*
 /typog.pdf
