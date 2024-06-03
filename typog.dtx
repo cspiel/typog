@@ -4495,6 +4495,10 @@ end
 %  accordingly~\cite{wermuth:2020} we prescribe the line-widths with \TeX's
 %  \cs{parshape}~primitive and leave alone the stretchability or shrinkability of the glue.
 %
+%  \begin{caution}
+%    None of the following environments work inside of lists.
+%  \end{caution}
+%
 %  \begin{slightlysloppypar}[2]
 %    \hangindent=3.5\parindent
 %    \hangafter=-6
@@ -4763,10 +4767,38 @@ end
 %     Value for the width of the ragged right margin.  Default:~2\,em.
 %  \end{description}
 %
+%  \begin{samepage}
+%    \def\smoothraggedrightgenerator{quintuplet}
+%    \setlength{\smoothraggedrightragwidth}{7pt}
+%    \begin{nocharprotrusion}\fussy
+%      \begin{smoothraggedright}
+%        Throughout this manual we have demonstrated how \code{smoothraggedright} environments
+%        work for very narrow columns namely inside of the document's margins: all maginal notes
+%        were typeset inside of \cs{smoothraggedright} environments (quintuplet generator,
+%        1.5\,em rag width, at footnote~size in addition using
+%        environments~\code{slightlysloppy} and \code{loosespacing}).  Here, we utilize it with
+%        the \smoothraggedrightgenerator~generator and a rag-width of only
+%        \the\smoothraggedrightragwidth{} in a paragraph that is \the\linewidth~wide and
+%        averages around twelve words per line.  There is much more glue to adapt to the
+%        line-ends and thus the desired rag is archieved far easier.  The sloppyness is minimal,
+%        this is, \cs{fussy} is in effect and character protrusion into the margins is switched
+%        off.  A limitation of the current implementation is that it is ineffective inside of lists.
+%        Therefore, this paragraph has not been wrapped inside of an \singlequotes{example}, because
+%        all examples are coded as lists.
+%      \end{smoothraggedright}
+%    \end{nocharprotrusion}
+%  \end{samepage}
+%
 %  \begin{usecases}
 %    Replacement for \cs{RaggedRight}~\cite{package:ragged2e}.~\visualpar Design alternative for
 %    fully justified paragraphs if used with a small rag-width.
 %  \end{usecases}
+%
+%  \begin{futuredirection}
+%    Translate the code to \packagename{l3galley} which is part of the
+%    \packagename{l3experimental}~package~\cite{package:l3experimental}.  Galley~code is
+%    supposed to work inside of lists, too.
+%  \end{futuredirection}
 %
 %
 %  \sectionfinish
@@ -4938,6 +4970,12 @@ end
 %              \bibtitle{The \TeX{}book}.
 %              Addison Wesley, Reading\kernedslash MA,
 %              1986.
+%
+%      \bibitem{package:l3experimental}
+%              \bibauthor{The \LaTeX\ Project}.
+%              \bibtitle{Package~\packagename{l3experimental}}.
+%              2024,
+%              \biburl{https://ctan.org/pkg/l3experimental}.
 %
 %      \bibitem{package:layout}
 %              \bibauthor{McPherson, Kent}.
@@ -8019,7 +8057,7 @@ end
    \typog@typeout{smoothraggedrightshapetriplet: skip3=\the\skip3}%
    \unless\ifnum\typog@mod{\typog@triplet@max@lines}{3}=0
      \PackageError{typog}
-                  {Line number of triplet generator %
+                  {Line number of triplet generator\space
                     (\typog@triplet@max@lines) not divisible by 3}
                   {}
    \fi
@@ -8072,7 +8110,7 @@ end
    \typog@typeout{smoothraggedrightshapequintuplet: skip5=\the\skip5}%
    \unless\ifnum\typog@mod{\typog@quintuplet@max@lines}{5}=0
      \PackageError{typog}
-                  {Line number of quintuplet generator %
+                  {Line number of quintuplet generator\space
                     (\typog@quintuplet@max@lines) not divisible by 5}
                   {}
    \fi
@@ -8129,7 +8167,7 @@ end
    \typog@typeout{smoothraggedrightshapeseptuplet: skip7=\the\skip7}%
    \unless\ifnum\typog@mod{\typog@septuplet@max@lines}{7}=0
      \PackageError{typog}
-                  {Line number of septuplet generator %
+                  {Line number of septuplet generator\space
                     (\typog@septuplet@max@lines) not divisible by 7}
                   {}
    \fi
