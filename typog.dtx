@@ -5186,13 +5186,20 @@ end
 %  \end{macro}
 %
 %  \begin{macro}{\typog@typeout}
+%    Our information printer.
+%    Just adds a prefix so that we can tease apart the \filesystem{log} later.
+%
+%    \begin{macrocode}
+\newcommand*{\typog@typeout}[1]{\typeout{typog: #1}}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typog@typeout}
 %    Our debug information printer.
 %
 %    \begin{macrocode}
-\newcommand*{\typog@typeout}[1]
-  {\iftypog@debug
-     \typeout{typog: #1}%
-   \fi}
+\newcommand*{\typog@debug@typeout}[1]{\iftypog@debug\typog@typeout{#1}\fi}
 
 %    \end{macrocode}
 %  \end{macro}
@@ -5582,7 +5589,7 @@ end
 \DeclareOptionX<typog>{ligaturekern}[.033333em]%
   {\setlength{\typog@config@ligaturekern}{#1}}
 \DeclareOptionX<typog>{lowercaselabelitemadjustments}%
-  {\typog@typeout{lowercaselabelitemadjustments={#1}}
+  {\typog@debug@typeout{lowercaselabelitemadjustments={#1}}
    \def\typog@@do##1{\addtocounter{typog@@iteration}{1}
       \global\setlength{\csname typog@adjust@lowercase@labelitem\romannumeral\thetypog@@iteration\endcsname}{##1}}
    \setcounter{typog@@iteration}{0}
@@ -5634,11 +5641,11 @@ end
    \ifx\@onlypreamble\@notprerr
      \PackageWarning{typog}{option `trackingttspacing' can only be used in the preamble}%
    \else
-     \typog@typeout{trackingttspacing=#1}%
+     \typog@debug@typeout{trackingttspacing=#1}%
      \SetTracking[outer spacing={#1}]{encoding=*, family=tt*}{0}%
    \fi}
 \DeclareOptionX<typog>{uppercaselabelitemadjustments}%
-  {\typog@typeout{uppercaselabelitemadjustments={#1}}
+  {\typog@debug@typeout{uppercaselabelitemadjustments={#1}}
    \def\typog@@do##1{\addtocounter{typog@@iteration}{1}
       \setlength{\csname typog@adjust@uppercase@labelitem\romannumeral\thetypog@@iteration\endcsname}{##1}}
    \setcounter{typog@@iteration}{0}
@@ -6631,7 +6638,7 @@ end
      \patchcmd{\enit@itemize@i}
               {\expandafter}
               {\@typog@itemize@patch\expandafter}
-              {\typog@typeout{patching enumitem \string\enit@itemize@i\space succeeded}}
+              {\typog@debug@typeout{patching enumitem \string\enit@itemize@i\space succeeded}}
               {\PackageError{typog}
                             {Patching enumitem macro \string\enit@itemize@i\space failed}
                             {}}
@@ -6639,7 +6646,7 @@ end
      \patchcmd{\itemize}
               {\expandafter}
               {\@typog@itemize@patch\expandafter}
-              {\typog@typeout{patching \string\itemize\space succeeded}}
+              {\typog@debug@typeout{patching \string\itemize\space succeeded}}
               {\PackageError{typog}
                             {Patching plain LaTeX macro \string\itemize\space failed}
                             {}}
@@ -7497,7 +7504,7 @@ end
 \NewDocumentCommand{\vtietop}{O{3}}
   {\setcounter{typog@mean@penalty}
               {\typog@geometric@mean{\@M}{\clubpenalty}}%
-   \typog@typeout{vtietop: penalties \the\@M--\the\value{typog@mean@penalty}--\the\clubpenalty}%
+   \typog@debug@typeout{vtietop: penalties \the\@M--\the\value{typog@mean@penalty}--\the\clubpenalty}%
    \unless\ifnum\clubpenalty<\@M
      \PackageWarning{typog}{vtietop: clubpenalty=\the\clubpenalty\space>= 10000}%
    \fi
@@ -7585,7 +7592,7 @@ end
 \NewDocumentCommand{\vtiebot}{O{3}}
   {\setcounter{typog@mean@penalty}
               {\typog@geometric@mean{\@M}{\widowpenalty}}%
-   \typog@typeout{vtiebot: penalties \the\@M--\the\value{typog@mean@penalty}--\the\widowpenalty}%
+   \typog@debug@typeout{vtiebot: penalties \the\@M--\the\value{typog@mean@penalty}--\the\widowpenalty}%
    \unless\ifnum\widowpenalty<\@M
      \PackageWarning{typog}{vtiebot: widowpenalty=\the\widowpenalty\space>= 10000}%
    \fi
@@ -7653,7 +7660,7 @@ end
 \NewDocumentCommand{\typog@vtiebotdisp}{m}
   {\setcounter{typog@mean@penalty}
               {\typog@geometric@mean{\@M}{\displaywidowpenalty}}%
-   \typog@typeout{vtiebotdisp: penalties \the\@M--\the\value{typog@mean@penalty}--\the\displaywidowpenalty}%
+   \typog@debug@typeout{vtiebotdisp: penalties \the\@M--\the\value{typog@mean@penalty}--\the\displaywidowpenalty}%
    \unless\ifnum\displaywidowpenalty<\@M
      \PackageWarning{typog}{vtiebotdisp: displaywidowpenalty=\the\displaywidowpenalty\space>= 10000}%
    \fi
@@ -7790,9 +7797,9 @@ end
 %    \begin{macrocode}
   \dim_set:Nn \l_tmpa_dim {\glueexpr #1}
 
-  \typog@typeout{\string\setbaselineskip:\space
+  \typog@debug@typeout{\string\setbaselineskip:\space
     initial\space baselineskip:\space \the\baselineskip}
-  \typog@typeout{\string\setbaselineskip:\space
+  \typog@debug@typeout{\string\setbaselineskip:\space
     target\space baselineskip:\space \dim_use:N \l_tmpa_dim}
 
   \dim_compare:nNnTF {\baselineskip} > {\c_zero_dim}
@@ -7845,10 +7852,10 @@ end
     {}
   }
 
-  \typog@typeout{\string\setbaselineskip:\space
+  \typog@debug@typeout{\string\setbaselineskip:\space
     final\space \string\setstretch\space argument:\space
     \fp_use:N \l_tmpa_fp}
-  \typog@typeout{\string\setbaselineskip:\space
+  \typog@debug@typeout{\string\setbaselineskip:\space
     final\space baselineskip:\space \the\baselineskip}
 }
 
@@ -7915,7 +7922,7 @@ end
 %    \begin{macrocode}
 \AfterEndPreamble{
   \dim_set:Nn \typogfontsize {\fontdimen6\font}
-  \typog@typeout{\string\typogfontsize =
+  \typog@debug@typeout{\string\typogfontsize =
     \dim_use:N \typogfontsize\space
     (at\space begin\space of\space document)}
 }
@@ -8051,10 +8058,10 @@ end
    \skip1=#2\relax
    \skip2=#3\relax
    \skip3=#4\relax
-   \typog@typeout{smoothraggedrightshapetriplet: skip0=\the\skip0}%
-   \typog@typeout{smoothraggedrightshapetriplet: skip1=\the\skip1}%
-   \typog@typeout{smoothraggedrightshapetriplet: skip2=\the\skip2}%
-   \typog@typeout{smoothraggedrightshapetriplet: skip3=\the\skip3}%
+   \typog@debug@typeout{smoothraggedrightshapetriplet: skip0=\the\skip0}%
+   \typog@debug@typeout{smoothraggedrightshapetriplet: skip1=\the\skip1}%
+   \typog@debug@typeout{smoothraggedrightshapetriplet: skip2=\the\skip2}%
+   \typog@debug@typeout{smoothraggedrightshapetriplet: skip3=\the\skip3}%
    \unless\ifnum\typog@mod{\typog@triplet@max@lines}{3}=0
      \PackageError{typog}
                   {Line number of triplet generator\space
@@ -8102,12 +8109,12 @@ end
    \skip3=#4\relax
    \skip4=#5\relax
    \skip5=#6\relax
-   \typog@typeout{smoothraggedrightshapequintuplet: skip0=\the\skip0}%
-   \typog@typeout{smoothraggedrightshapequintuplet: skip1=\the\skip1}%
-   \typog@typeout{smoothraggedrightshapequintuplet: skip2=\the\skip2}%
-   \typog@typeout{smoothraggedrightshapequintuplet: skip3=\the\skip3}%
-   \typog@typeout{smoothraggedrightshapequintuplet: skip4=\the\skip4}%
-   \typog@typeout{smoothraggedrightshapequintuplet: skip5=\the\skip5}%
+   \typog@debug@typeout{smoothraggedrightshapequintuplet: skip0=\the\skip0}%
+   \typog@debug@typeout{smoothraggedrightshapequintuplet: skip1=\the\skip1}%
+   \typog@debug@typeout{smoothraggedrightshapequintuplet: skip2=\the\skip2}%
+   \typog@debug@typeout{smoothraggedrightshapequintuplet: skip3=\the\skip3}%
+   \typog@debug@typeout{smoothraggedrightshapequintuplet: skip4=\the\skip4}%
+   \typog@debug@typeout{smoothraggedrightshapequintuplet: skip5=\the\skip5}%
    \unless\ifnum\typog@mod{\typog@quintuplet@max@lines}{5}=0
      \PackageError{typog}
                   {Line number of quintuplet generator\space
@@ -8157,14 +8164,14 @@ end
    \skip5=#6\relax
    \skip6=#7\relax
    \skip7=#8\relax
-   \typog@typeout{smoothraggedrightshapeseptuplet: skip0=\the\skip0}%
-   \typog@typeout{smoothraggedrightshapeseptuplet: skip1=\the\skip1}%
-   \typog@typeout{smoothraggedrightshapeseptuplet: skip2=\the\skip2}%
-   \typog@typeout{smoothraggedrightshapeseptuplet: skip3=\the\skip3}%
-   \typog@typeout{smoothraggedrightshapeseptuplet: skip4=\the\skip4}%
-   \typog@typeout{smoothraggedrightshapeseptuplet: skip5=\the\skip5}%
-   \typog@typeout{smoothraggedrightshapeseptuplet: skip6=\the\skip6}%
-   \typog@typeout{smoothraggedrightshapeseptuplet: skip7=\the\skip7}%
+   \typog@debug@typeout{smoothraggedrightshapeseptuplet: skip0=\the\skip0}%
+   \typog@debug@typeout{smoothraggedrightshapeseptuplet: skip1=\the\skip1}%
+   \typog@debug@typeout{smoothraggedrightshapeseptuplet: skip2=\the\skip2}%
+   \typog@debug@typeout{smoothraggedrightshapeseptuplet: skip3=\the\skip3}%
+   \typog@debug@typeout{smoothraggedrightshapeseptuplet: skip4=\the\skip4}%
+   \typog@debug@typeout{smoothraggedrightshapeseptuplet: skip5=\the\skip5}%
+   \typog@debug@typeout{smoothraggedrightshapeseptuplet: skip6=\the\skip6}%
+   \typog@debug@typeout{smoothraggedrightshapeseptuplet: skip7=\the\skip7}%
    \unless\ifnum\typog@mod{\typog@septuplet@max@lines}{7}=0
      \PackageError{typog}
                   {Line number of septuplet generator\space
@@ -8274,7 +8281,7 @@ end
 %    |generator=triplet| produces a \doublequotes{short line -- long line -- middle length line}~sequence.
 %    \begin{macrocode}
      \typog@fuzzwidth=.25\smoothraggedrightragwidth
-     \typog@typeout{smoothraggedright: generator=triplet, typog@fuzzwidth=\the\typog@fuzzwidth}%
+     \typog@debug@typeout{smoothraggedright: generator=triplet, typog@fuzzwidth=\the\typog@fuzzwidth}%
      \smoothraggedrightshapetriplet[leftskip=\typog@@smoothraggedrightleftskip,
                                     parindent=\glueexpr\smoothraggedrightparindent + \parindent,
                                     #1]%
@@ -8289,7 +8296,7 @@ end
 %    |generator=quintuplet|.
 %    \begin{macrocode}
      \typog@fuzzwidth=.125\smoothraggedrightragwidth
-     \typog@typeout{smoothraggedright: generator=quintuplet, typog@fuzzwidth=\the\typog@fuzzwidth}%
+     \typog@debug@typeout{smoothraggedright: generator=quintuplet, typog@fuzzwidth=\the\typog@fuzzwidth}%
      \smoothraggedrightshapequintuplet[leftskip=\typog@@smoothraggedrightleftskip,
                                        parindent=\glueexpr\smoothraggedrightparindent + \parindent,
                                        #1]%
@@ -8312,7 +8319,7 @@ end
 %
 %    \begin{macrocode}
      \typog@fuzzwidth=.08333\smoothraggedrightragwidth
-     \typog@typeout{smoothraggedright: generator=septuplet, typog@fuzzwidth=\the\typog@fuzzwidth}%
+     \typog@debug@typeout{smoothraggedright: generator=septuplet, typog@fuzzwidth=\the\typog@fuzzwidth}%
      \smoothraggedrightshapeseptuplet[leftskip=\typog@@smoothraggedrightleftskip,
                                       parindent=\glueexpr\smoothraggedrightparindent + \parindent,
                                       #1]%
