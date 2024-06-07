@@ -361,7 +361,7 @@
 \newcommand*{\citenum}[1]{\@nameuse{b@#1}}
 \makeatother
 
-\def\code#1{\texttt{#1}}
+\renewcommand*{\code}[1]{\texttt{#1}}
 
 \newrobustcmd*{\command}[1]{\mbox{\textbf{#1}}}
 
@@ -375,6 +375,12 @@
 \newcommand*{\filledsquare}[1]{\filledrectangle{#1}{#1}}
 
 \newcommand*{\foreignphrase}[1]{\textsl{#1}}
+
+\makeatletter
+\newcommand*{\formatdimen}{\@ifstar{\@typog@rem@pt}{\@typog@strip@pt}}
+\newcommand*{\@typog@rem@pt}[1]{\dimen0=\dimexpr#1\relax\strip@pt\dimen0\,pt}
+\newcommand*{\@typog@strip@pt}[1]{\expandafter\strip@pt#1\relax\,pt}
+\makeatother
 
 \newcommand*{\formatskip}[3]{#1\genfrac{}{}{0pt}{}{{+}#2}{{-}#3}}
 
@@ -437,7 +443,7 @@
 \AtBeginDocument{\setlength{\emreference}{\fontdimen6\font}}
 \newrobustcmd*{\milliem}[1]
               {\ifdim #1=0pt
-                 #1%
+                 0\,pt%
                \else
                  \nativetextfraction{\the\numexpr\dimexpr (#1) * 1000 / \emreference}{1000}\:em%
                \fi}
@@ -1082,10 +1088,10 @@ end
 %  \end{synopsis}
 %
 %  \index{package options|(}
-%  The package \meta{OPTIONs} serve as configuration \meta{key}s, too.  This means they can be
-%  set with \hyperref[syn:typogsetup]{\code{typogsetup}} and their values can be retrieved with
-%  \hyperref[syn:typogget]{\cs{typogget}}.  Options that rely on package~\packagename{microtype}
-%  are indicated with \doublequotes{\microtyperequiredmarker}.
+%  The package \meta{OPTIONs} also serve as configuration \meta{key}s (unless noted otherwise).
+%  This means they can be set with \hyperref[syn:typogsetup]{\code{typogsetup}} and their values
+%  can be retrieved with \hyperref[syn:typogget]{\cs{typogget}}.  Options that rely on
+%  package~\packagename{microtype} are indicated with \doublequotes{\microtyperequiredmarker}.
 %
 %  \begin{typogsetup}{}
 %    \newcommand*{\indexpackageoption}[1]
@@ -1109,15 +1115,18 @@ end
 %    \item[|debug|, |nodebug|]\label{item:debug}
 %      \indexpackageoption{debug}
 %      \indexpackageoption{nodebug}
-%      Write package-specific debug information to the log file.  Opposite: |nodebug|.  The
-%      default is not to log debug information.
+%      Write some package-specific debug information to the \filesystem{log}~file.  Opposite:
+%      |nodebug|.  The default is not to record debug information.
+%
+%      These two options neither can be used with \hyperref[syn:typogsetup]{\code{typogsetup}}
+%      nor with \hyperref[syn:typogget]{\cs{typogget}}.
 %
 %    \item[|ligaturekern=|\meta{dim}]\label{item:ligaturekern}
 %      \indexpackageoption{ligaturekern}
 %      Set \meta{dim} of the kern that is inserted to split a ligature in
 %      macro\hyperref[syn:nolig]{\cs{nolig}}.  See
-%      \cref{sec:break-ligatures}.\shiftedmarginnote{We access the configuration values with
-%      \hyperref[syn:typogget]{\cs{typogget}}.}  Default
+%      \cref{sec:break-ligatures}.\shiftedmarginnote{We access all the (default) configuration
+%      values with \hyperref[syn:typogget]{\cs{typogget}}.}  Default
 %      value:~\milliem{\typogget{ligaturekern}}.
 %
 %    \item[|lowercaselabelitemadjustments=\{|\meta{dim1}, \meta{dim2}, \meta{dim3}, \meta{dim4}|\}|]%
@@ -1126,20 +1135,20 @@ end
 %      \sinceversion{Since v0.4}
 %      Vertical shifts \meta{dimN} to apply to \cs{labelitem}\meta{N}, where \meta{N} is the
 %      nesting level of the |itemize|~list starting at one.  An empty \meta{dimN} is equivalent
-%      to 0\,pt.  The adjustments apply to the lowercase setting
+%      to~\formatdimen*{0pt}.  The adjustments apply to the lowercase setting
 %      (\hyperref[syn:lowercaseadjustlabelitems]{\code{\string\lowercaseadjustlabelitems}}).
 %      See \cref{sec:adjust-label-items} (in particular subsection~\singlequotes{Setup} and
 %      \cref{tab:labelitemadjustvalues} on \cpageref{tab:labelitemadjustvalues}) and also
 %      configuration option
 %      \hyperref[item:uppercaselabelitemadjustments]{\code{uppercaseadjustlabelitem}}.
 %
-%      All four lengths default to~0\,pt.
+%      All four lengths default to~\formatdimen*{0pt}.
 %
 %      \begin{important}
 %        \slightlysloppy
 %        \noindent
 %        Configuring \code{lowercaselabelitemadjustments} (or
-%        \code{uppercaselabelitemadjustments}) does \emph{not activate} the correction
+%        \code{uppercaselabelitemadjustments}) does \emph{not} activate the correction
 %        mechanism.  Use one of the macros \code{\string\lowercaseadjustlabelitems} or
 %        \code{\string\uppercaseadjustlabelitems} for that purpose.
 %      \end{important}
@@ -1155,9 +1164,13 @@ end
 %    \item[|raise*=|\meta{dim}]\label{item:raise}
 %      \indexpackageoption{raise*}
 %      Set the length by which selected characters (dash, hyphen, times, and number dash) are
-%      raised.  Default value:~0\,pt.
+%      raised.  Default value:~\formatdimen*{0pt}.
 %
 %      Only the raise amounts for guillemets are unaffected by this option.
+%
+%      This option neither can be used with \hyperref[syn:typogsetup]{\code{typogsetup}} nor
+%      with \hyperref[syn:typogget]{\cs{typogget}}, however, the specific options influenced by
+%      it can.
 %
 %    \item[|raisecapitaldash=|\meta{dim}]\label{item:raisecapitaldash}
 %      \indexpackageoption{raisecapitaldash}
@@ -1255,20 +1268,20 @@ end
 %      \sinceversion{Since v0.4}
 %      Vertical shifts \meta{dimN} to apply to \cs{labelitem}\meta{N}, where \meta{N} is the
 %      nesting level of the |itemize|~list starting at one.  An empty \meta{dimN} is equivalent
-%      to 0\,pt.  The adjustments apply to the uppercase setting
+%      to~\formatdimen*{0pt}.  The adjustments apply to the uppercase setting
 %      (\hyperref[syn:uppercaseadjustlabelitems]{\code{\string\uppercaseadjustlabelitems}}).
 %      See \cref{sec:adjust-label-items} (in particular subsection~\singlequotes{Setup} and
 %      \cref{tab:labelitemadjustvalues} on \cpageref{tab:labelitemadjustvalues}) and also
 %      configuration option
 %      \hyperref[item:lowercaselabelitemadjustments]{\code{lowercaseadjustlabelitem}}.
 %
-%      All four lengths default to~0\,pt.
+%      All four lengths default to~\formatdimen*{0pt}.
 %
 %      \begin{important}
 %        \slightlysloppy
 %        \noindent
 %        Configuring \code{uppercaselabelitemadjustments} (or
-%        \code{lowercaselabelitemadjustments}) does \emph{not activate} the correction
+%        \code{lowercaselabelitemadjustments}) does \emph{not} activate the correction
 %        mechanism.  Use one of the macros \code{\string\uppercaseadjustlabelitems} or
 %        \code{\string\lowercaseadjustlabelitems} for that purpose.
 %      \end{important}
