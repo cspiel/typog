@@ -37,7 +37,9 @@ The Current Maintainer of this work is Ch. L. Spiel.
 This work consists of the files typog.dtx and typog.ins
 and the derived files typog.sty, slant-angle.mp,
 crooked-paragraphs.mp, smooth-parshapes.mp, title.mp,
-typog-example.tex, typog-nomt.tex, typog-grep.pl,
+typog-example.tex, typog-minimal-test.tex,
+typog-without-microtype-test.tex
+typog-grep.pl.in, typog-grep.pl,
 typog-grep.pod, and teximan2latex.sed.
 
 
@@ -62,7 +64,7 @@ typog-grep.pod, and teximan2latex.sed.
 
 \nopreamble
 \generate{\file{teximan2latex.sed}{\from{\source}{teximan2latex}}
-          \file{typog-grep.pl}{\from{\source}{typog-grep}}
+          \file{typog-grep.pl.in}{\from{\source}{typog-grep}}
           \file{typog-grep.pod}{\from{\source}{typog-grep-documentation}}}
 
 

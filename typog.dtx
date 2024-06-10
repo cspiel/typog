@@ -10245,20 +10245,24 @@ Document class ``minimal'' sets up font size and line spacing as~\typoinfo.
 /@menu/,/@end menu/d
 
 ##  Convert sectioning macros to our own hierarchy.
-s/^@chapter \(.*\)$/\\subsection*{\\textls[40]{\1}}/
-s/^@section \(.*\)$/\\subsubsection*{\1}/
+s/^@chapter \(.*\)$/\\subsection{\\textls[40]{\1}\\label{\1}}/
+s/^@section \(.*\)$/\\subsubsection{\1}\\label{\1}/
 
 ##  Make `@asis' list resemble the Texinfo format.
 s/@table @asis/\\begin{list}{}{\\itemindent=-20pt\\leftmargin=20pt}/
 s/@end table/\\end{list}/
 
-##  Indenting by four spaces generates a `verbatim' environment.
-s/@verbatim/\\begin{verbatim}/
-s/@end verbatim/\\end{verbatim}/
-
 ##  We substitute our maxipage environment for @display.
 s/@display/\\begin{maxipage}/
 s/@end display/\\end{maxipage}/
+
+##  Translate `@example' environments.
+s/@example/\\begin{quote}\\tt\\obeylines/
+s/@end example/\\end{quote}\n\n/
+
+##  Indenting by four spaces generates a `verbatim' environment.
+s/@verbatim/\\begin{verbatim}/
+s/@end verbatim/\\end{verbatim}/
 
 ##  The argument format of the URL macro is different.
 s/@url{\([^,]*\), \([^}]*\)}/\\href{\1}{\2}/g
@@ -10266,13 +10270,23 @@ s/@url{\([^,]*\), \([^}]*\)}/\\href{\1}{\2}/g
 ##  Use our own markup.
 s/\.\.\./\\dots{}/g
 s/LaTeX/\\LaTeX{}/g
-s/@file/\\textit/g
+s/@file/\\emph/g
 s/@strong/\\textbf/g
+s/@var/\\emph/g
 s/[w]{/mbox{/g
+
+##  Translate some Texinfo macros.
+s/@backslashchar/\\char`\\\\/g
+s/@lbracechar/\\{/g
+s/@noindent/\\noindent/g
+s/@rbracechar/\\}/g
 
 ##  Quote some special characters.
 s/%/\\%/g
 s/_/\\_/g
+
+##  Add space around alternative-indicators.
+s/[|]/\\,|\\,/g
 
 ##  Adapt to how a man-page is typeset.
 ##  En-dashes in front of long options really suck!
@@ -10901,7 +10915,7 @@ FIXED_CONFIGURATION_TEXT
 
 sub show_version {
     print <<VERSION_TEXT;
-typog-grep 0.1
+typog-grep @RELEASE@
 
 Copyright (C) 2024 by Ch. L. Spiel
 License LPPL: LaTeX Project Public License version 1.3c or later
@@ -10935,8 +10949,12 @@ sub get_options {
                              'w|word-regexp!' => \$options->{WORD_REGEXP}) or
                                fail_with_error('problems while parsing options');
 
-    fail_with_error("unknown colorize mode @{[quote_literal($options->{COLORIZE_MODE})]}")
-      unless $options->{COLORIZE_MODE} =~ m/^(?:always|auto|never)$/i;
+    if ($options->{COLORIZE_MODE}) {
+        fail_with_error("unknown colorize mode @{[quote_literal($options->{COLORIZE_MODE})]}")
+          unless $options->{COLORIZE_MODE} =~ m/^(?:always|auto|never)$/i;
+    } else {
+        $options->{COLORIZE_MODE} = 'auto';
+    }
 }
 
 
@@ -10960,14 +10978,27 @@ sub do_colorize {
 sub main {
     $OUTPUT_IS_REDIRECTED = -t STDOUT ? 0 : 1;
 
-    my $options = {%$default_options};
     my $configuration = {%$default_configuration};
+    my $options = {%$default_options};
+    debug_print(Data::Dumper::Dumper(['Default Configuration', $configuration]));
+    debug_print(Data::Dumper::Dumper(['Default Options', $options]));
 
-    get_options($options, $configuration);
+    my $user_options = {};
+    my $user_configuration = {};
+    get_options($user_options, $user_configuration);
+    debug_print(Data::Dumper::Dumper(['User Configuration', $user_configuration]));
+    debug_print(Data::Dumper::Dumper(['User Options', $user_options]));
+    while (my ($key, $value) = each %$user_options) {
+        $options->{$key} = $value if $value;
+    }
+    while (my ($key, $value) = each %$user_configuration) {
+        $configuration->{$key} = $value if $value;
+    }
+    debug_print(Data::Dumper::Dumper(['Final Configuration', $configuration]));
+    debug_print(Data::Dumper::Dumper(['Final Options', $options]));
+
     $options->{COLORIZE_OUTPUT} = do_colorize($options->{COLORIZE_MODE});
     initialize_highlighting_from_configuration($configuration);
-    debug_print(Data::Dumper::Dumper($configuration));
-    debug_print(Data::Dumper::Dumper($options));
 
     my $id_regexp;
     if ($options->{SHOW_ALL_IDS}) {
@@ -10979,7 +11010,7 @@ sub main {
         $id_regexp = shift @ARGV;
     }
 
-    if ($options->{REQUEST_PAGER} && $OUTPUT_IS_REDIRECTED) {
+    if ($user_options->{REQUEST_PAGER} && $OUTPUT_IS_REDIRECTED) {
         issue_warning("option @{[quote_literal('--pager')]} ignored because output is redirected");
     }
     my $use_pager = $options->{REQUEST_PAGER} && !$OUTPUT_IS_REDIRECTED;
@@ -11011,7 +11042,7 @@ main();
 
 =head1 NAME
 
-typog-grep - grep for typog-inspect elements in LaTeX log files
+typog-grep - specialized grep for typog-inspect elements in LaTeX log files
 
 
 =head1 SYNOPSIS
@@ -11024,9 +11055,70 @@ typog-grep - grep for typog-inspect elements in LaTeX log files
 
 =back
 
-The first form shows all C<E<lt>typog-inspect id="I<ID>" ...E<gt>> elements in F<LOG-FILE>.
+The first form, ``discovery mode'', shows all I<ID>s of
 
-The second form shows the contents of C<E<lt>typog-inspect id="I<ID>" ...E<gt>> elements
+=begin text
+
+<typog-inspect id="ID" ...>
+
+=end text
+
+=begin man
+
+.RS
+.EX
+<typog-inspect id="\fI\,ID\/\fP" ...>
+.EE
+.RE
+
+=end man
+
+=begin texinfo
+
+@example
+<typog-inspect id="@var{ID}" ...>
+@end example
+@noindent
+
+=end texinfo
+
+Z<>
+elements in F<LOG-FILE>.
+
+The second form shows the contents, I<LOG-DATA>, of the elements
+
+=begin text
+
+<typog-inspect id="ID" ...>
+LOG-DATA
+</typog-inspect>
+
+=end text
+
+=begin man
+
+.RS
+.EX
+<typog-inspect id="\fI\,ID\/\fP" ...>
+\fILOG-DATA\fP
+</typog-inspect>
+.EE
+.RE
+
+=end man
+
+=begin texinfo
+
+@example
+<typog-inspect id="@var{ID}" ...>
+@var{LOG-DATA}
+</typog-inspect>
+@end example
+@noindent
+
+=end texinfo
+
+Z<>
 whose I<ID>s match I<REGEXP> in F<LOG-FILE>.
 
 If no F<LOG-FILE> is given read from F<stdin>.
@@ -11035,57 +11127,101 @@ The S<filename C<->> is synonymous to F<stdin>.
 
 =head1 DESCRIPTION
 
-B<typog-grep> is a tailored post-processor for LaTeX log files
-and the C<typoginspect> environment as provided by S<package typog>.
+B<typog-grep> is a tailored post-processor for LaTeX S<F<log> files>
+and the C<typoginspect> environment as provided by the S<LaTeX package typog>.
 It shares more with the venerable
 L<B<sgrep>|https://www.cs.helsinki.fi/u/jjaakkol/sgrep.html>
 than with S<POSIX L<B<grep>|https://pubs.opengroup.org/onlinepubs/9699919799/utilities/grep.html>>.
 
-The LaTeX user brackets her text in
+In the LaTeX source file the user brackets her text or code
+in a C<typoginspect> environment:
 
-    \begin{typoginspect}{ID}
-      Text and code to investigate
-    \end{typoginspect}
+=begin text
 
+\begin{typoginspect}{ID}
+  TEXT-OR-CODE-TO-INVESTIGATE
+\end{typoginspect}
+
+=end text
+
+=begin man
+
+.RS
+.EX
+\ebegin{typoginspect}{\fI\,ID\/\fP}
+\fITEXT-OR-CODE-TO-INVESTIGATE\fP
+\eend{typoginspect}
+.EE
+.RE
+
+=end man
+
+=begin texinfo
+
+@example
+@backslashchar{}begin@lbracechar{}typoginspect@rbracechar{}@lbracechar{}@var{ID}@rbracechar{}
+@var{TEXT-OR-CODE-TO-INVESTIGATE}
+@backslashchar{}end@lbracechar{}typoginspect@rbracechar{}
+@end example
+@noindent
+
+=end texinfo
+
+Z<>
 where I<ID> is used to identify one or more bracketed snippets.
 I<ID> does not have to be unique.
 The I<REGEXP> mechanism makes it easy to select groups of related I<ID>s
 if they are named accordingly.
 
-In F<LOG-FILE> the environment shows up, packed with tracing information, as
+In F<LOG-FILE> the result of the environment shows up,
+packed with tracing information, as
+
+=begin text
+
+<typog-inspect id="ID" job="JOB-NAME" line="LINE-NUMBER" page="PAGE-NUMBER">
+  LOG-DATA
+</typog-inspect>
+
+=end text
+
+=begin man
+
+.RS
+.EX
+<typog-inspect id="\fI\,ID\/\fP" job="\fI\,JOB-NAME\/\fP" line="\fI\,LINE-NUMBER\/\fP" page="\fI\,PAGE-NUMBER\/\fP">
+\fILOG-DATA\fP
+</typog-inspect>
+.EE
+.RE
+
+=end man
 
 =begin texinfo
 
-@display
-@relax
+@example
+<typog-inspect id="@var{ID}" job="@var{JOB-NAME}" line="@var{LINE-NUMBER}" page="@var{PAGE-NUMBER}">
+@var{LOG-DATA}
+</typog-inspect>
+@end example
+@noindent
 
 =end texinfo
 
-    <typog-inspect id="ID" job="JOB-NAME" line="LINE-NUMBER" page="PAGE-NUMBER">
-      Trace Data
-    </typog-inspect>
-
-=begin texinfo
-
-@end display
-@relax
-
-=end texinfo
-
+Z<>
 where all the capital-letter sequences are meta-variables
 and in particular
 I<JOB-NAME> is the expansion of C<\jobname>,
 I<LINE-NUMBER> is the LaTeX source file line number
 of the beginning of the C<typoginspect> environment,
 and I<PAGE-NUMBER> is the page where
-the output of S<C<Text and code to investigate>> occurs.
+the output of S<C<TEXT-OR-CODE-TO-INVESTIGATE>> occurs.
 
 B<typog-grep> reveals the contents of F<LOG-FILE>
 between C<E<lt>typog-inspect id="I<ID>" ...E<gt>>
-and C<E<lt>/typog-inspectE<gt>> excluding the XML-tags.
+and C<E<lt>/typog-inspectE<gt>> excluding the XML-tags themselves.
 Access the I<JOB-NAME>, I<LINE-NUMBER>, and I<PAGE-NUMBER>
 with the commandline options
-B<--job-name>,  B<--line-number>, and B<--page-number>, respectively.
+B<--job-name>, B<--line-number>, and B<--page-number>, respectively.
 Use B<--id> to show the name of the IDs that matched I<REGEXP>.
 
 C<typoginspect> environments can be nested.
@@ -11103,11 +11239,18 @@ The list of options is sorted by the names of the long options.
 =item B<-a>, B<--all>, B<--any>
 
 ID-discovery mode:
-Discover all C<typog-inspect> elements independent of any matching patterns.
+Discover all C<typog-inspect> elements independent of any matching patterns
+and print their I<ID>s.
+The results are printed in their order of occurrence in the respective F<LOG-FILE>s.
+Pipe the output into B<sort> to get alphabetically ordered I<ID>s.
+
+Augment with options
+B<--job-name>, B<--line-number>, B<--log-line-number>, or S<B<--page-number>>
+for more information.
 
 =item B<--color>, B<colour> I<WHEN>
 
-Colorize specific log contents for the matching ids.
+Colorize specific log contents for the matching I<ID>s.
 The S<argument I<WHEN>> determines when to apply color:
 C<always>, C<never>, S<or C<auto>>.
 The setting C<auto> checks whether standard output has been redirected.
@@ -11116,7 +11259,8 @@ This is the default.
 =item B<-C>, B<--config> I<KEY>=I<VALUE>[:I<KEY>=I<VALUE>[:...]]
 
 Set one or more configuration I<KEY> to I<VALUE> pairs.
-See S<Sec. CONFIGURATION> below for a description of all available configuration items.
+See section L</CONFIGURATION> for a description
+of all available configuration items.
 Use S<option B<--show-config>> to display the default configuration.
 
 =item B<--debug>
@@ -11126,15 +11270,17 @@ Turn on debug output on F<stderr>.
 =item B<-E>, B<--encoding> I<ENCODING>
 
 Set the I<ENCODING> of F<LOG-FILE> for the translation to UTF-8.
-The default is unset.  Use this option to get rid of pesky
+The default is unset.
+
+Use this option to get rid of pesky
 S<"E<lt>I<HEX-DIGITS>E<gt>" escapes> on UTF-8 terminals.
 See S<option B<--show-encodings>> for the known encodings and
 Encode::Supported for a summary of all encodings.
-See also S<section L</Some Common Encodings>> below.
+See also S<section L</Some Common Encodings>>.
 
 Apply L<B<iconv>|https://pubs.opengroup.org/onlinepubs/9699919799/utilities/iconv.html>
 (POSIX) or L<B<recode>|https://github.com/rrthomas/recode/> (GNU) on F<LOG-FILE>
-before this tool to S<avoid B<--encoding>>.
+before this tool to avoid having to use S<option B<--encoding>>.
 
 =item B<-h>, B<--help>
 
@@ -11142,16 +11288,16 @@ Display brief help then exit.
 
 =item B<-i>, B<--[no-]id>
 
-Print the actual id name that matched I<REGEXP>.
-Control the appearance of the matching id with configuration S<item C<id-heading>>.
+Print the actual ID-name that matched I<REGEXP>.
+Control the appearance of the matching I<ID> with configuration S<item C<id-heading>>.
 
 =item B<-y>, B<--[no-]ignore-case>
 
-Match ids while ignoring case distinctions in patterns and data.
+Match I<ID>s while ignoring case distinctions in patterns and data.
 
 =item B<-j>, B<--[no-]job-name>
 
-Print the C<\jobname> that B<tex> associated with the input file.
+Print the C<\jobname> that B<latex> associated with the input file.
 
 =item B<-n>, B<--[no-]line-number>
 
@@ -11202,26 +11348,26 @@ S<Default: C<%s:>.>
 
 =item C<id-heading>=C<0>E<verbar>C<1>
 
-Choose between printing the matching ids with S<option B<--id>>:
+Choose between printing the matching I<ID>s with S<option B<--id>>:
 S<Inline (C<0>)> or heading before the matching data (C<1>).
 S<Default: C<0>.>
 
 =item C<id-heading-format>=I<FORMAT>
 
-Control the I<FORMAT> for printing matching ids in heading-mode,
+Control the I<FORMAT> for printing matching I<ID>s in heading-mode,
 where I<FORMAT> is passed to Perl's C<printf>.
 S<Default: C<--E<gt> %s E<lt>-->.>
 
 =item C<id-indent>=I<INDENT>
 
 Indentation of nested typog-inspect tags.
-Only used in ``discovery'' mode (first form), i.e., if B<--all> is active.
+Only used in ``discovery mode'' (first form), i.e., if S<B<--all>> is active.
 S<Default: 8.>
 
 =item C<id-max-length>=I<MAXIMUM-LENGTH>
 
-Set the maximum length of a matching id for printing.
-It a matching id exceeds this length it will be truncated
+Set the maximum length of a matching I<ID> for printing.
+It a matching I<ID> exceeds this length it will be truncated
 and the last three characters (short of I<MAXIMUM-LENGTH>) will be replaced by dots.
 S<Default: 40.>
 
@@ -11287,11 +11433,11 @@ Color of lines with horizontal S<breakpoints C<@@>>.
 
 =item C<id-color>
 
-Color of matching ids when printed inline.
+Color of matching I<ID>s when printed inline.
 
 =item C<id-heading-color>
 
-Color of matching ids when printed in heading form.
+Color of matching I<ID>s when printed in heading form.
 
 =item C<line-break-pass-color>
 
@@ -11375,13 +11521,57 @@ C<iso-8859-1>, C<cp850>, C<cp860>, C<cp1252>
 
 C<iso-8859-2>, C<cp852>, C<cp1250>
 
-=item Latin-3, South European
+=item Latin-3, South European (Esperanto, Maltese)
 
 C<iso-8859-3>
 
-=item Latin-4, North European
+=item Latin-4, North European (Baltics)
 
 C<iso-8859-4>
+
+=item Cyrillics
+
+C<iso-8859-5>, C<cp855>, C<cp866> (Ukrainian), C<cp1251>
+
+=item Arabic
+
+C<iso-8859-6>, C<cp864>, C<cp1006> (Farsi), C<cp1256>
+
+=item Greek
+
+C<iso-8859-7>, C<cp737>, C<cp1253>
+
+=item Hebrew
+
+C<iso-8859-8>, C<cp862>, C<cp1255>
+
+=item Turkish
+
+C<iso-8859-9>, C<cp857>, C<cp1254>
+
+=item Nordic
+
+C<iso-8859-10>, C<cp865>, C<cp861> (Icelandic)
+
+=item Thai
+
+C<iso-8859-11>, C<cp874>
+
+=item Baltic
+
+C<iso-8859-13>, C<cp775>, C<cp1257>
+
+=item Celtic
+
+C<iso-8859-14>
+
+=item Latin-9 (sometimes called Latin0)
+
+C<iso-8859-15>
+
+=item Latin-10
+
+C<iso-8859-16>
 
 =back
 
@@ -11390,6 +11580,14 @@ C<iso-8859-4>
 
 The exit status is 0 if at least one I<ID> matched I<REGEXP>,
 1 if no I<ID> matched I<REGEXP>, and 2 if an error occurred.
+
+
+=head1 CAVEATS
+
+The end tag C<< </typog-inspect> >> sometimes gets placed too early in the output and the trace
+I<seems> truncated.  However, LaTeX reliably logs the requested the trace information, but the
+write operations for trace data and the code which is used to print the S<end tag> are not
+synchronized.
 
 
 =head1 SEE ALSO

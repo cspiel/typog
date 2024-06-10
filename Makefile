@@ -16,6 +16,10 @@ MAKEINDEX := makeindex
 MAKEINDEX_FLAGS := -q
 
 
+MAKEINFO := makeinfo
+MAKEINFO_FLAGS := --no-split
+
+
 METAPOST := mpost
 METAPOST_FLAGS := -file-line-error -interaction=nonstopmode -tex=latex
 
@@ -24,8 +28,12 @@ PODCHECKER := podchecker
 PODCHECKER_FLAGS := -warnings
 
 
+define SED_VERSION_REGEXP
+^\( *\|\\ProvidesPackage{[^}]*} *\)\[\([0-9][0-9]*/[0-9][0-9]*/[0-9][0-9]*\) *v\([^ ]*\) *\([^]]*\)].*$$
+endef
+
 POD2MAN := pod2man
-POD2MAN_FLAGS := $$(sed -ne 's,\\ProvidesPackage{typog}\[\([0-9][0-9]*/[0-9][0-9]*/[0-9][0-9]*\) *v\([^ ]*\) .*$$,--date=\1 --release=\2,p' < typog.sty)
+POD2MAN_FLAGS := $$(sed -ne 's,$(SED_VERSION_REGEXP),--date=\2 --release=\3,p' < typog.sty)
 
 
 POD2TEXI := pod2texi
@@ -69,7 +77,7 @@ DOCUMENTATION_FILES := typog-example.pdf typog-grep.1.pdf typog.pdf
 
 
 .PHONY: all
-all: sty pdf man
+all: sty pdf bin man
 
 
 .PHONY: sty
@@ -90,6 +98,10 @@ ex: typog-example.pdf
 
 .PHONY: test
 test: typog-minimal-test.pdf typog-without-microtype-test.pdf
+
+
+.PHONY: bin
+bin: typog-grep
 
 
 .PHONY: man
@@ -124,14 +136,16 @@ package: $(DOCUMENTATION_FILES)
 .PHONY: clean
 clean:
 	$(RM) ./*.1 ./*.aux ./*.brf ./*.glg ./*.glo ./*.gls
-	$(RM) ./*.hd ./*.idx ./*.ilg ./*.ind ./*.loe ./*.lof ./*.log ./*.lot
-	$(RM) ./*.mps ./*.mpx ./*.out ./*.pdf ./*.toc
+	$(RM) ./*.hd ./*.idx ./*.ilg ./*.ind ./*.info ./*.loe ./*.lof ./*.log ./*.lot
+	$(RM) ./*.mps ./*.mpx ./*.out ./*.pdf ./*.pl.in ./*.toc
 	$(RM) mptextmp.* mpxerr.tex
 	$(RM) README README.html RELEASE-HOWTO RELEASE-HOWTO.html
+	$(RM) typog-grep.version.sed
 
 
 .PHONY: mostlyclean
 mostlyclean: clean
+	$(RM) ./*.texi
 
 
 .PHONY: maintainer-clean
@@ -173,6 +187,8 @@ define HELP_SCREEN
 Selected Phony Targets
 ----------------------
 all:    Make everything there is to make.  This is the .DEFAULT_GOAL.
+
+bin:    Build typog-grep (which is not a binary, but executable).
 
 clean:  Remove some products.
 
@@ -240,6 +256,7 @@ README: Convert "README.html" to plain text.  Requires w3m(1).
 
 endef
 
+
 .PHONY: help
 help:
 	$(info $(HELP_SCREEN))
@@ -297,6 +314,15 @@ endef
 %.1.pdf: %.1
 	$(GROFF) $(GROFF_FLAGS) ./$<  > $@
 
+%.texi: %.pod
+	$(POD2TEXI) $(POD2TEXI_FLAGS) --output=$@ ./$<
+
+%.info: %.texi
+	$(MAKEINFO) $(MAKEINFO_FLAGS) --output=$@ $<
+
+%.info.pdf: %.texi
+	$(MAKEINFO) $(MAKEINFO_FLAGS) --pdf --output=$@ $<
+
 %.tex: %.pod | teximan2latex.sed
 	$(POD2TEXI) $(POD2TEXI_FLAGS) ./$<  |  sed -f teximan2latex.sed  > $@
 
@@ -310,13 +336,11 @@ endef
 
 crooked-paragraphs.mp slant-angle.mp smooth-parshapes.mp title.mp  \
 teximan2latex.sed  \
-typog-grep.pl typog-grep typog-grep.pod  \
+typog-grep.pl.in typog-grep.pod  \
 typog.sty typog.ist typog-example.tex  \
 typog-minimal-test.tex typog-without-microtype-test.tex:  \
   typog.ins typog.dtx
 	$(LATEX) $(LATEX_FLAGS) $<
-	chmod 755 typog-grep.pl
-	ln -sf typog-grep.pl typog-grep
 
 
 crooked-paragraphs-1.mps crooked-paragraphs-2.mps  \
@@ -335,3 +359,14 @@ typog.pdf: typog.dtx  \
            smooth-parshapes-1.mps smooth-parshapes-2.mps smooth-parshapes-3.mps  \
            typog-grep.tex  \
            | typog.sty
+
+
+typog-grep.pl: typog-grep.pl.in typog.sty
+	sed -ne 's,$(SED_VERSION_REGEXP),s#@DATE@#\2#g\ns#@RELEASE@#\3#g\ns#@TITLE@#\4#g,p'  \
+          < typog.sty  \
+          > typog-grep.version.sed
+	sed -f typog-grep.version.sed  < $<  > $@
+	chmod 755 typog-grep.pl
+
+typog-grep: typog-grep.pl
+	ln -sf $< $@
