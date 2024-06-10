@@ -2248,10 +2248,10 @@ end
 %  arises if |itemize|~list markers precede an uppercase letter, a lining numeral, or a big
 %  mathematical operator.
 %
-%  We introduce a set of macros for the most common cases that allow typsetting these characters
-%  at a user definable, adjusted height above the baseline.  Users can base their own
-%  definitions of raised characters on their associated dimensions.\footnote{Also compare with
-%  Ex.~12 in Ref.~\citenum{wermuth:2023} for an attempt to automate vertical alignment.}
+%  We introduce a set of macros for the most common cases that typeset these characters at a
+%  user definable, adjusted height above the baseline.  Users can base their own definitions of
+%  raised characters on their associated dimensions.\footnote{Also compare with Ex.~12 in
+%  Ref.~\citenum{wermuth:2023} for an attempt to automate vertical alignment.}
 %
 %  \begin{caution}
 %    The height adjustment disables a font's built-in kerning.
@@ -2913,7 +2913,7 @@ end
 %  margin unless |center|, |raggedleft| or |Centering|, |FlushRight|
 %  (package~\packagename{ragged2e}~\cite{package:ragged2e}) are in effect.  For an instructive
 %  discussion consult Ch.~17, \doublequotes{Paragraph End}, of Ref.~\citenum{eijkhout:2007}.
-%  The following environments allow to adjust the last lines of paragraphs in different ways.
+%  The following environments adjust the last lines of paragraphs in different ways.
 %
 %  \DescribeEnv{lastlineraggedleftpar}
 %  \DescribeEnv{lastlineflushrightpar}
@@ -2959,7 +2959,7 @@ end
 %
 %  \subsubsection{Problem Definition}
 %
-%  Depending on the value of \cs{parindent}, either zero or nonzero, there may be the desire to
+%  Depending on the value of \cs{parindent}, either zero or nonzero, there may be the need to
 %  control the length of the last line of a paragraph.
 %
 %  \iffalse
@@ -4324,24 +4324,25 @@ end
 %  will be used in the computation.
 %
 %  \begin{example}
-%    Let us assume we want to lighten the gray value of the copy a tad with a \cs{baselineskip}
-%    increased (from e.g.~12\,pt) to~12.5\,pt.  To this end we say:
+%    \begin{itemize}[notopsep]
+%    \item Let us assume we want to lighten the gray value of the copy a tad with the
+%    \cs{baselineskip} increased from 12\,pt to~12.5\,pt.  To this end we say:
 %
 %    \begin{codeexample}
-%      \cs{setbaselineskip}\{12.5\,pt\}\specialsectionendhere
+%      \cs{setbaselineskip}\{12.5\,pt\}
 %    \end{codeexample}
+%
+%    \item In a generic part of the document, where the actual \cs{baselineskip} is not known,
+%    we can refer to its current value and rescale it:
+%
+%    \begin{codeexample}
+%      \cs{setbaselineskip}\{\cs{baselineskip} * 12.5 / 12\}
+%    \end{codeexample}
+%
+%    Care should be taken if code like the above is implicitly or explicitly
+%    repeated, because it results in a geometric series.\specialsectionendhere
+%    \end{itemize}
 %  \end{example}
-%
-%  \begin{tip}
-%    To set the \cs{baselineskip} relative to the current value use
-%
-%    \begin{codeexample}
-%      \cs{setbaselineskip}\{\meta{factor}\cs{baselineskip}\}
-%    \end{codeexample}
-%
-%    \noindent
-%    where \meta{factor} is a floating-point number.
-%  \end{tip}
 %
 %  \DescribeMacro{\resetbaselineskip}
 %  \sinceversion{Since v0.3}
@@ -4519,11 +4520,10 @@ end
 %    \DescribeEnv{smoothraggedrightshapetriplet}
 %    \DescribeEnv{smoothraggedrightshapequintuplet}
 %    \DescribeEnv{smoothraggedrightshapeseptuplet}
-%    We introduce three environments that allow for setting three, five, or seven different
-%    line-lengths (which \TeX{} of course will repeat for paragraphs longer than three, five, or
-%    seven lines): \code{smoothraggedrightshapetriplet},
-%    \code{smoothraggedrightshapequintuplet}, and \code{smoothraggedrightshapeseptuplet}; they
-%    work for paragraph lengths up to
+%    We introduce three environments that set three, five, or seven different line-lengths
+%    (which \TeX{} of course will repeat for paragraphs longer than three, five, or seven
+%    lines): \code{smoothraggedrightshapetriplet}, \code{smoothraggedrightshapequintuplet}, and
+%    \code{smoothraggedrightshapeseptuplet}; they work for paragraph lengths up to
 %    \makeatletter
 %      \typog@triplet@max@lines, \typog@quintuplet@max@lines, and \typog@septuplet@max@lines~lines,
 %    \makeatother
@@ -4868,14 +4868,16 @@ end
 %
 %    The companion program \programname{typog-grep} for analyzing the output of
 %    \hyperref[syn:typoginspect]{\code{typoginspect}} and
-%    \hyperref[syn:typoginspect]{\code{typoginspectpar}} has its own manual page.  We reproduce
-%    it here for completeness of the documentation.
+%    \hyperref[syn:typoginspect]{\code{typoginspectpar}} has its own manual page.  We
+%    reproduce it here for completeness of the documentation.
 %
+%    \addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
 %    \begin{suspendshortverb}
 %      \setlength{\parindent}{0pt}
 %      \setlength{\parskip}{6.0pt plus 2.0pt minus .5pt}
 %      \input typog-grep
 %    \end{suspendshortverb}
+%    \addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
 %
 %    \sectionfinish
 %    \clearpage
@@ -5793,6 +5795,7 @@ end
 %
 %    \begin{macrocode}
 \newcounter{typog@inspect@count}
+
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -5813,11 +5816,16 @@ end
    \edef\typog@@arg{#2}%
    \ifx\typog@@arg\empty
      \stepcounter{typog@inspect@count}%
-     \edef\typog@@id{\typog@default@inspect@id@prefix\arabic{typog@inspect@count}}%
+     \edef\typog@@id{\typog@default@inspect@id@prefix
+                     \arabic{typog@inspect@count}}%
    \else
      \edef\typog@@id{\typog@trim@spaces{\typog@@arg}}%
    \fi
-   \typeout{<typog-inspect id="\typog@@id" job="\jobname" line="\the\inputlineno" page="\the\value{page}">}%
+   \typeout{<typog-inspect\space
+            id="\typog@@id"\space
+            job="\jobname"\space
+            line="\the\inputlineno"\space
+            page="\the\value{page}">}%
 %    \end{macrocode}
 %
 %    Set both badness thresholds to absurdly low values as to activate \TeX's reports.
