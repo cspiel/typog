@@ -70,15 +70,15 @@
 \newcommand*{\fontclan}{\expandafter\@get@fontclan\f@family\relax}
 \makeatother
 
-\newcommand*{\proportionalliningfigures}{\fontfamily{\fontclan-LF}\selectfont}
-\newcommand*{\proportionaloldstylefigures}{\fontfamily{\fontclan-OsF}\selectfont}
-\newcommand*{\tabularliningfigures}{\fontfamily{\fontclan-TLF}\selectfont}
-\newcommand*{\tabularoldstylefigures}{\fontfamily{\fontclan-TOsF}\selectfont}
+\DeclareRobustCommand{\proportionalliningfigures}{\fontfamily{\fontclan-LF}\selectfont}
+\DeclareRobustCommand{\proportionaloldstylefigures}{\fontfamily{\fontclan-OsF}\selectfont}
+\DeclareRobustCommand{\tabularliningfigures}{\fontfamily{\fontclan-TLF}\selectfont}
+\DeclareRobustCommand{\tabularoldstylefigures}{\fontfamily{\fontclan-TOsF}\selectfont}
 
-\newcommand*{\textdenominator}[1]{{\fontfamily{\fontclan-Dnom}\selectfont #1}}
-\newcommand*{\textinferior}[1]{{\fontfamily{\fontclan-Inf}\selectfont #1}}
-\newcommand*{\textnumerator}[1]{{\fontfamily{\fontclan-Numr}\selectfont #1}}
-\newcommand*{\textsuperior}[1]{{\fontfamily{\fontclan-Sup}\selectfont #1}}
+\DeclareRobustCommand{\textdenominator}[1]{{\fontfamily{\fontclan-Dnom}\selectfont #1}}
+\DeclareRobustCommand{\textinferior}[1]{{\fontfamily{\fontclan-Inf}\selectfont #1}}
+\DeclareRobustCommand{\textnumerator}[1]{{\fontfamily{\fontclan-Numr}\selectfont #1}}
+\DeclareRobustCommand{\textsuperior}[1]{{\fontfamily{\fontclan-Sup}\selectfont #1}}
 
 \newcommand*{\nativetextfraction}[2]
             {\mbox{\textnumerator{#1}\textfractionsolidus\textdenominator{#2}}}
@@ -88,20 +88,22 @@
 \newenvironment*{tabfigures}
                 {\edef\rmdefault{\fontclan-T\sourceserifpro@figurestyle}\rm\ignorespaces}
                 {\ignorespacesafterend}
-
-\newcommand*{\elseries}{\def\mdseries@rm{el}\def\mdseries@sf{el}\def\mdseries@tt{el}}
-\newcommand*{\textel}[1]{{\elseries\textmd{#1}}}
-\newcommand*{\lseries}{\def\mdseries@rm{l}\def\mdseries@sf{l}\def\mdseries@tt{l}}
-\newcommand*{\textl}[1]{{\lseries\textmd{#1}}}
-%%--\newcommand*{\mdseries}{\def\mdseries@rm{m}\def\mdseries@sf{m}\def\mdseries@tt{m}}
-%%--\newcommand*{\textmd}[1]{{\mdseries\textmd{#1}}}
-\newcommand*{\sbseries}{\def\bfseries@rm{sb}\def\bfseries@sf{sb}\def\bfseries@tt{sb}}
-\newcommand*{\textsb}[1]{{\sbseries\textbf{#1}}}
-\newcommand*{\bseries}{\def\bfseries@rm{b}\def\bfseries@sf{b}\def\bfseries@tt{b}}
-\newcommand*{\textb}[1]{{\bseries\textbf{#1}}}
-\newcommand*{\ebseries}{\def\bfseries@rm{k}\def\bfseries@sf{eb}\def\bfseries@tt{k}}
-\newcommand*{\texteb}[1]{{\ebseries\textbf{#1}}}
 \makeatother
+
+\DeclareRobustCommand{\elseries}{\fontseries{el}\selectfont}
+\DeclareTextFontCommand{\textel}{\elseries}
+\DeclareRobustCommand{\lseries}{\fontseries{l}\selectfont}
+\DeclareTextFontCommand{\textl}{\lseries}
+%%--\DeclareRobustCommand{\mdseries}{\fontseries{m}\selectfont}
+%%--\DeclareTextFontCommand{\textmd}{\mdseries}
+\DeclareRobustCommand{\sbseries}{\fontseries{sb}\selectfont}
+\DeclareTextFontCommand{\textsb}{\sbseries}
+\DeclareRobustCommand{\bseries}{\fontseries{b}\selectfont}
+\DeclareTextFontCommand{\textb}{\bseries}
+\DeclareRobustCommand{\ebseries}{\fontseries{eb}\selectfont}
+\DeclareTextFontCommand{\texteb}{\ebseries}
+\DeclareRobustCommand{\ubseries}{\fontseries{k}\selectfont}
+\DeclareTextFontCommand{\textub}{\ubseries}
 
 
 \usepackage{cleveref}
@@ -160,7 +162,7 @@
                  \setlength{\@tempdima}{\sectionnumberwidth}%
                  \begingroup
                    \def\numberline##1{\hb@xt@\@tempdima{%
-                       \tt
+                       \tt\lseries
                        \fontsize{44}{0}\selectfont
                        \microtypecontext{kerning=drop-left-sidebearing}%
                        \iffalse\raisebox{-30pt}[0pt][0pt]{\rule{0.1pt}{40pt}}\fi
