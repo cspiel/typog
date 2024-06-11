@@ -595,6 +595,22 @@
                  \begin{minipage}{\floatcaptionwidth}}
                 {\end{minipage}}
 \newcommand*{\tablenotemark}[1]{\smash{\textsuperscript{#1}}}
+\newcommand*{\tablenotesymbol}[1]{% Bringhurst's "traditional order" (p69) from 1 to 6
+  \ifcase#1\relax
+    #1% 0
+  \or \textasteriskcentered% 1
+  \or \textdagger% 2
+  \or \textdaggerdbl% 3
+  \or \textsection% 4
+  \or \textbardbl% 5
+  \or \textsection% 6
+  \or \textasteriskcentered\textasteriskcentered%7
+  \or \textdagger\textdagger%8
+  \or \textdaggerdbl\textdaggerdbl%9
+  \else
+    #1
+  \fi
+}
 
 \newcommand*{\termparbox}[1]{\parbox[t]{\linewidth}{#1\bottomstrut}}
 
@@ -970,7 +986,7 @@ end
 %  \pagestyle{pagenumberonly}
 %
 %  \unmarkedfntext{The font sample on the title page was generated with the help of \MP{} using
-%                  \doublequotes{\acronym{URW} Palladio}\index{font>URW Palladio=\acronym{URW} Palladio}.}
+%                  \doublequotes{\acronym{URW}~Palladio}\index{font>URW Palladio=\acronym{URW} Palladio}.}
 %
 %  \begin{nofontexpansion}
 %    \begin{nocharprotrusion}
@@ -2376,8 +2392,9 @@ end
 %             between lining numerals of some selected fonts in multiples of~1\,em.}
 %    \label{tab:raisefiguredash}
 %
+%    \newcommand*{\fbbmark}{\tablenotemark{\tablenotesymbol{1}}}
+%
 %    \begin{tabfigures}
-%      \def~{\hphantom{0}}
 %      \begin{tabularx}{\linewidth}{@{}>{\RaggedRight}Xl@{}}
 %        \toprule
 %        Font  &  Raise  \\
@@ -2394,7 +2411,7 @@ end
 %        Roboto Slab\index{font>Roboto Slab}, Spectral\index{font>Spectral},
 %        \acronym{STIX}\index{font>STIX=\acronym{STIX}}, and many more  &
 %        .0  \\
-%        fbb\index{font>fbb}, Source Serif Pro\index{font>Source Serif Pro}  &
+%        fbb\fbbmark\index{font>fbb}, Source Serif Pro\index{font>Source Serif Pro}  &
 %        .05  \\
 %        Libre Baskerville\index{font>Libre Baskerville},
 %        Crimson Pro\index{font>Crimson Pro},
@@ -2413,6 +2430,10 @@ end
 %        \bottomrule
 %      \end{tabularx}
 %    \end{tabfigures}
+%
+%    \begin{tablenotes}
+%      \fbbmark\enspace Free Bembo.
+%    \end{tablenotes}
 %  \end{table}
 %
 %  Other macros may be redefined with \cs{figuredash} for a consistent appearance of the copy,
@@ -2511,23 +2532,23 @@ end
 %
 %    \begin{tabfigures}
 %      \def~{\hphantom{0}}
-%      \begin{tabularx}{\linewidth}{@{}>{\RaggedRight}Xcc@{}}
+%      \begin{tabular}{@{}>{\RaggedRight}p{.5\textwidth}cc@{}}
 %        \toprule
 %        Font  &  Uppercase  &  Lowercase  \\
 %        \midrule
-%        \acronym{EB}~Garamond\index{font>EB Garamond=\acronym{EB} Garamond},
+%        \acronym{EB} Garamond\index{font>EB Garamond=\acronym{EB} Garamond},
 %        Libertinus\index{font>Libertinus Serif},
 %        Merriweather\index{font>Merriweather}, and many more  &
 %        .05~~  &  .0~~  \\
 %        Gentium\index{font>Gentium}  &
 %        .05~~  &  .025  \\
-%        \acronym{GFS}~Artemisia\index{font>GFS Artemisia=\acronym{GFS} Artemisia},
-%        \acronym{GFS}~Didot\index{font>GFS Didot=\acronym{GFS} Didot}  &
+%        \acronym{GFS} Artemisia\index{font>GFS Artemisia=\acronym{GFS} Artemisia},
+%        \acronym{GFS} Didot\index{font>GFS Didot=\acronym{GFS} Didot}  &
 %        .0625  &  .05~  \\
-%        \acronym{ADF}~Baskervald\index{font>ADF Baskervald=\acronym{ADF} Baskervald}  &
+%        \acronym{ADF} Baskervald\index{font>ADF Baskervald=\acronym{ADF} Baskervald}  &
 %        .0667  &  .04~  \\
 %        \bottomrule
-%      \end{tabularx}
+%      \end{tabular}
 %    \end{tabfigures}
 %  \end{table}
 %
@@ -2781,8 +2802,8 @@ end
 %
 %  Typeset all four label items adjusted for uppercase or for lowercase with an indicator line
 %  at \meta{scale-factor} times the \meta{sample}'s actual height.  The default
-%  \meta{scale-factor} is~.5.  Both macros refer to the \emph{configureed} values for the
-%  uppercase or lowercase adjustments but are independent of any settings done with
+%  \meta{scale-factor} is~.5.  Both macros refer to the currently configured values for the
+%  uppercase or lowercase adjustments but they are independent of any settings done with
 %  \cs{uppercaseadjustlabelitems}, \cs{lowercaseadjustlabelitems}, or \cs{noadjustlabelitems}.
 %  Again, \meta{sample} does not get printed.
 %
@@ -2790,26 +2811,29 @@ end
 %    Uppercase check with \code{\string\typoguppercaseadjustcheck\{ABCXYZ\}}:
 %
 %    \centering
-%    ABC\typoguppercaseadjustcheck{ABCXYZ}XYZ
+%    ABGH\typoguppercaseadjustcheck{ABCXYZ}QWYZ,\enspace
+%    0123\typoguppercaseadjustcheck{ABCXYZ}4567
 %
 %    \justifying
 %    \noindent
-%    and the same for lowercase: \code{\string\typoglowercaseadjustcheck\{acexyz\}}:
+%    and similarly for lowercase: \code{\string\typoglowercaseadjustcheck\{acexyz\}}:
 %
 %    \centering
-%    ace\typoglowercaseadjustcheck{acexyz}xyz,
+%    ace\typoglowercaseadjustcheck{acexyz}mno,\enspace
+%    bdf\typoglowercaseadjustcheck{acexyz}gjy,\enspace
+%    {\proportionaloldstylefigures 0123\typoglowercaseadjustcheck{acexyz}4567,}
 %
 %    \justifying
 %    \noindent
-%    where we have bracketed the macro calls with a selection of the letters used in the
-%    respective~\meta{sample}s.
+%    where we have bracketed the macro calls with selected uppercase and lowercase letters, or
+%    suitable figures.
 %  \end{example}
 %
 %  In \Cref{tab:labelitemadjustvalues} on \cpageref{tab:labelitemadjustvalues} we collected some
 %  suggestions for adjustment values in the \emph{default} case when the label items are not
 %  redefined by the user and expand like
 %
-%  \begingroup
+%  \begin{center}
 %    \def\arraystretch{1}
 %    \begin{tabular}{@{}l@{\enspace\(\vdash\)\enspace}l@{}}
 %      \cs{labelitemi}    &  \dumpmacro{\labelitemi},  \\
@@ -2817,7 +2841,7 @@ end
 %      \cs{labelitemiii}  &  \dumpmacro{\labelitemiii}, and  \\
 %      \cs{labelitemiv}   &  \dumpmacro{\labelitemiv}.
 %    \end{tabular}
-%  \endgroup
+%  \end{center}
 %
 %  \noindent
 %  They display as \sample{\labelitemi}, \sample{\labelitemii}, \sample{\labelitemiii}, and
@@ -2827,17 +2851,18 @@ end
 %    \centering
 %    \caption[Label item adjustment suggestions]%
 %            {Some suggested values for the vertical adjustments of label items.  The table
-%             assumes that the default definitions for \cs{labelitem}\meta{N} are in effect.
-%             All lengths are given as printer points~(pt) and refer to a document font size of
-%             10\,pt.}
+%             assumes that the default definitions (of class~\packagename{article}) for
+%             \cs{labelitem}\meta{N} are in effect.  The \code{itemize}-list levels~\code{i},
+%             \code{ii}, \code{iii} and~\code{iv} are referred to with \(N = 1, 2, 3, 4\).  All
+%             lengths are given as printer points~(pt) and refer to a document font size of
+%             \formatdimen*{10pt}.}
 %    \label{tab:labelitemadjustvalues}
 %
-%    \makeatletter
-%    \newcommand*{\palladiomark}{\tablenotemark{\@fnsymbol{1}}}
-%    \newcommand*{\kpmark}{\tablenotemark{\@fnsymbol{2}}}
-%    \newcommand*{\utopiamark}{\tablenotemark{\@fnsymbol{3}}}
-%    \newcommand*{\guessmark}{\tablenotemark{\@fnsymbol{4}}}
-%    \makeatother
+%    \newcommand*{\etbbmark}{\tablenotemark{\tablenotesymbol{1}}}
+%    \newcommand*{\xchartermark}{\tablenotemark{\tablenotesymbol{2}}}
+%    \newcommand*{\kpmark}{\tablenotemark{\tablenotesymbol{3}}}
+%    \newcommand*{\palladiomark}{\tablenotemark{\tablenotesymbol{4}}}
+%    \newcommand*{\utopiamark}{\tablenotemark{\tablenotesymbol{5}}}
 %
 %    \begin{tabfigures}
 %      \def~{\hphantom{0}}
@@ -2852,18 +2877,42 @@ end
 %          \mc{1}  &  \mc{2}  &  \mc{3}  &  \mc{4}  &
 %          \mc{1}  &  \mc{2}  &  \mc{3}  &  \mc{4}  \\
 %        \midrule
+%          \acronym{ADF} Accanthis\index{font>ADF Venturis=\acronym{ADF} Accanthis}  &
+%          .5~~  &  1.5~~  &  \textminus1.5~~  &  1.125  &
+%          \textminus.75~  &  .25~  &  \textminus2.75~  &  \textminus.125  \\
 %          \acronym{ADF} Venturis\index{font>ADF Venturis=\acronym{ADF} Venturis}  &
 %          .0~~  &  1.0~~  &  .75~  &  1.0~~  &
 %          \textminus.75~  &  .0~~  &  \textminus.25~  &  .0~~  \\
-%          \acronym{CM} Roman\index{font>Computer Modern Roman}  &
+%          \acronym{CM} Roman\index{font>CM Roman=\acronym{CM} Roman}  &
 %          1.0~~  & .75~  &  1.0~~  &  1.0~~  &
 %          \textminus.25~  &  \textminus.5~~  &  \textminus.25~  &  \textminus.25~  \\
+%          Domitian\index{font>Domitian}  &
+%          .25~  &  1.0~~  &  .75~  &  1.0~~  &
+%          \textminus1.0~~  &  .0~~  &  \textminus.325  &  \textminus.25~  \\
+%          Cochineal\index{font>Cochineal}  &
+%          1.0~~  &  1.0~~  &  1.0~~  &  1.0~~  &
+%          \textminus.125  &  \textminus.125  &  \textminus.125  &  \textminus.125  \\
+%          \acronym{EB} Garamond\index{font>EB Garamond=\acronym{EB} Garamond}  &
+%          .0~~  &  1.25~  &  \textminus.875  &  1.325  &
+%          \textminus1.5~~  &  .0~~  &  \textminus2.0~~  &  0.125  \\
+%          etbb\etbbmark\index{font>etbb}  &
+%          .25~  &  1.0~~  &  1.125  &  .5~~  &
+%          \textminus1.0~~  &  \textminus.0~~  &  \textminus.0~~  &  \textminus.5~~  \\
+%          Extended Charter\xchartermark\index{font>Extended Charter}  &
+%          \textminus.25~  &  1.0~~  &  1.75  &  .125  &
+%          \textminus1.125  &  .0~~  &  .875  & \textminus.875  \\
 %          Gentium\index{font>Gentium}  &
 %          .0~~  &  .75~  &  .0~~  &  .0~~  &
 %          \textminus.5~~  &  \textminus.25~  &  \textminus.75~  &  \textminus1.0~~  \\
+%          \acronym{GFS} Bodoni\index{font>GFS Bodoni=\acronym{GFS} Bodoni}  &
+%          \textminus.25~  &  .625  &  1.0~~  &  1.125  &
+%          \textminus1.25~  &  \textminus.625  &  \textminus.5~~  &  \textminus.25~  \\
 %          \acronym{GFS} Didot\index{font>GFS Didot=\acronym{GFS} Didot}  &
 %          \textminus1.5~~  &  .75~  &  1.0~~  &  1.25~  &
 %          \textminus2.75~  &  \textminus.25~  &  \textminus.25~  &  .25~  \\
+%          \acronym{IBM} Plex Serif\index{font>IBM Plex Serif=\acronym{IBM} Plex Serif}  &
+%          .5~~  &  .5~~  &  \textminus1.325  &  .5~~  &
+%          \textminus.25~  &  \textminus.25~  &  \textminus2.25~  &  \textminus.25~  \\
 %          \acronym{KP} Serif\kpmark\index{font>KP Serif=\acronym{KP} Serif}  &
 %          .0~~  &  1.0~~  &  1.25~  &  .75~  &
 %          \textminus1.0~~  &  .0~~  &  .0~~  &  \textminus.5~~  \\
@@ -2876,6 +2925,9 @@ end
 %          Source Serif Pro\index{font>Source Serif Pro}  &
 %          .125  &  .75~  &  \textminus1.0~~  &  .125  &
 %          \textminus.75~  &  .0~~  &  \textminus2.0~~  &  \textminus.75~  \\
+%          Spectral\index{font>Spectral}  &
+%          .625  &  .625  &  \textminus1.5~~  &  .625  &
+%          \textminus.25~  &  \textminus.25~  &  \textminus2.5~~  &  \textminus.25~  \\
 %          \acronym{STIX}\index{font>STIX=\acronym{STIX}}  &
 %          1.0~~  &  1.0~~  &  .75~  &  1.0~~  &
 %          .0~~  &  .0~~  &  .0~~  &  .0~~  \\
@@ -2885,24 +2937,24 @@ end
 %          Utopia Regular\utopiamark\index{font>Utopia Regular}  &
 %          .0~~  &  1.0~~  &  .75~  &  1.0~~  &
 %          \textminus.75~  &  .0~~  &  \textminus.25~  &  .0~~  \\
-%          \emph{educated guess}\guessmark  &
-%          .75~  &  .75~  &  .75~  &  .75~  &
-%          \textminus.25~  &  \textminus.25~  &  \textminus.25~  &  \textminus.25~  \\
 %        \bottomrule
 %      \end{tabular}}
 %    \end{tabfigures}
 %
 %    \begin{tablenotes}
-%      \kpmark\enspace Load with \code{\string\usepackage\{kpfonts\}}.
+%      \etbbmark\enspace \propername{Edward Tufte}'s Bembo in package~\packagename{ETbb}.  Note
+%      the two initial capital letters in the filename.
+%
+%      \xchartermark\enspace Found in package \packagename{XCharter}.  Again note the two
+%      initial capitals in the filename.
+%
+%      \kpmark\enspace In package \packagename{kpfonts}.
 %
 %      \palladiomark\enspace Contained in package~\packagename{mathpazo}.
 %
 %      \utopiamark\enspace Utopia is available through package~\packagename{fourier} or
 %      package~\packagename{mathdesign}.  In the latter case pass option~\code{adobe-utopia} to
 %      the package.
-%
-%      \guessmark\enspace These two sets should be a good starting point for many font
-%      combinations.
 %    \end{tablenotes}
 %  \end{table}
 %
