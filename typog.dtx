@@ -637,6 +637,8 @@
             {{\def\thefootnote{}\footnote{#1}%
               \addtocounter{footnote}{-1}}}
 
+\newcommand*{\userman}[1]{\textub{\hyperpage{#1}}}%%-- https://github.com/ho-tex/hypdoc/issues/11
+
 \newcommand*{\visualpar}{\textcolor{\markercolor}{\P}\linebreak[1]\enspace}
 
 \newenvironment*{whittyquote}
@@ -1398,7 +1400,8 @@ end
 %  \end{usecase}
 %
 %
-%  \subsection{Information}\label{sec:information}\index{information}
+%  \subsection{Information}\label{sec:information}
+%  \index{information}
 %
 %  \begin{whittyquote}
 %    Never forget: The visual output counts;  \\
@@ -1568,7 +1571,8 @@ end
 %
 %
 %  \phantomsection
-%  \paragraph{Investigating the badness of a paragraph.}\label{sec:investigating-paragraph-badness}\index{paragraph>badness}
+%  \paragraph{Investigating the badness of a paragraph.}\label{sec:investigating-paragraph-badness}
+%  \index{paragraph>badness}
 %
 %  It is generally unnecessary to determine the \emph{exact} classification of a paragraph's
 %  badness~\cite[p.~97n]{knuth:1986}, though the curious user can switch on logging of
@@ -1643,7 +1647,9 @@ end
 %  \end{note}
 %
 %
-%  \paragraph{Investigating page-breaks.}\index{page break}
+%  \phantomsection
+%  \paragraph{Investigating page-breaks.}
+%  \index{page break}
 %
 %  Use \code{\cs{tracingpages}=1} or the \hyperref[syn:typoginspect]{typoginspect}~environment
 %  to switch on tracing of \TeX's page-break
@@ -2482,6 +2488,7 @@ end
 %
 %
 %  \paragraph{Lowercase Versions.}
+%
 %  \DescribeMacro{\singleguillemetleft}
 %  \DescribeMacro{\singleguillemetright}
 %  \DescribeMacro{\doubleguillemetleft}
@@ -2714,6 +2721,7 @@ end
 %  \end{example}
 %
 %  \paragraph{Setup.}
+%
 %  To assist the user in finding the desired adjustments of the labels of \packagename{typog}
 %  provides macros that help setting up
 %  \hyperref[item:lowercaselabelitemadjustments]{\code{lowercaselabelitemadjustments}} and
@@ -3281,18 +3289,19 @@ end
 %
 %  \DescribeEnv{shortenpar}
 %  \DescribeEnv{prolongpar}
-%  The two environments |shortenpar|\index{paragraph>fill last
-%  line>shortenpar=\code{shortenpar}} and |prolongpar|\index{paragraph>fill last
-%  line>prolongpar=\code{prolongpar}} can be employed in quite general situations when a
+%  The two environments |shortenpar|\index{paragraph>fill last line>shortenpar=\code{shortenpar}}
+%  and |prolongpar|\index{paragraph>fill last line>prolongpar=\code{prolongpar}}
+%  can be employed in quite general situations when a
 %  paragraph should be typeset one line longer or shorter, e.\,g., to avoid a
-%  widow~line\footnote{The last line of a paragraph becomes a \singlequotes{widow}\index{forlorn
-%  line>widow} (ger.~\foreignphrase{Hurenkind}) if it starts the following page or column.}  or
-%  a club~line\footnote{The first line of a paragraph is called
-%  \singlequotes{club}\index{forlorn line>club} or~\singlequotes{orphan}\index{forlorn
-%  line>orphan} (ger.~\foreignphrase{Schusterjunge}) if it appears at the bottom of the page or
-%  column.}~[\citenum{knuth:1986}, p.~104 and~\citenum{mittelbach:2018c}].  (See also
-%  \cref{sec:vtie-paragraph} for special functions to avoid clubs or widows.)
-%  \singlequotes{Accidentally}, they also change the length of the last line of the paragraph.
+%  widow~line\footnote{The last line of a paragraph becomes a
+%  \singlequotes{widow}\index{forlorn line>widow} (ger.~\foreignphrase{Hurenkind}) if it starts
+%  the following page or column.}  or a club~line\footnote{The first line of a paragraph is
+%  called \singlequotes{club}\index{forlorn line>club}
+%  or~\singlequotes{orphan}\index{forlorn line>orphan} (ger.~\foreignphrase{Schusterjunge}) if
+%  it appears at the bottom of the page or column.}~[\citenum{knuth:1986}, p.~104
+%  and~\citenum{mittelbach:2018c}].  (See also \cref{sec:vtie-paragraph} for special functions
+%  to avoid clubs or widows.)  \singlequotes{Accidentally}, they also change the length of the
+%  last line of the paragraph.
 %
 %  \begin{synopsis}\label{syn:shortenpar}
 %    \cs{begin}|{shortenpar}|
@@ -3323,7 +3332,8 @@ end
 %  parameter change.
 %
 %  \DescribeEnv{covernextindentpar}
-%  Environment |covernextindentpar|\index{paragraph>fill last line>covernextindentpar=\code{covernextindentpar}}
+%  Environment
+%  |covernextindentpar|\index{paragraph>fill last line>covernextindentpar=\code{covernextindentpar}}
 %  can be helpful for \hyperref[item:o1]{case~O1}, i.\,e., a too short last line.
 %
 %  \begin{synopsis}\label{syn:covernextindentpar}
@@ -3340,9 +3350,10 @@ end
 %  (if \(\cs{parindent} = 0\)), or \meta{dim} if called with an optional argument.
 %
 %  \DescribeEnv{openlastlinepar}
-%  The next environment, |openlastlinepar|,\index{paragraph>fill last
-%  line>openlastlinepar=\code{openlastlinepar}} takes care of \hyperref[item:o2]{case~O2},
-%  i.\,e., a last line in a paragraph that is almost full or completely filled.
+%  The next environment,
+%  |openlastlinepar|,\index{paragraph>fill last line>openlastlinepar=\code{openlastlinepar}}
+%  takes care of \hyperref[item:o2]{case~O2}, i.\,e., a last line in a paragraph that is almost
+%  full or completely filled.
 %
 %  \begin{synopsis}\label{syn:openlastlinepar}
 %    \cs{begin}|{openlastlinepar}|\oarg{dim}  \\
@@ -3365,7 +3376,8 @@ end
 %  \toccontinuesonnextpage
 %  \needtocspace
 %  \Needspace{150pt}
-%  \subsection{Spacing}\label{sec:spacing-control}\index{font>spacing}
+%  \subsection{Spacing}\label{sec:spacing-control}
+%  \index{font>spacing}
 %
 %  \begin{whittyquote}
 %    90\% of design is typography.  \\
@@ -3379,7 +3391,9 @@ end
 %  \cref{sec:microtype-frontend}.
 %
 %
-%  \subsubsection[Looser\kernedslash Tighter]{Looser or Tighter Spacing}\label{sec:looser-tighter-spacing}\index{font>spacing>loose}\index{font>spacing>tight}
+%  \subsubsection[Looser\kernedslash Tighter]{Looser or Tighter Spacing}\label{sec:looser-tighter-spacing}
+%  \index{font>spacing>loose}
+%  \index{font>spacing>tight}
 %
 %
 %  \begin{whittyquote}
@@ -3496,7 +3510,8 @@ end
 %  \end{usecases}
 %
 %
-%  \subsubsection{Wide Space}\label{sec:wide-space}\index{wide space}
+%  \subsubsection{Wide Space}\label{sec:wide-space}
+%  \index{wide space}
 %
 %  The \cs{widespace} macro and its companion \cs{narrowspace} derive their appearances from
 %  several of the current font's \cs{fontdimen}\meta{number}s.  \TeX{} addresses the latter by
@@ -3584,7 +3599,8 @@ end
 %  \end{usecase}
 %
 %
-%  \subsubsection{Narrow Space}\label{sec:narrow-space}\index{narrow space}
+%  \subsubsection{Narrow Space}\label{sec:narrow-space}
+%  \index{narrow space}
 %
 %  \DescribeMacro{\narrowspace}
 %  \DescribeMacro{\narrowspace*}
@@ -3685,7 +3701,8 @@ end
 %  \end{important}
 %
 %
-%  \subsubsection{Tracking}\label{sec:tracking-control}\index{font>tracking}
+%  \subsubsection{Tracking}\label{sec:tracking-control}
+%  \index{font>tracking}
 %
 %  \begin{caution}
 %    The tracking changes may interfere with implicit changes of tracking declared with
@@ -3739,7 +3756,8 @@ end
 %  \end{usecases}
 %
 %
-%  \subsubsection{Font Expansion}\label{sec:font-expansion-control}\index{font>expansion}
+%  \subsubsection{Font Expansion}\label{sec:font-expansion-control}
+%  \index{font>expansion}
 %
 %  \DescribeEnv{setfontshrink}
 %  \DescribeEnv{setfontstretch}
@@ -3896,7 +3914,8 @@ end
 %  \end{usecases}
 %
 %
-%  \subsubsection{Character Protrusion}\label{sec:protrusion}\index{font>protrusion}
+%  \subsubsection{Character Protrusion}\label{sec:protrusion}
+%  \index{font>protrusion}
 %
 %  \DescribeEnv{nocharprotrusion}
 %  Disable the \packagename{microtype} feature~\singlequotes{protrusion} inside of the
@@ -3914,7 +3933,8 @@ end
 %  \end{usecases}
 %
 %
-%  \subsection{Sloppy Paragraphs}\label{sec:sloppy-paragraphs}\index{paragraph>sloppy}
+%  \subsection{Sloppy Paragraphs}\label{sec:sloppy-paragraphs}
+%  \index{paragraph>sloppy}
 %
 %  Experienced \LaTeX{} users know that \cs{sloppy} is more of a problem by itself and not
 %  really a viable solution of the \doublequotes{overfull~box} syndrome.
@@ -3997,7 +4017,8 @@ end
 %  \end{usecases}
 %
 %
-%  \subsection{Vertically Partially-Tied Paragraphs}\label{sec:vtie-paragraph}\index{paragraph>vertically tied}
+%  \subsection{Vertically Partially-Tied Paragraphs}\label{sec:vtie-paragraph}
+%  \index{paragraph>vertically tied}
 %
 %  \LaTeX{} provides several macros and environments to tie material vertically~-- most
 %  prominently |samepage| and |minipage|.\footnote{A valuable complement to these is
@@ -4173,15 +4194,16 @@ end
 %
 %  \begin{typoginspectpar}{partial-paragraphs}
 %    \setlength{\smoothraggedrightragwidth}{8pt}
-%    \paragraph{Partial Paragraphs And Counting Lines.}  The top-of-paragraph ties, \cs{vtietop}
-%    and \code{vtietoppar} count \meta{number\hyp{}of\hyp{}lines} from the beginning of every
-%    partial paragraph.  Each displayed math in the paragraph resets the count.  The
-%    bottom-paragraph ties, \cs{vtiebot}, \code{vtiebotpar}, \cs{vtiebotdisp}, and
-%    \code{vtiebotdisppar} count backward from the end of each partial paragraph.  Again, each
-%    displayed math in the paragraph resets the count.  According to \TeX's rules, a displayed
-%    math formula always is counted as \emph{three} lines no matter its contents.
-%    \Cref{tab:partial-paragraph-line-counts} summarizes these rules with the help of an
-%    example.
+%    \paragraph{Partial Paragraphs And Counting Lines.}
+%
+%    The top-of-paragraph ties, \cs{vtietop} and \code{vtietoppar} count
+%    \meta{number\hyp{}of\hyp{}lines} from the beginning of every partial paragraph.  Each
+%    displayed math in the paragraph resets the count.  The bottom-paragraph ties, \cs{vtiebot},
+%    \code{vtiebotpar}, \cs{vtiebotdisp}, and \code{vtiebotdisppar} count backward from the end
+%    of each partial paragraph.  Again, each displayed math in the paragraph resets the count.
+%    According to \TeX's rules, a displayed math formula always is counted as \emph{three} lines
+%    no matter its contents.  \Cref{tab:partial-paragraph-line-counts} summarizes these rules
+%    with the help of an example.
 %  \end{typoginspectpar}
 %
 %  \begin{table}
@@ -4249,7 +4271,8 @@ end
 %  \end{usecases}
 %
 %
-%  \subsection{Breakable Displayed Equations}\label{sec:breakable-display}\index{page break}
+%  \subsection{Breakable Displayed Equations}\label{sec:breakable-display}
+%  \index{page break}
 %
 %  \DescribeEnv{breakabledisplay}
 %  Package~\packagename{amsmath}\index{amsmath=\packagename{amsmath} (package)} offers
@@ -4547,7 +4570,8 @@ end
 %
 %
 %  \clearpage
-%  \subsection{Smooth Ragged}\label{sec:smooth-ragged}\index{ragged right}
+%  \subsection{Smooth Ragged}\label{sec:smooth-ragged}
+%  \index{ragged right}
 %
 %  \begin{whittyquote}
 %    The attention someone gives  \\
