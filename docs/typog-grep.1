@@ -133,7 +133,7 @@
 .\" ========================================================================
 .\"
 .IX Title "TYPOG-GREP 1"
-.TH TYPOG-GREP 1 "2024-05-27" "perl v5.36.0" "User Contributed Perl Documentation"
+.TH TYPOG-GREP 1 "2024/05/21" "0.4" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -141,7 +141,7 @@
 .\" Turn off justification.
 .na
 .SH "NAME"
-typog\-grep \- grep for typog\-inspect elements in LaTeX log files
+typog\-grep \- specialized grep for typog\-inspect elements in LaTeX log files
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
 .IP "\fBtypog-grep\fR \-a|\-\-all|\-\-any [\fI\s-1OPTION\s0\fR...] \fILOG-FILE\fR..." 4
@@ -151,56 +151,79 @@ typog\-grep \- grep for typog\-inspect elements in LaTeX log files
 .IX Item "typog-grep [OPTION...] REGEXP LOG-FILE..."
 .PD
 .PP
-The first form shows all \f(CW\*(C`<typog\-inspect id="\f(CIID\f(CW" ...>\*(C'\fR elements in \fILOG-FILE\fR.
+The first form, ``discovery mode'', shows all \fI\s-1ID\s0\fRs of
+.RS
+.EX
+<typog-inspect id="\fI\,ID\/\fP" ...>
+.EE
+.RE
 .PP
-The second form shows the contents of \f(CW\*(C`<typog\-inspect id="\f(CIID\f(CW" ...>\*(C'\fR elements
+
+elements in \fILOG-FILE\fR.
+.PP
+The second form shows the contents, \fILOG-DATA\fR, of the elements
+.RS
+.EX
+<typog-inspect id="\fI\,ID\/\fP" ...>
+\fILOG-DATA\fP
+</typog-inspect>
+.EE
+.RE
+.PP
+
 whose \fI\s-1ID\s0\fRs match \fI\s-1REGEXP\s0\fR in \fILOG-FILE\fR.
 .PP
 If no \fILOG-FILE\fR is given read from \fIstdin\fR.
 The filename\ \f(CW\*(C`\-\*(C'\fR is synonymous to \fIstdin\fR.
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
-\&\fBtypog-grep\fR is a tailored post-processor for LaTeX log files
-and the \f(CW\*(C`typoginspect\*(C'\fR environment as provided by package\ typog.
+\&\fBtypog-grep\fR is a tailored post-processor for LaTeX \fIlog\fR\ files
+and the \f(CW\*(C`typoginspect\*(C'\fR environment as provided by the LaTeX\ package\ typog.
 It shares more with the venerable
 \&\fBsgrep\fR <https://www.cs.helsinki.fi/u/jjaakkol/sgrep.html>
 than with \s-1POSIX\s0\ \fBgrep\fR <https://pubs.opengroup.org/onlinepubs/9699919799/utilities/grep.html>.
 .PP
-The LaTeX user brackets her text in
+In the LaTeX source file the user brackets her text or code
+in a \f(CW\*(C`typoginspect\*(C'\fR environment:
+.RS
+.EX
+\ebegin{typoginspect}{\fI\,ID\/\fP}
+\fITEXT-OR-CODE-TO-INVESTIGATE\fP
+\eend{typoginspect}
+.EE
+.RE
 .PP
-.Vb 3
-\&    \ebegin{typoginspect}{ID}
-\&      Text and code to investigate
-\&    \eend{typoginspect}
-.Ve
-.PP
+
 where \fI\s-1ID\s0\fR is used to identify one or more bracketed snippets.
 \&\fI\s-1ID\s0\fR does not have to be unique.
 The \fI\s-1REGEXP\s0\fR mechanism makes it easy to select groups of related \fI\s-1ID\s0\fRs
 if they are named accordingly.
 .PP
-In \fILOG-FILE\fR the environment shows up, packed with tracing information, as
+In \fILOG-FILE\fR the result of the environment shows up,
+packed with tracing information, as
+.RS
+.EX
+<typog-inspect id="\fI\,ID\/\fP" job="\fI\,JOB-NAME\/\fP" line="\fI\,LINE-NUMBER\/\fP" page="\fI\,PAGE-NUMBER\/\fP">
+\fILOG-DATA\fP
+</typog-inspect>
+.EE
+.RE
 .PP
-.Vb 3
-\&    <typog\-inspect id="ID" job="JOB\-NAME" line="LINE\-NUMBER" page="PAGE\-NUMBER">
-\&      Trace Data
-\&    </typog\-inspect>
-.Ve
-.PP
+
 where all the capital-letter sequences are meta-variables
 and in particular
 \&\fIJOB-NAME\fR is the expansion of \f(CW\*(C`\ejobname\*(C'\fR,
 \&\fILINE-NUMBER\fR is the LaTeX source file line number
 of the beginning of the \f(CW\*(C`typoginspect\*(C'\fR environment,
 and \fIPAGE-NUMBER\fR is the page where
-the output of \f(CW\*(C`Text\ and\ code\ to\ investigate\*(C'\fR occurs.
+the output of \f(CW\*(C`TEXT\-OR\-CODE\-TO\-INVESTIGATE\*(C'\fR occurs.
 .PP
 \&\fBtypog-grep\fR reveals the contents of \fILOG-FILE\fR
 between \f(CW\*(C`<typog\-inspect id="\f(CIID\f(CW" ...>\*(C'\fR
-and \f(CW\*(C`</typog\-inspect>\*(C'\fR excluding the XML-tags.
+and \f(CW\*(C`</typog\-inspect>\*(C'\fR excluding the XML-tags themselves.
 Access the \fIJOB-NAME\fR, \fILINE-NUMBER\fR, and \fIPAGE-NUMBER\fR
 with the commandline options
-\&\fB\-\-job\-name\fR,  \fB\-\-line\-number\fR, and \fB\-\-page\-number\fR, respectively.
+\&\fB\-\-job\-name\fR, \fB\-\-line\-number\fR, and \fB\-\-page\-number\fR, respectively.
 Use \fB\-\-id\fR to show the name of the IDs that matched \fI\s-1REGEXP\s0\fR.
 .PP
 \&\f(CW\*(C`typoginspect\*(C'\fR environments can be nested.
@@ -213,10 +236,17 @@ The list of options is sorted by the names of the long options.
 .IP "\fB\-a\fR, \fB\-\-all\fR, \fB\-\-any\fR" 4
 .IX Item "-a, --all, --any"
 ID-discovery mode:
-Discover all \f(CW\*(C`typog\-inspect\*(C'\fR elements independent of any matching patterns.
+Discover all \f(CW\*(C`typog\-inspect\*(C'\fR elements independent of any matching patterns
+and print their \fI\s-1ID\s0\fRs.
+The results are printed in their order of occurrence in the respective \fILOG-FILE\fRs.
+Pipe the output into \fBsort\fR to get alphabetically ordered \fI\s-1ID\s0\fRs.
+.Sp
+Augment with options
+\&\fB\-\-job\-name\fR, \fB\-\-line\-number\fR, \fB\-\-log\-line\-number\fR, or \fB\-\-page\-number\fR
+for more information.
 .IP "\fB\-\-color\fR, \fBcolour\fR \fI\s-1WHEN\s0\fR" 4
 .IX Item "--color, colour WHEN"
-Colorize specific log contents for the matching ids.
+Colorize specific log contents for the matching \fI\s-1ID\s0\fRs.
 The argument\ \fI\s-1WHEN\s0\fR determines when to apply color:
 \&\f(CW\*(C`always\*(C'\fR, \f(CW\*(C`never\*(C'\fR, or\ \f(CW\*(C`auto\*(C'\fR.
 The setting \f(CW\*(C`auto\*(C'\fR checks whether standard output has been redirected.
@@ -224,7 +254,8 @@ This is the default.
 .IP "\fB\-C\fR, \fB\-\-config\fR \fI\s-1KEY\s0\fR=\fI\s-1VALUE\s0\fR[:\fI\s-1KEY\s0\fR=\fI\s-1VALUE\s0\fR[:...]]" 4
 .IX Item "-C, --config KEY=VALUE[:KEY=VALUE[:...]]"
 Set one or more configuration \fI\s-1KEY\s0\fR to \fI\s-1VALUE\s0\fR pairs.
-See Sec.\ \s-1CONFIGURATION\s0 below for a description of all available configuration items.
+See section \*(L"\s-1CONFIGURATION\*(R"\s0 for a description
+of all available configuration items.
 Use option\ \fB\-\-show\-config\fR to display the default configuration.
 .IP "\fB\-\-debug\fR" 4
 .IX Item "--debug"
@@ -232,26 +263,30 @@ Turn on debug output on \fIstderr\fR.
 .IP "\fB\-E\fR, \fB\-\-encoding\fR \fI\s-1ENCODING\s0\fR" 4
 .IX Item "-E, --encoding ENCODING"
 Set the \fI\s-1ENCODING\s0\fR of \fILOG-FILE\fR for the translation to \s-1UTF\-8.\s0
-The default is unset.  Use this option to get rid of pesky
+The default is unset.
+.Sp
+Use this option to get rid of pesky
 "<\fIHEX-DIGITS\fR>"\ escapes on \s-1UTF\-8\s0 terminals.
 See option\ \fB\-\-show\-encodings\fR for the known encodings and
 Encode::Supported for a summary of all encodings.
+See also section\ \*(L"Some\ Common\ Encodings\*(R".
 .Sp
-The \fI\s-1ENCODING\s0\fRs \f(CW\*(C`iso\-8859\-1\*(C'\fR to \f(CW\*(C`iso\-8859\-16\*(C'\fR are quite widespread
-maybe with the exception of \f(CW\*(C`iso\-8859\-12\*(C'\fR.
+Apply \fBiconv\fR <https://pubs.opengroup.org/onlinepubs/9699919799/utilities/iconv.html>
+(\s-1POSIX\s0) or \fBrecode\fR <https://github.com/rrthomas/recode/> (\s-1GNU\s0) on \fILOG-FILE\fR
+before this tool to avoid having to use option\ \fB\-\-encoding\fR.
 .IP "\fB\-h\fR, \fB\-\-help\fR" 4
 .IX Item "-h, --help"
 Display brief help then exit.
 .IP "\fB\-i\fR, \fB\-\-[no\-]id\fR" 4
 .IX Item "-i, --[no-]id"
-Print the actual id name that matched \fI\s-1REGEXP\s0\fR.
-Control the appearance of the matching id with configuration item\ \f(CW\*(C`id\-heading\*(C'\fR.
+Print the actual ID-name that matched \fI\s-1REGEXP\s0\fR.
+Control the appearance of the matching \fI\s-1ID\s0\fR with configuration item\ \f(CW\*(C`id\-heading\*(C'\fR.
 .IP "\fB\-y\fR, \fB\-\-[no\-]ignore\-case\fR" 4
 .IX Item "-y, --[no-]ignore-case"
-Match ids while ignoring case distinctions in patterns and data.
+Match \fI\s-1ID\s0\fRs while ignoring case distinctions in patterns and data.
 .IP "\fB\-j\fR, \fB\-\-[no\-]job\-name\fR" 4
 .IX Item "-j, --[no-]job-name"
-Print the \f(CW\*(C`\ejobname\*(C'\fR that \fBtex\fR associated with the input file.
+Print the \f(CW\*(C`\ejobname\*(C'\fR that \fBlatex\fR associated with the input file.
 .IP "\fB\-n\fR, \fB\-\-[no\-]line\-number\fR" 4
 .IX Item "-n, --[no-]line-number"
 Print the line number where the \f(CW\*(C`typoginspect\*(C'\fR\ environment
@@ -289,26 +324,26 @@ Default:\ \f(CW%s:\fR.
 .ie n .IP """id\-heading""=0|1" 4
 .el .IP "\f(CWid\-heading\fR=\f(CW0\fR|\f(CW1\fR" 4
 .IX Item "id-heading=0|1"
-Choose between printing the matching ids with option\ \fB\-\-id\fR:
+Choose between printing the matching \fI\s-1ID\s0\fRs with option\ \fB\-\-id\fR:
 Inline\ (\f(CW0\fR) or heading before the matching data (\f(CW1\fR).
 Default:\ \f(CW0\fR.
 .ie n .IP """id\-heading\-format""=\fI\s-1FORMAT\s0\fR" 4
 .el .IP "\f(CWid\-heading\-format\fR=\fI\s-1FORMAT\s0\fR" 4
 .IX Item "id-heading-format=FORMAT"
-Control the \fI\s-1FORMAT\s0\fR for printing matching ids in heading-mode,
+Control the \fI\s-1FORMAT\s0\fR for printing matching \fI\s-1ID\s0\fRs in heading-mode,
 where \fI\s-1FORMAT\s0\fR is passed to Perl's \f(CW\*(C`printf\*(C'\fR.
 Default:\ \f(CW\*(C`\-\->\ %s\ <\-\-\*(C'\fR.
 .ie n .IP """id\-indent""=\fI\s-1INDENT\s0\fR" 4
 .el .IP "\f(CWid\-indent\fR=\fI\s-1INDENT\s0\fR" 4
 .IX Item "id-indent=INDENT"
 Indentation of nested typog-inspect tags.
-Only used in ``discovery'' mode (first form), i.e., if \fB\-\-all\fR is active.
+Only used in ``discovery mode'' (first form), i.e., if \fB\-\-all\fR is active.
 Default:\ 8.
 .ie n .IP """id\-max\-length""=\fIMAXIMUM-LENGTH\fR" 4
 .el .IP "\f(CWid\-max\-length\fR=\fIMAXIMUM-LENGTH\fR" 4
 .IX Item "id-max-length=MAXIMUM-LENGTH"
-Set the maximum length of a matching id for printing.
-It a matching id exceeds this length it will be truncated
+Set the maximum length of a matching \fI\s-1ID\s0\fR for printing.
+It a matching \fI\s-1ID\s0\fR exceeds this length it will be truncated
 and the last three characters (short of \fIMAXIMUM-LENGTH\fR) will be replaced by dots.
 Default:\ 40.
 .ie n .IP """line\-number\-format""=\fI\s-1FORMAT\s0\fR" 4
@@ -372,11 +407,11 @@ Color of lines with horizontal breakpoints\ \f(CW\*(C`@@\*(C'\fR.
 .ie n .IP """id\-color""" 4
 .el .IP "\f(CWid\-color\fR" 4
 .IX Item "id-color"
-Color of matching ids when printed inline.
+Color of matching \fI\s-1ID\s0\fRs when printed inline.
 .ie n .IP """id\-heading\-color""" 4
 .el .IP "\f(CWid\-heading\-color\fR" 4
 .IX Item "id-heading-color"
-Color of matching ids when printed in heading form.
+Color of matching \fI\s-1ID\s0\fRs when printed in heading form.
 .ie n .IP """line\-break\-pass\-color""" 4
 .el .IP "\f(CWline\-break\-pass\-color\fR" 4
 .IX Item "line-break-pass-color"
@@ -432,10 +467,65 @@ Replace \f(CW\*(C`on_\*(C'\fR with \f(CW\*(C`on_bright_\*(C'\fR for high-intensi
 .IP "Text Attribute" 4
 .IX Item "Text Attribute"
 \&\f(CW\*(C`bold\*(C'\fR, \f(CW\*(C`dark\*(C'\fR, \f(CW\*(C`italic\*(C'\fR, \f(CW\*(C`underline\*(C'\fR, \f(CW\*(C`reverse\*(C'\fR
+.SS "Some Common Encodings"
+.IX Subsection "Some Common Encodings"
+The following list shows some encodings
+that are suitable for option\ \fB\-\-encoding\fR.
+.IP "Latin\-1, Western European" 4
+.IX Item "Latin-1, Western European"
+\&\f(CW\*(C`iso\-8859\-1\*(C'\fR, \f(CW\*(C`cp850\*(C'\fR, \f(CW\*(C`cp860\*(C'\fR, \f(CW\*(C`cp1252\*(C'\fR
+.IP "Latin\-2, Central European" 4
+.IX Item "Latin-2, Central European"
+\&\f(CW\*(C`iso\-8859\-2\*(C'\fR, \f(CW\*(C`cp852\*(C'\fR, \f(CW\*(C`cp1250\*(C'\fR
+.IP "Latin\-3, South European (Esperanto, Maltese)" 4
+.IX Item "Latin-3, South European (Esperanto, Maltese)"
+\&\f(CW\*(C`iso\-8859\-3\*(C'\fR
+.IP "Latin\-4, North European (Baltics)" 4
+.IX Item "Latin-4, North European (Baltics)"
+\&\f(CW\*(C`iso\-8859\-4\*(C'\fR
+.IP "Cyrillics" 4
+.IX Item "Cyrillics"
+\&\f(CW\*(C`iso\-8859\-5\*(C'\fR, \f(CW\*(C`cp855\*(C'\fR, \f(CW\*(C`cp866\*(C'\fR (Ukrainian), \f(CW\*(C`cp1251\*(C'\fR
+.IP "Arabic" 4
+.IX Item "Arabic"
+\&\f(CW\*(C`iso\-8859\-6\*(C'\fR, \f(CW\*(C`cp864\*(C'\fR, \f(CW\*(C`cp1006\*(C'\fR (Farsi), \f(CW\*(C`cp1256\*(C'\fR
+.IP "Greek" 4
+.IX Item "Greek"
+\&\f(CW\*(C`iso\-8859\-7\*(C'\fR, \f(CW\*(C`cp737\*(C'\fR, \f(CW\*(C`cp1253\*(C'\fR
+.IP "Hebrew" 4
+.IX Item "Hebrew"
+\&\f(CW\*(C`iso\-8859\-8\*(C'\fR, \f(CW\*(C`cp862\*(C'\fR, \f(CW\*(C`cp1255\*(C'\fR
+.IP "Turkish" 4
+.IX Item "Turkish"
+\&\f(CW\*(C`iso\-8859\-9\*(C'\fR, \f(CW\*(C`cp857\*(C'\fR, \f(CW\*(C`cp1254\*(C'\fR
+.IP "Nordic" 4
+.IX Item "Nordic"
+\&\f(CW\*(C`iso\-8859\-10\*(C'\fR, \f(CW\*(C`cp865\*(C'\fR, \f(CW\*(C`cp861\*(C'\fR (Icelandic)
+.IP "Thai" 4
+.IX Item "Thai"
+\&\f(CW\*(C`iso\-8859\-11\*(C'\fR, \f(CW\*(C`cp874\*(C'\fR
+.IP "Baltic" 4
+.IX Item "Baltic"
+\&\f(CW\*(C`iso\-8859\-13\*(C'\fR, \f(CW\*(C`cp775\*(C'\fR, \f(CW\*(C`cp1257\*(C'\fR
+.IP "Celtic" 4
+.IX Item "Celtic"
+\&\f(CW\*(C`iso\-8859\-14\*(C'\fR
+.IP "Latin\-9 (sometimes called Latin0)" 4
+.IX Item "Latin-9 (sometimes called Latin0)"
+\&\f(CW\*(C`iso\-8859\-15\*(C'\fR
+.IP "Latin\-10" 4
+.IX Item "Latin-10"
+\&\f(CW\*(C`iso\-8859\-16\*(C'\fR
 .SH "EXIT STATUS"
 .IX Header "EXIT STATUS"
 The exit status is 0 if at least one \fI\s-1ID\s0\fR matched \fI\s-1REGEXP\s0\fR,
 1 if no \fI\s-1ID\s0\fR matched \fI\s-1REGEXP\s0\fR, and 2 if an error occurred.
+.SH "CAVEATS"
+.IX Header "CAVEATS"
+The end tag \f(CW\*(C`</typog\-inspect>\*(C'\fR sometimes gets placed too early in the output and the trace
+\&\fIseems\fR truncated.  However, LaTeX reliably logs the requested the trace information, but the
+write operations for trace data and the code which is used to print the end\ tag are not
+synchronized.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
-\&\fBgrep\fR(1), \fBprintf\fR(3), \fBEncode::Supported\fR, \fBTerm::ANSIColor\fR(pm)
+\&\fBgrep\fR(1), \fBprintf\fR(3), \fBEncode::Supported\fR(pm), \fBTerm::ANSIColor\fR(pm)
