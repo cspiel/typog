@@ -367,6 +367,8 @@
 
 \newrobustcmd*{\command}[1]{\mbox{\textbf{#1}}}
 
+\newcommand*{\detoxindex}[1]{\index{\detokenize{#1}}}
+
 \newcommand*{\doublequotes}[1]{\doubleguillemetright\kern-.03333em #1\doubleguillemetleft}
 
 \newcommand*{\dumpmacro}[1]{\texttt{\detokenize\expandafter{#1}\unskip}}
@@ -397,11 +399,16 @@
              \framebox{\rule{#1}{0pt}\rule{0pt}{#2}}}
 \newcommand*{\hollowsquare}[1]{\hollowrectangle{#1}{#1}}
 
+\pretocmd{\IndexParms}
+         {\RaggedRight}
+         {\relax}
+         {\PrependingFailed}
 
 \makeatletter
 \apptocmd{\index@prologue}
-         {\marginnote{In the Index page ranges are stuck together with
-             \hyperref[syn:figuredash]{\cs{figuredash*}}.}}
+         {Numbers typeset in boldface name pages in the user's manual.%
+          \marginnote{In the Index page ranges are stuck together with
+                      \hyperref[syn:figuredash]{\cs{figuredash*}}.}}
          {\relax}
          {\AppendingFailed}
 \makeatother
@@ -637,7 +644,7 @@
             {{\def\thefootnote{}\footnote{#1}%
               \addtocounter{footnote}{-1}}}
 
-\newcommand*{\userman}[1]{\textub{\hyperpage{#1}}}%%-- https://github.com/ho-tex/hypdoc/issues/11
+\newcommand*{\userman}[1]{\textbf{\hyperpage{#1}}}%%-- https://github.com/ho-tex/hypdoc/issues/11
 
 \newcommand*{\visualpar}{\textcolor{\markercolor}{\P}\linebreak[1]\enspace}
 
@@ -796,6 +803,7 @@
 %</driver>
 %<*index-style>
 actual            '='
+delim_0           ",~"
 delim_r           "\\figuredash*"
 heading_prefix    "\\pagebreak[3]\\smallskip\n\n{\\sffamily\\bfseries\\large "
 heading_suffix    "}\\nopagebreak\n"
@@ -988,7 +996,8 @@ end
 %  \pagestyle{pagenumberonly}
 %
 %  \unmarkedfntext{The font sample on the title page was generated with the help of \MP{} using
-%                  \doublequotes{\acronym{URW}~Palladio}\index{font>URW Palladio=\acronym{URW} Palladio}.}
+%                  \doublequotes{\acronym{URW}~Palladio}%
+%                  \detoxindex{font>URW Palladio=\acronym{URW} Palladio|userman}.}
 %
 %  \begin{nofontexpansion}
 %    \begin{nocharprotrusion}
@@ -1107,7 +1116,7 @@ end
 %    \end{tabbing}
 %  \end{synopsis}
 %
-%  \index{package options|(}
+%  \index{package options|(userman}
 %  The package \meta{OPTIONs} also serve as configuration \meta{key}s (unless noted otherwise).
 %  This means they can be set with \hyperref[syn:typogsetup]{\code{typogsetup}} and their values
 %  can be retrieved with \hyperref[syn:typogget]{\cs{typogget}}.  Options that rely on
@@ -1115,7 +1124,9 @@ end
 %
 %  \begin{typogsetup}{}
 %    \newcommand*{\indexpackageoption}[1]
-%                {\index{package option>#1=\code{#1}}\index{#1=\code{#1}~(option)}\ignorespaces}
+%                {\detoxindex{package option>#1=\code{#1}|userman}%
+%                 \detoxindex{#1=\code{#1}~(option)|userman}%
+%                 \ignorespaces}
 %    \begin{description}
 %        [before={\let\oldmakelabel=\makelabel
 %                 \renewcommand{\makelabel}[1]
@@ -1332,8 +1343,9 @@ end
 %  \subsection{Setup and Reconfiguration}\label{sec:setup}
 %
 %  \DescribeEnv{typogsetup}
-%  Configure\index{configuration}\index{setup} the package with the given \meta{keys}.  An empty
-%  argument of \code{typogsetup} resets all \meta{keys} to their default values.
+%  Configure\index{configuration|userman}\index{setup|userman} the package with the given
+%  \meta{keys}.  An empty argument of \code{typogsetup} resets all \meta{keys} to their default
+%  values.
 %
 %  \begin{synopsis}\label{syn:typogsetup}
 %     \cs{begin}|{typogsetup}|\marg{keys}
@@ -1341,7 +1353,7 @@ end
 %     \cs{end}|{typogsetup}|
 %  \end{synopsis}
 %
-%  The package can be (re-)configured\index{reconfigure} at any point with
+%  The package can be (re-)configured\index{reconfigure|userman} at any point with
 %  \cs{typogsetup}\marg{keys}, or --~for localized changes~-- as
 %
 %  \begin{codeexample}
@@ -1401,7 +1413,7 @@ end
 %
 %
 %  \subsection{Information}\label{sec:information}
-%  \index{information}
+%  \index{information|userman}
 %
 %  \begin{whittyquote}
 %    Never forget: The visual output counts;  \\
@@ -1416,14 +1428,14 @@ end
 %
 %
 %  \subsubsection{Font Information}\label{sec:font-information}
-%  \index{font>information}
+%  \index{font>information|userman}
 %
 %  \DescribeMacro{\fontsizeinfo}
 %  Capture the font~size\footnote{We use \cs{fontdimen6}, the em-height as the font
-%  size.}\index{font>size} and line~spacing\footnote{The line~spacing simply is
-%  \cs{baselineskip}.}\index{line spacing} at the point where \cs{fontsizeinfo} \emph{is called}
-%  in macro~\meta{cs-name}.  Both dimensions are measured in points~(pt) and the results are
-%  rounded to tenths.
+%  size.}\index{font>size|userman} and line~spacing\footnote{The line~spacing simply is
+%  \cs{baselineskip}.}\index{line spacing|userman} at the point where \cs{fontsizeinfo} \emph{is
+%  called} in macro~\meta{cs-name}.  Both dimensions are measured in points~(pt) and the results
+%  are rounded to tenths.
 %
 %  \begin{synopsis}\label{syn:fontsizeinfo}
 %     \cs{fontsizeinfo}\marg{cs-name}
@@ -1572,7 +1584,7 @@ end
 %
 %  \phantomsection
 %  \paragraph{Investigating the badness of a paragraph.}\label{sec:investigating-paragraph-badness}
-%  \index{paragraph>badness}
+%  \index{paragraph>badness|userman}
 %
 %  It is generally unnecessary to determine the \emph{exact} classification of a paragraph's
 %  badness~\cite[p.~97n]{knuth:1986}, though the curious user can switch on logging of
@@ -1649,7 +1661,7 @@ end
 %
 %  \phantomsection
 %  \paragraph{Investigating page-breaks.}
-%  \index{page break}
+%  \index{page break|userman}
 %
 %  Use \code{\cs{tracingpages}=1} or the \hyperref[syn:typoginspect]{typoginspect}~environment
 %  to switch on tracing of \TeX's page-break
@@ -1716,7 +1728,7 @@ end
 %
 %
 %  \subsection{Hyphenation}\label{sec:latex-hyphenation}
-%  \index{hyphenation}
+%  \index{hyphenation|userman}
 %
 %  \TeX's and thus \LaTeX's hyphenation algorithm is highly sophisticated, yet the document
 %  author sometimes lacks convenient macros to solve seemingly trivial typographic tasks.  For
@@ -1730,8 +1742,8 @@ end
 %    \cs{allowhyphenation}
 %  \end{synopsis}
 %
-%  Macro~\cs{allowhyphenation}\index{hyphenation>re-enable automatic} re-enables automatic
-%  hyphenation after \TeX{} has turned it off, for example, in the innocuous case of a
+%  Macro~\cs{allowhyphenation}\index{hyphenation>re-enable automatic|userman} re-enables
+%  automatic hyphenation after \TeX{} has turned it off, for example, in the innocuous case of a
 %  hyphenated compound.
 %
 %  The admittedly simple rules when \TeX{} auto-hyphenates and when not give rise to so many
@@ -1892,8 +1904,8 @@ end
 %  which are impossible to encode with \cs{hyphenation} or~\cs{babelhyphenation} as these expect
 %  only letters and dashes as their arguments with spaces separating the words.
 %
-%  \index{hyphenation>first word}
-%  \index{hskip=\cs{hskip}}
+%  \index{hyphenation>first word|userman}
+%  \index{hskip=\cs{hskip}|userman}
 %  \TeX{} never hyphenates the initial word in a paragraph and \cs{allowhyphenation} cannot help
 %  in this case.  Start the paragraph with \cs{hskip~0pt} to enable hyphenation even for the
 %  first word.
@@ -1922,8 +1934,8 @@ end
 %    \cs{breakpoint*}
 %  \end{synopsis}
 %
-%  The starred form inserts an empty discretionary,\index{hyphenation>empty discretionary} which
-%  disables automatic hyphenation.  The unstarred form inserts an empty discretionary and
+%  The starred form inserts an empty discretionary,\index{hyphenation>empty discretionary|userman}
+%  which disables automatic hyphenation.  The unstarred form inserts an empty discretionary and
 %  immediately re-enables automatic hyphenation.
 %
 %  The difference between \cs{breakpoint} and the \LaTeX{} macro~\cs{allowbreak} is not only
@@ -1965,7 +1977,7 @@ end
 %
 %
 %  \subsection{Disable\kernedslash Break Ligatures}\label{sec:break-ligatures}
-%  \index{ligature}
+%  \index{ligature|userman}
 %
 %  \DescribeMacro{\nolig*}
 %  Break a ligature without introducing a hyphenation opportunity.
@@ -1975,8 +1987,8 @@ end
 %  \end{synopsis}
 %
 %  Inserting \cs{nolig*} disables a ligature at the given point by a kern.  Set the size of the
-%  kern\index{kerning>ligature} with \hyperref[item:ligaturekern]{|ligaturekern|} or override
-%  this value with \meta{kerning} as thousandths of the current font's~em.
+%  kern\index{kerning>ligature|userman} with \hyperref[item:ligaturekern]{\code{ligaturekern}} or
+%  override this value with \meta{kerning} as thousandths of the current font's~em.
 %
 %  \begin{usecases}
 %    \cs{nolig*} can be useful in headings, where additional hyphenation points are
@@ -1998,12 +2010,12 @@ end
 %  introduces a hyphenation opportunity with
 %  penalty~\hyperref[item:breakpenalty]{|breakpenalty|}.
 %
-%  \begin{important}[\packagename{hyperref} bookmarks]\index{hyperref=\packagename{hyperref} (package)}
+%  \begin{important}[\packagename{hyperref} bookmarks]\index{hyperref=\packagename{hyperref} (package)|userman}
 %    If a \cs{nolig} --~whether starred or un-starred~-- occurs in an argument that is processed
 %    with package~\packagename{hyperref} for inclusion into the document's
-%    \acronym{PDF}-bookmarks\index{PDF=\acronym{PDF}}\index{bookmark} an additional argument is
-%    necessary to parse the macro.  This argument either is \cs{relax} or~the empty
-%    group~(\code{\{\}}).
+%    \acronym{PDF}-bookmarks\index{PDF=\acronym{PDF}|userman}\index{bookmark|userman} an
+%    additional argument is necessary to parse the macro.  This argument either is \cs{relax}
+%    or~the empty group~(\code{\{\}}).
 %
 %    \begin{synopsis}
 %      \begin{tabbing}
@@ -2180,14 +2192,14 @@ end
 %
 %
 %  \subsection{Apply Extra Kerning}\label{sec:extra-kerning}
-%  \index{kerning>extra}
+%  \index{kerning>extra|userman}
 %
 %  Package \packagename{typog} supplies two sets of macros to kern some of the punctuation
 %  symbols.  One is for forward slashes the other, more extensive one, for hyphens.
 %
 %
 %  \subsubsection{Slash}\label{sec:slash-with-kern}
-%  \index{kerning>forward slash}
+%  \index{kerning>forward slash|userman}
 %
 %  \DescribeMacro{\kernedslash}
 %  \DescribeMacro{\kernedslash*}
@@ -2216,7 +2228,7 @@ end
 %
 %
 %  \subsubsection{Hyphen}\label{sec:hyphen-with-kern}
-%  \index{kerning>hyphen}
+%  \index{kerning>hyphen|userman}
 %
 %  \DescribeMacro{\kernedhyphen}
 %  \DescribeMacro{\kernedhyphen*}
@@ -2263,7 +2275,7 @@ end
 %
 %
 %  \subsection{Raise Selected Characters}\label{sec:raise-characters}
-%  \index{raised character}
+%  \index{raised character|userman}
 %
 %  Usually all hyphens and dashes of a font are designed to join lowercase letters.  This holds
 %  also true for most of our \cs{labelitem}\meta{N} markers, bullets, stars, and even fancy
@@ -2287,7 +2299,7 @@ end
 %
 %
 %  \subsubsection{Capital Hyphen}\label{sec:capital-hyphen}
-%  \index{raised character>hyphen}
+%  \index{raised character>hyphen|userman}
 %
 %  \DescribeMacro{\capitalhyphen}
 %  \DescribeMacro{\capitalhyphen*}
@@ -2317,7 +2329,7 @@ end
 %
 %
 %  \subsubsection{Capital Dash}\label{sec:capital-dash}
-%  \index{raised character>en-dash}
+%  \index{raised character>en-dash|userman}
 %
 %  \DescribeMacro{\capitalendash}
 %  \DescribeMacro{\capitalendash*}
@@ -2363,7 +2375,7 @@ end
 %
 %
 %  \subsubsection{Number Dash (Figure Dash)}\label{sec:number-dash}
-%  \index{raised character>number dash}
+%  \index{raised character>number dash|userman}
 %
 %  \DescribeMacro{\figuredash}
 %  \DescribeMacro{\figuredash*}
@@ -2405,32 +2417,37 @@ end
 %        \toprule
 %        Font  &  Raise  \\
 %        \midrule
-%        Alegreya\index{font>Alegreya}, Arvo\index{font>Arvo},
-%        Bitter\index{font>Bitter}, Clara\index{font>Clara},
-%        \acronym{EB}~Garamond\index{font>EB Garamond=\acronym{EB} Garamond},
-%        Gentium\index{font>Gentium},
-%        Ibarra Real Nova\index{font>Ibarra Real Nova},
-%        \acronym{Inria}~Serif\index{font>Inria Serif=\acronym{Inria} Serif},
-%        Libertine\index{font>Libertine}, Libertinus\index{font>Libertinus Serif},
-%        Merriweather\index{font>Merriweather},
-%        \acronym{PT}~Serif\index{font>PT Serif=\acronym{PT} Serif},
-%        Roboto Slab\index{font>Roboto Slab}, Spectral\index{font>Spectral},
-%        \acronym{STIX}\index{font>STIX=\acronym{STIX}}, and many more  &
+%        Alegreya\detoxindex{font>Alegreya|userman}, Arvo\detoxindex{font>Arvo|userman},
+%        Bitter\detoxindex{font>Bitter|userman}, Clara\detoxindex{font>Clara|userman},
+%        \acronym{EB}~Garamond\detoxindex{font>EB Garamond=\acronym{EB} Garamond|userman},
+%        Gentium\detoxindex{font>Gentium|userman},
+%        Ibarra Real Nova\detoxindex{font>Ibarra Real Nova|userman},
+%        \acronym{Inria}~Serif\detoxindex{font>Inria Serif=\acronym{Inria} Serif|userman},
+%        Libertine\detoxindex{font>Libertine|userman},
+%        Libertinus\detoxindex{font>Libertinus Serif|userman},
+%        Merriweather\detoxindex{font>Merriweather|userman},
+%        \acronym{PT}~Serif\detoxindex{font>PT Serif=\acronym{PT} Serif|userman},
+%        Roboto Slab\detoxindex{font>Roboto Slab|userman},
+%        Spectral\detoxindex{font>Spectral|userman},
+%        \acronym{STIX}\detoxindex{font>STIX=\acronym{STIX}|userman}, and many more  &
 %        .0  \\
-%        fbb\fbbmark\index{font>fbb}, Source Serif Pro\index{font>Source Serif Pro}  &
+%        fbb\fbbmark\detoxindex{font>fbb|userman},
+%        Source Serif Pro\detoxindex{font>Source Serif Pro|userman}  &
 %        .05  \\
-%        Libre Baskerville\index{font>Libre Baskerville},
-%        Crimson Pro\index{font>Crimson Pro},
-%        Erewhon\index{font>Erewhon}, Droid Serif\index{font>Droid Serif}  &
+%        Libre Baskerville\detoxindex{font>Libre Baskerville|userman},
+%        Crimson Pro\detoxindex{font>Crimson Pro|userman},
+%        Erewhon\detoxindex{font>Erewhon|userman},
+%        Droid Serif\detoxindex{font>Droid Serif|userman}  &
 %        .0667  \\
-%        \acronym{GFS}~Artemisia\index{font>GFS Artemisia=\acronym{GFS} Artemisia},
-%        Libre Caslon\index{font>Libre Caslon},
-%        Coelacanth\index{font>Coelacanth}, Crimson Pro\index{font>Crimson Pro},
-%        Crimson Text\index{font>Crimson Text},
-%        \TeX{} Gyre~Pagella\index{font>TeX Gyre Pagella=\TeX{} Gyre Pagella},
-%        Quattrocento\index{font>},
-%        \acronym{TX}~Fonts\index{font>TX Fonts=\acronym{TX} Fonts},
-%        \acronym{ADF}~Venturis\index{font>ADF Venturis=\acronym{ADF} Venturis},
+%        \acronym{GFS}~Artemisia\detoxindex{font>GFS Artemisia=\acronym{GFS} Artemisia|userman},
+%        Libre Caslon\detoxindex{font>Libre Caslon|userman},
+%        Coelacanth\detoxindex{font>Coelacanth|userman},
+%        Crimson Pro\detoxindex{font>Crimson Pro|userman},
+%        Crimson Text\detoxindex{font>Crimson Text|userman},
+%        \TeX{} Gyre~Pagella\detoxindex{font>TeX Gyre Pagella=\TeX{} Gyre Pagella|userman},
+%        Quattrocento\detoxindex{font>Quattrocento|userman},
+%        \acronym{TX}~Fonts\detoxindex{font>TX Fonts=\acronym{TX} Fonts|userman},
+%        \acronym{ADF}~Venturis\detoxindex{font>ADF Venturis=\acronym{ADF} Venturis|userman},
 %        and many more  &
 %        .1  \\
 %        \bottomrule
@@ -2455,7 +2472,7 @@ end
 %
 %  \subsubsection[Multiplication Sign]%
 %                {Multiplication Sign -- Times~\sample{\texttimes}}\label{sec:mult-sign}
-%  \index{raised character>multiplication sign}
+%  \index{raised character>multiplication sign|userman}
 %
 %  \DescribeMacro{\capitaltimes}
 %  The \cs{capitaltimes}~macro is a variation of the
@@ -2477,14 +2494,15 @@ end
 %
 %
 %  \subsubsection{Guillemets}\label{sec:guillemets}
-%  \index{raised character>guillemets}
+%  \index{raised character>guillemets|userman}
 %
 %  Another possible typographic problem this package addresses is that both sets --~single and
 %  double quotes~-- of guillemets may suffer from a too small distance to the baseline.
 %
 %  For the implementation \packagename{typog} relies on the T1\footnote{Font
-%  encoding~T1\index{font>encoding} can be forced via \cs{usepackage}|[T1]\{fontenc\}| in the
-%  document preamble.}~font encoding not on package~\packagename{babel}.
+%  encoding~T1\detoxindex{font>encoding|userman} can be forced via
+%  \cs{usepackage}|[T1]\{fontenc\}| in the document preamble.}~font encoding not on
+%  package~\packagename{babel}.
 %
 %
 %  \paragraph{Lowercase Versions.}
@@ -2543,16 +2561,16 @@ end
 %        \toprule
 %        Font  &  Uppercase  &  Lowercase  \\
 %        \midrule
-%        \acronym{EB} Garamond\index{font>EB Garamond=\acronym{EB} Garamond},
-%        Libertinus\index{font>Libertinus Serif},
-%        Merriweather\index{font>Merriweather}, and many more  &
+%        \acronym{EB} Garamond\index{font>EB Garamond=\acronym{EB} Garamond|userman},
+%        Libertinus\index{font>Libertinus Serif|userman},
+%        Merriweather\index{font>Merriweather|userman}, and many more  &
 %        .05~~  &  .0~~  \\
-%        Gentium\index{font>Gentium}  &
+%        Gentium\index{font>Gentium|userman}  &
 %        .05~~  &  .025  \\
-%        \acronym{GFS} Artemisia\index{font>GFS Artemisia=\acronym{GFS} Artemisia},
-%        \acronym{GFS} Didot\index{font>GFS Didot=\acronym{GFS} Didot}  &
+%        \acronym{GFS} Artemisia\index{font>GFS Artemisia=\acronym{GFS} Artemisia|userman},
+%        \acronym{GFS} Didot\index{font>GFS Didot=\acronym{GFS} Didot|userman}  &
 %        .0625  &  .05~  \\
-%        \acronym{ADF} Baskervald\index{font>ADF Baskervald=\acronym{ADF} Baskervald}  &
+%        \acronym{ADF} Baskervald\index{font>ADF Baskervald=\acronym{ADF} Baskervald|userman}  &
 %        .0667  &  .04~  \\
 %        \bottomrule
 %      \end{tabular}
@@ -2582,7 +2600,7 @@ end
 %
 %
 %  \paragraph{Interaction with package~\packagename{csquotes}.}
-%  \index{csquotes=\packagename{csquotes} (package)}
+%  \index{csquotes=\packagename{csquotes} (package)|userman}
 %
 %  The users of package~\packagename{csquotes}
 %  can hook up the guillemets as defined by \packagename{typog}
@@ -2618,7 +2636,7 @@ end
 %  \subsection[Vertically Adjust Label Items]
 %             {Vertically Adjust Label Items of
 %              Environment \code{itemize}}\label{sec:adjust-label-items}
-%  \index{label items}
+%  \index{label items|userman}
 %
 %  \begin{whittyquote}
 %    Perfection of planned layout  \\
@@ -2719,6 +2737,7 @@ end
 %      uses the code of the last example.
 %    \end{typogsetup}
 %  \end{example}
+%
 %
 %  \paragraph{Setup.}
 %
@@ -2885,64 +2904,64 @@ end
 %          \mc{1}  &  \mc{2}  &  \mc{3}  &  \mc{4}  &
 %          \mc{1}  &  \mc{2}  &  \mc{3}  &  \mc{4}  \\
 %        \midrule
-%          \acronym{ADF} Accanthis\index{font>ADF Venturis=\acronym{ADF} Accanthis}  &
+%          \acronym{ADF} Accanthis\detoxindex{font>ADF Venturis=\acronym{ADF} Accanthis|userman}  &
 %          .5~~  &  1.5~~  &  \textminus1.5~~  &  1.125  &
 %          \textminus.75~  &  .25~  &  \textminus2.75~  &  \textminus.125  \\
-%          \acronym{ADF} Venturis\index{font>ADF Venturis=\acronym{ADF} Venturis}  &
+%          \acronym{ADF} Venturis\detoxindex{font>ADF Venturis=\acronym{ADF} Venturis|userman}  &
 %          .0~~  &  1.0~~  &  .75~  &  1.0~~  &
 %          \textminus.75~  &  .0~~  &  \textminus.25~  &  .0~~  \\
-%          \acronym{CM} Roman\index{font>CM Roman=\acronym{CM} Roman}  &
+%          \acronym{CM} Roman\detoxindex{font>CM Roman=\acronym{CM} Roman|userman}  &
 %          1.0~~  & .75~  &  1.0~~  &  1.0~~  &
 %          \textminus.25~  &  \textminus.5~~  &  \textminus.25~  &  \textminus.25~  \\
-%          Domitian\index{font>Domitian}  &
+%          Domitian\detoxindex{font>Domitian|userman}  &
 %          .25~  &  1.0~~  &  .75~  &  1.0~~  &
 %          \textminus1.0~~  &  .0~~  &  \textminus.325  &  \textminus.25~  \\
-%          Cochineal\index{font>Cochineal}  &
+%          Cochineal\detoxindex{font>Cochineal|userman}  &
 %          1.0~~  &  1.0~~  &  1.0~~  &  1.0~~  &
 %          \textminus.125  &  \textminus.125  &  \textminus.125  &  \textminus.125  \\
-%          \acronym{EB} Garamond\index{font>EB Garamond=\acronym{EB} Garamond}  &
+%          \acronym{EB} Garamond\detoxindex{font>EB Garamond=\acronym{EB} Garamond|userman}  &
 %          .0~~  &  1.25~  &  \textminus.875  &  1.325  &
 %          \textminus1.5~~  &  .0~~  &  \textminus2.0~~  &  0.125  \\
-%          etbb\etbbmark\index{font>etbb}  &
+%          etbb\etbbmark\detoxindex{font>etbb|userman}  &
 %          .25~  &  1.0~~  &  1.125  &  .5~~  &
 %          \textminus1.0~~  &  \textminus.0~~  &  \textminus.0~~  &  \textminus.5~~  \\
-%          Extended Charter\xchartermark\index{font>Extended Charter}  &
+%          Extended Charter\xchartermark\detoxindex{font>Extended Charter|userman}  &
 %          \textminus.25~  &  1.0~~  &  1.75  &  .125  &
 %          \textminus1.125  &  .0~~  &  .875  & \textminus.875  \\
-%          Gentium\index{font>Gentium}  &
+%          Gentium\detoxindex{font>Gentium|userman}  &
 %          .0~~  &  .75~  &  .0~~  &  .0~~  &
 %          \textminus.5~~  &  \textminus.25~  &  \textminus.75~  &  \textminus1.0~~  \\
-%          \acronym{GFS} Bodoni\index{font>GFS Bodoni=\acronym{GFS} Bodoni}  &
+%          \acronym{GFS} Bodoni\detoxindex{font>GFS Bodoni=\acronym{GFS} Bodoni|userman}  &
 %          \textminus.25~  &  .625  &  1.0~~  &  1.125  &
 %          \textminus1.25~  &  \textminus.625  &  \textminus.5~~  &  \textminus.25~  \\
-%          \acronym{GFS} Didot\index{font>GFS Didot=\acronym{GFS} Didot}  &
+%          \acronym{GFS} Didot\detoxindex{font>GFS Didot=\acronym{GFS} Didot|userman}  &
 %          \textminus1.5~~  &  .75~  &  1.0~~  &  1.25~  &
 %          \textminus2.75~  &  \textminus.25~  &  \textminus.25~  &  .25~  \\
-%          \acronym{IBM} Plex Serif\index{font>IBM Plex Serif=\acronym{IBM} Plex Serif}  &
+%          \acronym{IBM} Plex Serif\detoxindex{font>IBM Plex Serif=\acronym{IBM} Plex Serif|userman}  &
 %          .5~~  &  .5~~  &  \textminus1.325  &  .5~~  &
 %          \textminus.25~  &  \textminus.25~  &  \textminus2.25~  &  \textminus.25~  \\
-%          \acronym{KP} Serif\kpmark\index{font>KP Serif=\acronym{KP} Serif}  &
+%          \acronym{KP} Serif\kpmark\detoxindex{font>KP Serif=\acronym{KP} Serif|userman}  &
 %          .0~~  &  1.0~~  &  1.25~  &  .75~  &
 %          \textminus1.0~~  &  .0~~  &  .0~~  &  \textminus.5~~  \\
-%          Libertinus Serif\index{font>Libertinus Serif}  &
+%          Libertinus Serif\detoxindex{font>Libertinus Serif|userman}  &
 %          1.0~~  &  .75~  &  1.125  &  .75~  &
 %          .0~~  &  \textminus.325  &  .0~~  &  \textminus.25~  \\
-%          \acronym{ML} Modern\index{font>ML Modern=\acronym{ML} Modern}  &
+%          \acronym{ML} Modern\detoxindex{font>ML Modern=\acronym{ML} Modern|userman}  &
 %          1.25~  &  .75~  &  1.0~~  &  .125  &
 %          .0~~  &  \textminus.5~~  &  \textminus.25~  &  \textminus.125  \\
-%          Source Serif Pro\index{font>Source Serif Pro}  &
+%          Source Serif Pro\detoxindex{font>Source Serif Pro|userman}  &
 %          .125  &  .75~  &  \textminus1.0~~  &  .125  &
 %          \textminus.75~  &  .0~~  &  \textminus2.0~~  &  \textminus.75~  \\
-%          Spectral\index{font>Spectral}  &
+%          Spectral\detoxindex{font>Spectral|userman}  &
 %          .625  &  .625  &  \textminus1.5~~  &  .625  &
 %          \textminus.25~  &  \textminus.25~  &  \textminus2.5~~  &  \textminus.25~  \\
-%          \acronym{STIX}\index{font>STIX=\acronym{STIX}}  &
+%          \acronym{STIX}\detoxindex{font>STIX=\acronym{STIX}|userman}  &
 %          1.0~~  &  1.0~~  &  .75~  &  1.0~~  &
 %          .0~~  &  .0~~  &  .0~~  &  .0~~  \\
-%          \acronym{URW} Palladio\palladiomark\index{font>URW Palladio=\acronym{URW} Palladio}  &
+%          \acronym{URW} Palladio\palladiomark\detoxindex{font>URW Palladio=\acronym{URW} Palladio|userman}  &
 %          .25~  &  1.125  &  1.0~~  &  1.0~~  &
 %          \textminus1.0~~  &  \textminus.125  &  \textminus.125  &  \textminus.125  \\
-%          Utopia Regular\utopiamark\index{font>Utopia Regular}  &
+%          Utopia Regular\utopiamark\detoxindex{font>Utopia Regular|userman}  &
 %          .0~~  &  1.0~~  &  .75~  &  1.0~~  &
 %          \textminus.75~  &  .0~~  &  \textminus.25~  &  .0~~  \\
 %        \bottomrule
@@ -2969,7 +2988,7 @@ end
 %
 %  \subsection[Align Last Line]
 %             {Align Last Line of a Paragraph}\label{sec:align-last-line}
-%  \index{paragraph>align last line}
+%  \index{paragraph>align last line|userman}
 %
 %  The usual algorithms of \LaTeX{} typeset the last line of a paragraph flush with the left
 %  margin unless |center|, |raggedleft| or |Centering|, |FlushRight|
@@ -2979,9 +2998,9 @@ end
 %
 %  \DescribeEnv{lastlineraggedleftpar}
 %  \DescribeEnv{lastlineflushrightpar}
-%  The environment |lastlineraggedleftpar|\index{paragraph>align last line>flush right} adjusts
-%  the various skips such that the last lines of the paragraphs gets typeset flush with the
-%  right margin.
+%  The environment \code{lastlineraggedleftpar}\index{paragraph>align last line>flush right|userman}
+%  adjusts the various skips such that the last lines of the paragraphs gets typeset flush with
+%  the right margin.
 %
 %  \begin{synopsis}\label{syn:lastlineraggedleftpar}\label{syn:lastlineflushrightpar}
 %    \cs{begin}|{lastlineraggedleftpar}|  \\
@@ -2993,8 +3012,9 @@ end
 %  The name |lastlineflushrightpar| is an alias for~\code{lastlineraggedleftpar}.
 %
 %  \DescribeEnv{lastlinecenteredpar}
-%  Center\index{paragraph>align last line>centered} the last lines of the paragraphs enclosed by
-%  this environment.\footnote{Also compare the approach taken in Ref.~\citenum{wermuth:2018}.}
+%  Center\index{paragraph>align last line>centered|userman} the last lines of the paragraphs
+%  enclosed by this environment.\footnote{Also compare the approach taken in
+%  Ref.~\citenum{wermuth:2018}.}
 %
 %  \begin{synopsis}\label{syn:lastlinecenteredpar}
 %    \cs{begin}|{lastlinecenteredpar}|  \\
@@ -3012,7 +3032,7 @@ end
 %  \needtocspace
 %  \subsection[Fill Last Line]
 %             {Fill Last Line of a Paragraph}\label{sec:fill-last-line}
-%  \index{paragraph>fill last line}
+%  \index{paragraph>fill last line|userman}
 %
 %  The problem of when and how to \singlequotes{fill} the last line of a paragraph is quite
 %  intricate.  We first define the problem then we proceed to general purpose functions and we
@@ -3219,18 +3239,21 @@ end
 %  \item End-of-paragraph intervention.\label{enum:end-of-paragraph-intervention}
 %
 %    \begin{enumerate}[notopsep]
-%      \item Tie~\sample{\texttt{\char126}}\label{enum:tie-last-words}\index{paragraph>fill last line>tie}
+%      \item Tie~\sample{\texttt{\char126}}\label{enum:tie-last-words}
+%        \index{paragraph>fill last line>tie|userman}
 %
 %        Tie the last words.
 %
 %        The problem with the tie may be a hyphenation of one of the words that participates in
 %        the tie.  The next item avoids this disadvantage.
 %
-%      \item \cs{mbox}\label{enum:mbox-last-words}\index{paragraph>fill last line>mbox=\cs{mbox}}
+%      \item \cs{mbox}\label{enum:mbox-last-words}
+%        \index{paragraph>fill last line>mbox=\cs{mbox}|userman}
 %
 %        Join the last words or inline equation at the end of the paragraph with an~\cs{mbox}.
 %
-%      \item \cs{linebreak}\label{enum:linebreak}\index{paragraph>fill last line>linebreak=\cs{linebreak}}
+%      \item \cs{linebreak}\label{enum:linebreak}
+%        \index{paragraph>fill last line>linebreak=\cs{linebreak}|userman}
 %
 %        Add a \cs{linebreak} to the back part of the paragraph (approximately where the
 %        \cs{mbox} of item~\ref{enum:mbox-last-words} would start) in a way that the last line
@@ -3247,7 +3270,8 @@ end
 %  \item Uniform paragraph change.\label{enum:uniform-paragraph-change}
 %
 %  \begin{enumerate}[notopsep]
-%  \item Vary spacing.\label{enum:vary-spacing}\index{font>spacing}
+%  \item Vary spacing.\label{enum:vary-spacing}
+%    \index{font>spacing|userman}
 %
 %    Modify the inter-word spacing, for example, with the macros introduced in
 %    \cref{sec:looser-tighter-spacing}.
@@ -3256,13 +3280,15 @@ end
 %    or~\hyperref[syn:tightspacing]{|tightspacing|}.
 %    Increase the spacing~\meta{level} until the last line gets the desired length.
 %
-%  \item Vary font tracking.\label{enum:vary-font-tracking}\index{font>tracking}
+%  \item Vary font tracking.\label{enum:vary-font-tracking}
+%    \index{font>tracking|userman}
 %
 %    Enclose the paragraph in a \hyperref[syn:setfonttracking]{\code{setfonttracking}}~group.
 %    See \cref{sec:tracking-control}.  Increase or decrease the tracking in steps of
 %    \nativetextfraction{1}{1000}\,em until the last line looks good.
 %
-%  \item Vary font expansion.\label{enum:vary-font-expansion}\index{font>expansion}
+%  \item Vary font expansion.\label{enum:vary-font-expansion}
+%    \index{font>expansion|userman}
 %
 %    Enclose the paragraph in a \hyperref[syn:setfontexpand]{\code{setfontexpand}}~group.  See
 %    \cref{sec:font-expansion-control}.
@@ -3289,19 +3315,20 @@ end
 %
 %  \DescribeEnv{shortenpar}
 %  \DescribeEnv{prolongpar}
-%  The two environments |shortenpar|\index{paragraph>fill last line>shortenpar=\code{shortenpar}}
-%  and |prolongpar|\index{paragraph>fill last line>prolongpar=\code{prolongpar}}
+%  The two environments
+%  \code{shortenpar}\index{paragraph>fill last line>shortenpar=\code{shortenpar}|userman}
+%  and \code{prolongpar}\index{paragraph>fill last line>prolongpar=\code{prolongpar}|userman}
 %  can be employed in quite general situations when a
 %  paragraph should be typeset one line longer or shorter, e.\,g., to avoid a
 %  widow~line\footnote{The last line of a paragraph becomes a
-%  \singlequotes{widow}\index{forlorn line>widow} (ger.~\foreignphrase{Hurenkind}) if it starts
-%  the following page or column.}  or a club~line\footnote{The first line of a paragraph is
-%  called \singlequotes{club}\index{forlorn line>club}
-%  or~\singlequotes{orphan}\index{forlorn line>orphan} (ger.~\foreignphrase{Schusterjunge}) if
-%  it appears at the bottom of the page or column.}~[\citenum{knuth:1986}, p.~104
-%  and~\citenum{mittelbach:2018c}].  (See also \cref{sec:vtie-paragraph} for special functions
-%  to avoid clubs or widows.)  \singlequotes{Accidentally}, they also change the length of the
-%  last line of the paragraph.
+%  \singlequotes{widow}\detoxindex{forlorn line>widow|userman} (ger.~\foreignphrase{Hurenkind}) if it
+%  starts the following page or column.} or a club~line\footnote{The first line of a paragraph
+%  is called \singlequotes{club}\detoxindex{forlorn line>club|userman}
+%  or~\singlequotes{orphan}\detoxindex{forlorn line>orphan|userman}
+%  (ger.~\foreignphrase{Schusterjunge}) if it appears at the bottom of the page or
+%  column.}~[\citenum{knuth:1986}, p.~104 and~\citenum{mittelbach:2018c}].  (See also
+%  \cref{sec:vtie-paragraph} for special functions to avoid clubs or widows.)
+%  \singlequotes{Accidentally}, they also change the length of the last line of the paragraph.
 %
 %  \begin{synopsis}\label{syn:shortenpar}
 %    \cs{begin}|{shortenpar}|
@@ -3332,8 +3359,8 @@ end
 %  parameter change.
 %
 %  \DescribeEnv{covernextindentpar}
-%  Environment
-%  |covernextindentpar|\index{paragraph>fill last line>covernextindentpar=\code{covernextindentpar}}
+%  Environment \code{covernextindentpar}%
+%  \index{paragraph>fill last line>covernextindentpar=\code{covernextindentpar}|userman}
 %  can be helpful for \hyperref[item:o1]{case~O1}, i.\,e., a too short last line.
 %
 %  \begin{synopsis}\label{syn:covernextindentpar}
@@ -3350,8 +3377,8 @@ end
 %  (if \(\cs{parindent} = 0\)), or \meta{dim} if called with an optional argument.
 %
 %  \DescribeEnv{openlastlinepar}
-%  The next environment,
-%  |openlastlinepar|,\index{paragraph>fill last line>openlastlinepar=\code{openlastlinepar}}
+%  The next environment, \code{openlastlinepar},%
+%  \index{paragraph>fill last line>openlastlinepar=\code{openlastlinepar}|userman}
 %  takes care of \hyperref[item:o2]{case~O2}, i.\,e., a last line in a paragraph that is almost
 %  full or completely filled.
 %
@@ -3377,7 +3404,7 @@ end
 %  \needtocspace
 %  \Needspace{150pt}
 %  \subsection{Spacing}\label{sec:spacing-control}
-%  \index{font>spacing}
+%  \index{font>spacing|userman}
 %
 %  \begin{whittyquote}
 %    90\% of design is typography.  \\
@@ -3392,8 +3419,8 @@ end
 %
 %
 %  \subsubsection[Looser\kernedslash Tighter]{Looser or Tighter Spacing}\label{sec:looser-tighter-spacing}
-%  \index{font>spacing>loose}
-%  \index{font>spacing>tight}
+%  \index{font>spacing>loose|userman}
+%  \index{font>spacing>tight|userman}
 %
 %
 %  \begin{whittyquote}
@@ -3511,7 +3538,7 @@ end
 %
 %
 %  \subsubsection{Wide Space}\label{sec:wide-space}
-%  \index{wide space}
+%  \index{wide space|userman}
 %
 %  The \cs{widespace} macro and its companion \cs{narrowspace} derive their appearances from
 %  several of the current font's \cs{fontdimen}\meta{number}s.  \TeX{} addresses the latter by
@@ -3600,7 +3627,7 @@ end
 %
 %
 %  \subsubsection{Narrow Space}\label{sec:narrow-space}
-%  \index{narrow space}
+%  \index{narrow space|userman}
 %
 %  \DescribeMacro{\narrowspace}
 %  \DescribeMacro{\narrowspace*}
@@ -3681,7 +3708,7 @@ end
 %
 %
 %  \subsection{\packagename{Microtype} Front\capitalhyphen End}\label{sec:microtype-frontend}
-%  \index{microtype=\packagename{microtype} (package)}
+%  \index{microtype=\packagename{microtype} (package)|userman}
 %
 %  The functionalities are just front-ends of selected macros in
 %  package~\packagename{microtype} -- welcome syntactic sugar.
@@ -3702,7 +3729,7 @@ end
 %
 %
 %  \subsubsection{Tracking}\label{sec:tracking-control}
-%  \index{font>tracking}
+%  \index{font>tracking|userman}
 %
 %  \begin{caution}
 %    The tracking changes may interfere with implicit changes of tracking declared with
@@ -3757,7 +3784,7 @@ end
 %
 %
 %  \subsubsection{Font Expansion}\label{sec:font-expansion-control}
-%  \index{font>expansion}
+%  \index{font>expansion|userman}
 %
 %  \DescribeEnv{setfontshrink}
 %  \DescribeEnv{setfontstretch}
@@ -3915,7 +3942,7 @@ end
 %
 %
 %  \subsubsection{Character Protrusion}\label{sec:protrusion}
-%  \index{font>protrusion}
+%  \index{font>protrusion|userman}
 %
 %  \DescribeEnv{nocharprotrusion}
 %  Disable the \packagename{microtype} feature~\singlequotes{protrusion} inside of the
@@ -3934,7 +3961,7 @@ end
 %
 %
 %  \subsection{Sloppy Paragraphs}\label{sec:sloppy-paragraphs}
-%  \index{paragraph>sloppy}
+%  \index{paragraph>sloppy|userman}
 %
 %  Experienced \LaTeX{} users know that \cs{sloppy} is more of a problem by itself and not
 %  really a viable solution of the \doublequotes{overfull~box} syndrome.
@@ -4018,7 +4045,7 @@ end
 %
 %
 %  \subsection{Vertically Partially-Tied Paragraphs}\label{sec:vtie-paragraph}
-%  \index{paragraph>vertically tied}
+%  \index{paragraph>vertically tied|userman}
 %
 %  \LaTeX{} provides several macros and environments to tie material vertically~-- most
 %  prominently |samepage| and |minipage|.\footnote{A valuable complement to these is
@@ -4035,7 +4062,7 @@ end
 %
 %  \DescribeMacro{\vtietop}
 %  \DescribeEnv{vtietoppar}
-%  Avoid a club\index{forlorn line>club} line in each partial paragraph.
+%  Avoid a club\index{forlorn line>club|userman} line in each partial paragraph.
 %
 %  \begin{synopsis}\label{syn:vtietop}\label{syn:vtietoppar}
 %    \cs{vtietop}\oarg{number-of-lines}  \\[\smallskipamount]
@@ -4050,8 +4077,8 @@ end
 %
 %  \begin{usecases}
 %    String together the first paragraph right after a sectioning command.~\visualpar Tie the
-%    first line of an itemized, enumerated, or a description list\index{list} with the paragraph
-%    following~\cs{item}.
+%    first line of an itemized, enumerated, or a description list\index{list|userman} with the
+%    paragraph following~\cs{item}.
 %  \end{usecases}
 %
 %  \noindent
@@ -4107,7 +4134,7 @@ end
 %  \noindent
 %  \DescribeMacro{\vtiebot}
 %  \DescribeEnv{vtiebotpar}
-%  Avoid a widow\index{forlorn line>widow} line in each partial paragraph.
+%  Avoid a widow\index{forlorn line>widow|userman} line in each partial paragraph.
 %
 %  \begin{synopsis}\label{syn:vtiebot}\label{syn:vtiebotpar}
 %    \cs{vtiebot}\oarg{number-of-lines}  \\[\smallskipamount]
@@ -4122,7 +4149,8 @@ end
 %
 %  \noindent
 %  \DescribeEnv{vtiebotdisp}
-%  Avoid a display widow\index{forlorn line>display widow} line in each partial paragraph.
+%  Avoid a display widow\index{forlorn line>display widow|userman} line in each partial
+%  paragraph.
 %
 %  \begin{synopsis}\label{syn:vtiebotdisp}\label{syn:vtiebotdisppar}
 %    \cs{begin}|vtiebotdisp|\oarg{before-disp-number-of-lines}  \\
@@ -4272,10 +4300,10 @@ end
 %
 %
 %  \subsection{Breakable Displayed Equations}\label{sec:breakable-display}
-%  \index{page break}
+%  \index{page break|userman}
 %
 %  \DescribeEnv{breakabledisplay}
-%  Package~\packagename{amsmath}\index{amsmath=\packagename{amsmath} (package)} offers
+%  Package~\packagename{amsmath}\index{amsmath=\packagename{amsmath} (package)|userman} offers
 %  \cs{allowdisplaybreaks} to render displayed equations breakable at each of their lines.
 %  Environment~\cs{breakabledisplay} is a wrapper around it which limits the macro's influence
 %  to the environment.  Furthermore, the default \meta{level} of \code{breakabledisplay} is~3
@@ -4363,11 +4391,11 @@ end
 %  interface of \cs{setstretch} though is unintuitive as it asks for an obscure
 %  factor.\fontsizeinfo{setspacefontsizeinfo}\marginnote{In the copy of this document gets
 %  typeset with~\setspacefontsizeinfo*.}  The \LaTeX{} user however prefers to keep her eyes on
-%  the ball and set the line skip\index{baseline skip} directly (e.\,g.~12.5\,pt) or the lines'
-%  leading\index{leading} to a length or percentage of the font's size.\footnote{To find out
-%  about the current font's size and the \cs{baselineskip} in printable form check out
-%  \cref{sec:font-information} on \cpageref{sec:font-information}.}  This is where the following
-%  macros go to bat.
+%  the ball and set the line skip\index{baseline skip|userman} directly (e.\,g.~12.5\,pt) or the
+%  lines' leading\index{leading|userman} to a length or percentage of the font's
+%  size.\footnote{To find out about the current font's size and the \cs{baselineskip} in
+%  printable form check out \cref{sec:font-information} on \cpageref{sec:font-information}.}
+%  This is where the following macros go to bat.
 %
 %  \begin{important}
 %    All macros that are introduced in this section rely on macro~\cs{setstretch}.  So
@@ -4571,7 +4599,7 @@ end
 %
 %  \clearpage
 %  \subsection{Smooth Ragged}\label{sec:smooth-ragged}
-%  \index{ragged right}
+%  \index{ragged right|userman}
 %
 %  \begin{whittyquote}
 %    The attention someone gives  \\
@@ -5207,7 +5235,7 @@ end
 %
 %
 %    \clearpage
-%    \begin{RaggedRight}
+%    \begingroup
 %      \setcounter{IndexColumns}{2}
 %      \setlength{\columnsep}{30pt}
 %      \label{sec:index}
@@ -5215,8 +5243,9 @@ end
 %      \addtocontents{toc}{\medskip}
 %      \addcontentsline{toc}{section}{\numberline{}Index}
 %      \raggedcolumns
+%      \let\code=\relax
 %      \PrintIndex
-%    \end{RaggedRight}
+%    \endgroup
 %  }
 %
 %  \sectionfinish
