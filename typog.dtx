@@ -838,7 +838,7 @@ quote             '!'
 %  \DoNotIndex{\addtocounter,\addtolength,\advance,\aftergroup,\allowdisplaybreaks,\arabic,\arraystretch}
 %  \DoNotIndex{\AfterEndPreamble,\AfterPreamble,\AtBeginDocument,\autotransfer}
 %  \DoNotIndex{\baselineskip,\begin,\begingroup,\booltrue,\box}
-%  \DoNotIndex{\c,\char,\clubpenalties,\clubpenalty,\count,\cs,\csname}
+%  \DoNotIndex{\c,\char,\clist,\clubpenalties,\clubpenalty,\count,\cs,\csname}
 %  \DoNotIndex{\DeclareRobustCommand,\def,\define@choicekey,\define@key,\detokenize}
 %  \DoNotIndex{\dim,\dimen,\dimexpr,\discretionary,\displaywidowpenalties,\displaywidowpenalty}
 %  \DoNotIndex{\edef,\else,\emergencystretch,\empty,\end,\endcsname,\endgroup}
@@ -1016,7 +1016,7 @@ end
 %
 %  \unmarkedfntext{The font sample on the title page was generated with the help of \MP{} using
 %                  \doublequotes{\acronym{URW}~Palladio}%
-%                  \detoxindex{font>URW Palladio=\acronym{URW} Palladio|userman}.}
+%                  \detoxindex{font>typeface>URW Palladio=\acronym{URW} Palladio|userman}.}
 %
 %  \begin{nofontexpansion}
 %    \begin{nocharprotrusion}
@@ -1947,7 +1947,7 @@ end
 %  only letters and dashes as their arguments with spaces separating the words.
 %
 %  \index{hyphenation>first word|userman}
-%  \index{hskip=\cs{hskip}|userman}
+%  \index{hyphenation>hskip=\cs{hskip}|userman}
 %  \TeX{} never hyphenates the initial word in a paragraph and \cs{allowhyphenation} cannot help
 %  in this case.  Start the paragraph with \cs{hskip~0pt} to enable hyphenation even for the
 %  first word.
@@ -2459,37 +2459,37 @@ end
 %        \toprule
 %        Font  &  Raise  \\
 %        \midrule
-%        Alegreya\detoxindex{font>Alegreya|userman}, Arvo\detoxindex{font>Arvo|userman},
-%        Bitter\detoxindex{font>Bitter|userman}, Clara\detoxindex{font>Clara|userman},
-%        \acronym{EB}~Garamond\detoxindex{font>EB Garamond=\acronym{EB} Garamond|userman},
-%        Gentium\detoxindex{font>Gentium|userman},
-%        Ibarra Real Nova\detoxindex{font>Ibarra Real Nova|userman},
-%        \acronym{Inria}~Serif\detoxindex{font>Inria Serif=\acronym{Inria} Serif|userman},
-%        Libertine\detoxindex{font>Libertine|userman},
-%        Libertinus\detoxindex{font>Libertinus Serif|userman},
-%        Merriweather\detoxindex{font>Merriweather|userman},
-%        \acronym{PT}~Serif\detoxindex{font>PT Serif=\acronym{PT} Serif|userman},
-%        Roboto Slab\detoxindex{font>Roboto Slab|userman},
-%        Spectral\detoxindex{font>Spectral|userman},
-%        \acronym{STIX}\detoxindex{font>STIX=\acronym{STIX}|userman}, and many more  &
+%        Alegreya\detoxindex{font>typeface>Alegreya|userman}, Arvo\detoxindex{font>typeface>Arvo|userman},
+%        Bitter\detoxindex{font>typeface>Bitter|userman}, Clara\detoxindex{font>typeface>Clara|userman},
+%        \acronym{EB}~Garamond\detoxindex{font>typeface>EB Garamond=\acronym{EB} Garamond|userman},
+%        Gentium\detoxindex{font>typeface>Gentium|userman},
+%        Ibarra Real Nova\detoxindex{font>typeface>Ibarra Real Nova|userman},
+%        \acronym{Inria}~Serif\detoxindex{font>typeface>Inria Serif=\acronym{Inria} Serif|userman},
+%        Libertine\detoxindex{font>typeface>Libertine|userman},
+%        Libertinus\detoxindex{font>typeface>Libertinus Serif|userman},
+%        Merriweather\detoxindex{font>typeface>Merriweather|userman},
+%        \acronym{PT}~Serif\detoxindex{font>typeface>PT Serif=\acronym{PT} Serif|userman},
+%        Roboto Slab\detoxindex{font>typeface>Roboto Slab|userman},
+%        Spectral\detoxindex{font>typeface>Spectral|userman},
+%        \acronym{STIX}\detoxindex{font>typeface>STIX=\acronym{STIX}|userman}, and many more  &
 %        .0  \\
-%        fbb\fbbmark\detoxindex{font>fbb|userman},
-%        Source Serif Pro\detoxindex{font>Source Serif Pro|userman}  &
+%        fbb\fbbmark\detoxindex{font>typeface>fbb|userman},
+%        Source Serif Pro\detoxindex{font>typeface>Source Serif Pro|userman}  &
 %        .05  \\
-%        Libre Baskerville\detoxindex{font>Libre Baskerville|userman},
-%        Crimson Pro\detoxindex{font>Crimson Pro|userman},
-%        Erewhon\detoxindex{font>Erewhon|userman},
-%        Droid Serif\detoxindex{font>Droid Serif|userman}  &
+%        Libre Baskerville\detoxindex{font>typeface>Libre Baskerville|userman},
+%        Crimson Pro\detoxindex{font>typeface>Crimson Pro|userman},
+%        Erewhon\detoxindex{font>typeface>Erewhon|userman},
+%        Droid Serif\detoxindex{font>typeface>Droid Serif|userman}  &
 %        .0667  \\
-%        \acronym{GFS}~Artemisia\detoxindex{font>GFS Artemisia=\acronym{GFS} Artemisia|userman},
-%        Libre Caslon\detoxindex{font>Libre Caslon|userman},
-%        Coelacanth\detoxindex{font>Coelacanth|userman},
-%        Crimson Pro\detoxindex{font>Crimson Pro|userman},
-%        Crimson Text\detoxindex{font>Crimson Text|userman},
-%        \TeX{} Gyre~Pagella\detoxindex{font>TeX Gyre Pagella=\TeX{} Gyre Pagella|userman},
-%        Quattrocento\detoxindex{font>Quattrocento|userman},
-%        \acronym{TX}~Fonts\detoxindex{font>TX Fonts=\acronym{TX} Fonts|userman},
-%        \acronym{ADF}~Venturis\detoxindex{font>ADF Venturis=\acronym{ADF} Venturis|userman},
+%        \acronym{GFS}~Artemisia\detoxindex{font>typeface>GFS Artemisia=\acronym{GFS} Artemisia|userman},
+%        Libre Caslon\detoxindex{font>typeface>Libre Caslon|userman},
+%        Coelacanth\detoxindex{font>typeface>Coelacanth|userman},
+%        Crimson Pro\detoxindex{font>typeface>Crimson Pro|userman},
+%        Crimson Text\detoxindex{font>typeface>Crimson Text|userman},
+%        \TeX{} Gyre~Pagella\detoxindex{font>typeface>TeX Gyre Pagella=\TeX{} Gyre Pagella|userman},
+%        Quattrocento\detoxindex{font>typeface>Quattrocento|userman},
+%        \acronym{TX}~Fonts\detoxindex{font>typeface>TX Fonts=\acronym{TX} Fonts|userman},
+%        \acronym{ADF}~Venturis\detoxindex{font>typeface>ADF Venturis=\acronym{ADF} Venturis|userman},
 %        and many more  &
 %        .1  \\
 %        \bottomrule
@@ -2603,16 +2603,16 @@ end
 %        \toprule
 %        Font  &  Uppercase  &  Lowercase  \\
 %        \midrule
-%        \acronym{EB} Garamond\index{font>EB Garamond=\acronym{EB} Garamond|userman},
-%        Libertinus\index{font>Libertinus Serif|userman},
-%        Merriweather\index{font>Merriweather|userman}, and many more  &
+%        \acronym{EB} Garamond\detoxindex{font>typeface>EB Garamond=\acronym{EB} Garamond|userman},
+%        Libertinus\index{font>typeface>Libertinus Serif|userman},
+%        Merriweather\index{font>typeface>Merriweather|userman}, and many more  &
 %        .05~~  &  .0~~  \\
-%        Gentium\index{font>Gentium|userman}  &
+%        Gentium\index{font>typeface>Gentium|userman}  &
 %        .05~~  &  .025  \\
-%        \acronym{GFS} Artemisia\index{font>GFS Artemisia=\acronym{GFS} Artemisia|userman},
-%        \acronym{GFS} Didot\index{font>GFS Didot=\acronym{GFS} Didot|userman}  &
+%        \acronym{GFS} Artemisia\detoxindex{font>typeface>GFS Artemisia=\acronym{GFS} Artemisia|userman},
+%        \acronym{GFS} Didot\detoxindex{font>typeface>GFS Didot=\acronym{GFS} Didot|userman}  &
 %        .0625  &  .05~  \\
-%        \acronym{ADF} Baskervald\index{font>ADF Baskervald=\acronym{ADF} Baskervald|userman}  &
+%        \acronym{ADF} Baskervald\index{font>typeface>ADF Baskervald=\acronym{ADF} Baskervald|userman}  &
 %        .0667  &  .04~  \\
 %        \bottomrule
 %      \end{tabular}
@@ -2946,64 +2946,64 @@ end
 %          \mc{1}  &  \mc{2}  &  \mc{3}  &  \mc{4}  &
 %          \mc{1}  &  \mc{2}  &  \mc{3}  &  \mc{4}  \\
 %        \midrule
-%          \acronym{ADF} Accanthis\detoxindex{font>ADF Venturis=\acronym{ADF} Accanthis|userman}  &
+%          \acronym{ADF} Accanthis\detoxindex{font>typeface>ADF Venturis=\acronym{ADF} Accanthis|userman}  &
 %          .5~~  &  1.5~~  &  \textminus1.5~~  &  1.125  &
 %          \textminus.75~  &  .25~  &  \textminus2.75~  &  \textminus.125  \\
-%          \acronym{ADF} Venturis\detoxindex{font>ADF Venturis=\acronym{ADF} Venturis|userman}  &
+%          \acronym{ADF} Venturis\detoxindex{font>typeface>ADF Venturis=\acronym{ADF} Venturis|userman}  &
 %          .0~~  &  1.0~~  &  .75~  &  1.0~~  &
 %          \textminus.75~  &  .0~~  &  \textminus.25~  &  .0~~  \\
-%          \acronym{CM} Roman\detoxindex{font>CM Roman=\acronym{CM} Roman|userman}  &
+%          \acronym{CM} Roman\detoxindex{font>typeface>CM Roman=\acronym{CM} Roman|userman}  &
 %          1.0~~  & .75~  &  1.0~~  &  1.0~~  &
 %          \textminus.25~  &  \textminus.5~~  &  \textminus.25~  &  \textminus.25~  \\
-%          Domitian\detoxindex{font>Domitian|userman}  &
+%          Domitian\detoxindex{font>typeface>Domitian|userman}  &
 %          .25~  &  1.0~~  &  .75~  &  1.0~~  &
 %          \textminus1.0~~  &  .0~~  &  \textminus.325  &  \textminus.25~  \\
-%          Cochineal\detoxindex{font>Cochineal|userman}  &
+%          Cochineal\detoxindex{font>typeface>Cochineal|userman}  &
 %          1.0~~  &  1.0~~  &  1.0~~  &  1.0~~  &
 %          \textminus.125  &  \textminus.125  &  \textminus.125  &  \textminus.125  \\
-%          \acronym{EB} Garamond\detoxindex{font>EB Garamond=\acronym{EB} Garamond|userman}  &
+%          \acronym{EB} Garamond\detoxindex{font>typeface>EB Garamond=\acronym{EB} Garamond|userman}  &
 %          .0~~  &  1.25~  &  \textminus.875  &  1.325  &
 %          \textminus1.5~~  &  .0~~  &  \textminus2.0~~  &  0.125  \\
-%          etbb\etbbmark\detoxindex{font>etbb|userman}  &
+%          etbb\etbbmark\detoxindex{font>typeface>etbb|userman}  &
 %          .25~  &  1.0~~  &  1.125  &  .5~~  &
 %          \textminus1.0~~  &  \textminus.0~~  &  \textminus.0~~  &  \textminus.5~~  \\
-%          Extended Charter\xchartermark\detoxindex{font>Extended Charter|userman}  &
+%          Extended Charter\xchartermark\detoxindex{font>typeface>Extended Charter|userman}  &
 %          \textminus.25~  &  1.0~~  &  1.75  &  .125  &
 %          \textminus1.125  &  .0~~  &  .875  & \textminus.875  \\
-%          Gentium\detoxindex{font>Gentium|userman}  &
+%          Gentium\detoxindex{font>typeface>Gentium|userman}  &
 %          .0~~  &  .75~  &  .0~~  &  .0~~  &
 %          \textminus.5~~  &  \textminus.25~  &  \textminus.75~  &  \textminus1.0~~  \\
-%          \acronym{GFS} Bodoni\detoxindex{font>GFS Bodoni=\acronym{GFS} Bodoni|userman}  &
+%          \acronym{GFS} Bodoni\detoxindex{font>typeface>GFS Bodoni=\acronym{GFS} Bodoni|userman}  &
 %          \textminus.25~  &  .625  &  1.0~~  &  1.125  &
 %          \textminus1.25~  &  \textminus.625  &  \textminus.5~~  &  \textminus.25~  \\
-%          \acronym{GFS} Didot\detoxindex{font>GFS Didot=\acronym{GFS} Didot|userman}  &
+%          \acronym{GFS} Didot\detoxindex{font>typeface>GFS Didot=\acronym{GFS} Didot|userman}  &
 %          \textminus1.5~~  &  .75~  &  1.0~~  &  1.25~  &
 %          \textminus2.75~  &  \textminus.25~  &  \textminus.25~  &  .25~  \\
-%          \acronym{IBM} Plex Serif\detoxindex{font>IBM Plex Serif=\acronym{IBM} Plex Serif|userman}  &
+%          \acronym{IBM} Plex Serif\detoxindex{font>typeface>IBM Plex Serif=\acronym{IBM} Plex Serif|userman}  &
 %          .5~~  &  .5~~  &  \textminus1.325  &  .5~~  &
 %          \textminus.25~  &  \textminus.25~  &  \textminus2.25~  &  \textminus.25~  \\
-%          \acronym{KP} Serif\kpmark\detoxindex{font>KP Serif=\acronym{KP} Serif|userman}  &
+%          \acronym{KP} Serif\kpmark\detoxindex{font>typeface>KP Serif=\acronym{KP} Serif|userman}  &
 %          .0~~  &  1.0~~  &  1.25~  &  .75~  &
 %          \textminus1.0~~  &  .0~~  &  .0~~  &  \textminus.5~~  \\
-%          Libertinus Serif\detoxindex{font>Libertinus Serif|userman}  &
+%          Libertinus Serif\detoxindex{font>typeface>Libertinus Serif|userman}  &
 %          1.0~~  &  .75~  &  1.125  &  .75~  &
 %          .0~~  &  \textminus.325  &  .0~~  &  \textminus.25~  \\
-%          \acronym{ML} Modern\detoxindex{font>ML Modern=\acronym{ML} Modern|userman}  &
+%          \acronym{ML} Modern\detoxindex{font>typeface>ML Modern=\acronym{ML} Modern|userman}  &
 %          1.25~  &  .75~  &  1.0~~  &  .125  &
 %          .0~~  &  \textminus.5~~  &  \textminus.25~  &  \textminus.125  \\
-%          Source Serif Pro\detoxindex{font>Source Serif Pro|userman}  &
+%          Source Serif Pro\detoxindex{font>typeface>Source Serif Pro|userman}  &
 %          .125  &  .75~  &  \textminus1.0~~  &  .125  &
 %          \textminus.75~  &  .0~~  &  \textminus2.0~~  &  \textminus.75~  \\
-%          Spectral\detoxindex{font>Spectral|userman}  &
+%          Spectral\detoxindex{font>typeface>Spectral|userman}  &
 %          .625  &  .625  &  \textminus1.5~~  &  .625  &
 %          \textminus.25~  &  \textminus.25~  &  \textminus2.5~~  &  \textminus.25~  \\
-%          \acronym{STIX}\detoxindex{font>STIX=\acronym{STIX}|userman}  &
+%          \acronym{STIX}\detoxindex{font>typeface>STIX=\acronym{STIX}|userman}  &
 %          1.0~~  &  1.0~~  &  .75~  &  1.0~~  &
 %          .0~~  &  .0~~  &  .0~~  &  .0~~  \\
-%          \acronym{URW} Palladio\palladiomark\detoxindex{font>URW Palladio=\acronym{URW} Palladio|userman}  &
+%          \acronym{URW} Palladio\palladiomark\detoxindex{font>typeface>URW Palladio=\acronym{URW} Palladio|userman}  &
 %          .25~  &  1.125  &  1.0~~  &  1.0~~  &
 %          \textminus1.0~~  &  \textminus.125  &  \textminus.125  &  \textminus.125  \\
-%          Utopia Regular\utopiamark\detoxindex{font>Utopia Regular|userman}  &
+%          Utopia Regular\utopiamark\detoxindex{font>typeface>Utopia Regular|userman}  &
 %          .0~~  &  1.0~~  &  .75~  &  1.0~~  &
 %          \textminus.75~  &  .0~~  &  \textminus.25~  &  .0~~  \\
 %        \bottomrule
