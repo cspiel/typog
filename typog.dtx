@@ -773,6 +773,7 @@
   set-leading
   set-leading-percentage
   short-inter-text
+  shrink-limits
   single-guillemet-left
   single-guillemet-right
   single-quotes
@@ -786,6 +787,7 @@
   smooth-ragged-right-shape-septuplet
   smooth-ragged-right-shape-triplet
   space-skip
+  stretch-limits
   text-italics-correction
   tight-spacing
   tracing-boxes
@@ -1427,6 +1429,29 @@ end
 %    The latter only is useful inside of an \code{itemize}~environment of course.  Compare with
 %    the solution in \cref{sec:adjust-label-items} offered by \packagename{typog} since v0.4.
 %  \end{usecase}
+%
+%  \DescribeMacro{\typoggetnth}
+%  \sinceversion{Since v0.4}
+%  If a configuration item is associated with a list as
+%  \hyperref[item:lowercaselabelitemadjustments]{\code{lowercaselabelitemadjustments}},
+%  \hyperref[item:shrinklimits]{\code{shrinklimits}},
+%  \hyperref[item:stretchlimits]{\code{stretchlimits}},
+%  \hyperref[item:trackingttspacing]{\code{trackingttspacing}}, and
+%  \hyperref[item:uppercaselabelitemadjustments]{\code{uppercaselabelitemadjustments}} are it
+%  may be convenient to fetch a particular value of it.
+%
+%  \begin{synopsis}\label{syn:typoggetnth}
+%     \cs{typoggetnth}\marg{key}\marg{index}
+%  \end{synopsis}
+%
+%  Retrieve the configuration value --~which is a comma-separated list~-- that is associated
+%  with~\meta{key} and return the item having the position~\meta{index}.  Index into the list
+%  either from left-to-right with positive indices starting at~\(1\) up to the length of the
+%  list, or from right-to-left with negative indices starting at~\(-1\) down to the negative
+%  length.
+%
+%  Macro~\cs{typoggetnth} \emph{only} works with \meta{key}s that are associated with a list of
+%  values.
 %
 %
 %  \subsection{Information}\label{sec:information}
@@ -5844,6 +5869,46 @@ end
 %    \end{macrocode}
 %  \end{macro}
 %
+%  \begin{macro}{\typoggetnth}
+%    \changes{v0.4}{2024-05-15}{New macro.}
+%    Access the \(n\)\textsuperscript{th} element of a list-like configuration item's value.
+%    The indexing either starts at~\(1\) and goes up to \(n\),
+%    or at \(-1\) and then goes down to \(-n\).
+%    We catch all out-of-bounds errors.
+%
+%    \begin{macrocode}
+\ExplSyntaxOn
+\NewDocumentCommand{\typoggetnth}{m m}
+  {
+    \clist_set:Nx \l_tmpa_clist
+      {\csname typog@config@#1\endcsname}
+    \typog@typeout {typoggetnth...}
+    \clist_log:N \l_tmpa_clist
+
+    \int_set:Nn \l_tmpa_int {#2}
+    \int_set:Nn \l_tmpb_int {\clist_count:N \l_tmpa_clist}
+    \int_compare:nT {\l_tmpa_int = 0}
+      {\PackageError {typog}
+                     {Index\space equal\space to\space zero}
+                     {Use\space a\space nonzero\space index.}}
+    \int_compare:nT {\l_tmpa_int > \l_tmpb_int}
+      {\PackageError {typog}
+                     {Index\space out\space of\space range}
+                     {Range\space is\space 1..\l_tmpb_int.\space
+                       Index\space is\space \l_tmpa_int.}}
+    \int_compare:nT {\l_tmpa_int < -\l_tmpb_int}
+      {\PackageError {typog}
+                     {Index\space out\space of\space range}
+                     {Range\space is\space -\l_tmpb_int..-1.\space
+                       Index\space is\space \l_tmpa_int.}}
+
+    \clist_item:Nn {\l_tmpa_clist} {\l_tmpa_int}
+  }
+\ExplSyntaxOff
+
+%    \end{macrocode}
+%  \end{macro}
+%
 %
 %  \subsection{Information}
 %
@@ -8536,6 +8601,7 @@ end
 \usepackage[activate=true, verbose=true]{microtype}
 \usepackage{ragged2e}
 \usepackage[nobottomtitles*]{titlesec}\renewcommand*{\bottomtitlespace}{.2\textheight}
+\usepackage{trace}
 \usepackage[debug,
   trackingttspacing,
   uppercaselabelitemadjustments={0pt, .1em, .15em, .1em},
@@ -8893,10 +8959,15 @@ Unless otherwise noted the font used in the examples is \singlequotes{\examplefo
 
 \section{Setup and Reconfiguration}
 
+\noindent
+\code{\char`\\ typogget}
+
 \begin{list}{}{}
 \newcommand*{\expandsto}{$\mathbin{\mapsto}$}
-\item \code{breakpenalty} \expandsto{} \the\typogget{breakpenalty}
-\item \code{ligaturekern} \expandsto{} \milliem{\typogget{ligaturekern}}
+\item {\expandafter\penalty\typogget{breakpenalty}}%
+  \code{breakpenalty} \expandsto{} \the\typogget{breakpenalty}
+\item {\raisebox{\typogget{ligaturekern}}{}}%
+  \code{ligaturekern} \expandsto{} \milliem{\typogget{ligaturekern}}
 \item \code{lowercaselabelitemadjustments} \expandsto{} \typogget{lowercaselabelitemadjustments}
 \item \code{mathitalicscorrection} \expandsto{} \the\typogget{mathitalicscorrection}
 \item \code{raisecapitaldash} \expandsto{} \the\typogget{raisecapitaldash}
@@ -8912,6 +8983,39 @@ Unless otherwise noted the font used in the examples is \singlequotes{\examplefo
 \item \code{trackingttspacing} \expandsto{} \typogget{trackingttspacing}
 \item \code{uppercaselabelitemadjustments} \expandsto{} \typogget{uppercaselabelitemadjustments}
 \end{list}
+
+\noindent
+\code{\char`\\ typoggetnth}
+
+\begin{list}{}{}
+\item Elements of \code{lowercaselabelitemadjustments}:
+  (1) \typoggetnth{lowercaselabelitemadjustments}{1},
+  (2) \typoggetnth{lowercaselabelitemadjustments}{2},
+  (3) \typoggetnth{lowercaselabelitemadjustments}{3}, and
+  (4) \typoggetnth{lowercaselabelitemadjustments}{4}.
+
+\item Elements of \code{shrinklimits}:
+  (1) \typoggetnth{shrinklimits}{1},
+  (2) \typoggetnth{shrinklimits}{2}, and
+  (3) \typoggetnth{shrinklimits}{3}.
+
+\item Elements of \code{stretchlimits}:
+  (1) \typoggetnth{stretchlimits}{1},
+  (2) \typoggetnth{stretchlimits}{2}, and
+  (3) \typoggetnth{stretchlimits}{3}.
+
+\item Elements of \code{trackingttspacing}:
+  (1) \typoggetnth{trackingttspacing}{1},
+  (2) \typoggetnth{trackingttspacing}{2}, and
+  (3) \typoggetnth{trackingttspacing}{3}.
+
+\item Elements of \code{uppercaselabelitemadjustments}:
+  (1) \typoggetnth{uppercaselabelitemadjustments}{1},
+  (2) \typoggetnth{uppercaselabelitemadjustments}{2},
+  (3) \typoggetnth{uppercaselabelitemadjustments}{3}, and
+  (4) \typoggetnth{uppercaselabelitemadjustments}{4}.
+\end{list}
+
 
 \section{Information}
 
