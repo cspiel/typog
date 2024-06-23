@@ -394,6 +394,14 @@
 \renewcommand*{\fps@table}{htbp}
 \makeatother
 
+\apptocmd{\GlossaryParms}
+         {\RaggedRight\normalsize}
+         {\relax}
+         {\AppendingFailed}
+
+\let\oldhdpindex=\hdpindex
+\renewcommand*{\hdpindex}[2]{\textbf{\oldhdpindex{#1}{#2}}}
+
 \let\oldhdclindex=\hdclindex
 \renewcommand*{\hdclindex}[2]
               {\ifstrequal{#2}{code}
@@ -471,6 +479,22 @@
                \else
                  \nativetextfraction{\the\numexpr\dimexpr (#1) * 1000 / \emreference}{1000}\:em%
                \fi}
+
+\let\originalmulticols=\multicols
+\let\endoriginalmulticols=\endmulticols
+\RenewDocumentEnvironment{multicols}{m o o}
+                         {\ifnum #1=1
+                            \IfNoValueTF{#2}{\relax}{#2}%
+                          \else
+                            \IfNoValueTF{#2}
+                                        {\originalmulticols{#1}}
+                                        {\originalmulticols{#1}[#2]}%
+                          \fi}
+                         {\ifnum #1=1
+                            \relax
+                          \else
+                            \endoriginalmulticols
+                          \fi}
 
 \newcommand*{\needtocspace}[1][3]
             {\addtocontents{toc}{\protect\needspace{#1\baselineskip}}}
@@ -637,6 +661,10 @@
 \newcommand*{\termparbox}[1]{\parbox[t]{\linewidth}{#1\bottomstrut}}
 
 \newcommand*{\thousandsseparator}{\mbox{,}}
+
+\ExplSyntaxOn
+\newcommand*{\titlecase}[1]{\text_titlecase:n {#1}}
+\ExplSyntaxOff
 
 \newcommand*{\toccontinuesonnextpage}
             {\addtocontents{toc}{\par
@@ -830,6 +858,23 @@ level             '>'
 line_max          65536
 quote             '!'
 %</index-style>
+%<*changes-style>
+actual            '='
+delim_0           "\\nobreak\\enspace"
+delim_1           "\\nobreak\\enspace"
+delim_2           "\\nobreak\\enspace"
+heading_prefix    "\\pagebreak[3]\\smallskip\n\n{\\sffamily\\bfseries\\large "
+heading_suffix    "}\\nopagebreak\n"
+headings_flag     0
+item_x1           "\\efill\n\\subitem "
+item_x2           "\\ "
+keyword           "\\glossaryentry"
+level             '>'
+line_max          65536
+postamble         "\n\\end{theglossary}\n"
+preamble          "\\begin{theglossary}\n  \\makeatletter\\scan@allowedfalse"
+quote             '!'
+%</changes-style>
 %  \fi
 %
 %
@@ -1533,9 +1578,8 @@ end
 %
 %  \begin{caution}
 %    The end-of-trace marker sometimes gets placed too early and the trace seems truncated.
-%    \LaTeX{} reliably logs the requested the trace information, but the write operations for
-%    trace data and \cs{immediate}\cs{write} which is used to print the end-tag are not
-%    synchronized.
+%    \LaTeX{} reliably logs the requested trace information, but the write operations for trace
+%    data and \cs{immediate}\cs{write} which is used to print the end-tag are not synchronized.
 %  \end{caution}
 %
 %
@@ -5029,11 +5073,15 @@ end
 %
 %    \sectionfinish
 %    \clearpage
-%    \phantomsection
-%    \resetfancyhead
-%    \addtocontents{toc}{\bigskip}
-%    \addcontentsline{toc}{section}{\numberline{}Change History}
-%    \PrintChanges
+%    \begingroup
+%      \setcounter{GlossaryColumns}{1}
+%      \phantomsection
+%      \label{sec:changes}
+%      \resetfancyhead
+%      \addtocontents{toc}{\bigskip}
+%      \addcontentsline{toc}{section}{\numberline{}Change History}
+%      \PrintChanges
+%    \endgroup
 %
 %    \sectionfinish
 %    \clearpage
@@ -10475,8 +10523,8 @@ Document class ``minimal'' sets up font size and line spacing as~\typoinfo.
 /@menu/,/@end menu/d
 
 ##  Convert sectioning macros to our own hierarchy.
-s/^@chapter \(.*\)$/\\subsection{\\textls[40]{\1}\\label{\1}}/
-s/^@section \(.*\)$/\\subsubsection{\1}\\label{\1}/
+s/^@chapter \(.*\)$/\\subsection{\\titlecase{\1}\\label{\1}}/
+s/^@section \(.*\)$/\\subsubsection{\\titlecase{\1}}\\label{\1}/
 
 ##  Make `@asis' list resemble the Texinfo format.
 s/@table @asis/\\begin{list}{}{\\itemindent=-20pt\\leftmargin=20pt}/

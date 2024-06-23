@@ -271,7 +271,7 @@ define MAKE_INDEX_AND_GLOSSARY
 sed -e '/@/d' -e 's/{\\ttfamily /{\\ttfamily\\hskip0pt\\relax /' < $*.idx  > ,$*.idx;  \
 mv ,$*.idx $*.idx;  \
 $(MAKEINDEX) $(MAKEINDEX_FLAGS) -s typog.ist -t $*.ilg -o $*.ind $*.idx;  \
-$(MAKEINDEX) $(MAKEINDEX_FLAGS) -s gglo.ist -t $*.glg -o $*.gls $*.glo
+$(MAKEINDEX) $(MAKEINDEX_FLAGS) -s typog.gst -t $*.glg -o $*.gls $*.glo
 endef
 
 define GREP_LATEX_WARNINGS
