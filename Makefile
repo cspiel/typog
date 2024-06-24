@@ -7,7 +7,8 @@
 SHELL := /bin/sh
 
 
-LATEX := /usr/bin/env max_print_line=2147483647 pdflatex
+LATEX_PROPER := pdflatex
+LATEX := /usr/bin/env max_print_line=2147483647 $(LATEX_PROPER)
 LATEX_FLAGS := -file-line-error -halt-on-error -interaction=nonstopmode
 LATEX_RERUN_TRIGGER := '^Package rerunfilecheck Warning: File [^ ]* has changed'
 LATEX_WARNING := '^LaTeX (|[A-Za-z0-9_]* )Warning:'
@@ -59,17 +60,6 @@ GROFF := groff
 GROFF_FLAGS := -Tpdf -dpaper=a4 -fP -man -wall
 
 
-SPELLCHECK := aspell
-SPELLCHECK_FLAGS :=  \
-    --add-tex-command='citenum p'  --add-tex-command='code p'  \
-    --add-tex-command='Cref p' --add-tex-command='cref p'  \
-    --add-tex-command='cs p'  \
-    --add-tex-command='DescribeEnv p' --add-tex-command='DescribeMacro p'  \
-    --add-tex-command='marg p' --add-tex-command='meta p'  \
-    --add-tex-command='oarg p'  \
-    --lang=en_US --mode=tex
-
-
 PROJECT_NAME := typog
 SOURCE_FILES := LICENSE Makefile typog.dtx typog.ins
 DOCUMENTATION_FILES := typog-example.pdf typog-grep.1.pdf typog.pdf
@@ -108,39 +98,52 @@ bin: typog-grep
 man: typog-grep.1
 
 
-.PHONY: cpio
-cpio:
-	cd ..;  \
-        print $(addprefix $(notdir $(PWD))/,$(SOURCE_FILES))  |  \
-            cpio -o  |  \
-            gzip  > "$(PROJECT_NAME)-$$(date +%Y-%m-%dT%H:%M:%S).cpio.gz"
+export TEMPORARY_DIRECTORY
 
 
-.PHONY: tar
-tar:
-	cd ..;  \
-        tar czf "$(PROJECT_NAME)-$$(date +%Y-%m-%dT%H:%M:%S).tar.gz"  \
-            $(addprefix $(notdir $(PWD))/,$(SOURCE_FILES))
+.PHONY: dist
+dist:
+	$(eval TEMPORARY_DIRECTORY := $(shell mktemp -d))
+	trap '$(RM) -r $(TEMPORARY_DIRECTORY); exit 1' HUP INT QUIT TERM;  $(MAKE) __dist
+	$(RM) -r $(TEMPORARY_DIRECTORY)
 
 
-.PHONY: package
-package: $(DOCUMENTATION_FILES)
-	mkdir $(PROJECT_NAME)
-	cp $(SOURCE_FILES) $(PROJECT_NAME)
-	mkdir $(PROJECT_NAME)/docs
-	cp $(DOCUMENTATION_FILES) $(PROJECT_NAME)/docs
-	tar czf ../$(PROJECT_NAME).tar.gz $(PROJECT_NAME)
-	$(RM) -r $(PROJECT_NAME)
+.PHONY: __dist
+__dist: LATEX_FLAGS += -interaction=batchmode
+__dist: $(DOCUMENTATION_FILES)
+	test -d '$(TEMPORARY_DIRECTORY)'
+	test -w '$(TEMPORARY_DIRECTORY)'
+	mkdir $(TEMPORARY_DIRECTORY)/$(PROJECT_NAME)
+	cp $(SOURCE_FILES) $(TEMPORARY_DIRECTORY)/$(PROJECT_NAME)
+	mkdir $(TEMPORARY_DIRECTORY)/$(PROJECT_NAME)/docs
+	cp $(DOCUMENTATION_FILES) $(TEMPORARY_DIRECTORY)/$(PROJECT_NAME)/docs
+	tar czf $(PROJECT_NAME).tar.gz -C $(TEMPORARY_DIRECTORY) $(PROJECT_NAME)
+
+
+.PHONY: distcheck
+distcheck: LATEX_FLAGS += -interaction=batchmode
+distcheck: dist
+	$(eval TEMPORARY_DIRECTORY := $(shell mktemp -d))
+	test -d '$(TEMPORARY_DIRECTORY)'
+	test -w '$(TEMPORARY_DIRECTORY)'
+	tar xzf $(PROJECT_NAME).tar.gz -C $(TEMPORARY_DIRECTORY)
+	$(MAKE)  \
+            --directory=$(TEMPORARY_DIRECTORY)/$(PROJECT_NAME)  \
+            LATEX_FLAGS='$(LATEX_FLAGS) -interaction=batchmode' \
+            all
+	$(RM) -r $(TEMPORARY_DIRECTORY)
+	@printf '\n\ndistcheck passed.\n'
 
 
 .PHONY: clean
 clean:
-	$(RM) ./*.1 ./*.aux ./*.brf ./*.glg ./*.glo ./*.gls
+	$(RM) ./*.1 ./*.aux ./*.brf ./*.dvi ./*.glg ./*.glo ./*.gls
 	$(RM) ./*.hd ./*.idx ./*.ilg ./*.ind ./*.info ./*.loe ./*.lof ./*.log ./*.lot
 	$(RM) ./*.mps ./*.mpx ./*.out ./*.pdf ./*.pl.in ./*.toc
 	$(RM) mptextmp.* mpxerr.tex
 	$(RM) README README.html RELEASE-HOWTO RELEASE-HOWTO.html
-	$(RM) typog-grep.version.sed
+	$(RM) typog-grep typog-grep.version.sed
+	$(RM) $(PROJECT_NAME).tar.gz
 
 
 .PHONY: mostlyclean
@@ -150,32 +153,22 @@ mostlyclean: clean
 
 .PHONY: maintainer-clean
 maintainer-clean: mostlyclean
-	$(RM) ./*.ist ./*.mp ./*.pl ./*.pod ./*.sed ./*.sty ./*.tex
+	$(RM) ./*.gst ./*.ist ./*.mp ./*.pl ./*.pod ./*.sed ./*.sty ./*.tex
 
 
 .PHONY: tool-check
 tool-check:
-	@printf '***  LATEX = "%s"\n' '$(LATEX)'
-	$(LATEX) --version
+	@printf '***  LATEX_PROPER = "%s"\n' '$(LATEX_PROPER)'
+	$(LATEX_PROPER) --version
 	@printf '\n\n***  MAKEINDEX = "%s"\n' '$(MAKEINDEX)'
-	$(MAKEINDEX) < /dev/null
+	$(MAKEINDEX)  < /dev/null
 	@printf '\n\n***  METAPOST = "%s"\n' '$(METAPOST)'
 	$(METAPOST) --version
 	@printf '\n***  POD2MAN = "%s"\n' '$(POD2MAN)'
 	$(POD2MAN) --help > /dev/null
 	@printf '\n\n***  POD2TEXI = "%s"\n' '$(POD2TEXI)'
 	$(POD2TEXI) --version
-	@printf '\n\nTool check passed.\n'
-
-
-.PHONY: spell-check
-spell-check:
-	@sed -e '\#<DISABLE-SPELL-CHECK/>#d'  \
-             -e '\#<DISABLE-SPELL-CHECK>#,\#</DISABLE-SPELL-CHECK>#d'  < typog.dtx  |  \
-	    sed -e 's/^ *%%*//'  |  \
-	    sed -e 's/\\-//g' -e 's/|[^|]*|/ /g'  |  \
-	    $(SPELLCHECK) $(SPELLCHECK_FLAGS) list  |  \
-	    sort  |  uniq  |  fmt  |  sed -e 's/ /  /g'
+	@printf '\n\ntool check passed.\n'
 
 
 .PHONY: update-docs
@@ -192,9 +185,12 @@ bin:    Build typog-grep (which is not a binary, but executable).
 
 clean:  Remove some products.
 
-cpio:   In the parent directory create a cpio(1) archive of the
-        project source files whose name is time-stamped.  Intended for
-        quick snapshots.
+dist:   Create a tar file of the project source files and the PDF
+        documentation files.  The archive is in the form and has a
+        name that CTAN prefers.
+
+distcheck: Create a tar file of the project source files, unpack it in
+        a different location and build all targets.
 
 doc:    Build "typog.pdf" the Typog documentation.
 
@@ -205,18 +201,10 @@ maintainer-clean: Remove every product file that can be rebuilt even
 
 mostlyclean: Remove some more products than clean:.
 
-package: In the parent directory create a tar(1) file of the project
-        source files and the PDF documentation files.  This archive
-        is in the form and has a name that CTAN prefers.
-
 pdf:    Build doc: and gauge:.
 
 sty:    Only extract "typog.sty" from "typog.dtx".  This
         operation requires LaTeX (-> $(LATEX)) and nothing else.
-
-tar:    In the parent directory create a tar(1) file of the project
-        source files whose name is time-stamped.  Intended for
-        quick snapshots.
 
 test:   Run some tests.
 
@@ -268,10 +256,10 @@ help:
 
 
 define MAKE_INDEX_AND_GLOSSARY
-sed -e '/@/d' -e 's/{\\ttfamily /{\\ttfamily\\hskip0pt\\relax /' < $*.idx  > ,$*.idx;  \
+sed -e '/@/d' -e 's/{\\ttfamily /{\\ttfamily\\hskip0pt\\relax /'  < $*.idx  > ,$*.idx;  \
 mv ,$*.idx $*.idx;  \
-$(MAKEINDEX) $(MAKEINDEX_FLAGS) -s typog.ist -t $*.ilg -o $*.ind $*.idx;  \
-$(MAKEINDEX) $(MAKEINDEX_FLAGS) -s typog.gst -t $*.glg -o $*.gls $*.glo
+$(MAKEINDEX) $(MAKEINDEX_FLAGS) -s $*.ist -t $*.ilg -o $*.ind $*.idx;  \
+$(MAKEINDEX) $(MAKEINDEX_FLAGS) -s $*.gst -t $*.glg -o $*.gls $*.glo
 endef
 
 define GREP_LATEX_WARNINGS
@@ -366,7 +354,7 @@ typog-grep.pl: typog-grep.pl.in typog.sty
           < typog.sty  \
           > typog-grep.version.sed
 	sed -f typog-grep.version.sed  < $<  > $@
-	chmod 755 typog-grep.pl
+	chmod 755 $@
 
 typog-grep: typog-grep.pl
 	ln -sf $< $@
