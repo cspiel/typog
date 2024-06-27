@@ -8646,7 +8646,7 @@ end
 \usepackage{fullwidth}
 \usepackage{hyphenat}
 \usepackage{mathtools}
-\usepackage[activate=true, verbose=true]{microtype}
+\usepackage[activate=true, verbose=false]{microtype}
 \usepackage{ragged2e}
 \usepackage[nobottomtitles*]{titlesec}\renewcommand*{\bottomtitlespace}{.2\textheight}
 \usepackage{trace}
@@ -9011,11 +9011,9 @@ Unless otherwise noted the font used in the examples is \singlequotes{\examplefo
 \code{\char`\\ typogget}
 
 \begin{list}{}{}
-\newcommand*{\expandsto}{$\mathbin{\mapsto}$}
-\item {\expandafter\penalty\typogget{breakpenalty}}%
-  \code{breakpenalty} \expandsto{} \the\typogget{breakpenalty}
-\item {\raisebox{\typogget{ligaturekern}}{}}%
-  \code{ligaturekern} \expandsto{} \milliem{\typogget{ligaturekern}}
+  \newcommand*{\expandsto}{$\mathbin{\mapsto}$}
+\item \code{breakpenalty} \expandsto{} \the\typogget{breakpenalty}
+\item \code{ligaturekern} \expandsto{} \milliem{\typogget{ligaturekern}}
 \item \code{lowercaselabelitemadjustments} \expandsto{} \typogget{lowercaselabelitemadjustments}
 \item \code{mathitalicscorrection} \expandsto{} \the\typogget{mathitalicscorrection}
 \item \code{raisecapitaldash} \expandsto{} \the\typogget{raisecapitaldash}
@@ -9032,36 +9030,49 @@ Unless otherwise noted the font used in the examples is \singlequotes{\examplefo
 \item \code{uppercaselabelitemadjustments} \expandsto{} \typogget{uppercaselabelitemadjustments}
 \end{list}
 
+\begingroup
+  \edef\foobar{\typogget{raisecapitaldash}}\dimen0=\foobar
+  \dimen0=\typogget{raisecapitaldash}%
+  \setbox0=\hbox to \typogget{ligaturekern} {}%
+\endgroup
+
 \noindent
 \code{\char`\\ typoggetnth}
 
 \begin{list}{}{}
-\item Elements of \code{lowercaselabelitemadjustments}:
-  (1) \typoggetnth{lowercaselabelitemadjustments}{1},
-  (2) \typoggetnth{lowercaselabelitemadjustments}{2},
-  (3) \typoggetnth{lowercaselabelitemadjustments}{3}, and
-  (4) \typoggetnth{lowercaselabelitemadjustments}{4}.
+\item
+  Elements of \code{lowercaselabelitemadjustments}:
+  (1)~\typoggetnth{lowercaselabelitemadjustments}{1},
+  (2)~\typoggetnth{lowercaselabelitemadjustments}{2},
+  (3)~\typoggetnth{lowercaselabelitemadjustments}{3}, and
+  (4)~\typoggetnth{lowercaselabelitemadjustments}{4}.
+
+  Same elements now accessed from the right-hand-side, i.\,e.~with negative indices:
+  (\textminus4)~\typoggetnth{lowercaselabelitemadjustments}{-4},
+  (\textminus3)~\typoggetnth{lowercaselabelitemadjustments}{-3},
+  (\textminus2)~\typoggetnth{lowercaselabelitemadjustments}{-2}, and
+  (\textminus1)~\typoggetnth{lowercaselabelitemadjustments}{-1}.
 
 \item Elements of \code{shrinklimits}:
-  (1) \typoggetnth{shrinklimits}{1},
-  (2) \typoggetnth{shrinklimits}{2}, and
-  (3) \typoggetnth{shrinklimits}{3}.
+  (1)~\typoggetnth{shrinklimits}{1},
+  (2)~\typoggetnth{shrinklimits}{2}, and
+  (3)~\typoggetnth{shrinklimits}{3}.
 
 \item Elements of \code{stretchlimits}:
-  (1) \typoggetnth{stretchlimits}{1},
-  (2) \typoggetnth{stretchlimits}{2}, and
-  (3) \typoggetnth{stretchlimits}{3}.
+  (1)~\typoggetnth{stretchlimits}{1},
+  (2)~\typoggetnth{stretchlimits}{2}, and
+  (3)~\typoggetnth{stretchlimits}{3}.
 
 \item Elements of \code{trackingttspacing}:
-  (1) \typoggetnth{trackingttspacing}{1},
-  (2) \typoggetnth{trackingttspacing}{2}, and
-  (3) \typoggetnth{trackingttspacing}{3}.
+  (1)~\typoggetnth{trackingttspacing}{1},
+  (2)~\typoggetnth{trackingttspacing}{2}, and
+  (3)~\typoggetnth{trackingttspacing}{3}.
 
 \item Elements of \code{uppercaselabelitemadjustments}:
-  (1) \typoggetnth{uppercaselabelitemadjustments}{1},
-  (2) \typoggetnth{uppercaselabelitemadjustments}{2},
-  (3) \typoggetnth{uppercaselabelitemadjustments}{3}, and
-  (4) \typoggetnth{uppercaselabelitemadjustments}{4}.
+  (1)~\typoggetnth{uppercaselabelitemadjustments}{1},
+  (2)~\typoggetnth{uppercaselabelitemadjustments}{2},
+  (3)~\typoggetnth{uppercaselabelitemadjustments}{3}, and
+  (4)~\typoggetnth{uppercaselabelitemadjustments}{4}.
 \end{list}
 
 
