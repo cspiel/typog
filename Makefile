@@ -9,7 +9,7 @@ SHELL := /bin/sh
 
 LATEX_PROPER := pdflatex
 LATEX := /usr/bin/env max_print_line=2147483647 $(LATEX_PROPER)
-LATEX_FLAGS := -file-line-error -halt-on-error -interaction=nonstopmode
+LATEX_FLAGS := -file-line-error -halt-on-error -interaction=nonstopmode -output-directory=.
 LATEX_RERUN_TRIGGER := '^Package rerunfilecheck Warning: File [^ ]* has changed'
 LATEX_WARNING := '^LaTeX (|[A-Za-z0-9_]* )Warning:'
 
