@@ -41,6 +41,7 @@
 \usepackage{fullwidth}
 \usepackage{hypdoc}
 \usepackage{hyphenat}
+\usepackage{layout}
 \usepackage[kerning=true, shrink=10, stretch=10, verbose=true]{microtype}
 \usepackage{multirow}
 \usepackage{needspace}
@@ -414,10 +415,10 @@
              \framebox{\rule{#1}{0pt}\rule{0pt}{#2}}}
 \newcommand*{\hollowsquare}[1]{\hollowrectangle{#1}{#1}}
 
-\pretocmd{\IndexParms}
-         {\RaggedRight}
+\apptocmd{\IndexParms}
+         {\RaggedRight\small}
          {\relax}
-         {\PrependingFailed}
+         {\AppendingFailed}
 
 \makeatletter
 \ExplSyntaxOn
@@ -1482,21 +1483,28 @@ end
 %  \hyperref[item:shrinklimits]{\code{shrinklimits}},
 %  \hyperref[item:stretchlimits]{\code{stretchlimits}},
 %  \hyperref[item:trackingttspacing]{\code{trackingttspacing}}, and
-%  \hyperref[item:uppercaselabelitemadjustments]{\code{uppercaselabelitemadjustments}} are it
-%  may be convenient to fetch a particular value of it.
+%  \hyperref[item:uppercaselabelitemadjustments]{\code{uppercaselabelitemadjustments}} are, it
+%  may be convenient to fetch a particular list element of it.
 %
 %  \begin{synopsis}\label{syn:typoggetnth}
-%     \cs{typoggetnth}\marg{key}\marg{index}
+%     \cs{typoggetnth}\marg{csname}\marg{key}\marg{index}  \\
+%     \cs{typoggetnth}\marg{dimen-register}\marg{key}\marg{index}
 %  \end{synopsis}
 %
 %  Retrieve the configuration value --~which is a comma-separated list~-- that is associated
-%  with~\meta{key} and return the item having the position~\meta{index}.  Index into the list
-%  either from left-to-right with positive indices starting at~\(1\) up to the length of the
-%  list, or from right-to-left with negative indices starting at~\(-1\) down to the negative
-%  length.
+%  with~\meta{key} and store the item having position~\meta{index} in \meta{dimen-register} or
+%  the parameter-less, global macro~\meta{csname}.  The destination \meta{dimen-register} may be
+%  predefined like, e.\,g., \cs{dimen0} or user-defined.  Dimensions can also be stored in a
+%  macro by using the \meta{csname}~form of \cs{typoggetnth} but not \foreignphrase{vice versa}.
 %
-%  Macro~\cs{typoggetnth} \emph{only} works with \meta{key}s that are associated with a list of
-%  values.
+%  Index into the list either from left-to-right with positive indices starting at~\(1\) up to
+%  the length of the list, or from right-to-left with negative indices starting at~\(-1\) down
+%  to the negative length.
+%
+%  \begin{note}
+%    Macro~\cs{typoggetnth} \emph{only} works with \meta{key}s that are associated with a list
+%    of values.
+%  \end{note}
 %
 %
 %  \subsection{Information}\label{sec:information}
@@ -5337,6 +5345,7 @@ end
 %      \def\main##1{\linenumberdecoration\underbar{\textbf{##1}}}
 %      \def\usage##1{\textit{\textbf{##1}}}
 %      \PrintIndex
+%      \layout
 %    \endgroup
 %  }
 %
@@ -5919,39 +5928,31 @@ end
 %
 %  \begin{macro}{\typoggetnth}
 %    \changes{v0.4}{2024-05-15}{New macro.}
-%    Access the \(n\)\textsuperscript{th} element of a list-like configuration item's value.
-%    The indexing either starts at~\(1\) and goes up to \(n\),
-%    or at \(-1\) and then goes down to \(-n\).
-%    We catch all out-of-bounds errors.
+%    Access the \(n\)\textsuperscript{th} element of a comma-separated, list-like configuration
+%    item's value.
 %
 %    \begin{macrocode}
 \ExplSyntaxOn
-\NewDocumentCommand{\typoggetnth}{m m}
+\cs_generate_variant:Nn \seq_set_split:Nnn {Nne}
+\cs_new:Npn \typog_get_nth_csname:cnn #1#2#3
   {
-    \clist_set:Nx \l_tmpa_clist
-      {\csname typog@config@#1\endcsname}
-    \typog@typeout {typoggetnth...}
-    \clist_log:N \l_tmpa_clist
-
-    \int_set:Nn \l_tmpa_int {#2}
-    \int_set:Nn \l_tmpb_int {\clist_count:N \l_tmpa_clist}
-    \int_compare:nT {\l_tmpa_int = 0}
-      {\PackageError {typog}
-                     {Index\space equal\space to\space zero}
-                     {Use\space a\space nonzero\space index.}}
-    \int_compare:nT {\l_tmpa_int > \l_tmpb_int}
-      {\PackageError {typog}
-                     {Index\space out\space of\space range}
-                     {Range\space is\space 1..\l_tmpb_int.\space
-                       Index\space is\space \l_tmpa_int.}}
-    \int_compare:nT {\l_tmpa_int < -\l_tmpb_int}
-      {\PackageError {typog}
-                     {Index\space out\space of\space range}
-                     {Range\space is\space -\l_tmpb_int..-1.\space
-                       Index\space is\space \l_tmpa_int.}}
-
-    \clist_item:Nn {\l_tmpa_clist} {\l_tmpa_int}
+    \seq_set_split:Nne \l_tmpa_seq {,} {\cs:w typog@config@#2 \cs_end:}
+    \cs_gset:cpn {#1} {\seq_item:Nn \l_tmpa_seq {#3}}
   }
+\cs_new:Npn \typog_get_nth_dimen:nnn #1#2#3
+  {
+    \seq_set_split:Nne \l_tmpa_seq {,} {\cs:w typog@config@#2 \cs_end:}
+    \dim_set:Nn {#1} {\seq_item:Nn \l_tmpa_seq {#3}}
+  }
+\NewDocumentCommand{\typoggetnth}{m m m}{
+  \token_if_dim_register:NTF {#1}
+    {
+      \typog_get_nth_dimen:nnn {#1} {#2} {#3}
+    }
+    {
+      \typog_get_nth_csname:cnn {#1} {#2} {#3}
+    }
+}
 \ExplSyntaxOff
 
 %    \end{macrocode}
@@ -9031,7 +9032,6 @@ Unless otherwise noted the font used in the examples is \singlequotes{\examplefo
 \end{list}
 
 \begingroup
-  \edef\foobar{\typogget{raisecapitaldash}}\dimen0=\foobar
   \dimen0=\typogget{raisecapitaldash}%
   \setbox0=\hbox to \typogget{ligaturekern} {}%
 \endgroup
@@ -9042,37 +9042,37 @@ Unless otherwise noted the font used in the examples is \singlequotes{\examplefo
 \begin{list}{}{}
 \item
   Elements of \code{lowercaselabelitemadjustments}:
-  (1)~\typoggetnth{lowercaselabelitemadjustments}{1},
-  (2)~\typoggetnth{lowercaselabelitemadjustments}{2},
-  (3)~\typoggetnth{lowercaselabelitemadjustments}{3}, and
-  (4)~\typoggetnth{lowercaselabelitemadjustments}{4}.
+  (1)~\typoggetnth{\dimen0}{lowercaselabelitemadjustments}{1}\the\dimen0,
+  (2)~\typoggetnth{\dimen0}{lowercaselabelitemadjustments}{2}\the\dimen0,
+  (3)~\typoggetnth{\dimen0}{lowercaselabelitemadjustments}{3}\the\dimen0, and
+  (4)~\typoggetnth{\dimen0}{lowercaselabelitemadjustments}{4}\the\dimen0.
 
   Same elements now accessed from the right-hand-side, i.\,e.~with negative indices:
-  (\textminus4)~\typoggetnth{lowercaselabelitemadjustments}{-4},
-  (\textminus3)~\typoggetnth{lowercaselabelitemadjustments}{-3},
-  (\textminus2)~\typoggetnth{lowercaselabelitemadjustments}{-2}, and
-  (\textminus1)~\typoggetnth{lowercaselabelitemadjustments}{-1}.
+  (\textminus4)~\typoggetnth{nth}{lowercaselabelitemadjustments}{-4}\nth,
+  (\textminus3)~\typoggetnth{nth}{lowercaselabelitemadjustments}{-3}\nth,
+  (\textminus2)~\typoggetnth{nth}{lowercaselabelitemadjustments}{-2}\nth, and
+  (\textminus1)~\typoggetnth{nth}{lowercaselabelitemadjustments}{-1}\nth.
 
 \item Elements of \code{shrinklimits}:
-  (1)~\typoggetnth{shrinklimits}{1},
-  (2)~\typoggetnth{shrinklimits}{2}, and
-  (3)~\typoggetnth{shrinklimits}{3}.
+  (1)~\typoggetnth{nth}{shrinklimits}{1}\nth,
+  (2)~\typoggetnth{nth}{shrinklimits}{2}\nth, and
+  (3)~\typoggetnth{nth}{shrinklimits}{3}\nth.
 
 \item Elements of \code{stretchlimits}:
-  (1)~\typoggetnth{stretchlimits}{1},
-  (2)~\typoggetnth{stretchlimits}{2}, and
-  (3)~\typoggetnth{stretchlimits}{3}.
+  (1)~\typoggetnth{nth}{stretchlimits}{1}\nth,
+  (2)~\typoggetnth{nth}{stretchlimits}{2}\nth, and
+  (3)~\typoggetnth{nth}{stretchlimits}{3}\nth.
 
 \item Elements of \code{trackingttspacing}:
-  (1)~\typoggetnth{trackingttspacing}{1},
-  (2)~\typoggetnth{trackingttspacing}{2}, and
-  (3)~\typoggetnth{trackingttspacing}{3}.
+  (1)~\typoggetnth{nth}{trackingttspacing}{1}\nth,
+  (2)~\typoggetnth{nth}{trackingttspacing}{2}\nth, and
+  (3)~\typoggetnth{nth}{trackingttspacing}{3}\nth.
 
 \item Elements of \code{uppercaselabelitemadjustments}:
-  (1)~\typoggetnth{uppercaselabelitemadjustments}{1},
-  (2)~\typoggetnth{uppercaselabelitemadjustments}{2},
-  (3)~\typoggetnth{uppercaselabelitemadjustments}{3}, and
-  (4)~\typoggetnth{uppercaselabelitemadjustments}{4}.
+  (1)~\typoggetnth{\dimen0}{uppercaselabelitemadjustments}{1}\the\dimen0,
+  (2)~\typoggetnth{\dimen0}{uppercaselabelitemadjustments}{2}\the\dimen0,
+  (3)~\typoggetnth{\dimen0}{uppercaselabelitemadjustments}{3}\the\dimen0, and
+  (4)~\typoggetnth{\dimen0}{uppercaselabelitemadjustments}{4}\the\dimen0.
 \end{list}
 
 
