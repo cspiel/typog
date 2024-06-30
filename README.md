@@ -1,3 +1,6 @@
+![distcheck status](https://github.com/cspiel/typog/actions/workflows/distcheck.yml/badge.svg)
+
+
 #  TypoG &ndash; Typographic Fine-Tuning for LaTeX
 
 LaTeX package `typog` provides macros for (micro-)typographic enhancements;
