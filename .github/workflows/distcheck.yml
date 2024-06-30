@@ -16,10 +16,10 @@ jobs:
         with:
           package_file: .github/texlive-packages
 
-      - name: Install GNU Make
+      - name: Install Extra Tools
         run: |
           sudo apt-get update &&
-          sudo apt-get install make
+          sudo apt-get install groff make
 
       - name: Run Tool Check
         run: make tool-check
