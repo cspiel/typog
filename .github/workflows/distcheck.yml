@@ -1,0 +1,31 @@
+name: Distribution Check
+
+run-name: distcheck
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install TeX Live
+        uses: zauguin/install-texlive@v3
+        with:
+          package_file: .github/texlive-packages
+
+      - name: Install GNU Make
+        run: |
+          sudo apt-get update &&
+          sudo apt-get install make
+
+      - name: Run Tool Check
+        run: make tool-check
+
+      - name: Make `all` Target
+        run: make all
+
+      - name: Make `distcheck` Target
+        run: make distcheck
