@@ -160,6 +160,8 @@ maintainer-clean: mostlyclean
 tool-check:
 	@printf '***  LATEX_PROPER = "%s"\n' '$(LATEX_PROPER)'
 	$(LATEX_PROPER) --version
+	@printf '\n\n***  BibTeX\n'
+	bibtex --version
 	@printf '\n\n***  MAKEINDEX = "%s"\n' '$(MAKEINDEX)'
 	$(MAKEINDEX)  < /dev/null
 	@printf '\n\n***  METAPOST = "%s"\n' '$(METAPOST)'
@@ -292,7 +294,13 @@ endef
 
 
 %-1.mps %-2.mps %-3.mps %-4.mps: %.mp
-	$(METAPOST) -s 'outputtemplate="%j-%c.mps"' $(METAPOST_FLAGS) $<
+	$(METAPOST) -s 'outputtemplate="%j-%c.mps"' $(METAPOST_FLAGS) $<  ||  {  \
+            printf '===  $*.log  ===\n';  \
+            cat $*.log;  \
+            printf '\n\n===  mpxerr.log  ===\n';  \
+            cat mpxerr.log;  \
+            false;  \
+        }  1>&2
 
 
 %.1: %.pod
