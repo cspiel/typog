@@ -8665,49 +8665,42 @@ end
 
 
 \def\xsfdefault{\relax}
-{
-  \def\examplefont{6}
 
-  \ifcase\examplefont % 0  --  document's default sans-serif font (e.g., ecrm1000)
-    \gdef\examplefontname{default}
-    \global\let\xsf=\sf
-    \global\let\xsfdefault=\sfdefault
-  \or % 1  --  Nunito
-    \gdef\examplefontname{Nunito}
-    \usepackage{nunito}
-    \xdef\xsfdefault{\rmdefault}
-    \gdef\xsf{\let\sfdefault=\xsfdefault\sf}
-  \or % 2  --  OpenSans
-    \gdef\examplefontname{OpenSans}
-    \usepackage[defaultsans]{opensans}
-    \xdef\xsfdefault{\sfdefault}
-    \gdef\xsf{\let\sfdefault=\xsfdefault\sf}
-  \or % 3  --  Noto Sans
-    \gdef\examplefontname{OpenSans}
-    \usepackage[sfdefault]{noto}
-    \xdef\xsfdefault{\sfdefault}
-    \gdef\xsf{\let\sfdefault=\xsfdefault\sf}
-  \or % 4  --  Roboto
-    \gdef\examplefontname{Roboto}
-    \usepackage[sfdefault]{roboto}
-    \xdef\xsfdefault{\sfdefault}
-    \gdef\xsf{\let\sfdefault=\xsfdefault\sf}
-  \or % 5  --  Montserrat
-    \gdef\examplefontname{Montserrat Alternate}
-    \usepackage[alternates]{montserrat}
-    \xdef\xsfdefault{\sfdefault}
-    \gdef\xsf{\let\sfdefault=\xsfdefault\sf}
-  \or % 6  --  Inter
-    \gdef\examplefontname{Inter}
-    \usepackage[sfdefault]{inter}
-    \xdef\xsfdefault{\sfdefault}
-    \gdef\xsf{\let\sfdefault=\xsfdefault\sf}
-  \else
-    \SelectedUnknownExampleFont
-  \fi
+\def\examplefont{6}
 
-  \typeout{typog-example: font for examples: `\xsfdefault'}%
-}
+\ifcase\examplefont % 0  --  document's default sans-serif font (e.g., ecrm1000)
+  \def\examplefontname{default}
+  \let\xsf=\sf
+  \let\xsfdefault=\sfdefault
+\or % 1  --  Nunito
+  \def\examplefontname{Nunito}
+  \def\xsfdefault{Nunito-TOsF}
+  \def\xsf{\let\sfdefault=\xsfdefault\sf}
+\or % 2  --  OpenSans
+  \def\examplefontname{OpenSans}
+  \def\xsfdefault{opensans-TLF}
+  \def\xsf{\let\sfdefault=\xsfdefault\sf}
+\or % 3  --  Noto Sans
+  \def\examplefontname{Noto Sans}
+  \def\xsfdefault{NotoSans-TLF}
+  \def\xsf{\let\sfdefault=\xsfdefault\sf}
+\or % 4  --  Roboto
+  \def\examplefontname{Roboto}
+  \def\xsfdefault{Roboto-LF}
+  \def\xsf{\let\sfdefault=\xsfdefault\sf}
+\or % 5  --  Montserrat
+  \def\examplefontname{Montserrat Alternates}
+  \def\xsfdefault{MontserratAlternates-LF}
+  \def\xsf{\let\sfdefault=\xsfdefault\sf}
+\or % 6  --  Inter
+  \def\examplefontname{Inter}
+  \def\xsfdefault{Inter-LF}
+  \def\xsf{\let\sfdefault=\xsfdefault\sf}
+\else
+  \SelectedUnknownExampleFont
+\fi
+
+\typeout{typog-example: font for examples: `\xsfdefault'}%
 
 
 \usepackage{hyperref}
