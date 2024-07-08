@@ -25,7 +25,9 @@ jobs:
         run: make tool-check
 
       - name: Make `all` Target
-        run: make all
+        run: |
+          make maintainer-clean &&
+          make all
 
       - name: Make `distcheck` Target
         run: make distcheck
