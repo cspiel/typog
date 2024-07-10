@@ -36,6 +36,10 @@
 
    ```make update-docs```
 
+   and create the tarballs for [CTAN](https://ctan.org/):
+
+   ```make dist```
+
 1. Undo the `\overfullrule` change.
 
 1. Commit the changes:

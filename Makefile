@@ -61,7 +61,7 @@ GROFF_FLAGS := -Tpdf -dpaper=a4 -fP -man -wall
 
 
 PROJECT_NAME := typog
-SOURCE_FILES := LICENSE Makefile typog.dtx typog.ins
+SOURCE_FILES := LICENSE Makefile README.md typog.dtx typog.ins
 DOCUMENTATION_FILES := typog-example.pdf typog-grep.1.pdf typog.pdf
 
 
@@ -127,10 +127,7 @@ distcheck: dist
 	test -d '$(TEMPORARY_DIRECTORY)'
 	test -w '$(TEMPORARY_DIRECTORY)'
 	tar xzf $(PROJECT_NAME).tar.gz -C $(TEMPORARY_DIRECTORY)
-	$(MAKE)  \
-            --directory=$(TEMPORARY_DIRECTORY)/$(PROJECT_NAME)  \
-            LATEX_FLAGS='$(LATEX_FLAGS) -interaction=batchmode' \
-            all
+	$(MAKE) --directory=$(TEMPORARY_DIRECTORY)/$(PROJECT_NAME) LATEX_FLAGS='$(LATEX_FLAGS)' all
 	$(RM) -r $(TEMPORARY_DIRECTORY)
 	@printf '\n\ndistcheck passed.\n'
 
