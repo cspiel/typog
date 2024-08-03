@@ -38,7 +38,6 @@
 \usepackage{etoolbox}%--\tracingpatches
 \usepackage{fancyhdr}
 \usepackage[T1]{fontenc}
-\usepackage{fullwidth}
 \usepackage{hypdoc}
 \usepackage{hyphenat}
 \usepackage[kerning=true, shrink=10, stretch=10, verbose=true]{microtype}
@@ -49,7 +48,7 @@
 \usepackage{setspace}
 \usepackage{sidecap}
 \usepackage{tabularx}
-\usepackage{tcolorbox}
+\usepackage[most]{tcolorbox}
 \usepackage{titlesec}\renewcommand*{\bottomtitlespace}{.15\textheight}%nobottomtitles*
 \usepackage[debug, raise*=.05em,
   uppercaselabelitemadjustments={.0125em, .075em, -.1em, .0125em},
@@ -462,11 +461,14 @@
                                   \hbox{\parbox{\dimexpr\marginparwidth - \marginparsep}
                                                {\marginnoteformat #1}}}}
 
-\newenvironment*{maxipage}
-                {\fullwidthsetup{leftmargin=-\marginparsep - \marginparwidth,
-                                 width=\textwidth + \marginparsep + \marginparwidth}%
-                 \begin{fullwidth}}
-                {\end{fullwidth}}
+\newenvironment*{widebody}
+                {\begin{list}{}{\leftmargin=-\marginparwidth
+                                \listparindent=\parindent
+                                \parsep=\parskip
+                                \rightmargin=0pt
+                                \topsep=0pt}
+                 \item\relax}
+                {\end{list}}
 
 \newcommand*{\microtyperequiredmarker}
             {\mbox{\normalfont\packagename{microtype}~req.}}
@@ -597,8 +599,10 @@
 \newcommand*{\specialcodesectionheading}[1]{\textcolor{\markercolor}{\textbf{\textit{#1}}}}
 \newenvironment*{specialcodesection}[1]
                 {\Needspace{4\baselineskip}%
-                 \begin{tcolorbox}[colback=white, colframe=\markercolor,
-                                   bottomrule=.5pt, leftrule=5pt, rightrule=.5pt, toprule=.5pt]
+                 \begin{tcolorbox}[blanker,
+                                   borderline west={3pt}{0pt}{\markercolor},
+                                   breakable,
+                                   left=15pt]
                  \sf\typogsetupsf
                  \begin{list}
                        {\specialcodesectionheading{#1}}
@@ -611,6 +615,7 @@
                  \item
                  \nointerlineskip
                  \leavevmode\par
+                 \slightlysloppy[2]
                  \noindent}
                 {\end{list}
                  \end{tcolorbox}}
@@ -697,14 +702,14 @@
                 {\end{flushright}}
 
 \newenvironment*{widecodeexample}
-                {\begin{maxipage}
+                {\begin{widebody}
                  \flushright
                  \begin{minipage}{\textwidth}
                  \ttfamily
                  \begin{tabbing}}
                 {\end{tabbing}
                  \end{minipage}
-                 \end{maxipage}}
+                 \end{widebody}}
 
 \NewDocElement[macrolike = true,
                idxtype = dim.,
@@ -733,6 +738,74 @@
                printtype = \textit{counter}]
               {TeXCounter}{tcounter}
 \pretocmd{\DescribeTeXCounter}{\needspace{25pt}}{\relax}{\PrependingFailed}
+
+
+\NewMarkClass{QuickReference}
+\newdimen\qrcolumnwidth
+\newcommand*{\qrcolumns}{2}
+\newcommand*{\qrlistparam}{\itemindent=-\leftmargin
+                           \itemsep=5pt plus 2pt minus 1pt}
+
+\newenvironment*{quickreference}
+                {\newcommand*{\sigbrk}
+                             {\discretionary{\hbox{\raise .025em \hbox{$\triangleright$}}}
+                                            {\hbox{\raise .025em \hbox{$\triangleleft$}}}
+                                            {}}
+                 \newcommand*{\horizontalcolumnseparator}
+                             {\rule{\dimexpr \qrcolumnwidth * (\qrcolumns - 1) + \columnsep * (\qrcolumns - 2)}{.5pt}}%
+                 \newcommand*{\suspendseparator}
+                             {\noindent\horizontalcolumnseparator\rule{.5pt}{7pt}}
+                 \newcommand*{\resumeseparator}
+                             {\hfill\rule[-7pt]{.5pt}{7pt}\horizontalcolumnseparator}
+                 \setlength{\columnsep}{25pt}%
+                 \setbaselineskippercentage{120}%
+                 \NewDocumentEnvironment{qritem}{m m O{}}
+                                        {\item
+                                         \vtietop[2]
+                                         \hyperref[##1]{\textnormal{##2}}##3\relax
+                                         \edef\qrpageref{\pageref{##1}}%
+                                         \InsertMark{QuickReference}{##2}%
+                                         \leavevmode
+                                         \linebreak
+                                         \ignorespaces}
+                                        {\leavevmode
+                                         \unskip
+                                         \penalty9999\hbox{}\nobreak
+                                         \hfill\quad
+                                         \mbox{\footnotesize\textbf{\qrpageref}}}%
+                 \newcommand*{\suspendmulticols}
+                             {\end{list}%
+                              \end{multicols}%
+                              \suspendseparator
+                              \begin{list}{}{\qrlistparam}}%
+                 \newcommand*{\resumemulticols}
+                             {\end{list}%
+                              \resumeseparator
+                              \begin{multicols}{\qrcolumns}
+                              \raggedcolumns
+                              \RaggedRight
+                              \begin{list}{}{\qrlistparam}}%
+                 \begin{multicols}{\qrcolumns}
+                   \global\qrcolumnwidth=\columnwidth
+                   \raggedcolumns
+                   \RaggedRight
+                   \begin{list}{}{\qrlistparam}}
+                {\end{list}
+                 \end{multicols}}
+
+\makeatletter
+\newcommand*{\ps@fancyqr}
+            {\def\@oddhead{\begingroup
+                             \sf
+                             \kern-\marginparwidth
+                             {\scshape Quick Reference}\hfill
+                             \textnormal{\FirstMark{QuickReference}}\enspace---\enspace
+                             \textnormal{\LastMark{QuickReference}}%
+                           \endgroup
+                           \hfill
+                           \thepage}
+             \let\@evenhead=\@oddhead}
+\makeatother
 
 
 \hyphenation{% https://hyphenateit.com/en-us
@@ -1085,8 +1158,419 @@ end
 %
 %
 %  \clearpage
-%  \pagenumbering{arabic}
+%  \phantomsection
+%  \addcontentsline{toc}{section}{\numberline{}Quick Reference}
+%  \addtocontents{toc}{\medskip}
+%  \section*{Quick Reference}
+%
+%  \marginnote{We reduce the line spacing in the multi-column parts to 120\% with
+%  \hyperref[syn:setbaselineskippercentage]{\cs{set\-base\-line\-skip\-per\-cent\-age}}~.\visualpar
+%  List \cs{item}s get tied with \hyperref[syn:vtietop]{\cs{vtietop}}.}  This is an
+%  alphabetically sorted list of all user macros and environments defined by
+%  package~\packagename{typog} along with the page numbers of their respective descriptions.  A
+%  list of all package options can be found on page~\pageref{sec:package-options}
+%  and~\pageref{secend:package-options}.  The \hyperref[sec:index]{Index} on
+%  pages~\pageref{sec:index} to~\pageref{secend:index} may provide some more detailed insights.
+%
+%  If a line-break occurs between described command and its arguments or between any of the
+%  arguments we indicate the break with triangle at the end of the initial line and at the
+%  beginning of the following line.
+%
+%  \begin{widebody}
+%    \begin{quickreference}
+%      \qritem{syn:allowhyphenation}{\cs{allow\-hyphenation}}
+%        (Re-)enable automatic hyphenation.
+%      \endqritem
+%
+%      \qritem{syn:breakabledisplay}{\code{breakable\-display}}[\sigbrk\oarg{level}]
+%        Adjust penalty associated with \cs{allowdisplaybreaks}.
+%      \endqritem
+%
+%      \qritem{syn:breakpoint}{\cs{breakpoint*}}
+%        Insert an empty discretionary.
+%      \endqritem
+%
+%      \qritem{syn:breakpoint}{\cs{breakpoint}}
+%        Insert an empty discretionary and re-enable automatic hyphenation.
+%      \endqritem
+%
+%      \qritem{syn:capitaldash}{\cs{capitaldash*}}
+%        Typeset a vertically adjusted \cs{textendash}.
+%        Alias for \cs{capitalendash*}.
+%      \endqritem
+%
+%      \qritem{syn:capitaldash}{\cs{capitaldash}}
+%        Typeset a vertically adjusted \cs{textendash} that is hyphenatable.
+%        Alias for \cs{capitalendash}.
+%      \endqritem
+%
+%      \qritem{syn:capitalemdash}{\cs{capitalemdash*}}
+%        Typeset a vertically adjusted \cs{textemdash}.
+%      \endqritem
+%
+%      \qritem{syn:capitalemdash}{\cs{capitalemdash}}
+%        Typeset a vertically adjusted \cs{textemdash} that is hyphenatable.
+%      \endqritem
+%
+%      \qritem{syn:capitalendash}{\cs{capitalendash*}}
+%        Typeset a vertically adjusted \cs{textendash}.
+%      \endqritem
+%
+%      \qritem{syn:capitalendash}{\cs{capitalendash}}
+%        Typeset a vertically adjusted \cs{textendash} that is hyphenatable.
+%      \endqritem
+%
+%      \qritem{syn:capitalhyphen}{\cs{capitalhyphen*}}
+%        Typeset a vertically adjusted hyphen character.
+%      \endqritem
+%
+%      \qritem{syn:capitalhyphen}{\cs{capitalhyphen}}
+%        Typeset a vertically adjusted hyphen character that is hyphenatable.
+%      \endqritem
+%
+%      \qritem{syn:capitaltimes}{\cs{capitaltimes}}
+%        Typeset a vertically adjusted \cs{texttimes}.
+%      \endqritem
+%
+%      \qritem{syn:covernextindentpar}{\code{cover\-next\-indent\-par}}[\sigbrk\oarg{dim}]
+%        Extend the last line of a paragraph.
+%      \endqritem
+%
+%      \qritem{syn:Doubleguillemetleft}{\cs{Double\-guillemet\-left}}
+%        Typeset left double guillemets vertically adjusted for uppercase.
+%      \endqritem
+%
+%      \qritem{syn:Doubleguillemetright}{\cs{Double\-guillemet\-right}}
+%        Typeset right double guillemets vertically adjusted for uppercase.
+%      \endqritem
+%
+%      \qritem{syn:doubleguillemetleft}{\cs{double\-guillemet\-left}}
+%        Typeset left double guillemets vertically adjusted for lowercase.
+%      \endqritem
+%
+%      \qritem{syn:doubleguillemetright}{\cs{double\-guillemet\-right}}
+%        Typeset right double guillemets vertically adjusted for lowercase.
+%      \endqritem
+%
+%      \qritem{syn:figuredash}{\cs{figuredash*}}
+%        Typeset a \cs{textendash} vertically adjusted for figures (numerals).
+%      \endqritem
+%
+%      \qritem{syn:figuredash}{\cs{figuredash}}
+%        Typeset a hyphenatable \cs{textendash} vertically adjusted for figures (numerals).
+%      \endqritem
+%
+%      \qritem{syn:fontsizeinfo}{\cs{fontsize\-info}}[\sigbrk\marg{cs-name}]
+%        Store the current em-heigh and \cs{baselineskip} in a pair of macros.
+%      \endqritem
+%
+%      \qritem{syn:hyphenmin}{\code{hyphenmin}}[\sigbrk\oarg{left-min}\sigbrk\marg{right-min}]
+%        Set the values of \cs{lefthyphenmin} and \cs{righthyphenmin}.
+%      \endqritem
+%
+%      \qritem{syn:itcorr}{\cs{itcorr*}}[\sigbrk\marg{strength}]
+%        Apply italic correction in the for of a \cs{kern} scaled by
+%      \code{textitalicscorrection}.
+%      \endqritem
+%
+%      \qritem{syn:itcorr}{\cs{itcorr}}[\sigbrk\marg{strength}]
+%        Apply italic correction in the for of a \cs{kern} scaled by
+%      \cs{fontdim1} or \code{textitalicscorrection}.
+%      \endqritem
+%
+%      \qritem{syn:kernedhyphen}{\cs{kernedhyphen*}}
+%             [\sigbrk\oarg{raise}\sigbrk\marg{left-kern}\sigbrk\marg{right-kern}]
+%        Typeset an unbreakable hyphen and apply kerning to its left and right.
+%      \endqritem
+%
+%      \qritem{syn:kernedhyphen}{\cs{kernedhyphen}}
+%             [\sigbrk\oarg{raise}\sigbrk\marg{left-kern}\sigbrk\marg{right-kern}]
+%        Typeset a breakable hyphen and apply kerning to its left and right.
+%      \endqritem
+%
+%      \qritem{syn:kernedslash}{\cs{kernedslash*}}
+%        Typeset an unbreakable forward slash and apply kerning to its left and right.
+%      \endqritem
+%
+%      \qritem{syn:kernedslash}{\cs{kernedslash}}
+%        Typeset an breakable forward slash and apply kerning to its left and right.
+%      \endqritem
+%
+%      \qritem{syn:lastlinecenteredpar}{\code{last\-line\-centered\-par}}
+%        Center the last lines of a paragraph.
+%      \endqritem
+%
+%      \qritem{syn:lastlineflushrightpar}{\code{last\-line\-flush\-right\-par}}
+%        Align the last line of a paragraph flush-right.
+%        Alias for \code{lastlineraggedleftpar}.
+%      \endqritem
+%
+%      \qritem{syn:lastlineraggedleftpar}{\code{last\-line\-ragged\-left\-par}}
+%        Align the last line of paragraph flush-right.
+%      \endqritem
+%
+%      \qritem{syn:leftkernedhyphen}{\cs{left\-kerned\-hyphen*}}
+%             [\sigbrk\oarg{raise}\sigbrk\marg{left-kern}]
+%        Typeset a hyphen and apply kerning to its left-hand side.
+%      \endqritem
+%
+%      \qritem{syn:leftkernedhyphen}{\cs{left\-kerned\-hyphen}}
+%             [\sigbrk\oarg{raise}\sigbrk\marg{left-kern}]
+%        Typeset a hyphen, apply kerning to its left-hand side, and insert a breakpoint after
+%        it.
+%      \endqritem
+%
+%      \qritem{syn:loosespacing}{\code{loose\-spacing}}[\sigbrk\oarg{level}]
+%        Increase the width of the space character.
+%      \endqritem
+%
+%      \qritem{syn:lowercaseadjustlabelitems}{\cs{lowercase\-adjust\-label\-items}}
+%             [\sigbrk\marg{levels}]
+%        Activate the lowercase height-adjustment values inside \code{itemize}~environments.
+%      \endqritem
+%
+%      \qritem{syn:narrowspace}{\cs{narrowspace*}}
+%        Typeset a narrow space whose width depends on \cs{fontdimen7}.
+%      \endqritem
+%
+%      \qritem{syn:narrowspace}{\cs{narrowspace}}
+%        Typeset a narrow space whose width depends on \cs{fontdimen7} or \cs{fontdimen2}.
+%      \endqritem
+%
+%      \qritem{syn:noadjustlabelitems}{\cs{no\-adjust\-label\-items}}
+%             [\sigbrk\marg{levels}]
+%        Deactivate eight-adjustment of label items.
+%      \endqritem
+%
+%      \qritem{syn:nocharprotrusion}{\code{nocharprotrusion}}
+%        Deactivate character protrusion.
+%      \endqritem
+%
+%      \qritem{syn:nofontexpansion}{\code{nofontexpand}}
+%        Deactivate font expansion.
+%      Alias for \code{nofontexpansion}.
+%      \endqritem
+%
+%      \qritem{syn:nofontexpansion}{\code{nofontexpansion}}
+%        Deactivate font expansion.
+%      \endqritem
+%
+%      \qritem{syn:nolig}{\cs{nolig*}}[\oarg{kerning}]
+%        Break a ligature.
+%      \endqritem
+%
+%      \qritem{syn:nolig}{\cs{nolig}}[\oarg{kerning}]
+%        Break a ligature and introduce a hyphenation opportunity.
+%      \endqritem
+%
+%      \qritem{syn:openlastlinepar}{\code{openlastlinepar}}[\sigbrk\oarg{dim}]
+%        Open a paragraph's last line if it is almost full or completely filled.
+%      \endqritem
+%
+%      \qritem{syn:prolongpar}{\code{prolongpar}}
+%        Increase the \cs{looseness} of a paragraph.
+%      \endqritem
+%
+%      \qritem{syn:resetbaselineskip}{\cs{reset\-baseline\-skip}}
+%        Reset the \cs{baselineskip} to its original value.
+%      \endqritem
+%
+%      \qritem{syn:rightkernedhyphen}{\cs{right\-kerned\-hyphen*}}
+%             [\sigbrk\oarg{raise}\sigbrk\marg{right-kern}]
+%        Typeset a hyphen and apply kerning to its right-hand side.
+%      \endqritem
+%
+%      \qritem{syn:rightkernedhyphen}{\cs{right\-kerned\-hyphen}}
+%             [\sigbrk\oarg{raise}\sigbrk\marg{right-kern}]
+%        Typeset a hyphen, apply kerning to its right-hand side, and insert a breakpoint after
+%        it.
+%      \endqritem
+%
+%      \qritem{syn:setbaselineskippercentage}{\cs{set\-baseline\-skip\-percentage}}
+%             [\sigbrk\marg{percentage}]
+%        Set \cs{baselineskip} as percentage relative to font design size.
+%      \endqritem
+%
+%      \qritem{syn:setbaselineskip}{\cs{set\-baseline\-skip}}[\sigbrk\marg{baselineskip}]
+%        Set \cs{baselineskip} using an absolute length.
+%      \endqritem
+%
+%      \qritem{syn:setfontexpand}{\code{setfontexpand}}[\sigbrk\oarg{level}]
+%        Simultaneously set font stretch and shrink limits.
+%      \endqritem
+%
+%      \qritem{syn:setfontshrink}{\code{setfontshrink}}[\sigbrk\oarg{level}]
+%        Set font shrink limits.
+%      \endqritem
+%
+%      \qritem{syn:setfontstretch}{\code{setfontstretch}}[\sigbrk\oarg{level}]
+%        Set font stretch limits.
+%      \endqritem
+%
+%      \qritem{syn:setfonttracking}{\code{setfonttracking}}[\sigbrk\marg{delta}]
+%        Override the default tracking for all fonts.
+%      \endqritem
+%
+%      \qritem{syn:setleadingpercentage}{\cs{set\-leading\-percentage}}
+%             [\sigbrk\marg{percentage}]
+%        Set \cs{baselineskip} as percentage via the leading.
+%      \endqritem
+%
+%      \qritem{syn:setleading}{\cs{setleading}}[\sigbrk\marg{leading}]
+%        Set \cs{baselineskip} via the leading.
+%      \endqritem
+%
+%      \qritem{syn:shortenpar}{\code{shortenpar}}
+%        Decrease the \cs{looseness} of a paragraph.
+%      \endqritem
+%
+%      \qritem{syn:Singleguillemetleft}{\cs{Single\-guillemet\-left}}
+%        Typeset left single guillemets vertically adjusted for uppercase.
+%      \endqritem
+%
+%      \qritem{syn:Singleguillemetright}{\cs{Single\-guillemet\-right}}
+%        Typeset right single guillemets vertically adjusted for uppercase.
+%      \endqritem
+%
+%      \qritem{syn:singleguillemetleft}{\cs{single\-guillemet\-left}}
+%        Typeset left single guillemets vertically adjusted for lowercase.
+%      \endqritem
+%
+%      \qritem{syn:singleguillemetright}{\cs{single\-guillemet\-right}}
+%        Typeset right single guillemets vertically adjusted for lowercase.
+%      \endqritem
+%
+%      \qritem{syn:slightlysloppypar}{\code{slightly\-sloppy\-par}}[\sigbrk\oarg{sloppiness}]
+%        Format a paragraph with given sloppiness.
+%      \endqritem
+%
+%      \qritem{syn:slightlysloppy}{\cs{slightlysloppy}}[\sigbrk\oarg{sloppiness}]
+%        Format with given sloppiness.
+%      \endqritem
+%
+%
+%      \suspendmulticols
+%      \qritem{syn:smoothraggedrightpar}{\code{smoothraggedrightpar}}[{[\meta{option}\dots]}]
+%        Format a paragraph with one of the three smooth-ragged-right generators.
+%      \endqritem
+%
+%      \qritem{syn:smoothraggedrightshapequintuplet}{\code{smoothraggedrightshapequintuplet}}
+%             [{[\meta{option}\dots]}\marg{width1}\dots\marg{width5}]
+%        Prescribe five line lengths for formatting paragraphs.
+%      \endqritem
+%
+%      \qritem{syn:smoothraggedrightshapeseptuplet}{\code{smoothraggedrightshapeseptuplet}}
+%             [{[\meta{option}\dots]}\marg{width1}\dots\marg{width7}]
+%        Prescribe seven line lengths for formatting paragraphs.
+%      \endqritem
+%
+%      \qritem{syn:smoothraggedrightshapetriplet}{\code{smoothraggedrightshapetriplet}}
+%             [{[\meta{option}\dots]}\marg{width1}\marg{width2}\marg{width3}]
+%        Prescribe three line lengths for formatting paragraphs.
+%      \endqritem
+%
+%      \qritem{syn:smoothraggedright}{\code{smoothraggedright}}[{[\meta{option}\dots]}]
+%        Format with one of the three smooth-ragged-right generators.
+%      \endqritem
+%      \resumemulticols
+%
+%
+%      \qritem{syn:splicevtietop}{\cs{splicevtietop}}[\sigbrk\marg{lines}]
+%        Inside of a \code{list}-like environment fuse the first lines.
+%      \endqritem
+%
+%      \qritem{syn:tightspacing}{\code{tightspacing}}[\sigbrk\oarg{level}]
+%        Decrease the width of the space character.
+%      \endqritem
+%
+%      \qritem{syn:typogadjuststairs}{\cs{typog\-adjust\-stairs}}
+%             [\sigbrk\oarg{factor}\sigbrk\marg{step}\sigbrk\marg{count}\sigbrk\marg{sample}]
+%        Generate \singlequotes{stairs} of vertically shifted label items.
+%      \endqritem
+%
+%      \qritem{syn:typogfontsize}{\cs{typogfontsize}}
+%        Default font's quad size.
+%      \endqritem
+%
+%      \qritem{syn:typoggetnth}{\cs{typoggetnth}}
+%             [\sigbrk\marg{dest}\sigbrk\marg{key}\sigbrk\marg{index}]
+%        Retrieve single item of a \packagename{typog} compound configuration value.
+%      \endqritem
+%
+%      \qritem{syn:typogget}{\cs{typogget}}[\sigbrk\marg{key}]
+%        Retrieve a \packagename{typog} configuration value.
+%      \endqritem
+%
+%      \qritem{syn:typoginspectpar}{\code{typoginspectpar}}[\sigbrk\oarg{option}\sigbrk\marg{id}]
+%        Turn on tracing of paragraphs and pages for a paragraph.
+%      \endqritem
+%
+%      \qritem{syn:typoginspect}{\code{typoginspect}}[\sigbrk\oarg{option}\sigbrk\marg{id}]
+%        Turn on tracing of paragraphs and pages.
+%      \endqritem
+%
+%      \qritem{syn:typoglowercaseadjustcheck}{\cs{typog\-lowercase\-adjust\-check}}
+%             [\sigbrk\oarg{factor}\sigbrk\marg{sample}]
+%        Typeset all four label items adjusted for lowercase with an indicator line.
+%      \endqritem
+%
+%      \qritem{syn:typogsetup}{\code{typogsetup}}[\sigbrk\marg{keys}]
+%        Configure package \packagename{typog}.
+%      \endqritem
+%
+%      \qritem{syn:typoguppercaseadjustcheck}{\cs{typog\-uppercase\-adjust\-check}}
+%             [\sigbrk\oarg{factor}\sigbrk\marg{sample}]
+%        Typeset all four label items adjusted for uppercase with an indicator line.
+%      \endqritem
+%
+%      \qritem{syn:uppercaseadjustlabelitems}{\cs{uppercase\-adjust\-label\-items}}
+%             [\sigbrk\marg{levels}]
+%        Activate the uppercase height-adjustment values inside \code{itemize}~environments.
+%      \endqritem
+%
+%      \qritem{syn:vtiebotdisptoppar}{\code{vtie\-bot\-disp\-top\-par}}
+%             [\sigbrk\oarg{before}\sigbrk\oarg{dafterfactor}]
+%        Fuse a display with its preceding and following lines.
+%      \endqritem
+%
+%      \qritem{syn:vtiebotdisp}{\code{vtiebotdisp}}[\sigbrk\oarg{before}]
+%        Fuse a display with its preceding lines.
+%      \endqritem
+%
+%      \qritem{syn:vtiebotpar}{\code{vtiebotpar}}[\sigbrk\oarg{lines}]
+%        Fuse the last lines of a paragraph.
+%      \endqritem
+%
+%      \qritem{syn:vtiebot}{\cs{vtiebot}}[\sigbrk\oarg{lines}]
+%        Fuse last lines.
+%      \endqritem
+%
+%      \qritem{syn:vtietoppar}{\code{vtietoppar}}[\sigbrk\oarg{lines}]
+%        Fuse the first lines of a paragraph.
+%      \endqritem
+%
+%      \qritem{syn:vtietop}{\code{vtietop}}[\sigbrk\oarg{lines}]
+%        Fuse first lines.
+%      \endqritem
+%
+%      \qritem{syn:vtietop}{\cs{vtietop}}[\sigbrk\oarg{lines}]
+%        Fuse first lines.
+%      \endqritem
+%
+%      \qritem{syn:widespace}{\cs{widespace*}}
+%        Typeset a wide space whose width depends on \cs{fontdimen7}.
+%      \endqritem
+%
+%      \qritem{syn:widespace}{\cs{widespace}}
+%        Typeset a wide space whose width depends on \cs{fontdimen7} or \cs{fontdimen2}.
+%      \endqritem
+%    \end{quickreference}
+%  \end{widebody}
+%
+%
+%  \clearpage
 %  \pagestyle{fancy}
+%  \pagenumbering{arabic}
 %  \section{Introduction}\label{sec:introduction}
 %
 %  \begin{whittyquote}
@@ -1378,7 +1862,7 @@ end
 %        Configuring \code{uppercaselabelitemadjustments} (or
 %        \code{lowercaselabelitemadjustments}) does \emph{not} activate the correction
 %        mechanism.  Use one of the macros \code{\string\uppercaseadjustlabelitems} or
-%        \code{\string\lowercaseadjustlabelitems} for that purpose.
+%        \code{\string\lowercaseadjustlabelitems} for that purpose.\label{secend:package-options}
 %      \end{important}
 %    \end{description}
 %  \end{typogsetup}
@@ -1560,7 +2044,9 @@ end
 %  in identifying typographic problems in a quantitative way without getting distracted by
 %  unrelated information in the trace or the \filesystem{log}-file.
 %
-%  \begin{synopsis}\label{syn:typoginspect}
+%  \begin{synopsis}
+%    \label{syn:typoginspect}
+%    \label{syn:typoginspectpar}
 %    \cs{begin}|{typoginspect}|\oarg{option}\marg{id}
 %    \dots{}
 %    \cs{end}|{typoginspect}|  \\[\smallskipamount]
@@ -1831,7 +2317,7 @@ end
 %  \TeX{} inhibits breaks of the component words by default.  The following macro rectifies the
 %  problem.
 %
-%  \begin{synopsis}
+%  \begin{synopsis}\label{syn:allowhyphenation}
 %    \cs{allowhyphenation}
 %  \end{synopsis}
 %
@@ -2022,7 +2508,7 @@ end
 %  The empty discretionary construct~\cite[p.~95]{knuth:1986}, \cs{discretionary\{\}\{\}\{\}},
 %  is so helpful that it deserves its own macro --~with a descriptive name.
 %
-%  \begin{synopsis}
+%  \begin{synopsis}\label{syn:breakpoint}
 %    \cs{breakpoint}  \\
 %    \cs{breakpoint*}
 %  \end{synopsis}
@@ -2362,8 +2848,8 @@ end
 %
 %  \begin{usecases}
 %    Composites in the form \meta{math}-\meta{noun} in languages where nouns are
-%     capitalized.~\visualpar Composites where one or both sides of the hyphen are typeset in
-%     different fonts, like, \meta{small-caps}-\meta{roman}.
+%    capitalized.~\visualpar Composites where one or both sides of the hyphen are typeset in
+%    different fonts, like, \meta{small-caps}-\meta{roman}.
 %  \end{usecases}
 %
 %
@@ -2604,7 +3090,11 @@ end
 %  \DescribeMacro{\singleguillemetright}
 %  \DescribeMacro{\doubleguillemetleft}
 %  \DescribeMacro{\doubleguillemetright}
-%  \begin{synopsis}\label{syn:singleguillemetleft}\label{syn:doubleguillemetleft}
+%  \begin{synopsis}
+%    \label{syn:singleguillemetleft}
+%    \label{syn:singleguillemetright}
+%    \label{syn:doubleguillemetleft}
+%    \label{syn:doubleguillemetright}
 %    \begin{tabbing}
 %      \cs{singleguillemetleft}\qquad\= \cs{singleguillemetright}  \\
 %      \cs{doubleguillemetleft}\> \cs{doubleguillemetright}
@@ -2625,7 +3115,11 @@ end
 %  \DescribeMacro{\Singleguillemetright}
 %  \DescribeMacro{\Doubleguillemetleft}
 %  \DescribeMacro{\Doubleguillemetright}
-%  \begin{synopsis}\label{syn:Singleguillemetleft}\label{syn:Doubleguillemetleft}
+%  \begin{synopsis}
+%    \label{syn:Singleguillemetleft}
+%    \label{syn:Singleguillemetright}
+%    \label{syn:Doubleguillemetleft}
+%    \label{syn:Doubleguillemetright}
 %    \begin{tabbing}
 %      \cs{Singleguillemetleft}\qquad\= \cs{Singleguillemetright}  \\
 %      \cs{Doubleguillemetleft}\> \cs{Doubleguillemetright}
@@ -4636,7 +5130,7 @@ end
 %  \cs{fontdimen}\meta{number}~parameters consult \cref{tab:fontdimen} on
 %  \cpageref{tab:fontdimen}.}
 %
-%  \begin{codeexample}
+%  \begin{codeexample}\label{syn:typogfontsize}
 %    \cs{typogfontsize}=\cs{fontdimen6}\cs{font}
 %  \end{codeexample}
 %
@@ -4729,19 +5223,19 @@ end
 %    respectively.
 %  \end{slightlysloppypar}
 %
-%  \begin{maxipage}
+%  \begin{widebody}
 %    \begin{synopsis}\label{syn:smoothraggedrightshapetriplet}\label{syn:smoothraggedrightshapequintuplet}\label{syn:smoothraggedrightshapeseptuplet}
-%       \cs{begin}|{smoothraggedrightshapetriplet}|\oarg{option\dots}\marg{width1}\marg{width2}\marg{width3}  \\
+%       \cs{begin}|{smoothraggedrightshapetriplet}|{[\meta{option}\dots]}\marg{width1}\marg{width2}\marg{width3}  \\
 %       \hspace*{1em}\dots  \\
 %       \cs{end}|{smoothraggedrightshapetriplet}|  \\[\smallskipamount]
-%       \cs{begin}|{smoothraggedrightshapequintuplet}|\oarg{option\dots}\marg{width1}\marg{width2}\dots\marg{width5} \\
+%       \cs{begin}|{smoothraggedrightshapequintuplet}|{[\meta{option}\dots]}\marg{width1}\dots\marg{width5} \\
 %       \hspace*{1em}\dots  \\
 %       \cs{end}|{smoothraggedrightshapequintuplet}|  \\[\smallskipamount]
-%       \cs{begin}|smoothraggedrightshapeseptuplet|\oarg{option\dots}\marg{width1}\marg{width2}\dots\marg{width7}
+%       \cs{begin}|smoothraggedrightshapeseptuplet|{[\meta{option}\dots]}\marg{width1}\dots\marg{width7}  \\
 %       \hspace*{1em}\dots  \\
 %       \cs{end}|{smoothraggedrightshapeseptuplet}|
 %    \end{synopsis}
-%  \end{maxipage}
+%  \end{widebody}
 %
 %  The environments take \(N\) = 3, 5, or~7 mandatory line-width parameters, where each
 %  \meta{width\itcorr{3}I}, \(I = 1,\dots, N\) is a skip, i.\,e.,~a dimen that can include some
@@ -4767,7 +5261,7 @@ end
 %  the length-difference of the longest and the shortest lines.
 %
 %  \begin{synopsis}\label{syn:smoothraggedrightpar}
-%    \cs{begin}|{smoothraggedrightpar}|\oarg{option\dots}  \\
+%    \cs{begin}|{smoothraggedrightpar}|{[\meta{option}\dots]}  \\
 %    \hspace*{1em}\dots  \\
 %    \cs{end}|{smoothraggedrightpar}|
 %  \end{synopsis}
@@ -4932,7 +5426,7 @@ end
 %  \code{smoothraggedrightpar}.  It takes the same optional arguments.
 %
 %  \begin{synopsis}\label{syn:smoothraggedright}
-%    \cs{begin}|{smoothraggedright}|\oarg{option\dots}  \\
+%    \cs{begin}|{smoothraggedright}|{[\meta{option}\dots]}  \\
 %    \hspace*{1em}\dots  \\
 %    \cs{end}|{smoothraggedright}|
 %  \end{synopsis}
@@ -5344,6 +5838,7 @@ end
 %      \def\main##1{\linenumberdecoration\underbar{\textbf{##1}}}
 %      \def\usage##1{\textit{\textbf{##1}}}
 %      \PrintIndex
+%      \label{secend:index}
 %    \endgroup
 %  }
 %
@@ -5420,7 +5915,8 @@ end
 %    Our debug information printer.
 %
 %    \begin{macrocode}
-\newcommand*{\typog@debug@typeout}[1]{\iftypog@debug\typog@typeout{#1}\fi}
+\newcommand*{\typog@debug@typeout}[1]
+            {\iftypog@debug\typog@typeout{#1}\fi}
 
 %    \end{macrocode}
 %  \end{macro}
@@ -5919,7 +6415,8 @@ end
 %    Access the package's configuration (name-)space.
 %
 %    \begin{macrocode}
-\NewDocumentCommand{\typogget}{m}{\csname typog@config@#1\endcsname}
+\NewDocumentCommand{\typogget}{m}
+                   {\csname typog@config@#1\endcsname}
 
 %    \end{macrocode}
 %  \end{macro}
@@ -6304,7 +6801,9 @@ end
    \typog@forwardslash
    \IfBooleanTF{#1}%
      {\hspace*{\typog@config@slashkern}\ignorespaces}%
-     {\typog@breakpoint\typog@allowhyphenation\hspace*{\typog@config@slashkern}}}
+     {\typog@breakpoint
+      \typog@allowhyphenation
+      \hspace*{\typog@config@slashkern}}}
 %    \end{macrocode}
 %
 %    \acronym{PDF}-substitute definition
@@ -7998,7 +8497,7 @@ end
 %  \end{environment}
 %
 %
-%  \subsection{Breakable Disp.~Eqs.}
+%  \subsection[Breakable Disp.~Eqs.]{Breakable Displayed Equations}
 %
 %  \begin{environment}{breakabledisplay}
 %    We use a different default, 3, than \cs{allowdisplaybreaks} which utilizes~4 as its
@@ -8128,9 +8627,9 @@ end
 %
 %    \begin{implementationnote}
 %      Viewed as a standalone macro \cs{setbaselineskip} does not need the decoration
-%      \cs{AfterPreamble}.  However, all of its siblings, \cs{setbaselineskippercentage},
-%      \cs{setleading}, and \cs{setleadingpercentage} then would behave differently as they are
-%      delayed to the end of the preamble, but \cs{setbaselineskip} immediately becomes
+%      \cs{After\-Preamble}.  However, all of its siblings, \cs{set\-baseline\-skip\-percentage},
+%      \cs{set\-leading}, and \cs{set\-leading\-percentage} then would behave differently as they are
+%      delayed to the end of the preamble, but \cs{set\-baseline\-skip} immediately becomes
 %      effective.  For example, the successive calls
 %
 %      \begin{codeexample}
@@ -8642,7 +9141,6 @@ end
 \usepackage[main=USenglish, german]{babel}
 \usepackage{float}
 \usepackage[T1]{fontenc}
-\usepackage{fullwidth}
 \usepackage{hyphenat}
 \usepackage{mathtools}
 \usepackage[activate=true, verbose=false]{microtype}
@@ -8771,32 +9269,14 @@ end
 \newcommand*{\rightmarker}{\rule{.1pt}{.667em}\rule{.2em}{.1pt}}
 \newcommand*{\indicatewidth}[1]{\mbox{\leftmarker #1\rightmarker}}
 
-\newcommand*{\maxipagerule}{\medskip\hrule\medskip}
-\newenvironment*{maxipage*}
-  {\par
-   \noindent
-   \fullwidthsetup{leftmargin=-\marginparsep - \marginparwidth,
-                   width=\textwidth + 2\marginparsep + 2\marginparwidth}
-   \begin{fullwidth}%
-   \vspace*{1pt}% Why is some vspace necessary?
-   \parskip=.5\baselineskip}
-  {\par
-   \end{fullwidth}%
-   \par}
-\newenvironment*{maxipage}
-  {\par
-   \noindent
-   \fullwidthsetup{leftmargin=-\marginparsep - \marginparwidth,
-                   width=\textwidth + 2\marginparsep + 2\marginparwidth}
-   \begin{fullwidth}%
-   \maxipagerule
-   \parskip=.5\baselineskip}
-  {\par
-   \vskip\parskip
-   \maxipagerule
-   \end{fullwidth}%
-   \par}
-
+\newenvironment*{widebody}
+                {\begin{list}{}{\leftmargin=0pt
+                                \listparindent=\parindent
+                                \parsep=\parskip
+                                \rightmargin=-\marginparwidth
+                                \topsep=0pt}
+                 \item\relax}
+                {\end{list}}
 
 \newlength{\examplewidth}
 \setlength{\examplewidth}{160pt}
@@ -9081,7 +9561,7 @@ decorated with the results of \code{\string\fontsizeinfo}.
 
 \medskip
 
-\begin{maxipage}
+\begin{widebody}
   \setstretch{1}
   \newcommand*{\baselineskipdoc}%
               {Macro \code{\string\baselineskip} is a length command which
@@ -9121,7 +9601,7 @@ decorated with the results of \code{\string\fontsizeinfo}.
   \parbox[t]{.31\linewidth}{\examplefontname~\examplesizeinfo*}
   \hfill
   \parbox[t]{.31\linewidth}{\examplefontname~\examplesizeinfoloose*}
-\end{maxipage}
+\end{widebody}
 
 \noindent Starred form eats spaces?  \examplesizeinfo*   .
 
@@ -10532,9 +11012,9 @@ s/^@section \(.*\)$/\\subsubsection{\\titlecase{\1}}\\label{\1}/
 s/@table @asis/\\begin{list}{}{\\itemindent=-20pt\\leftmargin=20pt}/
 s/@end table/\\end{list}/
 
-##  We substitute our maxipage environment for @display.
-s/@display/\\begin{maxipage}/
-s/@end display/\\end{maxipage}/
+##  We substitute our `widebody' environment for `@display'.
+s/@display/\\begin{widebody}/
+s/@end display/\\end{widebody}/
 
 ##  Translate `@example' environments.
 s/@example/\\begin{quote}\\tt\\obeylines/
