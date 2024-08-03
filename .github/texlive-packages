@@ -57,6 +57,7 @@ kvoptions
 kvsetkeys
 letltxmacro
 listings
+listingsutf8
 ltxcmds
 ly1
 mathtools
