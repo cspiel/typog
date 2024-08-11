@@ -5865,7 +5865,7 @@ end
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
 \ProvidesPackage{typog}
-                [2024/07/08  v0.4  TypoGraphic extensions]
+                [2024/08/11  v0.4a  TypoGraphic extensions]
 
 \RequirePackage{etoolbox}
 \RequirePackage{everyhook}
@@ -6544,7 +6544,7 @@ end
 %    \end{macrocode}
 %
 %    If the user does not supply an \meta{id},
-%    we fall back to out own counter
+%    we fall back to our own counter
 %    and construct a hopefully unique \meta{id} from that.
 %
 %    \begin{macrocode}
@@ -8861,7 +8861,7 @@ end
   {\def\typog@@quintuplet@leftskip{\z@}%
    \def\typog@@quintuplet@parindent{\z@}%
    \setkeys*[typog]{smoothraggedrightshapequintuplet}{#1}%
-   \skip0=\typog@@quintuplet@leftskip
+   \skip0=\typog@@quintuplet@leftskip\relax
    \skip1=#2\relax
    \skip2=#3\relax
    \skip3=#4\relax
@@ -8882,9 +8882,11 @@ end
    \edef\typog@@quintuplet@linespecs{%
      \glueexpr \skip0 + \typog@@quintuplet@parindent\relax
             \glueexpr \skip1 - \typog@@quintuplet@parindent\relax
-                    \skip0 \skip2  \skip0 \skip3  \skip0 \skip4  \skip0 \skip5
+                    \skip0 \skip2  \skip0 \skip3
+                    \skip0 \skip4  \skip0 \skip5
      \typog@repeat{\numexpr\typog@quintuplet@max@lines / 5 - 1}
-                  {\skip0 \skip1  \skip0 \skip2  \skip0 \skip3  \skip0 \skip4  \skip0 \skip5}}
+                  {\skip0 \skip1  \skip0 \skip2  \skip0 \skip3
+                   \skip0 \skip4  \skip0 \skip5}}
    \parshape=\typog@quintuplet@max@lines\typog@@quintuplet@linespecs\relax}
   {\par}
 %    \end{macrocode}
@@ -8903,6 +8905,10 @@ end
 %  \end{macro}
 %
 %  \begin{environment}{smoothraggedrightshapeseptuplet}
+%    \changes{v0.4a}{2024-08-11}
+%            {Add missing backslash to \cs{typog@@\-septuplet@\-parindent} in local
+%             macro~\cs{typog@@\-septuplet@\-linespecs} which rendered
+%             the septuplet~generator unusable.}
 %    Engine for 7-line repetitions.
 %
 %    \begin{macrocode}
@@ -8914,7 +8920,7 @@ end
   {\def\typog@@septuplet@leftskip{\z@}%
    \def\typog@@septuplet@parindent{\z@}%
    \setkeys*[typog]{smoothraggedrightshapeseptuplet}{#1}%
-   \skip0=\typog@@septuplet@leftskip
+   \skip0=\typog@@septuplet@leftskip\relax
    \skip1=#2\relax
    \skip2=#3\relax
    \skip3=#4\relax
@@ -8938,10 +8944,12 @@ end
    \fi
    \edef\typog@@septuplet@linespecs{%
      \glueexpr \skip0 + \typog@@septuplet@parindent\relax
-            \glueexpr \skip1 - typog@@septuplet@parindent\relax
-                    \skip0 \skip2  \skip0 \skip3  \skip0 \skip4  \skip0 \skip5  \skip0 \skip6  \skip0 \skip7
+            \glueexpr \skip1 - \typog@@septuplet@parindent\relax
+                    \skip0 \skip2  \skip0 \skip3  \skip0 \skip4
+                    \skip0 \skip5  \skip0 \skip6  \skip0 \skip7
      \typog@repeat{\numexpr\typog@septuplet@max@lines / 7 - 1}
-                  {\skip0 \skip1  \skip0 \skip2  \skip0 \skip3  \skip0 \skip4  \skip0 \skip5  \skip0 \skip6  \skip0 \skip7}}
+                  {\skip0 \skip1  \skip0 \skip2  \skip0 \skip3  \skip0 \skip4
+                   \skip0 \skip5  \skip0 \skip6  \skip0 \skip7}}
    \parshape=\typog@septuplet@max@lines\typog@@septuplet@linespecs\relax}
   {\par}
 
@@ -8995,28 +9003,29 @@ end
 \define@key[typog]{smoothraggedrightpar}{linewidth}%
            {\def\typog@@linewidth{#1}}
 
+%    \end{macrocode}
+%    Convert generator name to an integer suitable for \cs{ifcase}.
+%    Indicate an unknown name with -1.
+%    \begin{macrocode}
+\ExplSyntaxOn
+\cs_new:Npn \typog@generator@index:n #1 {
+  \str_case:nnTF {#1}
+      {
+        {triplet} {0}
+        {quintuplet} {1}
+        {septuplet} {2}
+      }
+      {}
+      {-1}
+}
+\cs_generate_variant:Nn \typog@generator@index:n {e}
+\let\typog@generator@index=\typog@generator@index:e
+\ExplSyntaxOff
+
 \NewDocumentEnvironment{smoothraggedrightpar}{O{}}
   {\edef\typog@@linewidth{\linewidth}%
    \setkeys[typog]{smoothraggedrightpar}{#1}%
-%    \end{macrocode}
-%    Convert generator name to an integer suitable for \cs{ifcase}.
-%    \begin{macrocode}
-   \edef\typog@@generatorchoice{%
-     \ifnum\pdf@strcmp{\smoothraggedrightgenerator}{triplet}=\z@
-       0%
-     \else
-       \ifnum\pdf@strcmp{\smoothraggedrightgenerator}{quintuplet}=\z@
-         1%
-       \else
-         \ifnum\pdf@strcmp{\smoothraggedrightgenerator}{septuplet}=\z@
-           2%
-         \else
-           \PackageError{typog}
-                        {smoothraggedright: unknown generator name}
-                        {valid generator names are triplet, quintuplet, and septuplet}%
-         \fi
-       \fi
-     \fi}%
+   \edef\typog@@generatorchoice{\typog@generator@index{\smoothraggedrightgenerator}}%
 %    \end{macrocode}
 %    Obey to the indentation prescribed by any list environment.
 %    \begin{macrocode}
@@ -9094,6 +9103,10 @@ end
         {\glueexpr \typog@@linewidth \@minus \typog@fuzzwidth\relax}% (7)
         {\glueexpr (\typog@@linewidth * 2 - \smoothraggedrightragwidth) / 2
                    + \glueexpr \z@ \@plus \typog@fuzzwidth \@minus \typog@fuzzwidth\relax}% (4)
+   \else
+     \PackageError{typog}
+                  {smoothraggedright: unknown generator name (\smoothraggedrightgenerator)}
+                  {valid generator names are triplet, quintuplet, and septuplet}
    \fi}
   {\ifcase\typog@@generatorchoice
      \endsmoothraggedrightshapetriplet
@@ -10801,6 +10814,7 @@ New settings: \baselinesetsize.
 
   \setlength{\RaggedRightRightskip}{0pt plus \ragwidth}
 
+  %\def\smoothraggedrightgenerator{triplet}
   %\def\smoothraggedrightgenerator{quintuplet}
   %\def\smoothraggedrightgenerator{septuplet}
   \setlength{\smoothraggedrightragwidth}{\ragwidth}
