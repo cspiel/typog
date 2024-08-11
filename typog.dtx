@@ -991,22 +991,22 @@ quote             '!'
 %  \DoNotIndex{\newcounter,\newdimen,\newif,\newlength,\newline,\newmuskip}
 %  \DoNotIndex{\nobreak,\nofontexpand,\nofontexpansion,\nr,\numexpr}
 %  \DoNotIndex{\or,\optarg}
-%  \DoNotIndex{\p@,\PackageError,\PackageWarning}
+%  \DoNotIndex{\p@,\PackageError,\PackageWarning,\PackageWarningNoLine}
 %  \DoNotIndex{\par,\parfillskip,\parindent,\parshape,\patchcmd,\pdf@strcmp}
 %  \DoNotIndex{\pdfstringdefDisableCommands}
 %  \DoNotIndex{\penalty,\@plus,\PopPostHook,\postdisplaypenalty,\predisplaypenalty,\prg}
 %  \DoNotIndex{\pretolerance,\protected,\ProvidesPackage,\PushPostHook}
 %  \DoNotIndex{\raisebox,\refstepcounter,\relax,\RenewExpandableDocumentCommand,\repeat,\RequirePackage}
 %  \DoNotIndex{\righthyphenmin,\rightskip,\rlap,\romannumeral,\rule}
-%  \DoNotIndex{\setbox,\setcounter,\SetEnumitemKey,\SetExpansion,\setkeys,\setlength,\setstretch}
+%  \DoNotIndex{\seq,\setbox,\setcounter,\SetEnumitemKey,\SetExpansion,\setkeys,\setlength,\setstretch}
 %  \DoNotIndex{\showboxbreadth,\showboxdepth,\skip,\sloppy}
 %  \DoNotIndex{\smoothraggedrightpar}
 %  \DoNotIndex{\smoothraggedrightshapequintuplet}
 %  \DoNotIndex{\smoothraggedrightshapeseptuplet}
 %  \DoNotIndex{\smoothraggedrightshapetriplet}
-%  \DoNotIndex{\space,\spaceskip,\stepcounter,\@strength,\string}
-%  \DoNotIndex{\textemdash,\textendash,\textsf,\textsl,\texttimes,\textwidth,\the,\times,\tl,\tolerance}
-%  \DoNotIndex{\tracingnone,\tracingpages,\tracingparagraphs}
+%  \DoNotIndex{\space,\spaceskip,\stepcounter,\str,\@strength,\string}
+%  \DoNotIndex{\textemdash,\textendash,\textsf,\textsl,\texttimes,\textwidth,\the,\times,\tl}
+%  \DoNotIndex{\token,\tolerance,\tracingnone,\tracingpages,\tracingparagraphs}
 %  \DoNotIndex{\typeout,\typoginspect,\typoglogo}
 %  \DoNotIndex{\unhbox,\unless}
 %  \DoNotIndex{\val,\value,\vbadness,\vfuzz}
@@ -5943,6 +5943,9 @@ end
 %  \end{macro}
 %
 %  \begin{macro}{\typog@register@pdfsubstitute}
+%    \changes{v0.4a}{2024-08-11}
+%            {Using \cs{pdf\-stringdef\-Disable\-Commands} breaks package~\packagename{pdf\-comment}.
+%             So we just refrain from using the macro if \packagename{pdf\-comment} was loaded.}
 %    We often need to register (simple) substitute commands
 %    suitable for \acronym{PDF}~bookmarks.
 %    This is a convenient abbreviation for that task.
@@ -5951,7 +5954,11 @@ end
 \newcommand{\typog@register@pdfsubstitute}[1]{%
   \AtBeginDocument{%
     \ifdefined\pdfstringdefDisableCommands
-      \pdfstringdefDisableCommands{#1}%
+      \@ifpackageloaded{pdfcomment}
+                       {\PackageWarningNoLine{typog}
+                                             {package pdfcomment loaded --\space
+                                              typog will not touch PDF interface}}
+                       {\pdfstringdefDisableCommands{#1}}%
     \fi}}
 
 %    \end{macrocode}
