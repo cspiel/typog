@@ -5509,6 +5509,58 @@ end
 %
 %  \sectionfinish
 %  \clearpage
+%  \section{Limitations and Known Problems}\label{sec:limitations}
+%
+%  \index{limitations|userman}
+%  \index{known problems|userman}
+%  Here is a list of some of the known problems of \packagename{typog}.
+%
+%  \begin{description}
+%  \item[Interference with package \packagename{pdfcomment}~\cite{package:pdfcomment}.]
+%    To play well with \packagename{pdfcomment} package~\packagename{typog} \emph{turns off} the
+%    default string substitution inside of \acronym{PDF}-bookmarks for the following macros if
+%    \emph{both} packages are loaded:
+%
+%    \begin{multicols}{2}
+%      \begin{itemize}[label={}, nosep]
+%      \item \cs{breakpoint}
+%      \item \cs{capitalemdash}
+%      \item \cs{capitalendash}
+%      \item \cs{capitalhyphen}
+%      \item \cs{capitaltimes}
+%      \item \cs{Doubleguillemetleft}
+%      \item \cs{Doubleguillemetright}
+%      \item \cs{doubleguillemetleft}
+%      \item \cs{doubleguillemetright}
+%      \item \cs{figuredash}
+%      \item \cs{itcorr}
+%      \item \cs{kernedhyphen}
+%      \item \cs{kernedslash}
+%      \item \cs{leftkernedhyphen}
+%      \item \cs{nolig}
+%      \item \cs{rightkernedhyphen}
+%      \item \cs{Singleguillemetleft}
+%      \item \cs{Singleguillemetright}
+%      \item \cs{singleguillemetleft}
+%      \item \cs{singleguillemetright}
+%      \end{itemize}
+%    \end{multicols}
+%
+%    Use \cs{texorpdfstring} --~which is part of
+%    package~\packagename{hyperref}~\cite{package:hyperref}~-- in the relevant sectioning
+%    macros to recover string substitution on a case-by-case basis.
+%
+%    \begin{example}
+%      \begin{codeexample}
+%        \cs{section}\{\=\cs{(}CP\cs{)}\cs{texorpdfstring}\{\cs{capitalhyphen}\}\{-\}\%  \\
+%                      \>Invariance\}
+%      \end{codeexample}
+%    \end{example}
+%  \end{description}
+%
+%
+%  \sectionfinish
+%  \clearpage
 %  \section{Other Packages for Fine \LaTeX~Typography}\label{sec:other-typography-packages}
 %
 %  Many other packages help with getting better output from \LaTeX.  Here is a list --~in
@@ -5676,6 +5728,12 @@ end
 %              \bibtitle{Tips on Writing a Thesis in \LaTeX}.
 %              2013,
 %              \biburl{http://www.khirevich.com/latex/microtype}.
+%
+%      \bibitem{package:pdfcomment}
+%              \bibauthor{Kleber, Josef}.
+%              \bibtitle{Package~\packagename{pdfcomment}}.
+%              2018,
+%              \biburl{https://ctan.org/pkg/pdfcomment}.
 %
 %      \bibitem{knuth:1986}
 %              \bibauthor{Knuth, Donald Ervin}.
