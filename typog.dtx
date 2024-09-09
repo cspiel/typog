@@ -1172,9 +1172,9 @@ end
 %  and~\pageref{secend:package-options}.  The \hyperref[sec:index]{Index} on
 %  pages~\pageref{sec:index} to~\pageref{secend:index} may provide some more detailed insights.
 %
-%  If a line-break occurs between described command and its arguments or between any of the
-%  arguments we indicate the break with triangle at the end of the initial line and at the
-%  beginning of the following line.
+%  If a line-break occurs between the command and its arguments or between any of the arguments
+%  we indicate the break with triangle at the end of the initial line and at the beginning of
+%  the following line.
 %
 %  \begin{widebody}
 %    \begin{quickreference}
@@ -2073,6 +2073,8 @@ end
 %    The end-of-trace marker sometimes gets placed too early and the trace seems truncated.
 %    \LaTeX{} reliably logs the requested trace information, but the write operations for trace
 %    data and \cs{immediate}\cs{write} which is used to print the end-tag are not synchronized.
+%    The workaround in such a situation is to enclose more text in the
+%    \code{typoginspect}~environment (respecting the nesting of other environments of course).
 %  \end{caution}
 %
 %
@@ -2335,39 +2337,47 @@ end
 %  \endgroup
 %
 %  \begin{usecases}
-%    All examples from the bottom of \cref{tab:hyphens-and-hyphenations} on
-%    \cpageref{tab:hyphens-and-hyphenations}.~\visualpar
+%    \begin{itemize}[notopsep]
+%    \item All examples from the bottom of \cref{tab:hyphens-and-hyphenations} on
+%      \cpageref{tab:hyphens-and-hyphenations}.
 %
-%    Fix line breaks of index-entries in a narrow index:
+%    \item Fix line breaks of index-entries in a narrow index:
 %
-%    \begin{codeexample}
-%      Halbgruppe, Transformations\cs{allowhyphenation}\cs{mbox}\{-\}\cs{,}-\nolig*-\nolig*-
-%    \end{codeexample}
+%      \begin{codeexample}
+%        Halbgruppe, Transformations\cs{allowhyphenation}\cs{mbox}\{-\}\cs{,}-\nolig*-\nolig*-
+%      \end{codeexample}
 %
-%    \noindent
-%    The first part, \singlequotes{Transformations} is allowed to be hyphenated, but a break
-%    after the hyphen is prohibited as it results in a prowling em-dash at the beginning of the
-%    next line.~\visualpar
+%      The first part, \singlequotes{Transformations} is allowed to be hyphenated, but a break
+%      after the hyphen is prohibited as it results in a prowling em-dash at the beginning of
+%      the next line.
 %
-%    Re-enable hyphenation when a macro decays into a \cs{hbox}:
+%    \item Re-enable hyphenation when a macro decays into a \cs{hbox}:
 %
-%    \begin{codeexample}
-%      Einselement\cs{allowhyphenation}\cs{rlap}\{,\}\cs{footnote}\{\dots\}
-%    \end{codeexample}
+%      \begin{codeexample}
+%        Einselement\cs{allowhyphenation}\cs{rlap}\{,\}\cs{footnote}\{\dots\}
+%      \end{codeexample}
 %
-%    where \cs{rlap} is equivalent to something like
-%    \code{\cs{makebox}[0pt]\{\#1\cs{hss}\}}.~\visualpar
+%      where \cs{rlap} is equivalent to something like
+%      \code{\cs{makebox}[0pt]\{\#1\cs{hss}\}}.
 %
-%    Use \cs{allowhyphenation} to turn on hyphenation of the first word of a paragraph as,
-%    e.\,g., in a narrow index or a \cs{marginpar}:
+%    \item Use \cs{allowhyphenation} to turn on hyphenation of the first word of a paragraph as,
+%      e.\,g., in a narrow index or a \cs{marginpar}:
 %
-%    \begin{codeexample}
-%      \cs{marginpar}\{\cs{allowhyphenation} Kontakttransformationen\}
-%    \end{codeexample}
+%      \begin{codeexample}
+%        \cs{marginpar}\{\cs{allowhyphenation} Kontakttransformationen\}
+%      \end{codeexample}
 %
-%    \noindent
-%    A common trick to sweet-talk \TeX{} into hyphenating the first word of a paragraph is to
-%    put \cs{hskip0pt} in front of it.
+%      A common trick to sweet-talk \TeX{} into hyphenating the first word of a paragraph is to
+%      put \cs{hskip0pt} in front of it.
+%
+%    \item Enable automatic hyphenation in the rare but weird cases when \TeX{} does not
+%      hyphenate a word that is hyphenatable despite the result is an overfull box.\footnote{The
+%      author of \packagename{typog} has no idea, why this happens, but he has been successful
+%      in fixing the problems with code like \code{(\cs{allowhyphenation}
+%      \mbox{Superpositionsprinzip})} or \code{(\cs{allowhyphenation}
+%      \mbox{Superauswahlregel})}.  Elucidation by a \TeX-savant is highly
+%      welcome.}\specialsectionendhere
+%    \end{itemize}
 %  \end{usecases}
 %
 %  \begin{table}\small
