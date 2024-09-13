@@ -37,7 +37,7 @@
 \usepackage{enumitem}
 \usepackage{etoolbox}%--\tracingpatches
 \usepackage{fancyhdr}
-\usepackage[T1]{fontenc}
+\usepackage[T1, LGR]{fontenc}
 \usepackage{hypdoc}
 \usepackage{hyphenat}
 \usepackage[kerning=true, shrink=10, stretch=10, verbose=true]{microtype}
@@ -373,6 +373,8 @@
 
 \newcommand*{\dumpmacro}[1]{\texttt{\detokenize\expandafter{#1}\unskip}}
 
+\renewcommand*{\eTeX}{\mbox{\textepsilon-\kern-.075em\TeX}}
+
 \newcommand*{\filesystem}[1]{\mbox{\textit{#1\/}}}
 
 \newcommand*{\filledrectangle}[2]{\rule{#1}{#2}}
@@ -665,6 +667,12 @@
 
 \newcommand*{\termparbox}[1]{\parbox[t]{\linewidth}{#1\bottomstrut}}
 
+\renewcommand*{\textepsilon}
+              {{\fontencoding{LGR}%
+                \fontfamily{artemisia}% use true Greek font that pairs well with Source Serif
+                \fontsize{1.083\fontdimen6\font}{1.2\fontdimen6\font}% scale up to match Source Serif
+                \selectfont\char101}}
+
 \newcommand*{\thousandsseparator}{\mbox{,}}
 
 \ExplSyntaxOn
@@ -840,6 +848,8 @@
   kerned-hyphen
   last-line-centered
   last-line-centered-par
+  last-line-fit
+  last-line-fit-par
   last-line-ragged-left
   last-line-ragged-left-par
   line-width
@@ -1156,6 +1166,8 @@ end
 %    \end{nocharprotrusion}
 %  \end{nofontexpansion}
 %
+%  \vspace{\fill}
+%
 %
 %  \clearpage
 %  \phantomsection
@@ -1298,6 +1310,10 @@ end
 %
 %      \qritem{syn:lastlinecenteredpar}{\code{last\-line\-centered\-par}}
 %        Center the last lines of a paragraph.
+%      \endqritem
+%
+%      \qritem{syn:lastlinefitpar}{\code{last\-line\-fit\-par}}
+%        Match spacing of last line and next-to-last line.
 %      \endqritem
 %
 %      \qritem{syn:lastlineflushrightpar}{\code{last\-line\-flush\-right\-par}}
@@ -1529,31 +1545,31 @@ end
 %      \endqritem
 %
 %      \qritem{syn:vtiebotdisptoppar}{\code{vtie\-bot\-disp\-top\-par}}
-%             [\sigbrk\oarg{before}\sigbrk\oarg{dafterfactor}]
+%             [\sigbrk\oarg{num-before-lines}\sigbrk\oarg{num-after-lines}]
 %        Fuse a display with its preceding and following lines.
 %      \endqritem
 %
-%      \qritem{syn:vtiebotdisp}{\code{vtiebotdisp}}[\sigbrk\oarg{before}]
+%      \qritem{syn:vtiebotdisp}{\code{vtiebotdisp}}[\sigbrk\oarg{num-lines}]
 %        Fuse a display with its preceding lines.
 %      \endqritem
 %
-%      \qritem{syn:vtiebotpar}{\code{vtiebotpar}}[\sigbrk\oarg{lines}]
+%      \qritem{syn:vtiebotpar}{\code{vtiebotpar}}[\sigbrk\oarg{num-lines}]
 %        Fuse the last lines of a paragraph.
 %      \endqritem
 %
-%      \qritem{syn:vtiebot}{\cs{vtiebot}}[\sigbrk\oarg{lines}]
+%      \qritem{syn:vtiebot}{\cs{vtiebot}}[\sigbrk\oarg{num-lines}]
 %        Fuse last lines.
 %      \endqritem
 %
-%      \qritem{syn:vtietoppar}{\code{vtietoppar}}[\sigbrk\oarg{lines}]
+%      \qritem{syn:vtietoppar}{\code{vtietoppar}}[\sigbrk\oarg{num-lines}]
 %        Fuse the first lines of a paragraph.
 %      \endqritem
 %
-%      \qritem{syn:vtietop}{\code{vtietop}}[\sigbrk\oarg{lines}]
+%      \qritem{syn:vtietop}{\code{vtietop}}[\sigbrk\oarg{num-lines}]
 %        Fuse first lines.
 %      \endqritem
 %
-%      \qritem{syn:vtietop}{\cs{vtietop}}[\sigbrk\oarg{lines}]
+%      \qritem{syn:vtietop}{\cs{vtietop}}[\sigbrk\oarg{num-lines}]
 %        Fuse first lines.
 %      \endqritem
 %
@@ -1639,8 +1655,9 @@ end
 %  not used, \packagename{typog} can be used without \packagename{microtype}.  The same holds
 %  true for the \packagename{setspace} front-end.
 %
-%  The package was tested with \programname{pdfTeX}~3.141592653-2.6-1.40.24 from the
-%  TeX~Live distribution of~2022 as shipped by
+%  The package was tested with
+%  \programname{pdfTeX}~3.141592653\capitalhyphen*2.6\capitalhyphen*1.40.24 from the TeX~Live
+%  distribution of~2022 as shipped by
 %  \href{https://packages.debian.org/search?keywords=texlive}{Debian}.
 %
 %
@@ -1710,7 +1727,7 @@ end
 %
 %    \item[|lowercaselabelitemadjustments=\{|\meta{dim1}, \meta{dim2}, \meta{dim3}, \meta{dim4}|\}|]%
 %      \label{item:lowercaselabelitemadjustments}
-%      \indexpackageoption{lowercaselabelitemadjustments}
+%      \indexpackageoption{lowercase\-labelitem\-adjustments}
 %      \sinceversion{Since v0.4}
 %      Vertical shifts \meta{dimN} to apply to \cs{labelitem}\meta{N}, where \meta{N} is the
 %      nesting level of the |itemize|~list starting at one.  An empty \meta{dimN} is equivalent
@@ -1843,7 +1860,7 @@ end
 %
 %    \item[|uppercaselabelitemadjustments=\{|\meta{dim1}, \meta{dim2}, \meta{dim3}, \meta{dim4}|\}|]%
 %      \label{item:uppercaselabelitemadjustments}
-%      \indexpackageoption{uppercaselabelitemadjustments}
+%      \indexpackageoption{uppercase\-labelitem\-adjustments}
 %      \sinceversion{Since v0.4}
 %      Vertical shifts \meta{dimN} to apply to \cs{labelitem}\meta{N}, where \meta{N} is the
 %      nesting level of the |itemize|~list starting at one.  An empty \meta{dimN} is equivalent
@@ -3524,7 +3541,7 @@ end
 %          .25~  &  1.0~~  &  1.125  &  .5~~  &
 %          \textminus1.0~~  &  \textminus.0~~  &  \textminus.0~~  &  \textminus.5~~  \\
 %          Extended Charter\xchartermark\detoxindex{font>typeface>Extended Charter|userman}  &
-%          \textminus.25~  &  1.0~~  &  1.75  &  .125  &
+%          \textminus.25~  &  1.0~~  &  1.75~  &  .125  &
 %          \textminus1.125  &  .0~~  &  .875  & \textminus.875  \\
 %          Gentium\detoxindex{font>typeface>Gentium|userman}  &
 %          .0~~  &  .75~  &  .0~~  &  .0~~  &
@@ -3627,7 +3644,7 @@ end
 %  \end{usecases}
 %
 %
-%  \needtocspace
+%  \toccontinuesonnextpage
 %  \subsection[Fill Last Line]
 %             {Fill Last Line of a Paragraph}\label{sec:fill-last-line}
 %  \index{paragraph>fill last line|userman}
@@ -3998,7 +4015,40 @@ end
 %  last line is avoided, but the result may be of \hyperref[item:o1]{type~O1} nonetheless.
 %
 %
-%  \toccontinuesonnextpage
+%  \subsubsection{Consistent Spacing of Last Line}\label{sec:consistent-spacing-of-last-line}
+%
+%  \index{lastlinefit=\verb!*+\lastlinefit+|userman}
+%  Since \eTeX{} the paragraph-breaking algorithm can be instructed to match the spacing of the
+%  last line of a paragraph to the next-to-last line with the
+%  built-in~\cs{lastlinefit}~\cite[Sec.~3.8]{package:etex}.\footnote{The actual algorithm is
+%  somewhat involved.  So, for ease of reference, we have included the relevant part of the
+%  \eTeX-manual as \Cref{app:epsilon-tex-lastlinefit} on
+%  \cpageref{app:epsilon-tex-lastlinefit}.}  Package~\packagename{typog} wraps this control in
+%  an environment to limit the scope as its effects are not always beneficial to the appearance
+%  of the body.
+%
+%  \DescribeEnv{lastlinefitpar}
+%  \sinceversion{Since v0.5}
+%  Typeset a single paragraph with \cs{lastlinefit} set to a given value.
+%
+%  \begin{synopsis}\label{syn:lastlinefitpar}
+%    \cs{begin}|{lastlinefitpar}|\oarg{value}  \\
+%    \hspace*{1em}\dots  \\
+%    \cs{end}|{lastlinefitpar}|
+%  \end{synopsis}
+%
+%  The parameter range of \meta{value} is zero to thousand.  It controls the fraction of
+%  thousandths of the next-to-last-line's spacing to be used in the last line.  This means that
+%  \(\meta{value} = 0\) requests no transfer (as if \code{lastlinefit} is not used at all) and
+%  \(\meta{value} = 1000\) initiates exact transfer of the spacing.  The default \meta{value}
+%  is~1000.
+%
+%  \begin{usecases}
+%    Adapt the spacing of the last line of a paragraph to a very loose or very tight
+%    next-to-last line or to a whole paragraph that is very loose or very tight.
+%  \end{usecases}
+%
+%
 %  \needtocspace
 %  \Needspace{150pt}
 %  \subsection{Spacing}\label{sec:spacing-control}
@@ -5613,28 +5663,109 @@ end
 %  \end{description}
 %
 %
+%  \sectionfinish
+%  \appendix
+%  \clearpage
+%  \section{typog-grep}
+%  \label{app:typog-grep}
+%
+%  The companion program \programname{typog-grep} for analyzing the output of
+%  \hyperref[syn:typoginspect]{\code{typoginspect}} and
+%  \hyperref[syn:typoginspect]{\code{typoginspectpar}} has its own manual page.  We reproduce it
+%  here for completeness of the documentation.
+%
+%  \addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
+%  \begin{suspendshortverb}
+%    \setlength{\parindent}{0pt}
+%    \setlength{\parskip}{6.0pt plus 2.0pt minus .5pt}
+%    \input{typog-grep.tex}
+%  \end{suspendshortverb}
+%  \addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
+%
+%
+%  \sectionfinish
+%  \clearpage
+%  \section{\eTeX: Breaking Paragraphs into Lines}
+%  \label{app:epsilon-tex-lastlinefit}
+%
+%  \index{lastlinefit=\verb!*+\lastlinefit+|userman}
+%  \index{lastlinefitpar={\ttfamily lastlinefitpar} (env.)|userman}
+%  This is an excerpt from the \eTeX{} manual~\cite{package:etex}, Sec.~3.8,
+%  \doublequotes{Breaking Paragraphs into Lines} that describes the \cs{lastlinefit}~algorithm.
+%  Package~\packagename{typog} warps \cs{lastlinefit} in
+%  environment~\hyperref[syn:lastlinefitpar]{\code{lastlinefitpar}}, which was introduced in
+%  \cref{sec:consistent-spacing-of-last-line} on \cpageref{sec:consistent-spacing-of-last-line}.
+%
+%  \begin{quotation}
+%    \noindent
+%    Traditional typesetting with lead type used to adjust (stretch or shrink) the interword
+%    spaces in the last line of a paragraph by the same amount as those in the preceding line.
+%    With \TeX{} the last line is, however, usually typeset at its natural width due to
+%    infinitely stretchable \cs{parfillskip} glue.  \eTeX{} allows interpolation between these
+%    two extremes by specifying a suitable value for \cs{lastlinefit}.  For a value of~0 or
+%    less, \eTeX{} behaves as \TeX, values from~1 to 1000 indicate a glue adjustment
+%    fraction~\(f\) times 1000, values above 1000 are interpreted as \mbox{\(f = 1\)}.
+%
+%    The new algorithm is used only if
+%
+%    \begin{enumerate}[nosep]
+%    \item \cs{lastlinefit} is positive;
+%    \item \cs{parfillskip} has infinite stretchability; and
+%    \item the stretchability of \cs{leftskip} plus \cs{rightskip} is finite.\footnote{As usual
+%          for parameters influencing \TeX's line-breaking algorithm, the values current at the
+%          end of the (partial) paragraph are used.}
+%    \end{enumerate}
+%
+%    \noindent
+%    Thus the last line of a paragraph would normally be typeset at its natural width and the
+%    stretchability of \cs{parfillskip} glue would be used to achieve the desired line width.
+%    The algorithm proceeds as usual, considering all possible sequences of feasible break
+%    points and accumulating demerits for the stretching or shrinking of lines as well as for
+%    visually incompatible lines.  When a candidate for the last line has been reached, the
+%    following conditions are tested:
+%
+%    \begin{enumerate}[nosep, resume]
+%    \item the previous line was not \doublequotes{infinitely bad} and was stretched with
+%          positive finite stretchability or was shrunk with positive shrinkability;
+%    \item the last line has infinite stretchability entirely due to \cs{par\-fill\-skip} glue;
+%    \item if the previous line was stretched or shrunk the last line has positive finite
+%          stretchability or shrinkability respectively.
+%    \end{enumerate}
+%
+%    \noindent
+%    If all three conditions are satisfied, a glue adjustment factor of \(f\)~times that of the
+%    preceding line will be applied to the relevant stretch or shrink components of all glue
+%    nodes in the last line, and the corresponding demerits are computed.  (The last line will,
+%    however, not be stretched beyond the desired line width.)
+%
+%    When all possible candidates for the last line of the paragraph have been examined, the one
+%    having fewest accumulated demerits is chosen.  If \eTeX's modified algorithm was applied to
+%    that last line, the actual stretching or shrinking is achieved by suitably modifying the
+%    \cs{parfillskip} glue node.
+%
+%    All computations described so far are performed with machine\hyp{}independent integer
+%    arithmetic.  Note, however, that the actual stretching requires machine\hyp{}dependent
+%    floating point arithmetic.  Therefore, when a paragraph is interrupted by a displayed
+%    equation and the line preceding the display is subject to the adjustment just described,
+%    the display will in general be preceded by \cs{abovedisplayskip} and not by
+%    \cs{abovedisplayshortskip} glue.
+%  \end{quotation}
+%
+%  \noindent
+%  Section~3.8 of the \eTeX{} manual closes with a description of the generalizations of
+%  \cs{clubpenalties}, \cs{displaywidowpenalties}, \cs{interlinepenalties}, and
+%  \cs{widowpenalties}.  See also \cref{sec:vtie-paragraph}, \doublequotes{Vertically
+%  Partially-Tied Paragraphs}, \cpageref{sec:vtie-paragraph} in this manual.
+%
+%
 %  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %
+%  \newcommand*{\codeidx}[1]{\linenumberdecoration\textbf{#1}}
+%  \renewcommand*{\main}[1]{\linenumberdecoration\underbar{\textbf{#1}}}
+%  \renewcommand*{\usage}[1]{\textit{\textbf{#1}}}
+%
 %  \MaybeStop{
-%    \sectionfinish
-%    \clearpage
-%    \section{typog-grep}
-%    \label{app:typog-grep}
-%
-%    The companion program \programname{typog-grep} for analyzing the output of
-%    \hyperref[syn:typoginspect]{\code{typoginspect}} and
-%    \hyperref[syn:typoginspect]{\code{typoginspectpar}} has its own manual page.  We
-%    reproduce it here for completeness of the documentation.
-%
-%    \addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
-%    \begin{suspendshortverb}
-%      \setlength{\parindent}{0pt}
-%      \setlength{\parskip}{6.0pt plus 2.0pt minus .5pt}
-%      \input{typog-grep.tex}
-%    \end{suspendshortverb}
-%    \addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
-%
 %    \sectionfinish
 %    \clearpage
 %    \begingroup
@@ -5646,6 +5777,7 @@ end
 %      \addcontentsline{toc}{section}{\numberline{}Change History}
 %      \PrintChanges
 %    \endgroup
+%
 %
 %    \sectionfinish
 %    \clearpage
@@ -5891,9 +6023,8 @@ end
 %      \end{thebibliography}
 %    \end{RaggedRight}
 %
+%
 %    \sectionfinish
-%
-%
 %    \clearpage
 %    \begingroup
 %      \setcounter{IndexColumns}{2}
@@ -5903,19 +6034,15 @@ end
 %      \addtocontents{toc}{\medskip}
 %      \addcontentsline{toc}{section}{\numberline{}Index}
 %      \raggedcolumns
-%      \def\codeidx##1{\linenumberdecoration\textbf{##1}}
-%      \def\main##1{\linenumberdecoration\underbar{\textbf{##1}}}
-%      \def\usage##1{\textit{\textbf{##1}}}
 %      \PrintIndex
 %      \label{secend:index}
 %    \endgroup
 %  }
 %
+%
 %  \sectionfinish
-%
-%
+%  \toccontinuesonnextpage
 %  \clearpage
-%  \appendix
 %  \section{Package Code}\label{sec:package-code}
 %  \addtocontents{toc}{\protect\begin{list}{}{\leftmargin=\subsectiontocindent\parsep=0pt}}
 %  \addtocontents{toc}{\protect\item}
@@ -5934,7 +6061,7 @@ end
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
 \ProvidesPackage{typog}
-                [2024/08/11  v0.4a  TypoGraphic extensions]
+                [2024/09/10  v0.5  TypoGraphic extensions]
 
 \RequirePackage{etoolbox}
 \RequirePackage{everyhook}
@@ -7826,6 +7953,18 @@ end
 %    \end{macrocode}
 %  \end{environment}
 %
+%  \begin{environment}{lastlinefitpar}
+%    \changes{v0.5}{2024-09-10}{New environment.}
+%    Set value of \cs{lastlinefit} for a paragraph.
+%
+%    \begin{macrocode}
+\NewDocumentEnvironment{lastlinefitpar}{O{1000}}
+  {\lastlinefit=#1\relax}
+  {\par}
+
+%    \end{macrocode}
+%  \end{environment}
+%
 %
 %  \subsection{Spacing}
 %
@@ -9536,6 +9675,10 @@ end
 \SetTracking{encoding=*, shape=sc}{20}
 
 
+\newcount\defaultlastlinefit
+\defaultlastlinefit=\lastlinefit
+
+
 \begin{document}
 \fussy
 \lastlinefit=1000
@@ -10395,6 +10538,18 @@ in particular if the chapters' ends are marked with centered dingbats.
 
   \examplefontinformation
 \end{exemplary}
+
+\begin{typoginspect}{lastlinefitpar}\lastlinefit=\defaultlastlinefit
+  \begin{lastlinefitpar}
+    In this paragraph the value of \code{\string\lastlinefit} was increased to \the\lastlinefit.
+    Thus, the spacing of its last line is equal to that of the next-to-last line.  The effect
+    can be double-checked with log-file, \textit{\jobname.log,} as this text was wrapped in a
+    \code{typoginspect}~environment with id~\code{lastlinefitpar}.
+  \end{lastlinefitpar}
+
+  The value of \code{\string\lastlinefit} is reset to~\the\lastlinefit{} in the following
+  paragraph.
+\end{typoginspect}
 
 
 \clearpage
