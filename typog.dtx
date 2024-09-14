@@ -4043,6 +4043,10 @@ end
 %  \(\meta{value} = 1000\) initiates exact transfer of the spacing.  The default \meta{value}
 %  is~1000.
 %
+%  Note that different \meta{value}s can lead to different breakpoints in the affected
+%  paragraph.  \eTeX{} still considers the \emph{whole} paragraph when calculating the optimal
+%  line breaks.
+%
 %  \begin{usecases}
 %    Adapt the spacing of the last line of a paragraph to a very loose or very tight
 %    next-to-last line or to a whole paragraph that is very loose or very tight.
@@ -5697,14 +5701,18 @@ end
 %  \cref{sec:consistent-spacing-of-last-line} on \cpageref{sec:consistent-spacing-of-last-line}.
 %
 %  \begin{quotation}
-%    \noindent
-%    Traditional typesetting with lead type used to adjust (stretch or shrink) the interword
-%    spaces in the last line of a paragraph by the same amount as those in the preceding line.
-%    With \TeX{} the last line is, however, usually typeset at its natural width due to
-%    infinitely stretchable \cs{parfillskip} glue.  \eTeX{} allows interpolation between these
-%    two extremes by specifying a suitable value for \cs{lastlinefit}.  For a value of~0 or
-%    less, \eTeX{} behaves as \TeX, values from~1 to 1000 indicate a glue adjustment
-%    fraction~\(f\) times 1000, values above 1000 are interpreted as \mbox{\(f = 1\)}.
+%    \begin{covernextindentpar}
+%      \noindent
+%      Traditional typesetting with lead type used to adjust (stretch or shrink) the interword
+%      spaces in the last line of a paragraph by the same amount as those in the preceding line.
+%      With \TeX{} the last line is, however, usually typeset at its natural width due to
+%      infinitely stretchable \cs{parfillskip} glue.  \eTeX{} allows interpolation between these
+%      two extremes by specifying a suitable value for \cs{lastlinefit}.\shiftedmarginnote{This
+%      paragraph benefits from being enclosed in a \code{cover\-next\-indent\-par} environment.}
+%      For a value of~0 or less, \eTeX{} behaves as \TeX, values from~1 to 1000 indicate a glue
+%      adjustment fraction~\(f\) times 1000, values above 1000 are interpreted as \mbox{\(f =
+%      1\)}.
+%    \end{covernextindentpar}
 %
 %    The new algorithm is used only if
 %
@@ -10539,16 +10547,19 @@ in particular if the chapters' ends are marked with centered dingbats.
   \examplefontinformation
 \end{exemplary}
 
-\begin{typoginspect}{lastlinefitpar}\lastlinefit=\defaultlastlinefit
-  \begin{lastlinefitpar}
-    In this paragraph the value of \code{\string\lastlinefit} was increased to \the\lastlinefit.
-    Thus, the spacing of its last line is equal to that of the next-to-last line.  The effect
-    can be double-checked with log-file, \textit{\jobname.log,} as this text was wrapped in a
-    \code{typoginspect}~environment with id~\code{lastlinefitpar}.
-  \end{lastlinefitpar}
+\begin{typoginspect}{lastlinefitpar}
+  \lastlinefit=\defaultlastlinefit
+  \begin{nofontexpansion}
+    \begin{lastlinefitpar}
+      In this paragraph the value of \code{\string\lastlinefit} was increased to
+      \the\lastlinefit.  Thus, the spacing of its last line is equal to that of the next-to-last
+      line.  The effect can be double-checked with log-file, \textit{\jobname.log,} as this text
+      was wrapped in a \code{typoginspect}~environment with id~\code{lastlinefitpar}.
+    \end{lastlinefitpar}
 
-  The value of \code{\string\lastlinefit} is reset to~\the\lastlinefit{} in the following
-  paragraph.
+    The value of \code{\string\lastlinefit} is reset to~\the\lastlinefit{} in the following
+    paragraph.
+  \end{nofontexpansion}
 \end{typoginspect}
 
 
