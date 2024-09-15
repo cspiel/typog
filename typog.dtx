@@ -1749,6 +1749,14 @@ end
 %        \code{\string\uppercaseadjustlabelitems} for that purpose.
 %      \end{important}
 %
+%    \item[|lowerslash=|\meta{dim}]\label{item:lowerslash}
+%      \indexpackageoption{lowerslash}
+%      \sinceversion{Since v0.5}
+%      Lower the slash typeset by \hyperref[syn:kernedslash]{\cs{kernedslash}}.  Positive
+%      lengths~\meta{dim} \emph{lower} the glyph, negative ones raise it.  This is the opposite
+%      \singlequotes{direction} of \cs{raisebox}.  See \cref{sec:slash-with-kern}.  Default
+%      value:~\milliem{\typogget{lowerslash}}.
+%
 %    \item[|mathitalicscorrection=|\meta{dim}]\label{item:mathitalicscorrection}
 %      \indexpackageoption{mathitalicscorrection}
 %      Italics correction in math mode.  See \cref{sec:manual-italic-correction} and also the
@@ -2821,6 +2829,9 @@ end
 %  The starred form is unbreakable, the non-starred version introduces a break point with
 %  penalty~\hyperref[item:breakpenalty]{|breakpenalty|} after the slash.  Configure the kerning
 %  around the slash with~\hyperref[item:slashkern]{|slashkern|}.
+%  \sinceversion{Option \code{lowerslash} introduced in v0.5}
+%  The slash can typset lowered (or raised), where the offset with respect to the baseline is
+%  configured with~\hyperref[item:lowerslash]{|lowerslash|}.
 %
 %  If the word following the slash should not be hyphenated append \cs{nobreak} after
 %  \cs{kernedslash*}.
@@ -2830,7 +2841,10 @@ end
 %    \meta{year\textsubscript{1}}/\meta{year\textsubscript{2}}.~\visualpar The macro has proven
 %    helpful in many cases where the right hand side of the slash starts with a capital as, for
 %    example, \meta{city}/\meta{state-code} (\acronym{US}-specific) or
-%    \meta{anything}/\meta{noun} (any language that capitalizes \meta{noun}).
+%    \meta{anything}/\meta{noun} (any language that capitalizes \meta{noun}).~\visualpar Use
+%    option~\code{lowerslash} to adjust the slash to surrounding lowercase letters.~\visualpar
+%    Fix the slash of a font (e.\,g.~Cochineal\detoxindex{font>typeface>Cochineal|userman}) that
+%    is raising too high with option~\code{lowerslash}.
 %  \end{usecases}
 %
 %
@@ -6069,7 +6083,7 @@ end
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
 \ProvidesPackage{typog}
-                [2024/09/10  v0.5  TypoGraphic extensions]
+                [2024/09/15  v0.5  TypoGraphic extensions]
 
 \RequirePackage{etoolbox}
 \RequirePackage{everyhook}
@@ -6330,6 +6344,12 @@ end
 %    \end{macrocode}
 %  \end{macro}
 %
+%  \begin{macro}{\typog@config@lowerslash}
+%    \begin{macrocode}
+\newlength{\typog@config@lowerslash}
+%    \end{macrocode}
+%  \end{macro}
+%
 %  \begin{macro}{\typog@config@raisecapitaldash}
 %    \begin{macrocode}
 \newlength{\typog@config@raisecapitaldash}
@@ -6555,6 +6575,8 @@ end
    \fi}
 \DeclareOptionX<typog>{slashkern}[.05em]%
   {\setlength{\typog@config@slashkern}{#1}}
+\DeclareOptionX<typog>{lowerslash}[\z@]%
+  {\setlength{\typog@config@lowerslash}{#1}}
 \DeclareOptionX<typog>{stretchlimits}%
   [\typog@default@stretch@i, \typog@default@stretch@ii, \typog@default@stretch@iii]%
   {\typog@require@preloaded@microtype
@@ -6591,7 +6613,7 @@ end
      raisecapitaldash, raisecapitalhyphen, raisecapitaltimes,
      raiseguillemets, raisecapitalguillemets,
      raisefiguredash,
-     slashkern}
+     slashkern, lowerslash}
    \ifdefined\MT@MT
      \unless\ifx\@onlypreamble\@notprerr
        \ExecuteOptionsX<typog>{shrinklimits, stretchlimits}
@@ -7001,6 +7023,8 @@ end
 %  \end{macro}
 %
 %  \begin{macro}{\kernedslash}
+%    \changes{v0.5}{2024-09-15}{Allow for lowering (or raising) \cs{kernedslash} with package
+%                               option~\code{lowerslash}.}
 %    Macro~\cs{kernedslash} introduces a hyphenation possibility right after the dash,
 %    whereas the starred version does not.
 %
@@ -7009,7 +7033,7 @@ end
 %    \begin{macrocode}
 \NewDocumentCommand{\kernedslash}{s}
   {\hspace*{\typog@config@slashkern}%
-   \typog@forwardslash
+   \raisebox{-\typog@config@lowerslash}{\typog@forwardslash}%
    \IfBooleanTF{#1}%
      {\hspace*{\typog@config@slashkern}\ignorespaces}%
      {\typog@breakpoint
@@ -9952,8 +9976,8 @@ corr.~\textminus6: \indicatewidth{\(\itcorr{-6}\)}.
 
 \subsection{Slash}
 
-The slash with some extra space around it can be helpful for certain pairs,
-as for example years or names.
+The slash with some extra space~(\code{slashkern}=\the\typogget{slashkern}) around it can be
+helpful for certain pairs, as for example years or names.
 
 \begin{center}
   \begin{tabular}{@{}ll@{}}
@@ -9964,6 +9988,9 @@ as for example years or names.
     New~York/NY, Korringa/Kohn/Rostoker  \\
     \code{\string\kernedslash}  &
     1991\kernedslash1992, New~York\kernedslash{}NY, Korringa\kernedslash{}Kohn\kernedslash{}Rostoker  \\
+    w/\code{lowerslash}  &
+    \typogsetup{lowerslash=.1em}uvw\kernedslash{}jkl, \textsc{uvw\kernedslash{}jkl}
+    (\code{lowerslash}=\the\typogget{lowerslash})
   \end{tabular}
 \end{center}
 
