@@ -830,6 +830,8 @@
   break-penalty
   breakable-display
   capital-hyphen
+  capital-inverted-exclamation-mark
+  capital-inverted-question-mark
   capital-times
   cite-dash
   club-penalties
@@ -1238,6 +1240,16 @@ end
 %
 %      \qritem{syn:capitalhyphen}{\cs{capitalhyphen}}
 %        Typeset a vertically adjusted hyphen character that is hyphenatable.
+%      \endqritem
+%
+%      \qritem{syn:capitalinvertedexclamationmark}{\cs{capitalinvertedexclamationmark}}[\sigbrk\oarg{number}]
+%        Typeset an inverted (\singlequotes{upside-down}) exclamation mark that is level with
+%        the baseline.
+%      \endqritem
+%
+%      \qritem{syn:capitalinvertedquestionmark}{\cs{capitalinvertedquestionmark}}[\sigbrk\oarg{number}]
+%        Typeset an inverted (\singlequotes{upside-down}) question mark that is level with the
+%        baseline.
 %      \endqritem
 %
 %      \qritem{syn:capitaltimes}{\cs{capitaltimes}}
@@ -1692,6 +1704,7 @@ end
 %                {\detoxindex{package option>#1=\code{#1}|userman}%
 %                 \detoxindex{#1=\code{#1}~(option)|userman}%
 %                 \ignorespaces}
+%    \newcommand*{\samplestar}{\sample{\raisebox{-.25em}[0pt][0pt]{*}}}
 %    \begin{description}
 %        [before={\let\oldmakelabel=\makelabel
 %                 \renewcommand{\makelabel}[1]
@@ -1725,13 +1738,14 @@ end
 %      values with \hyperref[syn:typogget]{\cs{typogget}}.}  Default
 %      value:~\milliem{\typogget{ligaturekern}}.
 %
-%    \item[|lowercaselabelitemadjustments=\{|\meta{dim1}, \meta{dim2}, \meta{dim3}, \meta{dim4}|\}|]%
+%    \item[|lowercaselabelitemadjustments=\{|\meta{dim-1}, \dots, \meta{dim-4}|\}|]%
 %      \label{item:lowercaselabelitemadjustments}
 %      \indexpackageoption{lowercase\-labelitem\-adjustments}
 %      \sinceversion{Since v0.4}
-%      Vertical shifts \meta{dimN} to apply to \cs{labelitem}\meta{N}, where \meta{N} is the
-%      nesting level of the |itemize|~list starting at one.  An empty \meta{dimN} is equivalent
-%      to~\formatdimen*{0pt}.  The adjustments apply to the lowercase setting
+%      Vertical shifts \meta{dim-N} to apply to \cs{labelitem}\meta{N}, where \meta{N}= 1, 2, 3,
+%      or~4 is the nesting level of the |itemize|~list.  Empty list elements are ignored.  The
+%      special value~\samplestar{} instructs \packagename{typog} to preserve \meta{dim-N} at
+%      that position.  The adjustments apply to the lowercase setting
 %      (\hyperref[syn:lowercaseadjustlabelitems]{\code{\string\lowercaseadjustlabelitems}}).
 %      See \cref{sec:adjust-label-items} (in particular subsection~\singlequotes{Setup} and
 %      \cref{tab:labelitemadjustvalues} on \cpageref{tab:labelitemadjustvalues}) and also
@@ -1815,6 +1829,24 @@ end
 %      \hyperref[syn:figuredash]{\cs{figuredash}}.  See \cref{sec:number-dash}.  Default
 %      value:~\milliem{\the\typogget{raisefiguredash}}.
 %
+%    \item[|raiseinvertedmarks=\{|\meta{dim-1}, \meta{dim-2}, \meta{dim-3}|\}|]\label{item:raiseinvertedmarks}
+%      \indexpackageoption{raiseinvertedmarks}
+%      \sinceversion{Since v0.5}
+%      Set the lengths by which the macros
+%      \hyperref[syn:capitalinvertedexclamationmark]{\cs{capitalinvertedexclamationmark}} and
+%      \hyperref[syn:capitalinvertedquestionmark]{\cs{capitalinvertedquestionmark}} raise their
+%      associated inverted exclamation marks and inverted question marks.  Each dimension
+%      corresponds to the respective optional indices of the macros.  See
+%      \cref{sec:inverted-marks}.
+%
+%      A \meta{dim-N} of \formatdimen*{0pt} means to \doublequotes{auto level} the mark; if a
+%      zero manual correction is desired use e.\,g.~1\,sp.  Empty list elements are ignored.
+%      The special value~\samplestar{} instructs \packagename{typog} to preserve \meta{dim-N} at
+%      that position.  Default
+%      values:~\typoggetnth{\dimen0}{raiseinvertedmarks}{1}\milliem{\the\dimen0},
+%      \typoggetnth{\dimen0}{raiseinvertedmarks}{2}\milliem{\the\dimen0},
+%      \typoggetnth{\dimen0}{raiseinvertedmarks}{3}\milliem{\the\dimen0}.
+%
 %    \item[|shrinklimits=\{|\meta{limit-1}, \meta{limit-2}, \meta{limit-3}|\}|\quad\microtyperequiredmarker\label{item:shrinklimits}  \\
 %          |stretchlimits=\{|\meta{limit-1}, \meta{limit-2}, \meta{limit-3}|\}|\quad\microtyperequiredmarker]\label{item:stretchlimits}
 %      \indexpackageoption{shrinklimits}
@@ -1827,7 +1859,7 @@ end
 %      \cref{sec:font-expansion-control}.
 %
 %      New \meta{limit-\#} values replace old ones.  If one or more limits of the triple should
-%      remain unchanged pass a \smash{\sample{*}} instead of a number.
+%      remain unchanged pass a \samplestar{} instead of a number.
 %
 %      \makeatletter
 %      Defaults for |shrinklimits| are \mbox{\typog@default@shrink@i, \typog@default@shrink@ii,
@@ -1866,13 +1898,14 @@ end
 %
 %      By default this option is unset.
 %
-%    \item[|uppercaselabelitemadjustments=\{|\meta{dim1}, \meta{dim2}, \meta{dim3}, \meta{dim4}|\}|]%
+%    \item[|uppercaselabelitemadjustments=\{|\meta{dim-1}, \dots, \meta{dim-4}|\}|]%
 %      \label{item:uppercaselabelitemadjustments}
 %      \indexpackageoption{uppercase\-labelitem\-adjustments}
 %      \sinceversion{Since v0.4}
-%      Vertical shifts \meta{dimN} to apply to \cs{labelitem}\meta{N}, where \meta{N} is the
-%      nesting level of the |itemize|~list starting at one.  An empty \meta{dimN} is equivalent
-%      to~\formatdimen*{0pt}.  The adjustments apply to the uppercase setting
+%      Vertical shifts \meta{dim-N} to apply to \cs{labelitem}\meta{N}, where \meta{N}=1, 2, 3,
+%      or~4 is the nesting level of the |itemize|~list.  Empty list elements are ignored.  The
+%      special value~\samplestar{} instructs \packagename{typog} to preserve \meta{dim-N} at
+%      that position.  The adjustments apply to the uppercase setting
 %      (\hyperref[syn:uppercaseadjustlabelitems]{\code{\string\uppercaseadjustlabelitems}}).
 %      See \cref{sec:adjust-label-items} (in particular subsection~\singlequotes{Setup} and
 %      \cref{tab:labelitemadjustvalues} on \cpageref{tab:labelitemadjustvalues}) and also
@@ -3280,6 +3313,48 @@ end
 %    desirable, to visually align them to the surrounding copy.  Parentheses and in particular
 %    square brackets around all-lowercase text come into mind.
 %  \end{futuredirection}
+%
+%
+%  \subsubsection[Inverted Marks]
+%                {Inverted Exclamation Mark and
+%                 Inverted Question Mark}\label{sec:inverted-marks}
+%  \index{inverted>exclamation mark|userman}
+%  \index{inverted>question mark|userman}
+%
+%  The Spanish (Castilian, Asturian, etc.) language requires exclamatory sentences and questions
+%  not only to be followed by exclamation marks and question marks, respectively but also to be
+%  preceeded by inverted (or \singlequotes{upside-down}) versions of these punctuation
+%  characters.
+%
+%  The typographic rule for these two inverted marks suggests to typeset them with their tops
+%  aligned to the top of lowercase characters~[cit.~req.].  For all-uppercase or all-smallcaps
+%  phrases, e.\,g.~in headlines these \singlequotes{hanging} marks disturb the tight block
+%  structure and it may be preferable to have inverted marks whose bottoms align with the
+%  baseline.
+%
+%  \hangindent=3\parindent
+%  \hangafter=-3
+%  \noindent
+%  \DescribeMacro{\capitalinvertedexclamationmark}
+%  \DescribeMacro{\capitalinvertedquestionmark}
+%  \sinceversion{Both since v0.5}
+%  The macros \cs{capitalinvertedexclamationmark} and \cs{capitalinvertedquestionmark}
+%  simultaneously provide bottom-aligned inverted marks for up to three different sets of
+%  exclamation marks or question marks, e.\,g., for uppercase, med-caps, and small-caps
+%  text.\footnote{The small exclamation and question marks even made it into Unicode.}
+%
+%  \begin{synopsis}
+%    \label{syn:capitalinvertedexclamationmark}
+%    \label{syn:capitalinvertedquestionmark}
+%    \cs{capitalinvertedexclamationmark}\oarg{number}  \\
+%    \cs{capitalinvertedquestionmark}\oarg{number}
+%  \end{synopsis}
+%
+%  Typeset inverted exclamation marks and inverted question mark.    Select the appropriate mark
+%  and the associated raise-amount with \meta{number}=1, 2, or~3.  The default \meta{number}
+%  is~1.
+%
+%  Configured with option~\hyperref[item:raiseinvertedmarks]{\code{raiseinvertedmarks}}.
 %
 %
 %  \subsection[Vertically Adjust Label Items]
@@ -6559,7 +6634,9 @@ end
 \DeclareOptionX<typog>{lowercaselabelitemadjustments}%
   {\typog@debug@typeout{lowercaselabelitemadjustments={#1}}
    \def\typog@@do##1{\addtocounter{typog@@iteration}{1}
-      \global\setlength{\csname typog@adjust@lowercase@labelitem\romannumeral\thetypog@@iteration\endcsname}{##1}}
+     \ifstrequal{##1}{*}
+       {\relax}
+       {\global\setlength{\csname typog@adjust@lowercase@labelitem\romannumeral\thetypog@@iteration\endcsname}{##1}}}
    \setcounter{typog@@iteration}{0}
    \forcsvlist{\typog@@do}{#1}}
 \newcommand*{\typog@config@lowercaselabelitemadjustments}
@@ -6584,6 +6661,18 @@ end
    \setlength{\typog@config@raisecapitalhyphen}{#1}%
    \setlength{\typog@config@raisecapitaltimes}{#1}%
    \setlength{\typog@config@raisefiguredash}{#1}}
+\DeclareOptionX<typog>{raiseinvertedmarks}%
+  {\typog@debug@typeout{raiseinvertedmarks={#1}}
+   \def\typog@@do##1{\addtocounter{typog@@iteration}{1}
+     \ifstrequal{##1}{*}
+       {\relax}
+       {\global\setlength{\csname typog@config@raiseinvertedmarks@\romannumeral\thetypog@@iteration\endcsname}{##1}}}
+   \setcounter{typog@@iteration}{0}
+   \forcsvlist{\typog@@do}{#1}}
+\newcommand*{\typog@config@raiseinvertedmarks}
+  {\the\typog@config@raiseinvertedmarks@i,\space
+   \the\typog@config@raiseinvertedmarks@ii,\space
+   \the\typog@config@raiseinvertedmarks@iii}
 \DeclareOptionX<typog>{shrinklimits}%
   [\typog@default@shrink@i, \typog@default@shrink@ii, \typog@default@shrink@iii]%
   {\typog@require@preloaded@microtype
@@ -6617,7 +6706,9 @@ end
 \DeclareOptionX<typog>{uppercaselabelitemadjustments}%
   {\typog@debug@typeout{uppercaselabelitemadjustments={#1}}
    \def\typog@@do##1{\addtocounter{typog@@iteration}{1}
-      \setlength{\csname typog@adjust@uppercase@labelitem\romannumeral\thetypog@@iteration\endcsname}{##1}}
+     \ifstrequal{##1}{*}
+       {\relax}
+       {\setlength{\csname typog@adjust@uppercase@labelitem\romannumeral\thetypog@@iteration\endcsname}{##1}}}
    \setcounter{typog@@iteration}{0}
    \forcsvlist{\typog@@do}{#1}}
 \newcommand*{\typog@config@uppercaselabelitemadjustments}
@@ -7409,7 +7500,106 @@ end
 %  \end{macro}
 %
 %
-%  \subsection{Vert. Adjust Label Items}
+%  We need three lengths for three (pairs of) inverted exclamation marks and inverted question
+%  marks.
+%
+%  \begin{macro}{\typog@config@raiseinvertedmarks@i}
+%    \begin{macrocode}
+\newlength{\typog@config@raiseinvertedmarks@i}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typog@config@raiseinvertedmarks@ii}
+%    \begin{macrocode}
+\newlength{\typog@config@raiseinvertedmarks@ii}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typog@config@raiseinvertedmarks@iii}
+%    \begin{macrocode}
+\newlength{\typog@config@raiseinvertedmarks@iii}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  And the three (pairs of) inverted exclamation marks and inverted question
+%  marks themselves.  Configurable.
+%
+%  \begin{macro}{\typog@inverted@exclamationmark@i}
+%    \begin{macrocode}
+\newcommand*{\typog@inverted@exclamationmark@i}{\textexclamdown}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typog@inverted@questionmark@i}
+%    \begin{macrocode}
+\newcommand*{\typog@inverted@questionmark@i}{\textquestiondown}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typog@inverted@exclamationmark@ii}
+%    \begin{macrocode}
+\newcommand*{\typog@inverted@exclamationmark@ii}{\textexclamdown}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typog@inverted@questionmark@ii}
+%    \begin{macrocode}
+\newcommand*{\typog@inverted@questionmark@ii}{\textquestiondown}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typog@inverted@exclamationmark@iii}
+%    \begin{macrocode}
+\newcommand*{\typog@inverted@exclamationmark@iii}{\textexclamdown}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typog@inverted@questionmark@iii}
+%    \begin{macrocode}
+\newcommand*{\typog@inverted@questionmark@iii}{\textquestiondown}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  The generic \singlequotes{raise}-macro handles all interesting cases.  The first argument
+%  selects the mark and the second the associated raise-amount.
+%
+%  \begin{macro}{\typog@raise@inverted@mark}
+%    \begin{macrocode}
+\newcommand*{\typog@raise@inverted@mark}[2]
+  {\letcs{\@tempa}{typog@inverted@#1@\romannumeral#2}%
+   \letcs{\@tempb}{typog@config@raiseinvertedmarks@\romannumeral#2}%
+   \ifdim\@tempb=\z@
+     \setbox0=\hbox{\@tempa}%
+     \dimen0=\dp0%
+   \else
+     \dimen0=\@tempb
+   \fi
+   \raisebox{\dimen0}{\@tempa}}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  The user-side macros are almost trivial now.
+%
+%  \begin{macro}{\capitalinvertedexclamationmark}
+%    \begin{macrocode}
+\NewDocumentCommand{\capitalinvertedexclamationmark}{O{1}}
+  {\typog@raise@inverted@mark{exclamationmark}{#1}%
+   \typog@allowhyphenation
+   \ignorespaces}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\capitalinvertedquestionmark}
+%    \begin{macrocode}
+\NewDocumentCommand{\capitalinvertedquestionmark}{O{1}}
+  {\typog@raise@inverted@mark{questionmark}{#1}%
+   \typog@allowhyphenation
+   \ignorespaces}
+%    \end{macrocode}
+%  \end{macro}
+%
+%
+%  \subsection[Vert. Adjust Label Items]{Vertically Adjusted Label Items}
 %
 %  \begin{macro}{\@typog@uppercase@adjust@labelitem}
 %    Handle all possible requests for uppercase label item correction.
@@ -10329,6 +10519,42 @@ We again compare the default implementation with the adjusted one.
   \parbox[t]{0pt}{\FrenchdoublequotesFR{\samplestring}}
 \end{quote}
 
+
+\subsection{Inverted Marks}
+
+\noindent
+\textsc{Carmen}\par
+\capitalinvertedquestionmark CÓMO ESTÁS, JOSÉ?
+
+\noindent
+\textsc{José}\par
+\capitalinvertedexclamationmark BIEN!  \capitalinvertedquestionmark\itcorr{-2}Y TÚ?
+
+\noindent
+\textsc{Carmen}\par
+\capitalinvertedexclamationmark BIEN TAMBIÉN!
+
+\smallskip
+
+\begin{typogsetup}{raiseinvertedmarks={5pt,*,1sp}}
+  Local settings are \{\typoggetnth{\dimen0}{raiseinvertedmarks}{1}\the\dimen0,
+  \typoggetnth{\dimen0}{raiseinvertedmarks}{2}\the\dimen0,
+  \typoggetnth{\dimen0}{raiseinvertedmarks}{3}\the\dimen0\}.
+
+  ?\capitalinvertedquestionmark? and !\capitalinvertedexclamationmark!
+
+  \makeatletter
+  \def\typog@inverted@exclamationmark@ii{\textexclamdown\textsubscript{2}}
+  \def\typog@inverted@exclamationmark@iii{\textexclamdown\textsubscript{3}}
+  \def\typog@inverted@questionmark@ii{\textquestiondown\textsubscript{2}}
+  \def\typog@inverted@questionmark@iii{\textquestiondown\textsubscript{3}}
+  \makeatother
+  Secondaries -- indexed with 2: \capitalinvertedquestionmark[2]Más?
+  \capitalinvertedexclamationmark[2]Por venir!
+
+  Tertiaries -- indexed with 3: \capitalinvertedquestionmark[3]Continuemos?
+  \capitalinvertedexclamationmark[3]Con el texto!
+\end{typogsetup}
 
 \section{Label Items}
 
