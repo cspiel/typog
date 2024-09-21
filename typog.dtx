@@ -1784,7 +1784,7 @@ end
 %      Set the length by which selected characters (dash, hyphen, times, and number dash) are
 %      raised.  Default value:~\formatdimen*{0pt}.
 %
-%      Only the raise amounts for guillemets are unaffected by this option.
+%      Only the raise amounts for guillemets and inverted marks are unaffected by this option.
 %
 %      This option neither can be used with \hyperref[syn:typogsetup]{\code{typogsetup}} nor
 %      with \hyperref[syn:typogget]{\cs{typogget}}, however, the specific options influenced by
@@ -3322,15 +3322,14 @@ end
 %  \index{inverted>question mark|userman}
 %
 %  The Spanish (Castilian, Asturian, etc.) language requires exclamatory sentences and questions
-%  not only to be followed by exclamation marks and question marks, respectively but also to be
-%  preceeded by inverted (or \singlequotes{upside-down}) versions of these punctuation
+%  to be followed by exclamation marks and question marks, respectively and recommends that they
+%  are preceeded by inverted (or \singlequotes{upside-down}) versions of these punctuation
 %  characters.
 %
-%  The typographic rule for these two inverted marks suggests to typeset them with their tops
-%  aligned to the top of lowercase characters~[cit.~req.].  For all-uppercase or all-smallcaps
+%  Usually the horizontally-mirrored versions' designs follows that of the lower-case letters.
+%  In particular the inverted marks feature descenders.  For all-uppercase or all-smallcaps
 %  phrases, e.\,g.~in headlines these \singlequotes{hanging} marks disturb the tight block
-%  structure and it may be preferable to have inverted marks whose bottoms align with the
-%  baseline.
+%  structure and it may be preferable to have inverted marks that align with the baseline.
 %
 %  \hangindent=3\parindent
 %  \hangafter=-3
@@ -3341,7 +3340,8 @@ end
 %  The macros \cs{capitalinvertedexclamationmark} and \cs{capitalinvertedquestionmark}
 %  simultaneously provide bottom-aligned inverted marks for up to three different sets of
 %  exclamation marks or question marks, e.\,g., for uppercase, med-caps, and small-caps
-%  text.\footnote{The small exclamation and question marks even made it into Unicode.}
+%  text\footnote{The small exclamation and question marks even made it into Unicode.} or just
+%  for some stylistic alternatives offered by a particularly well equipped font.
 %
 %  \begin{synopsis}
 %    \label{syn:capitalinvertedexclamationmark}
@@ -3355,6 +3355,17 @@ end
 %  is~1.
 %
 %  Configured with option~\hyperref[item:raiseinvertedmarks]{\code{raiseinvertedmarks}}.
+%
+%  \begin{tip}
+%    If there are no lining inverted question marks found in a font, there are of course no
+%    kerning pairs defined either.  However, for example, \sample{V}, \sample{W}, and \sample{Y}
+%    following inverted question marks may need some manual kerning.
+%    Macro~\hyperref[syn:itcorr]{\cs{itcorr}} (\cpageref{syn:itcorr}) offers an almost portable
+%    solution.  Here are some examples with a \meta{strength} of \textminus2:
+%    \sample{\capitalinvertedquestionmark\itcorr{-2}V},
+%    \sample{\capitalinvertedquestionmark\itcorr{-2}W}, and
+%    \sample{\capitalinvertedquestionmark\itcorr{-2}Y}.
+%  \end{tip}
 %
 %
 %  \subsection[Vertically Adjust Label Items]
@@ -7560,10 +7571,13 @@ end
 %    \end{macrocode}
 %  \end{macro}
 %
-%  The generic \singlequotes{raise}-macro handles all interesting cases.  The first argument
-%  selects the mark and the second the associated raise-amount.
-%
 %  \begin{macro}{\typog@raise@inverted@mark}
+%    The generic \singlequotes{raise}-macro handles all interesting cases.  The first argument
+%    selects the mark type and the second the associated raise-amount.
+%
+%    If the raise-amount is exactly zero we shift-up the horizontal box with the mark to zero
+%    its depth.
+%
 %    \begin{macrocode}
 \newcommand*{\typog@raise@inverted@mark}[2]
   {\letcs{\@tempa}{typog@inverted@#1@\romannumeral#2}%
@@ -9613,7 +9627,7 @@ end
 \usepackage[T1]{fontenc}
 \usepackage{hyphenat}
 \usepackage{mathtools}
-\usepackage[activate=true, verbose=false]{microtype}
+\usepackage[activate=true, letterspace=50, verbose=false]{microtype}
 \usepackage{ragged2e}
 \usepackage[nobottomtitles*]{titlesec}\renewcommand*{\bottomtitlespace}{.2\textheight}
 \usepackage{trace}
@@ -10522,17 +10536,19 @@ We again compare the default implementation with the adjusted one.
 
 \subsection{Inverted Marks}
 
+Without TypoG support: g\textexclamdown j\textquestiondown y!
+
 \noindent
 \textsc{Carmen}\par
-\capitalinvertedquestionmark CÓMO ESTÁS, JOSÉ?
+{\lsstyle\capitalinvertedquestionmark CÓMO ESTÁS, JOSÉ?}
 
 \noindent
 \textsc{José}\par
-\capitalinvertedexclamationmark BIEN!  \capitalinvertedquestionmark\itcorr{-2}Y TÚ?
+{\lsstyle\capitalinvertedexclamationmark BIEN!  \capitalinvertedquestionmark\itcorr{-2}Y TÚ?}
 
 \noindent
 \textsc{Carmen}\par
-\capitalinvertedexclamationmark BIEN TAMBIÉN!
+{\lsstyle\capitalinvertedexclamationmark BIEN TAMBIÉN!}
 
 \smallskip
 
@@ -10555,6 +10571,7 @@ We again compare the default implementation with the adjusted one.
   Tertiaries -- indexed with 3: \capitalinvertedquestionmark[3]Continuemos?
   \capitalinvertedexclamationmark[3]Con el texto!
 \end{typogsetup}
+
 
 \section{Label Items}
 
