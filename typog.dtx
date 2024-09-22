@@ -755,7 +755,12 @@
                            \itemsep=5pt plus 2pt minus 1pt}
 
 \newenvironment*{quickreference}
-                {\newcommand*{\sigbrk}
+                {\newcommand*{\heading}[1]
+                             {\pagebreak[3]%
+                              \medskip
+                              {\sffamily\bfseries\large ##1}%
+                              \nopagebreak}
+                 \newcommand*{\sigbrk}
                              {\discretionary{\hbox{\raise .025em \hbox{$\triangleright$}}}
                                             {\hbox{\raise .025em \hbox{$\triangleleft$}}}
                                             {}}
@@ -1192,10 +1197,12 @@ end
 %
 %  \begin{widebody}
 %    \begin{quickreference}
+%      \item\relax\hspace{\leftmargin}\heading{A}\vspace{-\itemsep}%
 %      \qritem{syn:allowhyphenation}{\cs{allow\-hyphenation}}
 %        (Re-)enable automatic hyphenation.
 %      \endqritem
 %
+%      \heading{B}
 %      \qritem{syn:breakabledisplay}{\code{breakable\-display}}[\sigbrk\oarg{level}]
 %        Adjust penalty associated with \cs{allowdisplaybreaks}.
 %      \endqritem
@@ -1208,6 +1215,7 @@ end
 %        Insert an empty discretionary and re-enable automatic hyphenation.
 %      \endqritem
 %
+%      \heading{C}
 %      \qritem{syn:capitaldash}{\cs{capitaldash*}}
 %        Typeset a vertically adjusted \cs{textendash}.
 %        Alias for \cs{capitalendash*}.
@@ -1260,6 +1268,7 @@ end
 %        Extend the last line of a paragraph.
 %      \endqritem
 %
+%      \heading{D}
 %      \qritem{syn:Doubleguillemetleft}{\cs{Double\-guillemet\-left}}
 %        Typeset left double guillemets vertically adjusted for uppercase.
 %      \endqritem
@@ -1276,6 +1285,7 @@ end
 %        Typeset right double guillemets vertically adjusted for lowercase.
 %      \endqritem
 %
+%      \heading{F}
 %      \qritem{syn:figuredash}{\cs{figuredash*}}
 %        Typeset a \cs{textendash} vertically adjusted for figures (numerals).
 %      \endqritem
@@ -1288,10 +1298,12 @@ end
 %        Store the current em-heigh and \cs{baselineskip} in a pair of macros.
 %      \endqritem
 %
+%      \heading{H}
 %      \qritem{syn:hyphenmin}{\code{hyphenmin}}[\sigbrk\oarg{left-min}\sigbrk\marg{right-min}]
 %        Set the values of \cs{lefthyphenmin} and \cs{righthyphenmin}.
 %      \endqritem
 %
+%      \heading{I}
 %      \qritem{syn:itcorr}{\cs{itcorr*}}[\sigbrk\marg{strength}]
 %        Apply italic correction in the for of a \cs{kern} scaled by
 %      \code{textitalicscorrection}.
@@ -1302,6 +1314,7 @@ end
 %      \cs{fontdim1} or \code{textitalicscorrection}.
 %      \endqritem
 %
+%      \heading{K}
 %      \qritem{syn:kernedhyphen}{\cs{kernedhyphen*}}
 %             [\sigbrk\oarg{raise}\sigbrk\marg{left-kern}\sigbrk\marg{right-kern}]
 %        Typeset an unbreakable hyphen and apply kerning to its left and right.
@@ -1320,6 +1333,7 @@ end
 %        Typeset an breakable forward slash and apply kerning to its left and right.
 %      \endqritem
 %
+%      \heading{L}
 %      \qritem{syn:lastlinecenteredpar}{\code{last\-line\-centered\-par}}
 %        Center the last lines of a paragraph.
 %      \endqritem
@@ -1357,6 +1371,7 @@ end
 %        Activate the lowercase height-adjustment values inside \code{itemize}~environments.
 %      \endqritem
 %
+%      \heading{N}
 %      \qritem{syn:narrowspace}{\cs{narrowspace*}}
 %        Typeset a narrow space whose width depends on \cs{fontdimen7}.
 %      \endqritem
@@ -1391,14 +1406,17 @@ end
 %        Break a ligature and introduce a hyphenation opportunity.
 %      \endqritem
 %
+%      \heading{O}
 %      \qritem{syn:openlastlinepar}{\code{openlastlinepar}}[\sigbrk\oarg{dim}]
 %        Open a paragraph's last line if it is almost full or completely filled.
 %      \endqritem
 %
+%      \heading{P}
 %      \qritem{syn:prolongpar}{\code{prolongpar}}
 %        Increase the \cs{looseness} of a paragraph.
 %      \endqritem
 %
+%      \heading{R}
 %      \qritem{syn:resetbaselineskip}{\cs{reset\-baseline\-skip}}
 %        Reset the \cs{baselineskip} to its original value.
 %      \endqritem
@@ -1414,6 +1432,7 @@ end
 %        it.
 %      \endqritem
 %
+%      \heading{S}
 %      \qritem{syn:setbaselineskippercentage}{\cs{set\-baseline\-skip\-percentage}}
 %             [\sigbrk\marg{percentage}]
 %        Set \cs{baselineskip} as percentage relative to font design size.
@@ -1507,6 +1526,7 @@ end
 %        Inside of a \code{list}-like environment fuse the first lines.
 %      \endqritem
 %
+%      \heading{T}
 %      \qritem{syn:tightspacing}{\code{tightspacing}}[\sigbrk\oarg{level}]
 %        Decrease the width of the space character.
 %      \endqritem
@@ -1551,11 +1571,13 @@ end
 %        Typeset all four label items adjusted for uppercase with an indicator line.
 %      \endqritem
 %
+%      \heading{U}
 %      \qritem{syn:uppercaseadjustlabelitems}{\cs{uppercase\-adjust\-label\-items}}
 %             [\sigbrk\marg{levels}]
 %        Activate the uppercase height-adjustment values inside \code{itemize}~environments.
 %      \endqritem
 %
+%      \heading{V}
 %      \qritem{syn:vtiebotdisptoppar}{\code{vtie\-bot\-disp\-top\-par}}
 %             [\sigbrk\oarg{num-before-lines}\sigbrk\oarg{num-after-lines}]
 %        Fuse a display with its preceding and following lines.
@@ -1585,6 +1607,7 @@ end
 %        Fuse first lines.
 %      \endqritem
 %
+%      \heading{W}
 %      \qritem{syn:widespace}{\cs{widespace*}}
 %        Typeset a wide space whose width depends on \cs{fontdimen7}.
 %      \endqritem
