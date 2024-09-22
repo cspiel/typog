@@ -3341,7 +3341,7 @@ end
 %  simultaneously provide bottom-aligned inverted marks for up to three different sets of
 %  exclamation marks or question marks, e.\,g., for uppercase, med-caps, and small-caps
 %  text\footnote{The small exclamation and question marks even made it into Unicode.} or just
-%  for some stylistic alternatives offered by a particularly well equipped font.
+%  for some stylistic alternatives offered by particularly well equipped fonts.
 %
 %  \begin{synopsis}
 %    \label{syn:capitalinvertedexclamationmark}
@@ -3356,15 +3356,91 @@ end
 %
 %  Configured with option~\hyperref[item:raiseinvertedmarks]{\code{raiseinvertedmarks}}.
 %
+%  \iffalse
+%<*invertedmarks>
+prologues := 3;
+bboxmargin := 0;% Extremely important setting: otherwise all our bboxes are too loose!
+linecap := butt;
+truecorners := 1;
+
+string roman_font;
+roman_font := "pplr8r";         % URW Palladio L - Roman
+
+font_scale := 5;
+
+picture letter_a;
+letter_a := thelabel("a" infont roman_font scaled font_scale, origin);
+path bbox_a;
+bbox_a := bbox letter_a;
+ex_height := ypart (ulcorner bbox_a - llcorner bbox_a);
+show ex_height;
+
+picture letter_g;
+letter_g := thelabel("g" infont roman_font scaled font_scale, origin);
+path bbox_g;
+bbox_g := bbox letter_g;
+descender_height := ypart (ulcorner bbox_g - llcorner bbox_g) - ex_height;
+show descender_height;
+
+%%  char(161)  --  inverted exclamation mark
+%%  char(191)  --  inverted question mark
+picture font_sample;
+font_sample := thelabel(("g" & char(161) & "jk" & char(191) & "y   " &
+                         char(161) & " E! " & char(191) & " Q?")
+                        infont roman_font scaled font_scale, origin);
+path bbox_sample;
+bbox_sample := bbox font_sample;
+
+picture inverted_exclamation_mark;
+inverted_exclamation_mark := thelabel(char(161) infont roman_font scaled font_scale,
+                                      font_scale * (2.6, 1.333));
+
+picture inverted_question_mark;
+inverted_question_mark := thelabel(char(191) infont roman_font scaled font_scale,
+                                   font_scale * (20.6, 1.333));
+
+
+beginfig(1);
+  draw font_sample;
+  draw inverted_exclamation_mark withcolor .8 white;
+  draw inverted_question_mark withcolor .8 white;
+
+  draw (xpart (llcorner bbox_sample), ypart (llcorner bbox_sample) + descender_height) --
+       (xpart (lrcorner bbox_sample), ypart (lrcorner bbox_sample) + descender_height)
+       withpen pencircle scaled .3333pt;;
+  draw (llcorner bbox_sample) -- (lrcorner bbox_sample)
+       dashed evenly withpen pencircle scaled .25pt;
+  draw (xpart (llcorner bbox_sample), ypart (llcorner bbox_sample) + descender_height + ex_height) --
+       (xpart (lrcorner bbox_sample), ypart (lrcorner bbox_sample) + descender_height + ex_height)
+       dashed evenly withpen pencircle scaled .25pt;
+endfig;
+end
+%</invertedmarks>
+%  \fi
+%
+%  We sketch the automated correction process in \Cref{fig:inverted-marks}.
+%
+%  \begin{figure}
+%    \centering
+%    \includegraphics{inverted-marks-1.mps}
+%    \caption[Inverted exclamation and question marks]
+%            {The left-hand sample shows the inverted exclamation mark and question marks wedged
+%             between some lowercase letters.  The baseline is drawn solid and the ex-height as
+%             well as the descender depth are indicated with dashed lines.~\visualpar On the
+%             right hand side we display the same marks in conjunction with capital letters.
+%             The gray glyphs demonstrate the result of shifting them up such that they exactly
+%             touch the baseline, which mimics the auto-raise mode described in the
+%             text.~\visualpar The sample font once again is
+%             \acronym{URW}~Palladio.\label{fig:inverted-marks}}
+%  \end{figure}
+%
 %  \begin{tip}
 %    If there are no lining inverted question marks found in a font, there are of course no
 %    kerning pairs defined either.  However, for example, \sample{V}, \sample{W}, and \sample{Y}
 %    following inverted question marks may need some manual kerning.
-%    Macro~\hyperref[syn:itcorr]{\cs{itcorr}} (\cpageref{syn:itcorr}) offers an almost portable
-%    solution.  Here are some examples with a \meta{strength} of \textminus2:
-%    \sample{\capitalinvertedquestionmark\itcorr{-2}V},
-%    \sample{\capitalinvertedquestionmark\itcorr{-2}W}, and
-%    \sample{\capitalinvertedquestionmark\itcorr{-2}Y}.
+%    Macro~\hyperref[syn:itcorr]{\cs{itcorr}} (\cpageref{syn:itcorr}) offers a solution that is
+%    almost portable across font changes and a \meta{stength} of \textminus2 is a good starting
+%    point.
 %  \end{tip}
 %
 %
@@ -6642,6 +6718,11 @@ end
   {\setlength{\typog@config@textitalicscorrection}{#1}}
 \DeclareOptionX<typog>{ligaturekern}[.033333em]%
   {\setlength{\typog@config@ligaturekern}{#1}}
+%  \fi
+%
+%  \changes{v0.5}{2024-09-22}{Rewrite parser for package option~\code{lowercaselabelitemadjustments} to accept a star as a placehoder.}
+%
+%  \iffalse
 \DeclareOptionX<typog>{lowercaselabelitemadjustments}%
   {\typog@debug@typeout{lowercaselabelitemadjustments={#1}}
    \def\typog@@do##1{\addtocounter{typog@@iteration}{1}
@@ -6714,6 +6795,11 @@ end
      \typog@debug@typeout{trackingttspacing=#1}%
      \SetTracking[outer spacing={#1}]{encoding=*, family=tt*}{0}%
    \fi}
+%  \fi
+%
+%  \changes{v0.5}{2024-09-22}{Rewrite parser for package option~\code{uppercaselabelitemadjustments} to accept a star as a placehoder.}
+%
+%  \iffalse
 \DeclareOptionX<typog>{uppercaselabelitemadjustments}%
   {\typog@debug@typeout{uppercaselabelitemadjustments={#1}}
    \def\typog@@do##1{\addtocounter{typog@@iteration}{1}
@@ -7584,7 +7670,7 @@ end
    \letcs{\@tempb}{typog@config@raiseinvertedmarks@\romannumeral#2}%
    \ifdim\@tempb=\z@
      \setbox0=\hbox{\@tempa}%
-     \dimen0=\dp0%
+     \dimen0=\dp0
    \else
      \dimen0=\@tempb
    \fi
@@ -10565,11 +10651,13 @@ Without TypoG support: g\textexclamdown j\textquestiondown y!
   \def\typog@inverted@questionmark@ii{\textquestiondown\textsubscript{2}}
   \def\typog@inverted@questionmark@iii{\textquestiondown\textsubscript{3}}
   \makeatother
-  Secondaries -- indexed with 2: \capitalinvertedquestionmark[2]Más?
-  \capitalinvertedexclamationmark[2]Por venir!
+  Secondaries -- indexed with 2:
+  \capitalinvertedquestionmark[2] Más?
+  \capitalinvertedexclamationmark[2] Por venir!
 
-  Tertiaries -- indexed with 3: \capitalinvertedquestionmark[3]Continuemos?
-  \capitalinvertedexclamationmark[3]Con el texto!
+  Tertiaries -- indexed with 3:
+  \capitalinvertedquestionmark[3] Continuemos?
+  \capitalinvertedexclamationmark[3] Con el texto!
 \end{typogsetup}
 
 
