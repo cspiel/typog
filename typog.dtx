@@ -430,6 +430,11 @@
          {\relax}
          {\AppendingFailed}
 
+\newcommand*{\indexpackageoption}[1]
+            {\detoxindex{package option>#1=\code{#1}|userman}%
+             \detoxindex{#1=\code{#1}~(option)|userman}%
+             \ignorespaces}
+
 \newcommand*{\linenumberdecoration}
             {\legacy_if:nTF {codeline@index}
                             {\codelineindicator}
@@ -523,6 +528,8 @@
                                       .4em
                                     \fi}
                                    {\tiny$\urcorner$}}}
+
+\newcommand*{\samplestar}{\sample{\raisebox{-.25em}[0pt][0pt]{*}}}
 
 \newcommand*{\sectionfinish}
             {\vfill
@@ -1723,11 +1730,6 @@ end
 %  package~\packagename{microtype} are indicated with \doublequotes{\microtyperequiredmarker}.
 %
 %  \begin{typogsetup}{}
-%    \newcommand*{\indexpackageoption}[1]
-%                {\detoxindex{package option>#1=\code{#1}|userman}%
-%                 \detoxindex{#1=\code{#1}~(option)|userman}%
-%                 \ignorespaces}
-%    \newcommand*{\samplestar}{\sample{\raisebox{-.25em}[0pt][0pt]{*}}}
 %    \begin{description}
 %        [before={\let\oldmakelabel=\makelabel
 %                 \renewcommand{\makelabel}[1]
@@ -1736,7 +1738,7 @@ end
 %         style=nextline,
 %         vtietop]
 %    \item[|breakpenalty=|\meta{penalty}]\label{item:breakpenalty}
-%      \indexpackageoption{penalty}
+%      \indexpackageoption{breakpenalty}
 %      \shiftedmarginnote{This sub-section is typeset with all \packagename{typog}~parameters
 %        reset to their defaults by wrapping it in a
 %        \hyperref[syn:typogsetup]{\code{typogsetup}}~environment with an empty argument.}
@@ -2657,6 +2659,7 @@ end
 %    \cs{nolig*}\oarg{kerning}
 %  \end{synopsis}
 %
+%  \indexpackageoption{ligaturekern}
 %  Inserting \cs{nolig*} disables a ligature at the given point by a kern.  Set the size of the
 %  kern\index{kerning>ligature|userman} with \hyperref[item:ligaturekern]{\code{ligaturekern}} or
 %  override this value with \meta{kerning} as thousandths of the current font's~em.
@@ -2677,6 +2680,7 @@ end
 %    \cs{nolig}\oarg{kerning}
 %  \end{synopsis}
 %
+%  \indexpackageoption{breakpenalty}
 %  Inserting \cs{nolig} disables a ligature at the given point as \cs{nolig*} does \emph{and}
 %  introduces a hyphenation opportunity with
 %  penalty~\hyperref[item:breakpenalty]{|breakpenalty|}.
@@ -2724,12 +2728,14 @@ end
 %  \end{synopsis}
 %
 %  In text mode macro~\cs{itcorr} inserts a kern whose width is proportional to \cs{fontdim1},
-%  which is the font's italic correction.  If \cs{fontdim1} happens to be zero (e.\,g.~for an
-%  upright font), \cs{itcorr} uses the value set with
-%  \hyperref[item:textitalicscorrection]{\code{textitalicscorrection}} instead of \cs{fontdim1}.
-%  The starred version always uses
-%  \hyperref[item:textitalicscorrection]{\code{textitalicscorrection}}.  In math mode
-%  macro~\cs{itcorr} uses the value set with
+%  which is the font's italic correction.
+%  \indexpackageoption{textitalicscorrection}
+%  If \cs{fontdim1} happens to be zero (e.\,g.~for an upright font), \cs{itcorr} uses the value
+%  set with \hyperref[item:textitalicscorrection]{\code{textitalicscorrection}} instead of
+%  \cs{fontdim1}.  The starred version always uses
+%  \hyperref[item:textitalicscorrection]{\code{textitalicscorrection}}.
+%  \indexpackageoption{mathitalicscorrection}
+%  In math mode macro~\cs{itcorr} uses the value set with
 %  \hyperref[item:mathitalicscorrection]{\code{mathitalicscorrection}}\footnote{Separate
 %  adjustments may be desirable if the math font's italics have markedly different slants.}  in
 %  both the starred and the unstarred form.
@@ -2882,11 +2888,14 @@ end
 %     \cs{kernedslash*}
 %  \end{synopsis}
 %
+%  \indexpackageoption{breakpenalty}
 %  The starred form is unbreakable, the non-starred version introduces a break point with
-%  penalty~\hyperref[item:breakpenalty]{|breakpenalty|} after the slash.  Configure the kerning
-%  around the slash with~\hyperref[item:slashkern]{|slashkern|}.
+%  penalty~\hyperref[item:breakpenalty]{|breakpenalty|} after the slash.
+%  \indexpackageoption{slashkern}
+%  Configure the kerning around the slash with~\hyperref[item:slashkern]{|slashkern|}.
 %
 %  \sinceversion{Option \code{lowerslash} introduced in v0.5}
+%  \indexpackageoption{lowerslash}
 %  The kerned slash can typset lowered (or raised), where the offset with respect to the
 %  baseline is configured with~\hyperref[item:lowerslash]{|lowerslash|}.
 %
@@ -2945,9 +2954,11 @@ end
 %
 %  The optional argument~\meta{raise}, also given in \nativetextfraction{1}{1000}\,em, allows to
 %  adjust the height of the hyphen similar to the macros described in
-%  \cref{sec:raise-characters}.  In text mode the special argument~\sample{|*|} for \meta{raise}
-%  transfers the current value of \hyperref[item:raisecapitalhyphen]{\code{raisecapitalhyphen}}.
-%  The default for \meta{raise} is zero.
+%  \cref{sec:raise-characters}.
+%  \indexpackageoption{raisecapitalhyphen}
+%  In text mode the special argument~\sample{|*|} for \meta{raise} transfers the current value
+%  of \hyperref[item:raisecapitalhyphen]{\code{raisecapitalhyphen}}.  The default for
+%  \meta{raise} is zero.
 %
 %  \DescribeMacro{\leftkernedhyphen}
 %  \DescribeMacro{\leftkernedhyphen*}
@@ -3009,6 +3020,7 @@ end
 %     \cs{capitalhyphen*}
 %  \end{synopsis}
 %
+%  \indexpackageoption{breakpenalty}
 %  The unstarred version introduces a hyphenation opportunity right after the hyphen character
 %  (with penalty~\hyperref[item:breakpenalty]{|breakpenalty|}) whereas the starred version does
 %  not.  The actual amount the hyphen gets raised in \cs{capitalhyphen} is determined by
@@ -3043,10 +3055,12 @@ end
 %    \end{tabbing}
 %  \end{synopsis}
 %
+%  \indexpackageoption{breakpenalty}
 %  The unstarred version introduces a hyphenation opportunity right after the dash (with
 %  penalty~\hyperref[item:breakpenalty]{|breakpenalty|}) whereas the starred version does not.
+%  \indexpackageoption{raisecapitaldash}
 %  The actual amount the hyphen gets raised in \cs{capitaldash} is determined by
-%  \hyperref[item:raisecapitalhyphen]{|raisecapitaldash|}.
+%  \hyperref[item:raisecapitaldash]{|raisecapitaldash|}.
 %
 %  \begin{usecases}
 %    Letter ranges as used in the title of an index.~\visualpar Any mixed letter-digit ranges
@@ -3092,8 +3106,10 @@ end
 %     \cs{figuredash*}
 %  \end{synopsis}
 %
+%  \indexpackageoption{breakpenalty}
 %  The unstarred version introduces a hyphenation opportunity right after the en-dash with
 %  penalty~\hyperref[item:breakpenalty]{|breakpenalty|} whereas the starred version does not.
+%  \indexpackageoption{raisefiguredash}
 %  The actual amount the en-dash gets raised in \cs{figuredash} is determined by
 %  \hyperref[item:raisefiguredash]{|raisefiguredash|}.
 %
@@ -3179,6 +3195,7 @@ end
 %    \cs{capitaltimes}
 %  \end{synopsis}
 %
+%  \indexpackageoption{raisecapitaltimes}
 %  In text mode it expands to an appropriately raised \cs{texttimes}, and in math~mode to a
 %  raised \cs{times} binary~operator, where
 %  \hyperref[item:raisecapitaltimes]{|raisecapitaltimes|} determines the amount of
@@ -3222,8 +3239,9 @@ end
 %  \noindent
 %  For consistency and easy accessibility we define height-adjusted left and right single
 %  guillemets as \cs{singleguillemetleft} and \cs{singleguillemetright}; double guillemets are
-%  available with \cs{doubleguillemetleft} and \cs{doubleguillemetright}.  Their heights above
-%  the baseline are collectively adjusted with
+%  available with \cs{doubleguillemetleft} and \cs{doubleguillemetright}.
+%  \indexpackageoption{raiseguillemets}
+%  Their heights above the baseline are collectively adjusted with
 %  \hyperref[item:raiseguillemets]{|raiseguillemets|}.
 %
 %
@@ -3248,7 +3266,9 @@ end
 %  The companion set of single, double, left, and right quotes corrected for uppercase letters
 %  or lining numerals is \cs{Singleguillemetleft} and \cs{Singleguillemetright} and
 %  \cs{Doubleguillemetleft} and \cs{doubleguillemetright}.  Mnemonic: These macros start with an
-%  uppercase letter.  Their height above the baseline is adjusted with
+%  uppercase letter.
+%  \indexpackageoption{raisecapitalguillemets}
+%  Their height above the baseline is adjusted with
 %  \hyperref[item:raisecapitalguillemets]{|raisecapitalguillemets|}.  Values of .025\,em to
 %  .075\,em are typical for fonts that need this kind of correction.  \Cref{tab:raiseguillemets}
 %  summarizes some findings.
@@ -3377,6 +3397,7 @@ end
 %  and the associated raise-amount with \meta{number}=1, 2, or~3.  The default \meta{number}
 %  is~1.
 %
+%  \indexpackageoption{raiseinvertedmarks}
 %  Configured with option~\hyperref[item:raiseinvertedmarks]{\code{raiseinvertedmarks}}.
 %
 %  \iffalse
@@ -3508,6 +3529,8 @@ end
 %    \cs{noadjustlabelitems}\marg{levels-to-adjust}
 %  \end{synopsis}
 %
+%  \indexpackageoption{lowercase\-labelitem\-adjustments}
+%  \indexpackageoption{uppercase\-labelitem\-adjustments}
 %  Apply uppercase adjustment, lowercase adjustment or no adjustment to the labels in
 %  |itemize|~environments at the \meta{levels-to-adjust}.  The adjustment values themselves,
 %  this is the vertical shifts are configured with
@@ -4629,6 +4652,7 @@ end
 %  spacing may show up at the borders where fonts change.  This is caused by the calculation of
 %  the \doublequotes{outer spacing} described in Sec.~5.3 of the \packagename{microtype}~manual.
 %
+%  \indexpackageoption{trackingttspacing}
 %  Use configuration variable~\hyperref[item:trackingttspacing]{\code{trackingttspacing}} to
 %  reduce the outer spacing to a reasonable value either directly at package-load time
 %
@@ -4719,6 +4743,8 @@ end
 %    \end{tabfigures}
 %  \end{SCtable}
 %
+%  \indexpackageoption{shrinklimits}
+%  \indexpackageoption{stretchlimits}
 %  The three (nonzero) shrink limits of \code{setfontshrink} can be configured with package
 %  option~\hyperref[item:shrinklimits]{\code{shrinklimits}} and --~in the same way~-- the three
 %  (nonzero) stretch limits of \code{setfontstretch} with package
