@@ -431,8 +431,13 @@
          {\AppendingFailed}
 
 \newcommand*{\indexpackageoption}[1]
-            {\detoxindex{package option>#1=\code{#1}|userman}%
+            {\detoxindex{package~option>#1=\code{#1}|userman}%
              \detoxindex{#1=\code{#1}~(option)|userman}%
+             \ignorespaces}
+
+\newcommand*{\indexpackageoptiondefinition}[1]
+            {\detoxindex{package~option>#1=\code{#1}|usermandef}%
+             \detoxindex{#1=\code{#1}~(option)|usermandef}%
              \ignorespaces}
 
 \newcommand*{\linenumberdecoration}
@@ -707,7 +712,8 @@
             {{\def\thefootnote{}\footnote{#1}%
               \addtocounter{footnote}{-1}}}
 
-\newcommand*{\userman}[1]{\textbf{\hyperpage{#1}}}%%-- https://github.com/ho-tex/hypdoc/issues/11
+\newcommand*{\userman}[1]{\textbf{\hyperpage{#1}}}%-- https://github.com/ho-tex/hypdoc/issues/11
+\newcommand*{\usermandef}[1]{\textbf{\itshape\hyperpage{#1}}}
 
 \newcommand*{\visualpar}{\textcolor{\markercolor}{\P}\linebreak[1]\enspace}
 
@@ -1188,6 +1194,7 @@ end
 %  \addcontentsline{toc}{section}{\numberline{}Quick Reference}
 %  \addtocontents{toc}{\medskip}
 %  \section*{Quick Reference}
+%  \index{quick reference|(userman}
 %
 %  \marginnote{We reduce the line spacing in the multi-column parts to 120\% with
 %  \hyperref[syn:setbaselineskippercentage]{\cs{set\-base\-line\-skip\-per\-cent\-age}}~.\visualpar
@@ -1624,6 +1631,7 @@ end
 %      \endqritem
 %    \end{quickreference}
 %  \end{widebody}
+%  \index{quick reference|)userman}
 %
 %
 %  \clearpage
@@ -1738,7 +1746,7 @@ end
 %         style=nextline,
 %         vtietop]
 %    \item[|breakpenalty=|\meta{penalty}]\label{item:breakpenalty}
-%      \indexpackageoption{breakpenalty}
+%      \indexpackageoptiondefinition{breakpenalty}
 %      \shiftedmarginnote{This sub-section is typeset with all \packagename{typog}~parameters
 %        reset to their defaults by wrapping it in a
 %        \hyperref[syn:typogsetup]{\code{typogsetup}}~environment with an empty argument.}
@@ -1747,8 +1755,8 @@ end
 %        \cs{exhyphenpenalty}:~\the\exhyphenpenalty.
 %
 %    \item[|debug|, |nodebug|]\label{item:debug}
-%      \indexpackageoption{debug}
-%      \indexpackageoption{nodebug}
+%      \indexpackageoptiondefinition{debug}
+%      \indexpackageoptiondefinition{nodebug}
 %      Write some package-specific debug information to the \filesystem{log}~file.  Opposite:
 %      |nodebug|.  The default is not to record debug information.
 %
@@ -1756,7 +1764,7 @@ end
 %      nor with \hyperref[syn:typogget]{\cs{typogget}}.
 %
 %    \item[|ligaturekern=|\meta{dim}]\label{item:ligaturekern}
-%      \indexpackageoption{ligaturekern}
+%      \indexpackageoptiondefinition{ligaturekern}
 %      Set \meta{dim} of the kern that is inserted to split a ligature in
 %      macro\hyperref[syn:nolig]{\cs{nolig}}.  See
 %      \cref{sec:break-ligatures}.\shiftedmarginnote{We access all the (default) configuration
@@ -1765,7 +1773,7 @@ end
 %
 %    \item[|lowercaselabelitemadjustments=\{|\meta{dim-1}, \dots, \meta{dim-4}|\}|]%
 %      \label{item:lowercaselabelitemadjustments}
-%      \indexpackageoption{lowercase\-labelitem\-adjustments}
+%      \indexpackageoptiondefinition{lowercase\-labelitem\-adjustments}
 %      \sinceversion{Since v0.4}
 %      Vertical shifts \meta{dim-N} to apply to \cs{labelitem}\meta{N}, where \meta{N}= 1, 2, 3,
 %      or~4 is the nesting level of the |itemize|~list.  Empty list elements are ignored.  The
@@ -1789,7 +1797,7 @@ end
 %      \end{important}
 %
 %    \item[|lowerslash=|\meta{dim}]\label{item:lowerslash}
-%      \indexpackageoption{lowerslash}
+%      \indexpackageoptiondefinition{lowerslash}
 %      \sinceversion{Since v0.5}
 %      Lower the slash typeset by \hyperref[syn:kernedslash]{\cs{kernedslash}}.  Positive
 %      lengths~\meta{dim} \emph{lower} the glyph, negative ones raise it.  This is the opposite
@@ -1797,7 +1805,7 @@ end
 %      value:~\milliem{\typogget{lowerslash}}.
 %
 %    \item[|mathitalicscorrection=|\meta{dim}]\label{item:mathitalicscorrection}
-%      \indexpackageoption{mathitalicscorrection}
+%      \indexpackageoptiondefinition{mathitalicscorrection}
 %      Italics correction in math mode.  See \cref{sec:manual-italic-correction} and also the
 %      complementary configuration
 %      option~\hyperref[item:textitalicscorrection]{|textitalicscorrection|}.  Default
@@ -1805,7 +1813,7 @@ end
 %      \nativetextfraction{1}{18}\,em of the mathematical font's~em.}
 %
 %    \item[|raise*=|\meta{dim}]\label{item:raise}
-%      \indexpackageoption{raise*}
+%      \indexpackageoptiondefinition{raise*}
 %      Set the length by which selected characters (dash, hyphen, times, and number dash) are
 %      raised.  Default value:~\formatdimen*{0pt}.
 %
@@ -1816,13 +1824,13 @@ end
 %      it can.
 %
 %    \item[|raisecapitaldash=|\meta{dim}]\label{item:raisecapitaldash}
-%      \indexpackageoption{raisecapitaldash}
+%      \indexpackageoptiondefinition{raisecapitaldash}
 %      Set the length that the \cs{textendash} is raised in
 %      \hyperref[syn:capitaldash]{\cs{capitaldash}}.  See \cref{sec:capital-dash}.  Default
 %      value:~\milliem{\the\typogget{raisecapitaldash}}.
 %
 %    \item[|raisecapitalhyphen=|\meta{dim}]\label{item:raisecapitalhyphen}
-%      \indexpackageoption{raisecapitalhyphen}
+%      \indexpackageoptiondefinition{raisecapitalhyphen}
 %      Set the length that the hyphen character~\sample{-} is raised in
 %      \hyperref[syn:capitalhyphen]{\cs{capitalhyphen}}.  See
 %      \cref{sec:capital-hyphen}.\shiftedmarginnote{This description list is protected against
@@ -1831,31 +1839,31 @@ end
 %      value:~\milliem{\the\typogget{raisecapitalhyphen}}.
 %
 %    \item[|raisecapitaltimes=|\meta{dim}]\label{item:raisecapitaltimes}
-%      \indexpackageoption{raisecapitaltimes}
+%      \indexpackageoptiondefinition{raisecapitaltimes}
 %      Set the length that the multiplication symbol~\sample{\texttimes} is raised in
 %      \hyperref[syn:capitaltimes]{\cs{capitaltimes}}.  See \cref{sec:mult-sign}.  Default
 %      value:~\milliem{\the\typogget{raisecapitaltimes}}.
 %
 %    \item[|raisecapitalguillemets=|\meta{dim}]\label{item:raisecapitalguillemets}
-%      \indexpackageoption{raisecapitalguillemets}
+%      \indexpackageoptiondefinition{raisecapitalguillemets}
 %      Set the length that single and double guillemets are raised in the uppercase versions of
 %      the guillemet macros.  See \cref{sec:guillemets}.  Default
 %      value:~\milliem{\the\typogget{raisecapitalguillemets}}.
 %
 %    \item[|raiseguillemets=|\meta{dim}]\label{item:raiseguillemets}
-%      \indexpackageoption{raiseguillemets}
+%      \indexpackageoptiondefinition{raiseguillemets}
 %      Set the length that single and double guillemets are raised in the lowercase versions of
 %      the guillemet macros.  See \cref{sec:guillemets}.  Default
 %      value:~\milliem{\the\typogget{raiseguillemets}}.
 %
 %    \item[|raisefiguredash=|\meta{dim}]\label{item:raisefiguredash}
-%      \indexpackageoption{raisefiguredash}
+%      \indexpackageoptiondefinition{raisefiguredash}
 %      Set the length that the \cs{textendash} is raised in
 %      \hyperref[syn:figuredash]{\cs{figuredash}}.  See \cref{sec:number-dash}.  Default
 %      value:~\milliem{\the\typogget{raisefiguredash}}.
 %
 %    \item[|raiseinvertedmarks=\{|\meta{dim-1}, \meta{dim-2}, \meta{dim-3}|\}|]\label{item:raiseinvertedmarks}
-%      \indexpackageoption{raiseinvertedmarks}
+%      \indexpackageoptiondefinition{raiseinvertedmarks}
 %      \sinceversion{Since v0.5}
 %      Set the lengths by which the macros
 %      \hyperref[syn:capitalinvertedexclamationmark]{\cs{capitalinvertedexclamationmark}} and
@@ -1874,8 +1882,8 @@ end
 %
 %    \item[|shrinklimits=\{|\meta{limit-1}, \meta{limit-2}, \meta{limit-3}|\}|\quad\microtyperequiredmarker\label{item:shrinklimits}  \\
 %          |stretchlimits=\{|\meta{limit-1}, \meta{limit-2}, \meta{limit-3}|\}|\quad\microtyperequiredmarker]\label{item:stretchlimits}
-%      \indexpackageoption{shrinklimits}
-%      \indexpackageoption{stretchlimits}
+%      \indexpackageoptiondefinition{shrinklimits}
+%      \indexpackageoptiondefinition{stretchlimits}
 %      Set the three limits, given in \nativetextfraction{1}{1000}\,em, of shrinkability and
 %      stretchability for the respective levels.  They are used in
 %      \hyperref[syn:setfontshrink]{\code{setfontshrink}} (|shrinklimits| triple only),
@@ -1896,12 +1904,12 @@ end
 %      \emph{not} in the document body.
 %
 %    \item[|slashkern=|\meta{dim}]\label{item:slashkern}
-%      \indexpackageoption{slashkern}
+%      \indexpackageoptiondefinition{slashkern}
 %      Set the size of the kerns before and after \hyperref[syn:kernedslash]{\cs{kernedslash}}.
 %      See \cref{sec:slash-with-kern}.  Default value:~\milliem{\typogget{slashkern}}.
 %
 %    \item[|textitalicscorrection=|\meta{dim}]\label{item:textitalicscorrection}
-%      \indexpackageoption{textitalicscorrection}
+%      \indexpackageoptiondefinition{textitalicscorrection}
 %      Italics correction fallback-value; used if \cs{fontdimen1} is zero.  See
 %      \cref{sec:manual-italic-correction} on manual italic correction and also the
 %      complementary configuration
@@ -1909,7 +1917,7 @@ end
 %      value:~\milliem{\typogget{textitalicscorrection}}.
 %
 %    \item[|trackingttspacing=|\code{\{\meta{outer-spacing}\}}\quad\microtyperequiredmarker]\label{item:trackingttspacing}
-%      \indexpackageoption{trackingttspacing}
+%      \indexpackageoptiondefinition{trackingttspacing}
 %      Set the outer spacing of all typewriter fonts if used in environment~\code{settracking}
 %      as described in \cref{sec:tracking-control}.
 %
@@ -1925,7 +1933,7 @@ end
 %
 %    \item[|uppercaselabelitemadjustments=\{|\meta{dim-1}, \dots, \meta{dim-4}|\}|]%
 %      \label{item:uppercaselabelitemadjustments}
-%      \indexpackageoption{uppercase\-labelitem\-adjustments}
+%      \indexpackageoptiondefinition{uppercase\-labelitem\-adjustments}
 %      \sinceversion{Since v0.4}
 %      Vertical shifts \meta{dim-N} to apply to \cs{labelitem}\meta{N}, where \meta{N}=1, 2, 3,
 %      or~4 is the nesting level of the |itemize|~list.  Empty list elements are ignored.  The
@@ -3475,7 +3483,9 @@ end
 %             The gray glyphs demonstrate the result of shifting them up such that they exactly
 %             touch the baseline, which mimics the auto-raise mode described in the
 %             text.~\visualpar The sample font once again is
-%             \acronym{URW}~Palladio.\label{fig:inverted-marks}}
+%             \acronym{URW}~Palladio%
+%             \detoxindex{font>typeface>URW Palladio=\acronym{URW} Palladio|userman}.%
+%             \label{fig:inverted-marks}}
 %  \end{figure}
 %
 %  \begin{tip}
