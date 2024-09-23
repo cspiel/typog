@@ -3434,28 +3434,38 @@ bbox_g := bbox letter_g;
 descender_height := ypart (ulcorner bbox_g - llcorner bbox_g) - ex_height;
 show descender_height;
 
-%%  char(161)  --  inverted exclamation mark
-%%  char(191)  --  inverted question mark
+string inverted_exclamation_mark_char;
+inverted_exclamation_mark_char := char(161);
+
+string inverted_question_mark_char;
+inverted_question_mark_char := char(191);
+
 picture font_sample;
-font_sample := thelabel(("g" & char(161) & "jk" & char(191) & "y   " &
-                         char(161) & " E! " & char(191) & " Q?")
+font_sample := thelabel(("g" & inverted_exclamation_mark_char & "jk" &
+                         inverted_question_mark_char & "y   " &
+                         inverted_exclamation_mark_char & " E! " &
+                         inverted_question_mark_char & " Q?")
                         infont roman_font scaled font_scale, origin);
 path bbox_sample;
 bbox_sample := bbox font_sample;
 
-picture inverted_exclamation_mark;
-inverted_exclamation_mark := thelabel(char(161) infont roman_font scaled font_scale,
-                                      font_scale * (2.6, 1.333));
+%%  The locations of shifted_inverted_exclamation_mark and
+%%  shifted_inverted_question_mark are 100% pure fudge!
+picture shifted_inverted_exclamation_mark;
+shifted_inverted_exclamation_mark :=
+    thelabel(inverted_exclamation_mark_char infont roman_font scaled font_scale,
+             font_scale * (2.6, 1.333));
 
-picture inverted_question_mark;
-inverted_question_mark := thelabel(char(191) infont roman_font scaled font_scale,
-                                   font_scale * (20.6, 1.333));
+picture shifted_inverted_question_mark;
+shifted_inverted_question_mark :=
+    thelabel(inverted_question_mark_char infont roman_font scaled font_scale,
+             font_scale * (20.6, 1.333));
 
 
 beginfig(1);
   draw font_sample;
-  draw inverted_exclamation_mark withcolor .8 white;
-  draw inverted_question_mark withcolor .8 white;
+  draw shifted_inverted_exclamation_mark withcolor .8 white;
+  draw shifted_inverted_question_mark withcolor .8 white;
 
   draw (xpart (llcorner bbox_sample), ypart (llcorner bbox_sample) + descender_height) --
        (xpart (lrcorner bbox_sample), ypart (lrcorner bbox_sample) + descender_height)
@@ -3470,7 +3480,7 @@ end
 %</invertedmarks>
 %  \fi
 %
-%  We sketch the automated correction process in \Cref{fig:inverted-marks}.
+%  We sketch the result of the automated correction process in \Cref{fig:inverted-marks}.
 %
 %  \begin{figure}
 %    \centering
@@ -3489,11 +3499,10 @@ end
 %  \end{figure}
 %
 %  \begin{tip}
-%    If there are no lining inverted question marks found in a font, there are of course no
-%    kerning pairs defined either.  However, for example, \sample{V}, \sample{W}, and \sample{Y}
-%    following inverted question marks may need some manual kerning.
+%    For example, \sample{V}, \sample{W}, and \sample{Y} following an inverted question mark may
+%    need some manual kerning as well as \sample{J} following an inverted exclamation mark.
 %    Macro~\hyperref[syn:itcorr]{\cs{itcorr}} (\cpageref{syn:itcorr}) offers a solution that is
-%    almost portable across font changes and a \meta{stength} of \textminus2 is a good starting
+%    almost portable across font changes and a \meta{stength} of \textminus1 is a good starting
 %    point.
 %  \end{tip}
 %
