@@ -327,7 +327,7 @@ endef
 	w3m -cols 79 $<  > $@
 
 
-crooked-paragraphs.mp slant-angle.mp smooth-parshapes.mp title.mp  \
+crooked-paragraphs.mp inverted-marks.mp slant-angle.mp smooth-parshapes.mp title.mp  \
 teximan2latex.sed  \
 typog-grep.pl.in typog-grep.pod  \
 typog.sty typog.ist typog-example.tex  \
@@ -339,6 +339,8 @@ typog-minimal-test.tex typog-without-microtype-test.tex:  \
 crooked-paragraphs-1.mps crooked-paragraphs-2.mps  \
 crooked-paragraphs-3.mps crooked-paragraphs-4.mps: crooked-paragraphs.mp
 
+inverted-marks-1.mps: inverted-marks.mp
+
 smooth-parshapes-1.mps smooth-parshapes-2.mps smooth-parshapes-3.mps: smooth-parshapes.mp
 
 slant-angle-1.mps: slant-angle.mp
@@ -348,7 +350,7 @@ title-1.mps: title.mp
 typog.pdf: typog.dtx  \
            crooked-paragraphs-1.mps crooked-paragraphs-2.mps  \
            crooked-paragraphs-3.mps crooked-paragraphs-4.mps  \
-           slant-angle-1.mps title-1.mps  \
+           inverted-marks-1.mps slant-angle-1.mps title-1.mps  \
            smooth-parshapes-1.mps smooth-parshapes-2.mps smooth-parshapes-3.mps  \
            typog-grep.tex  \
            | typog.sty

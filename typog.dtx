@@ -437,6 +437,16 @@
 \ExplSyntaxOff
 \makeatother
 
+\newcommand*{\indexpackageoption}[1]
+            {\detoxindex{package option>#1=\code{#1}|userman}%
+             \detoxindex{#1=\code{#1}~(option)|userman}%
+             \ignorespaces}
+
+\newcommand*{\indexpackageoptiondefinition}[1]
+            {\detoxindex{package option>#1=\code{#1}|usermandef}%
+             \detoxindex{#1=\code{#1}~(option)|usermandef}%
+             \ignorespaces}
+
 \newcommand*{\logmacro}[1]
             {\ifdef{#1}
                    {\message{^^JDump of macro \string#1 follows.^^J}
@@ -523,6 +533,8 @@
                                       .4em
                                     \fi}
                                    {\tiny$\urcorner$}}}
+
+\newcommand*{\samplestar}{\sample{\raisebox{-.25em}[0pt][0pt]{*}}}
 
 \newcommand*{\sectionfinish}
             {\vfill
@@ -700,7 +712,8 @@
             {{\def\thefootnote{}\footnote{#1}%
               \addtocounter{footnote}{-1}}}
 
-\newcommand*{\userman}[1]{\textbf{\hyperpage{#1}}}%%-- https://github.com/ho-tex/hypdoc/issues/11
+\newcommand*{\userman}[1]{\textbf{\hyperpage{#1}}}%-- https://github.com/ho-tex/hypdoc/issues/11
+\newcommand*{\usermandef}[1]{\textbf{\itshape\hyperpage{#1}}}
 
 \newcommand*{\visualpar}{\textcolor{\markercolor}{\P}\linebreak[1]\enspace}
 
@@ -755,7 +768,12 @@
                            \itemsep=5pt plus 2pt minus 1pt}
 
 \newenvironment*{quickreference}
-                {\newcommand*{\sigbrk}
+                {\newcommand*{\heading}[1]
+                             {\pagebreak[3]%
+                              \medskip
+                              {\sffamily\bfseries\large ##1}%
+                              \nopagebreak}
+                 \newcommand*{\sigbrk}
                              {\discretionary{\hbox{\raise .025em \hbox{$\triangleright$}}}
                                             {\hbox{\raise .025em \hbox{$\triangleleft$}}}
                                             {}}
@@ -830,6 +848,8 @@
   break-penalty
   breakable-display
   capital-hyphen
+  capital-inverted-exclamation-mark
+  capital-inverted-question-mark
   capital-times
   cite-dash
   club-penalties
@@ -900,6 +920,8 @@
   space-skip
   stretch-limits
   text-italics-correction
+  text-exclam-down
+  text-question-down
   tight-spacing
   tracing-boxes
   tracing-para-graphs
@@ -933,7 +955,7 @@ actual            '='
 delim_0           "\\nobreak\\enspace"
 delim_1           "\\nobreak\\enspace"
 delim_2           "\\nobreak\\enspace"
-delim_r           "\\figuredash*"
+delim_r           "\\nohyperpage{\\figuredash*}"
 heading_prefix    "\\pagebreak[3]\\smallskip\n\n{\\sffamily\\bfseries\\large "
 heading_suffix    "}\\nopagebreak\n"
 headings_flag     1
@@ -968,7 +990,7 @@ quote             '!'
 %  \DoNotIndex{\baselineskip,\begin,\begingroup,\booltrue,\box}
 %  \DoNotIndex{\c,\char,\clist,\clubpenalties,\clubpenalty,\count,\cs,\csname}
 %  \DoNotIndex{\DeclareRobustCommand,\def,\define@choicekey,\define@key,\detokenize}
-%  \DoNotIndex{\dim,\dimen,\dimexpr,\discretionary,\displaywidowpenalties,\displaywidowpenalty}
+%  \DoNotIndex{\dim,\dimen,\dimexpr,\discretionary,\displaywidowpenalties,\displaywidowpenalty,\dp}
 %  \DoNotIndex{\edef,\else,\emergencystretch,\empty,\end,\endcsname,\endgroup}
 %  \DoNotIndex{\endlastlineflushrightpar}
 %  \DoNotIndex{\endlastlineraggedleftpar}
@@ -1015,9 +1037,10 @@ quote             '!'
 %  \DoNotIndex{\smoothraggedrightshapeseptuplet}
 %  \DoNotIndex{\smoothraggedrightshapetriplet}
 %  \DoNotIndex{\space,\spaceskip,\stepcounter,\str,\@strength,\string}
-%  \DoNotIndex{\textemdash,\textendash,\textsf,\textsl,\texttimes,\textwidth,\the,\times,\tl}
+%  \DoNotIndex{\textemdash,\textendash,\textexclamdown,\textquestiondown}
+%  \DoNotIndex{\textsf,\textsl,\texttimes,\textwidth,\the,\times,\tl}
 %  \DoNotIndex{\token,\tolerance,\tracingnone,\tracingpages,\tracingparagraphs}
-%  \DoNotIndex{\typeout,\typoginspect,\typoglogo}
+%  \DoNotIndex{\typeout,\typog,\typogadjuststairsfor,\typoginspect,\typoglogo}
 %  \DoNotIndex{\unhbox,\unless}
 %  \DoNotIndex{\val,\value,\vbadness,\vfuzz}
 %  \DoNotIndex{\wd,\widowpenalties,\widowpenalty}
@@ -1174,6 +1197,7 @@ end
 %  \addcontentsline{toc}{section}{\numberline{}Quick Reference}
 %  \addtocontents{toc}{\medskip}
 %  \section*{Quick Reference}
+%  \index{quick reference|(userman}
 %
 %  \marginnote{We reduce the line spacing in the multi-column parts to 120\% with
 %  \hyperref[syn:setbaselineskippercentage]{\cs{set\-base\-line\-skip\-per\-cent\-age}}~.\visualpar
@@ -1190,10 +1214,12 @@ end
 %
 %  \begin{widebody}
 %    \begin{quickreference}
+%      \item\relax\hspace{\leftmargin}\heading{A}\vspace{-\itemsep}%
 %      \qritem{syn:allowhyphenation}{\cs{allow\-hyphenation}}
 %        (Re-)enable automatic hyphenation.
 %      \endqritem
 %
+%      \heading{B}
 %      \qritem{syn:breakabledisplay}{\code{breakable\-display}}[\sigbrk\oarg{level}]
 %        Adjust penalty associated with \cs{allowdisplaybreaks}.
 %      \endqritem
@@ -1206,6 +1232,7 @@ end
 %        Insert an empty discretionary and re-enable automatic hyphenation.
 %      \endqritem
 %
+%      \heading{C}
 %      \qritem{syn:capitaldash}{\cs{capitaldash*}}
 %        Typeset a vertically adjusted \cs{textendash}.
 %        Alias for \cs{capitalendash*}.
@@ -1240,6 +1267,16 @@ end
 %        Typeset a vertically adjusted hyphen character that is hyphenatable.
 %      \endqritem
 %
+%      \qritem{syn:capitalinvertedexclamationmark}{\cs{capitalinvertedexclamationmark}}[\sigbrk\oarg{number}]
+%        Typeset an inverted (\singlequotes{upside-down}) exclamation mark that is level with
+%        the baseline.
+%      \endqritem
+%
+%      \qritem{syn:capitalinvertedquestionmark}{\cs{capitalinvertedquestionmark}}[\sigbrk\oarg{number}]
+%        Typeset an inverted (\singlequotes{upside-down}) question mark that is level with the
+%        baseline.
+%      \endqritem
+%
 %      \qritem{syn:capitaltimes}{\cs{capitaltimes}}
 %        Typeset a vertically adjusted \cs{texttimes}.
 %      \endqritem
@@ -1248,6 +1285,7 @@ end
 %        Extend the last line of a paragraph.
 %      \endqritem
 %
+%      \heading{D}
 %      \qritem{syn:Doubleguillemetleft}{\cs{Double\-guillemet\-left}}
 %        Typeset left double guillemets vertically adjusted for uppercase.
 %      \endqritem
@@ -1264,6 +1302,7 @@ end
 %        Typeset right double guillemets vertically adjusted for lowercase.
 %      \endqritem
 %
+%      \heading{F}
 %      \qritem{syn:figuredash}{\cs{figuredash*}}
 %        Typeset a \cs{textendash} vertically adjusted for figures (numerals).
 %      \endqritem
@@ -1276,10 +1315,12 @@ end
 %        Store the current em-heigh and \cs{baselineskip} in a pair of macros.
 %      \endqritem
 %
+%      \heading{H}
 %      \qritem{syn:hyphenmin}{\code{hyphenmin}}[\sigbrk\oarg{left-min}\sigbrk\marg{right-min}]
 %        Set the values of \cs{lefthyphenmin} and \cs{righthyphenmin}.
 %      \endqritem
 %
+%      \heading{I}
 %      \qritem{syn:itcorr}{\cs{itcorr*}}[\sigbrk\marg{strength}]
 %        Apply italic correction in the for of a \cs{kern} scaled by
 %      \code{textitalicscorrection}.
@@ -1290,6 +1331,7 @@ end
 %      \cs{fontdim1} or \code{textitalicscorrection}.
 %      \endqritem
 %
+%      \heading{K}
 %      \qritem{syn:kernedhyphen}{\cs{kernedhyphen*}}
 %             [\sigbrk\oarg{raise}\sigbrk\marg{left-kern}\sigbrk\marg{right-kern}]
 %        Typeset an unbreakable hyphen and apply kerning to its left and right.
@@ -1308,6 +1350,7 @@ end
 %        Typeset an breakable forward slash and apply kerning to its left and right.
 %      \endqritem
 %
+%      \heading{L}
 %      \qritem{syn:lastlinecenteredpar}{\code{last\-line\-centered\-par}}
 %        Center the last lines of a paragraph.
 %      \endqritem
@@ -1345,6 +1388,7 @@ end
 %        Activate the lowercase height-adjustment values inside \code{itemize}~environments.
 %      \endqritem
 %
+%      \heading{N}
 %      \qritem{syn:narrowspace}{\cs{narrowspace*}}
 %        Typeset a narrow space whose width depends on \cs{fontdimen7}.
 %      \endqritem
@@ -1379,14 +1423,17 @@ end
 %        Break a ligature and introduce a hyphenation opportunity.
 %      \endqritem
 %
+%      \heading{O}
 %      \qritem{syn:openlastlinepar}{\code{openlastlinepar}}[\sigbrk\oarg{dim}]
 %        Open a paragraph's last line if it is almost full or completely filled.
 %      \endqritem
 %
+%      \heading{P}
 %      \qritem{syn:prolongpar}{\code{prolongpar}}
 %        Increase the \cs{looseness} of a paragraph.
 %      \endqritem
 %
+%      \heading{R}
 %      \qritem{syn:resetbaselineskip}{\cs{reset\-baseline\-skip}}
 %        Reset the \cs{baselineskip} to its original value.
 %      \endqritem
@@ -1402,6 +1449,7 @@ end
 %        it.
 %      \endqritem
 %
+%      \heading{S}
 %      \qritem{syn:setbaselineskippercentage}{\cs{set\-baseline\-skip\-percentage}}
 %             [\sigbrk\marg{percentage}]
 %        Set \cs{baselineskip} as percentage relative to font design size.
@@ -1495,6 +1543,7 @@ end
 %        Inside of a \code{list}-like environment fuse the first lines.
 %      \endqritem
 %
+%      \heading{T}
 %      \qritem{syn:tightspacing}{\code{tightspacing}}[\sigbrk\oarg{level}]
 %        Decrease the width of the space character.
 %      \endqritem
@@ -1539,11 +1588,13 @@ end
 %        Typeset all four label items adjusted for uppercase with an indicator line.
 %      \endqritem
 %
+%      \heading{U}
 %      \qritem{syn:uppercaseadjustlabelitems}{\cs{uppercase\-adjust\-label\-items}}
 %             [\sigbrk\marg{levels}]
 %        Activate the uppercase height-adjustment values inside \code{itemize}~environments.
 %      \endqritem
 %
+%      \heading{V}
 %      \qritem{syn:vtiebotdisptoppar}{\code{vtie\-bot\-disp\-top\-par}}
 %             [\sigbrk\oarg{num-before-lines}\sigbrk\oarg{num-after-lines}]
 %        Fuse a display with its preceding and following lines.
@@ -1573,6 +1624,7 @@ end
 %        Fuse first lines.
 %      \endqritem
 %
+%      \heading{W}
 %      \qritem{syn:widespace}{\cs{widespace*}}
 %        Typeset a wide space whose width depends on \cs{fontdimen7}.
 %      \endqritem
@@ -1582,6 +1634,7 @@ end
 %      \endqritem
 %    \end{quickreference}
 %  \end{widebody}
+%  \index{quick reference|)userman}
 %
 %
 %  \clearpage
@@ -1664,6 +1717,7 @@ end
 %  \sectionfinish
 %  \clearpage
 %  \section{Package Options}\label{sec:package-options}
+%  \index{package option|(usermandef}
 %
 %  Package \packagename{typog} does not override any existing macros or environments when
 %  loaded, unless explicitly told by a package option.
@@ -1681,17 +1735,12 @@ end
 %    \end{tabbing}
 %  \end{synopsis}
 %
-%  \index{package options|(userman}
 %  The package \meta{OPTIONs} also serve as configuration \meta{key}s (unless noted otherwise).
 %  This means they can be set with \hyperref[syn:typogsetup]{\code{typogsetup}} and their values
 %  can be retrieved with \hyperref[syn:typogget]{\cs{typogget}}.  Options that rely on
 %  package~\packagename{microtype} are indicated with \doublequotes{\microtyperequiredmarker}.
 %
 %  \begin{typogsetup}{}
-%    \newcommand*{\indexpackageoption}[1]
-%                {\detoxindex{package option>#1=\code{#1}|userman}%
-%                 \detoxindex{#1=\code{#1}~(option)|userman}%
-%                 \ignorespaces}
 %    \begin{description}
 %        [before={\let\oldmakelabel=\makelabel
 %                 \renewcommand{\makelabel}[1]
@@ -1700,7 +1749,7 @@ end
 %         style=nextline,
 %         vtietop]
 %    \item[|breakpenalty=|\meta{penalty}]\label{item:breakpenalty}
-%      \indexpackageoption{penalty}
+%      \indexpackageoptiondefinition{breakpenalty}
 %      \shiftedmarginnote{This sub-section is typeset with all \packagename{typog}~parameters
 %        reset to their defaults by wrapping it in a
 %        \hyperref[syn:typogsetup]{\code{typogsetup}}~environment with an empty argument.}
@@ -1709,8 +1758,8 @@ end
 %        \cs{exhyphenpenalty}:~\the\exhyphenpenalty.
 %
 %    \item[|debug|, |nodebug|]\label{item:debug}
-%      \indexpackageoption{debug}
-%      \indexpackageoption{nodebug}
+%      \indexpackageoptiondefinition{debug}
+%      \indexpackageoptiondefinition{nodebug}
 %      Write some package-specific debug information to the \filesystem{log}~file.  Opposite:
 %      |nodebug|.  The default is not to record debug information.
 %
@@ -1718,20 +1767,21 @@ end
 %      nor with \hyperref[syn:typogget]{\cs{typogget}}.
 %
 %    \item[|ligaturekern=|\meta{dim}]\label{item:ligaturekern}
-%      \indexpackageoption{ligaturekern}
+%      \indexpackageoptiondefinition{ligaturekern}
 %      Set \meta{dim} of the kern that is inserted to split a ligature in
 %      macro\hyperref[syn:nolig]{\cs{nolig}}.  See
 %      \cref{sec:break-ligatures}.\shiftedmarginnote{We access all the (default) configuration
 %      values with \hyperref[syn:typogget]{\cs{typogget}}.}  Default
 %      value:~\milliem{\typogget{ligaturekern}}.
 %
-%    \item[|lowercaselabelitemadjustments=\{|\meta{dim1}, \meta{dim2}, \meta{dim3}, \meta{dim4}|\}|]%
+%    \item[|lowercaselabelitemadjustments=\{|\meta{dim-1}, \dots, \meta{dim-4}|\}|]%
 %      \label{item:lowercaselabelitemadjustments}
-%      \indexpackageoption{lowercase\-labelitem\-adjustments}
+%      \indexpackageoptiondefinition{lowercase\-labelitem\-adjustments}
 %      \sinceversion{Since v0.4}
-%      Vertical shifts \meta{dimN} to apply to \cs{labelitem}\meta{N}, where \meta{N} is the
-%      nesting level of the |itemize|~list starting at one.  An empty \meta{dimN} is equivalent
-%      to~\formatdimen*{0pt}.  The adjustments apply to the lowercase setting
+%      Vertical shifts \meta{dim-N} to apply to \cs{labelitem}\meta{N}, where \meta{N}= 1, 2, 3,
+%      or~4 is the nesting level of the |itemize|~list.  Empty list elements are ignored.  The
+%      special value~\samplestar{} instructs \packagename{typog} to preserve \meta{dim-N} at
+%      that position.  The adjustments apply to the lowercase setting
 %      (\hyperref[syn:lowercaseadjustlabelitems]{\code{\string\lowercaseadjustlabelitems}}).
 %      See \cref{sec:adjust-label-items} (in particular subsection~\singlequotes{Setup} and
 %      \cref{tab:labelitemadjustvalues} on \cpageref{tab:labelitemadjustvalues}) and also
@@ -1750,7 +1800,7 @@ end
 %      \end{important}
 %
 %    \item[|lowerslash=|\meta{dim}]\label{item:lowerslash}
-%      \indexpackageoption{lowerslash}
+%      \indexpackageoptiondefinition{lowerslash}
 %      \sinceversion{Since v0.5}
 %      Lower the slash typeset by \hyperref[syn:kernedslash]{\cs{kernedslash}}.  Positive
 %      lengths~\meta{dim} \emph{lower} the glyph, negative ones raise it.  This is the opposite
@@ -1758,7 +1808,7 @@ end
 %      value:~\milliem{\typogget{lowerslash}}.
 %
 %    \item[|mathitalicscorrection=|\meta{dim}]\label{item:mathitalicscorrection}
-%      \indexpackageoption{mathitalicscorrection}
+%      \indexpackageoptiondefinition{mathitalicscorrection}
 %      Italics correction in math mode.  See \cref{sec:manual-italic-correction} and also the
 %      complementary configuration
 %      option~\hyperref[item:textitalicscorrection]{|textitalicscorrection|}.  Default
@@ -1766,24 +1816,24 @@ end
 %      \nativetextfraction{1}{18}\,em of the mathematical font's~em.}
 %
 %    \item[|raise*=|\meta{dim}]\label{item:raise}
-%      \indexpackageoption{raise*}
+%      \indexpackageoptiondefinition{raise*}
 %      Set the length by which selected characters (dash, hyphen, times, and number dash) are
 %      raised.  Default value:~\formatdimen*{0pt}.
 %
-%      Only the raise amounts for guillemets are unaffected by this option.
+%      Only the raise amounts for guillemets and inverted marks are unaffected by this option.
 %
 %      This option neither can be used with \hyperref[syn:typogsetup]{\code{typogsetup}} nor
 %      with \hyperref[syn:typogget]{\cs{typogget}}, however, the specific options influenced by
 %      it can.
 %
 %    \item[|raisecapitaldash=|\meta{dim}]\label{item:raisecapitaldash}
-%      \indexpackageoption{raisecapitaldash}
+%      \indexpackageoptiondefinition{raisecapitaldash}
 %      Set the length that the \cs{textendash} is raised in
 %      \hyperref[syn:capitaldash]{\cs{capitaldash}}.  See \cref{sec:capital-dash}.  Default
 %      value:~\milliem{\the\typogget{raisecapitaldash}}.
 %
 %    \item[|raisecapitalhyphen=|\meta{dim}]\label{item:raisecapitalhyphen}
-%      \indexpackageoption{raisecapitalhyphen}
+%      \indexpackageoptiondefinition{raisecapitalhyphen}
 %      Set the length that the hyphen character~\sample{-} is raised in
 %      \hyperref[syn:capitalhyphen]{\cs{capitalhyphen}}.  See
 %      \cref{sec:capital-hyphen}.\shiftedmarginnote{This description list is protected against
@@ -1792,33 +1842,51 @@ end
 %      value:~\milliem{\the\typogget{raisecapitalhyphen}}.
 %
 %    \item[|raisecapitaltimes=|\meta{dim}]\label{item:raisecapitaltimes}
-%      \indexpackageoption{raisecapitaltimes}
+%      \indexpackageoptiondefinition{raisecapitaltimes}
 %      Set the length that the multiplication symbol~\sample{\texttimes} is raised in
 %      \hyperref[syn:capitaltimes]{\cs{capitaltimes}}.  See \cref{sec:mult-sign}.  Default
 %      value:~\milliem{\the\typogget{raisecapitaltimes}}.
 %
 %    \item[|raisecapitalguillemets=|\meta{dim}]\label{item:raisecapitalguillemets}
-%      \indexpackageoption{raisecapitalguillemets}
+%      \indexpackageoptiondefinition{raisecapitalguillemets}
 %      Set the length that single and double guillemets are raised in the uppercase versions of
 %      the guillemet macros.  See \cref{sec:guillemets}.  Default
 %      value:~\milliem{\the\typogget{raisecapitalguillemets}}.
 %
 %    \item[|raiseguillemets=|\meta{dim}]\label{item:raiseguillemets}
-%      \indexpackageoption{raiseguillemets}
+%      \indexpackageoptiondefinition{raiseguillemets}
 %      Set the length that single and double guillemets are raised in the lowercase versions of
 %      the guillemet macros.  See \cref{sec:guillemets}.  Default
 %      value:~\milliem{\the\typogget{raiseguillemets}}.
 %
 %    \item[|raisefiguredash=|\meta{dim}]\label{item:raisefiguredash}
-%      \indexpackageoption{raisefiguredash}
+%      \indexpackageoptiondefinition{raisefiguredash}
 %      Set the length that the \cs{textendash} is raised in
 %      \hyperref[syn:figuredash]{\cs{figuredash}}.  See \cref{sec:number-dash}.  Default
 %      value:~\milliem{\the\typogget{raisefiguredash}}.
 %
+%    \item[|raiseinvertedmarks=\{|\meta{dim-1}, \meta{dim-2}, \meta{dim-3}|\}|]\label{item:raiseinvertedmarks}
+%      \indexpackageoptiondefinition{raiseinvertedmarks}
+%      \sinceversion{Since v0.5}
+%      Set the lengths by which the macros
+%      \hyperref[syn:capitalinvertedexclamationmark]{\cs{capitalinvertedexclamationmark}} and
+%      \hyperref[syn:capitalinvertedquestionmark]{\cs{capitalinvertedquestionmark}} raise their
+%      associated inverted exclamation marks and inverted question marks.  Each dimension
+%      corresponds to the respective optional indices of the macros.  See
+%      \cref{sec:inverted-marks}.
+%
+%      A \meta{dim-N} of \formatdimen*{0pt} means to \doublequotes{auto level} the mark; if a
+%      zero manual correction is desired use e.\,g.~1\,sp.  Empty list elements are ignored.
+%      The special value~\samplestar{} instructs \packagename{typog} to preserve \meta{dim-N} at
+%      that position.  Default
+%      values:~\typoggetnth{\dimen0}{raiseinvertedmarks}{1}\milliem{\the\dimen0},
+%      \typoggetnth{\dimen0}{raiseinvertedmarks}{2}\milliem{\the\dimen0},
+%      \typoggetnth{\dimen0}{raiseinvertedmarks}{3}\milliem{\the\dimen0}.
+%
 %    \item[|shrinklimits=\{|\meta{limit-1}, \meta{limit-2}, \meta{limit-3}|\}|\quad\microtyperequiredmarker\label{item:shrinklimits}  \\
 %          |stretchlimits=\{|\meta{limit-1}, \meta{limit-2}, \meta{limit-3}|\}|\quad\microtyperequiredmarker]\label{item:stretchlimits}
-%      \indexpackageoption{shrinklimits}
-%      \indexpackageoption{stretchlimits}
+%      \indexpackageoptiondefinition{shrinklimits}
+%      \indexpackageoptiondefinition{stretchlimits}
 %      Set the three limits, given in \nativetextfraction{1}{1000}\,em, of shrinkability and
 %      stretchability for the respective levels.  They are used in
 %      \hyperref[syn:setfontshrink]{\code{setfontshrink}} (|shrinklimits| triple only),
@@ -1827,7 +1895,7 @@ end
 %      \cref{sec:font-expansion-control}.
 %
 %      New \meta{limit-\#} values replace old ones.  If one or more limits of the triple should
-%      remain unchanged pass a \smash{\sample{*}} instead of a number.
+%      remain unchanged pass a \samplestar{} instead of a number.
 %
 %      \makeatletter
 %      Defaults for |shrinklimits| are \mbox{\typog@default@shrink@i, \typog@default@shrink@ii,
@@ -1839,12 +1907,12 @@ end
 %      \emph{not} in the document body.
 %
 %    \item[|slashkern=|\meta{dim}]\label{item:slashkern}
-%      \indexpackageoption{slashkern}
+%      \indexpackageoptiondefinition{slashkern}
 %      Set the size of the kerns before and after \hyperref[syn:kernedslash]{\cs{kernedslash}}.
 %      See \cref{sec:slash-with-kern}.  Default value:~\milliem{\typogget{slashkern}}.
 %
 %    \item[|textitalicscorrection=|\meta{dim}]\label{item:textitalicscorrection}
-%      \indexpackageoption{textitalicscorrection}
+%      \indexpackageoptiondefinition{textitalicscorrection}
 %      Italics correction fallback-value; used if \cs{fontdimen1} is zero.  See
 %      \cref{sec:manual-italic-correction} on manual italic correction and also the
 %      complementary configuration
@@ -1852,7 +1920,7 @@ end
 %      value:~\milliem{\typogget{textitalicscorrection}}.
 %
 %    \item[|trackingttspacing=|\code{\{\meta{outer-spacing}\}}\quad\microtyperequiredmarker]\label{item:trackingttspacing}
-%      \indexpackageoption{trackingttspacing}
+%      \indexpackageoptiondefinition{trackingttspacing}
 %      Set the outer spacing of all typewriter fonts if used in environment~\code{settracking}
 %      as described in \cref{sec:tracking-control}.
 %
@@ -1866,13 +1934,14 @@ end
 %
 %      By default this option is unset.
 %
-%    \item[|uppercaselabelitemadjustments=\{|\meta{dim1}, \meta{dim2}, \meta{dim3}, \meta{dim4}|\}|]%
+%    \item[|uppercaselabelitemadjustments=\{|\meta{dim-1}, \dots, \meta{dim-4}|\}|]%
 %      \label{item:uppercaselabelitemadjustments}
-%      \indexpackageoption{uppercase\-labelitem\-adjustments}
+%      \indexpackageoptiondefinition{uppercase\-labelitem\-adjustments}
 %      \sinceversion{Since v0.4}
-%      Vertical shifts \meta{dimN} to apply to \cs{labelitem}\meta{N}, where \meta{N} is the
-%      nesting level of the |itemize|~list starting at one.  An empty \meta{dimN} is equivalent
-%      to~\formatdimen*{0pt}.  The adjustments apply to the uppercase setting
+%      Vertical shifts \meta{dim-N} to apply to \cs{labelitem}\meta{N}, where \meta{N}=1, 2, 3,
+%      or~4 is the nesting level of the |itemize|~list.  Empty list elements are ignored.  The
+%      special value~\samplestar{} instructs \packagename{typog} to preserve \meta{dim-N} at
+%      that position.  The adjustments apply to the uppercase setting
 %      (\hyperref[syn:uppercaseadjustlabelitems]{\code{\string\uppercaseadjustlabelitems}}).
 %      See \cref{sec:adjust-label-items} (in particular subsection~\singlequotes{Setup} and
 %      \cref{tab:labelitemadjustvalues} on \cpageref{tab:labelitemadjustvalues}) and also
@@ -1891,7 +1960,7 @@ end
 %      \end{important}
 %    \end{description}
 %  \end{typogsetup}
-%  \index{package options|)}
+%  \index{package option|)usermandef}
 %
 %
 %  \sectionfinish
@@ -2601,6 +2670,7 @@ end
 %    \cs{nolig*}\oarg{kerning}
 %  \end{synopsis}
 %
+%  \indexpackageoption{ligaturekern}
 %  Inserting \cs{nolig*} disables a ligature at the given point by a kern.  Set the size of the
 %  kern\index{kerning>ligature|userman} with \hyperref[item:ligaturekern]{\code{ligaturekern}} or
 %  override this value with \meta{kerning} as thousandths of the current font's~em.
@@ -2621,11 +2691,13 @@ end
 %    \cs{nolig}\oarg{kerning}
 %  \end{synopsis}
 %
+%  \indexpackageoption{breakpenalty}
 %  Inserting \cs{nolig} disables a ligature at the given point as \cs{nolig*} does \emph{and}
 %  introduces a hyphenation opportunity with
 %  penalty~\hyperref[item:breakpenalty]{|breakpenalty|}.
 %
-%  \begin{important}[\packagename{hyperref} bookmarks]\index{hyperref=\packagename{hyperref} (package)|userman}
+%  \begin{important}[\packagename{hyperref} bookmarks]\label{imp:hyperref-bookmarks}
+%    \index{hyperref=\packagename{hyperref} (package)|userman}
 %    If a \cs{nolig} --~whether starred or un-starred~-- occurs in an argument that is processed
 %    with package~\packagename{hyperref} for inclusion into the document's
 %    \acronym{PDF}-bookmarks\index{PDF=\acronym{PDF}|userman}\index{bookmark|userman} an
@@ -2668,12 +2740,14 @@ end
 %  \end{synopsis}
 %
 %  In text mode macro~\cs{itcorr} inserts a kern whose width is proportional to \cs{fontdim1},
-%  which is the font's italic correction.  If \cs{fontdim1} happens to be zero (e.\,g.~for an
-%  upright font), \cs{itcorr} uses the value set with
-%  \hyperref[item:textitalicscorrection]{\code{textitalicscorrection}} instead of \cs{fontdim1}.
-%  The starred version always uses
-%  \hyperref[item:textitalicscorrection]{\code{textitalicscorrection}}.  In math mode
-%  macro~\cs{itcorr} uses the value set with
+%  which is the font's italic correction.
+%  \indexpackageoption{textitalicscorrection}
+%  If \cs{fontdim1} happens to be zero (e.\,g.~for an upright font), \cs{itcorr} uses the value
+%  set with \hyperref[item:textitalicscorrection]{\code{textitalicscorrection}} instead of
+%  \cs{fontdim1}.  The starred version always uses
+%  \hyperref[item:textitalicscorrection]{\code{textitalicscorrection}}.
+%  \indexpackageoption{mathitalicscorrection}
+%  In math mode macro~\cs{itcorr} uses the value set with
 %  \hyperref[item:mathitalicscorrection]{\code{mathitalicscorrection}}\footnote{Separate
 %  adjustments may be desirable if the math font's italics have markedly different slants.}  in
 %  both the starred and the unstarred form.
@@ -2826,11 +2900,14 @@ end
 %     \cs{kernedslash*}
 %  \end{synopsis}
 %
+%  \indexpackageoption{breakpenalty}
 %  The starred form is unbreakable, the non-starred version introduces a break point with
-%  penalty~\hyperref[item:breakpenalty]{|breakpenalty|} after the slash.  Configure the kerning
-%  around the slash with~\hyperref[item:slashkern]{|slashkern|}.
+%  penalty~\hyperref[item:breakpenalty]{|breakpenalty|} after the slash.
+%  \indexpackageoption{slashkern}
+%  Configure the kerning around the slash with~\hyperref[item:slashkern]{|slashkern|}.
 %
 %  \sinceversion{Option \code{lowerslash} introduced in v0.5}
+%  \indexpackageoption{lowerslash}
 %  The kerned slash can typset lowered (or raised), where the offset with respect to the
 %  baseline is configured with~\hyperref[item:lowerslash]{|lowerslash|}.
 %
@@ -2889,9 +2966,11 @@ end
 %
 %  The optional argument~\meta{raise}, also given in \nativetextfraction{1}{1000}\,em, allows to
 %  adjust the height of the hyphen similar to the macros described in
-%  \cref{sec:raise-characters}.  In text mode the special argument~\sample{|*|} for \meta{raise}
-%  transfers the current value of \hyperref[item:raisecapitalhyphen]{\code{raisecapitalhyphen}}.
-%  The default for \meta{raise} is zero.
+%  \cref{sec:raise-characters}.
+%  \indexpackageoption{raisecapitalhyphen}
+%  In text mode the special argument~\sample{|*|} for \meta{raise} transfers the current value
+%  of \hyperref[item:raisecapitalhyphen]{\code{raisecapitalhyphen}}.  The default for
+%  \meta{raise} is zero.
 %
 %  \DescribeMacro{\leftkernedhyphen}
 %  \DescribeMacro{\leftkernedhyphen*}
@@ -2953,6 +3032,7 @@ end
 %     \cs{capitalhyphen*}
 %  \end{synopsis}
 %
+%  \indexpackageoption{breakpenalty}
 %  The unstarred version introduces a hyphenation opportunity right after the hyphen character
 %  (with penalty~\hyperref[item:breakpenalty]{|breakpenalty|}) whereas the starred version does
 %  not.  The actual amount the hyphen gets raised in \cs{capitalhyphen} is determined by
@@ -2987,10 +3067,12 @@ end
 %    \end{tabbing}
 %  \end{synopsis}
 %
+%  \indexpackageoption{breakpenalty}
 %  The unstarred version introduces a hyphenation opportunity right after the dash (with
 %  penalty~\hyperref[item:breakpenalty]{|breakpenalty|}) whereas the starred version does not.
+%  \indexpackageoption{raisecapitaldash}
 %  The actual amount the hyphen gets raised in \cs{capitaldash} is determined by
-%  \hyperref[item:raisecapitalhyphen]{|raisecapitaldash|}.
+%  \hyperref[item:raisecapitaldash]{|raisecapitaldash|}.
 %
 %  \begin{usecases}
 %    Letter ranges as used in the title of an index.~\visualpar Any mixed letter-digit ranges
@@ -3036,8 +3118,10 @@ end
 %     \cs{figuredash*}
 %  \end{synopsis}
 %
+%  \indexpackageoption{breakpenalty}
 %  The unstarred version introduces a hyphenation opportunity right after the en-dash with
 %  penalty~\hyperref[item:breakpenalty]{|breakpenalty|} whereas the starred version does not.
+%  \indexpackageoption{raisefiguredash}
 %  The actual amount the en-dash gets raised in \cs{figuredash} is determined by
 %  \hyperref[item:raisefiguredash]{|raisefiguredash|}.
 %
@@ -3123,6 +3207,7 @@ end
 %    \cs{capitaltimes}
 %  \end{synopsis}
 %
+%  \indexpackageoption{raisecapitaltimes}
 %  In text mode it expands to an appropriately raised \cs{texttimes}, and in math~mode to a
 %  raised \cs{times} binary~operator, where
 %  \hyperref[item:raisecapitaltimes]{|raisecapitaltimes|} determines the amount of
@@ -3166,8 +3251,9 @@ end
 %  \noindent
 %  For consistency and easy accessibility we define height-adjusted left and right single
 %  guillemets as \cs{singleguillemetleft} and \cs{singleguillemetright}; double guillemets are
-%  available with \cs{doubleguillemetleft} and \cs{doubleguillemetright}.  Their heights above
-%  the baseline are collectively adjusted with
+%  available with \cs{doubleguillemetleft} and \cs{doubleguillemetright}.
+%  \indexpackageoption{raiseguillemets}
+%  Their heights above the baseline are collectively adjusted with
 %  \hyperref[item:raiseguillemets]{|raiseguillemets|}.
 %
 %
@@ -3192,7 +3278,9 @@ end
 %  The companion set of single, double, left, and right quotes corrected for uppercase letters
 %  or lining numerals is \cs{Singleguillemetleft} and \cs{Singleguillemetright} and
 %  \cs{Doubleguillemetleft} and \cs{doubleguillemetright}.  Mnemonic: These macros start with an
-%  uppercase letter.  Their height above the baseline is adjusted with
+%  uppercase letter.
+%  \indexpackageoption{raisecapitalguillemets}
+%  Their height above the baseline is adjusted with
 %  \hyperref[item:raisecapitalguillemets]{|raisecapitalguillemets|}.  Values of .025\,em to
 %  .075\,em are typical for fonts that need this kind of correction.  \Cref{tab:raiseguillemets}
 %  summarizes some findings.
@@ -3282,6 +3370,188 @@ end
 %  \end{futuredirection}
 %
 %
+%  \subsubsection[Inverted Marks]
+%                {Inverted Exclamation Mark and
+%                 Inverted Question Mark}\label{sec:inverted-marks}
+%  \index{inverted>exclamation mark|userman}
+%  \index{inverted>question mark|userman}
+%  \index{raised character>inverted exclamation mark|userman}
+%  \index{raised character>inverted question mark|userman}
+%
+%  The Spanish (Castilian, Asturian, etc.) language requires exclamatory sentences and questions
+%  to be followed by exclamation marks and question marks, respectively and recommends that they
+%  are preceded by inverted (or \singlequotes{upside-down}) versions of these punctuation
+%  characters.
+%
+%  Usually the horizontally-mirrored versions' designs follow that of the lower-case letters.
+%  In particular the inverted marks feature descenders (see left-hand side of
+%  \cref{fig:inverted-marks}).  For all-uppercase or all-smallcaps phrases, e.\,g.~in headlines
+%  the descending parts of these marks disturb the tight block structure and it may be
+%  preferable to have inverted marks that align with the baseline.
+%
+%  \hangindent=3\parindent
+%  \hangafter=-3
+%  \noindent
+%  \DescribeMacro{\capitalinvertedexclamationmark}
+%  \DescribeMacro{\capitalinvertedquestionmark}
+%  \sinceversion{Both since v0.5}
+%  The macros \cs{capitalinvertedexclamationmark} and \cs{capitalinvertedquestionmark}
+%  simultaneously provide bottom-aligned inverted marks for up to three different sets of
+%  exclamation marks or question marks, e.\,g., for uppercase, med-caps, and small-caps
+%  text\footnote{The small exclamation and question marks even made it into Unicode.} or just
+%  for some stylistic alternatives offered by particularly well equipped fonts.
+%
+%  \begin{synopsis}
+%    \label{syn:capitalinvertedexclamationmark}
+%    \label{syn:capitalinvertedquestionmark}
+%    \cs{capitalinvertedexclamationmark}\oarg{number}  \\
+%    \cs{capitalinvertedquestionmark}\oarg{number}
+%  \end{synopsis}
+%
+%  Typeset inverted exclamation marks and inverted question mark.  Select the appropriate mark
+%  and the associated raise-amount with \meta{number}=1, 2, or~3.  The default \meta{number}
+%  is~1.  We sketch the result of the automated correction process in \Cref{fig:inverted-marks}.
+%
+%  \iffalse
+%<*invertedmarks>
+prologues := 3;
+bboxmargin := 0;% Extremely important setting: otherwise all our bboxes are too loose!
+linecap := butt;
+truecorners := 1;
+
+string roman_font;
+roman_font := "pplr8r";         % URW Palladio L - Roman
+
+font_scale := 5;
+
+picture letter_a;
+letter_a := thelabel("a" infont roman_font scaled font_scale, origin);
+path bbox_a;
+bbox_a := bbox letter_a;
+ex_height := ypart (ulcorner bbox_a - llcorner bbox_a);
+show ex_height;
+
+picture letter_g;
+letter_g := thelabel("g" infont roman_font scaled font_scale, origin);
+path bbox_g;
+bbox_g := bbox letter_g;
+descender_height := ypart (ulcorner bbox_g - llcorner bbox_g) - ex_height;
+show descender_height;
+
+string inverted_exclamation_mark_char;
+inverted_exclamation_mark_char := char(161);
+
+string inverted_question_mark_char;
+inverted_question_mark_char := char(191);
+
+picture font_sample;
+font_sample := thelabel(("g" & inverted_exclamation_mark_char & "jk" &
+                         inverted_question_mark_char & "y   " &
+                         inverted_exclamation_mark_char & " E! " &
+                         inverted_question_mark_char & " Q?")
+                        infont roman_font scaled font_scale, origin);
+path bbox_sample;
+bbox_sample := bbox font_sample;
+
+%%  The locations of shifted_inverted_exclamation_mark and
+%%  shifted_inverted_question_mark are 100% pure fudge!
+picture shifted_inverted_exclamation_mark;
+shifted_inverted_exclamation_mark :=
+    thelabel(inverted_exclamation_mark_char infont roman_font scaled font_scale,
+             font_scale * (2.6, 1.333));
+
+picture shifted_inverted_question_mark;
+shifted_inverted_question_mark :=
+    thelabel(inverted_question_mark_char infont roman_font scaled font_scale,
+             font_scale * (20.6, 1.333));
+
+
+beginfig(1);
+  draw font_sample;
+  draw shifted_inverted_exclamation_mark withcolor .8 white;
+  draw shifted_inverted_question_mark withcolor .8 white;
+
+  draw (xpart (llcorner bbox_sample), ypart (llcorner bbox_sample) + descender_height) --
+       (xpart (lrcorner bbox_sample), ypart (lrcorner bbox_sample) + descender_height)
+       withpen pencircle scaled .3333pt;
+  draw (llcorner bbox_sample) -- (lrcorner bbox_sample)
+       dashed evenly withpen pencircle scaled .25pt;
+  draw (xpart (llcorner bbox_sample), ypart (llcorner bbox_sample) + descender_height + ex_height) --
+       (xpart (lrcorner bbox_sample), ypart (lrcorner bbox_sample) + descender_height + ex_height)
+       dashed evenly withpen pencircle scaled .25pt;
+endfig;
+end
+%</invertedmarks>
+%  \fi
+%
+%  \begin{figure}
+%    \centering
+%    \includegraphics{inverted-marks-1.mps}
+%    \caption[Inverted exclamation and question marks]
+%            {The left-hand sample shows the inverted exclamation mark and question marks wedged
+%             between some lowercase letters.  The baseline is drawn solid and the ex-height as
+%             well as the descender depth are indicated with dashed lines.~\visualpar On the
+%             right hand side we display the same marks in conjunction with capital letters.
+%             The gray glyphs demonstrate the result of shifting them up such that they exactly
+%             touch the baseline, which mimics the auto-raise mode described in the
+%             text.~\visualpar The sample font once again is
+%             \acronym{URW}~Palladio%
+%             \detoxindex{font>typeface>URW Palladio=\acronym{URW} Palladio|userman}.%
+%             \label{fig:inverted-marks}}
+%  \end{figure}
+%
+%  \indexpackageoption{raiseinvertedmarks}
+%  Configured with option~\hyperref[item:raiseinvertedmarks]{\code{raiseinvertedmarks}}.
+%
+%  \begin{tip}
+%    For example, \sample{V}, \sample{W}, and \sample{Y} following an inverted question mark may
+%    need some manual kerning as well as \sample{J} following an inverted exclamation mark.
+%    \index{itcorr=\verb!*+\itcorr+|userman}
+%    Macro~\hyperref[syn:itcorr]{\cs{itcorr}} (\cpageref{syn:itcorr}) offers a solution that is
+%    almost portable across font changes and a \meta{strength} of \textminus1 is a good starting
+%    point.
+%  \end{tip}
+%
+%  \begin{important}[\packagename{hyperref} bookmarks]
+%    If these two macros occur in the argument of a \cs{section} or similar macro and wind up in
+%    the \acronym{PDF}-bookmarks the \emph{Important}~note in \cref{imp:hyperref-bookmarks} on
+%    \cpageref{imp:hyperref-bookmarks} of \cs{nolig} applies, too.  In brief: append either an
+%    empty group~\sample{\{\}} or \cs{relax} to the macros, as, for example,
+%
+%    \begin{codeexample}
+%      \cs{section}\{\=\cs{scshape}  \\
+%                    \>\cs{capitalinvertedquestionmark}\{\}qué?\}  \\
+%      \cs{section}\{\cs{scshape}  \\
+%                    \>\cs{capitalinvertedquestionmark}\cs{relax} qué?\}
+%    \end{codeexample}
+%
+%    \noindent
+%    or with optional argument~\meta{number}
+%
+%    \begin{codeexample}
+%      \cs{section}\{\=\cs{scshape}  \\
+%                    \>\cs{capitalinvertedquestionmark}[1]\{\}qué?\}  \\
+%      \cs{section}\{\cs{scshape}  \\
+%                    \>\cs{capitalinvertedquestionmark}[1]\cs{relax} qué?\}
+%    \end{codeexample}
+%  \end{important}
+%
+%  The user-side macros \cs{capitalinvertedexclamationmark}\oarg{number} and
+%  \cs{capitalinvertedquestionmark}\oarg{number} call the parameter-less, internal macros
+%
+%  \begin{synopsis}
+%    \cs{typog@inverted@exclamationmark@}\meta{roman-numeral}  \\
+%    \cs{typog@inverted@questionmark@}\meta{roman-numeral}
+%  \end{synopsis}
+%
+%  \noindent
+%  where \meta{roman-numeral}=i, ii, and~iii correpspond to \meta{number}=1, 2, and~3.
+%  \index{textexclamdown=\verb!*+\textexclamdown+|userman}
+%  \index{textquestiondown=\verb!*+\textquestiondown+|userman}
+%  Their defaults are \cs{textexclamdown} and \cs{textquestiondown} for all three numbers,
+%  respectively.  Users can redefine the internal macros to hook up special fonts or characters.
+%
+%
 %  \subsection[Vertically Adjust Label Items]
 %             {Vertically Adjust Label Items of
 %              Environment \code{itemize}}\label{sec:adjust-label-items}
@@ -3323,6 +3593,8 @@ end
 %    \cs{noadjustlabelitems}\marg{levels-to-adjust}
 %  \end{synopsis}
 %
+%  \indexpackageoption{lowercase\-labelitem\-adjustments}
+%  \indexpackageoption{uppercase\-labelitem\-adjustments}
 %  Apply uppercase adjustment, lowercase adjustment or no adjustment to the labels in
 %  |itemize|~environments at the \meta{levels-to-adjust}.  The adjustment values themselves,
 %  this is the vertical shifts are configured with
@@ -4278,6 +4550,7 @@ end
 %     \cs{widespace*}
 %  \end{synopsis}
 %
+%  \index{widespacestrength=\verb!*+\widespacestrength+|userman}
 %  The unstarred macro~\cs{widespace} inserts a space that is as wide as the font's
 %  sentence-ending space in \cs{nonfrenchspacing}~mode, this is
 %  \begin{equation*}
@@ -4291,6 +4564,7 @@ end
 %  \singlequotes{\widespacestrength} uses \cs{widespace} after the period.} The latter can be
 %  overridden by the user to get a more or less pronounced effect.
 %
+%  \index{widespacescale=\verb!*+\widespacescale+|userman}
 %  If |\fontdimen7| happens to be zero \cs{widespace} uses
 %  \begin{equation*}
 %    \cs{widespacescale} \times |\fontdimen2|
@@ -4326,11 +4600,13 @@ end
 %     \cs{narrowspace*}
 %  \end{synopsis}
 %
+%  \index{narrowspacestrength=\verb!*+\narrowspacestrength+|userman}
 %  The unstarred macro~\cs{narrowspace} inserts a narrow space with the width
 %  \begin{equation*}
 %    |\fontdimen2| - \cs{narrowspacestrength} \times |\fontdimen7|
 %  \end{equation*}
 %
+%  \index{narrowspacescale=\verb!*+\narrowspacescale+|userman}
 %  \noindent
 %  if |\fontdimen7| is different from zero or otherwise
 %  \begin{equation*}
@@ -4444,6 +4720,7 @@ end
 %  spacing may show up at the borders where fonts change.  This is caused by the calculation of
 %  the \doublequotes{outer spacing} described in Sec.~5.3 of the \packagename{microtype}~manual.
 %
+%  \indexpackageoption{trackingttspacing}
 %  Use configuration variable~\hyperref[item:trackingttspacing]{\code{trackingttspacing}} to
 %  reduce the outer spacing to a reasonable value either directly at package-load time
 %
@@ -4534,6 +4811,8 @@ end
 %    \end{tabfigures}
 %  \end{SCtable}
 %
+%  \indexpackageoption{shrinklimits}
+%  \indexpackageoption{stretchlimits}
 %  The three (nonzero) shrink limits of \code{setfontshrink} can be configured with package
 %  option~\hyperref[item:shrinklimits]{\code{shrinklimits}} and --~in the same way~-- the three
 %  (nonzero) stretch limits of \code{setfontstretch} with package
@@ -5972,7 +6251,7 @@ end
 %              \biburl{https://ctan.org/pkg/microtype}.
 %
 %      \bibitem{package:ragged2e}
-%              \bibauthor{Schr\"oder, Martin}.
+%              \bibauthor{Schröder, Martin}.
 %              \bibtitle{Package~\packagename{ragged2e}}.
 %              2019,
 %              \biburl{https://ctan.org/pkg/ragged2e}.
@@ -6556,10 +6835,17 @@ end
   {\setlength{\typog@config@textitalicscorrection}{#1}}
 \DeclareOptionX<typog>{ligaturekern}[.033333em]%
   {\setlength{\typog@config@ligaturekern}{#1}}
+%  \fi
+%
+%  \changes{v0.5}{2024-09-22}{Rewrite parser for package option~\code{lowercaselabelitemadjustments} to accept a star as a placeholder.}
+%
+%  \iffalse
 \DeclareOptionX<typog>{lowercaselabelitemadjustments}%
   {\typog@debug@typeout{lowercaselabelitemadjustments={#1}}
    \def\typog@@do##1{\addtocounter{typog@@iteration}{1}
-      \global\setlength{\csname typog@adjust@lowercase@labelitem\romannumeral\thetypog@@iteration\endcsname}{##1}}
+     \ifstrequal{##1}{*}
+       {\relax}
+       {\global\setlength{\csname typog@adjust@lowercase@labelitem\romannumeral\thetypog@@iteration\endcsname}{##1}}}
    \setcounter{typog@@iteration}{0}
    \forcsvlist{\typog@@do}{#1}}
 \newcommand*{\typog@config@lowercaselabelitemadjustments}
@@ -6584,6 +6870,18 @@ end
    \setlength{\typog@config@raisecapitalhyphen}{#1}%
    \setlength{\typog@config@raisecapitaltimes}{#1}%
    \setlength{\typog@config@raisefiguredash}{#1}}
+\DeclareOptionX<typog>{raiseinvertedmarks}%
+  {\typog@debug@typeout{raiseinvertedmarks={#1}}
+   \def\typog@@do##1{\addtocounter{typog@@iteration}{1}
+     \ifstrequal{##1}{*}
+       {\relax}
+       {\global\setlength{\csname typog@config@raiseinvertedmarks@\romannumeral\thetypog@@iteration\endcsname}{##1}}}
+   \setcounter{typog@@iteration}{0}
+   \forcsvlist{\typog@@do}{#1}}
+\newcommand*{\typog@config@raiseinvertedmarks}
+  {\the\typog@config@raiseinvertedmarks@i,\space
+   \the\typog@config@raiseinvertedmarks@ii,\space
+   \the\typog@config@raiseinvertedmarks@iii}
 \DeclareOptionX<typog>{shrinklimits}%
   [\typog@default@shrink@i, \typog@default@shrink@ii, \typog@default@shrink@iii]%
   {\typog@require@preloaded@microtype
@@ -6614,10 +6912,17 @@ end
      \typog@debug@typeout{trackingttspacing=#1}%
      \SetTracking[outer spacing={#1}]{encoding=*, family=tt*}{0}%
    \fi}
+%  \fi
+%
+%  \changes{v0.5}{2024-09-22}{Rewrite parser for package option~\code{uppercaselabelitemadjustments} to accept a star as a placeholder.}
+%
+%  \iffalse
 \DeclareOptionX<typog>{uppercaselabelitemadjustments}%
   {\typog@debug@typeout{uppercaselabelitemadjustments={#1}}
    \def\typog@@do##1{\addtocounter{typog@@iteration}{1}
-      \setlength{\csname typog@adjust@uppercase@labelitem\romannumeral\thetypog@@iteration\endcsname}{##1}}
+     \ifstrequal{##1}{*}
+       {\relax}
+       {\setlength{\csname typog@adjust@uppercase@labelitem\romannumeral\thetypog@@iteration\endcsname}{##1}}}
    \setcounter{typog@@iteration}{0}
    \forcsvlist{\typog@@do}{#1}}
 \newcommand*{\typog@config@uppercaselabelitemadjustments}
@@ -7409,7 +7714,157 @@ end
 %  \end{macro}
 %
 %
-%  \subsection{Vert. Adjust Label Items}
+%  We need three lengths for three (pairs of) inverted exclamation marks and inverted question
+%  marks.
+%
+%  \begin{macro}{\typog@config@raiseinvertedmarks@i}
+%    \begin{macrocode}
+\newlength{\typog@config@raiseinvertedmarks@i}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typog@config@raiseinvertedmarks@ii}
+%    \begin{macrocode}
+\newlength{\typog@config@raiseinvertedmarks@ii}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typog@config@raiseinvertedmarks@iii}
+%    \begin{macrocode}
+\newlength{\typog@config@raiseinvertedmarks@iii}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  And the three (pairs of) inverted exclamation marks and inverted question
+%  marks themselves.  Configurable.
+%
+%  \begin{macro}{\typog@inverted@exclamationmark@i}
+%    \begin{macrocode}
+\newcommand*{\typog@inverted@exclamationmark@i}{\textexclamdown}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typog@inverted@questionmark@i}
+%    \begin{macrocode}
+\newcommand*{\typog@inverted@questionmark@i}{\textquestiondown}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typog@inverted@exclamationmark@ii}
+%    \begin{macrocode}
+\newcommand*{\typog@inverted@exclamationmark@ii}{\textexclamdown}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typog@inverted@questionmark@ii}
+%    \begin{macrocode}
+\newcommand*{\typog@inverted@questionmark@ii}{\textquestiondown}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typog@inverted@exclamationmark@iii}
+%    \begin{macrocode}
+\newcommand*{\typog@inverted@exclamationmark@iii}{\textexclamdown}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typog@inverted@questionmark@iii}
+%    \begin{macrocode}
+\newcommand*{\typog@inverted@questionmark@iii}{\textquestiondown}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typog@raise@inverted@mark}
+%    The generic \singlequotes{raise}-macro handles all interesting cases.  The first argument
+%    selects the mark type and the second the associated raise-amount.
+%
+%    If the raise-amount is exactly zero we shift-up the horizontal box with the mark to zero
+%    its depth.
+%
+%    \begin{macrocode}
+\newcommand*{\typog@raise@inverted@mark}[2]
+  {\letcs{\@tempa}{typog@inverted@#1@\romannumeral#2}%
+   \letcs{\@tempb}{typog@config@raiseinvertedmarks@\romannumeral#2}%
+   \ifdim\@tempb=\z@
+     \setbox0=\hbox{\@tempa}%
+     \dimen0=\dp0
+   \else
+     \dimen0=\@tempb
+   \fi
+   \raisebox{\dimen0}{\@tempa}}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  The user-side macros are almost trivial now.
+%
+%  \begin{macro}{\capitalinvertedexclamationmark}
+%    \begin{macrocode}
+\NewDocumentCommand{\capitalinvertedexclamationmark}{O{1}}
+  {\typog@raise@inverted@mark{exclamationmark}{#1}%
+   \typog@allowhyphenation
+   \ignorespaces}
+%    \end{macrocode}
+%
+%    \acronym{PDF}-substitute definition
+%
+%    \begin{macrocode}
+\typog@register@pdfsubstitute{
+   \RenewExpandableDocumentCommand{\capitalinvertedexclamationmark}{o m}{%
+     \ifx\typog@TYPOG#2\typog@TYPOG
+       \IfNoValueTF{#1}
+                   {\typog@inverted@exclamationmark@i}
+                   {\csname typog@inverted@exclamationmark@\romannumeral#1\endcsname}%
+     \else
+       \ifx\relax#2\relax
+         \IfNoValueTF{#1}
+                     {\typog@inverted@exclamationmark@i}
+                     {\csname typog@inverted@exclamationmark@\romannumeral#1\endcsname}%
+       \else
+         \PackageError{typog}
+                      {Missing second argument of \capitalinvertedexclamationmark}
+                      {Append empty group or \relax after macro invocation}
+       \fi
+     \fi
+     \ignorespaces}
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\capitalinvertedquestionmark}
+%    \begin{macrocode}
+\NewDocumentCommand{\capitalinvertedquestionmark}{O{1}}
+  {\typog@raise@inverted@mark{questionmark}{#1}%
+   \typog@allowhyphenation
+   \ignorespaces}
+%    \end{macrocode}
+%
+%    \acronym{PDF}-substitute definition
+%
+%    \begin{macrocode}
+\typog@register@pdfsubstitute{
+  \RenewExpandableDocumentCommand{\capitalinvertedquestionmark}{o m}{%
+     \ifx\typog@TYPOG#2\typog@TYPOG
+       \IfNoValueTF{#1}
+                   {\typog@inverted@questionmark@i}
+                   {\csname typog@inverted@questionmark@\romannumeral#1\endcsname}%
+     \else
+       \ifx\relax#2\relax
+         \IfNoValueTF{#1}
+                     {\typog@inverted@questionmark@i}
+                     {\csname typog@inverted@questionmark@\romannumeral#1\endcsname}%
+       \else
+         \PackageError{typog}
+                      {Missing second argument of \capitalinvertedquestionmark}
+                      {Append empty group or \relax after macro invocation}
+       \fi
+     \fi
+     \ignorespaces}
+}
+%    \end{macrocode}
+%  \end{macro}
+%
+%
+%  \subsection[Vert. Adjust Label Items]{Vertically Adjusted Label Items}
 %
 %  \begin{macro}{\@typog@uppercase@adjust@labelitem}
 %    Handle all possible requests for uppercase label item correction.
@@ -9423,7 +9878,7 @@ end
 \usepackage[T1]{fontenc}
 \usepackage{hyphenat}
 \usepackage{mathtools}
-\usepackage[activate=true, verbose=false]{microtype}
+\usepackage[activate=true, letterspace=50, verbose=false]{microtype}
 \usepackage{ragged2e}
 \usepackage[nobottomtitles*]{titlesec}\renewcommand*{\bottomtitlespace}{.2\textheight}
 \usepackage{trace}
@@ -10328,6 +10783,69 @@ We again compare the default implementation with the adjusted one.
   \hspace{30pt}
   \parbox[t]{0pt}{\FrenchdoublequotesFR{\samplestring}}
 \end{quote}
+
+
+\subsection{Inverted Exclamation Mark and Inverted Question Mark}
+
+Without \typoglogo{} support:
+g\textexclamdown jk\textquestiondown y\enspace
+\textexclamdown E! \textquestiondown Q?
+
+All-caps versus small-caps:
+
+\noindent
+\begin{minipage}{.4\textwidth}\parindent=15pt
+\noindent
+\textsc{Carmen}\par
+{\lsstyle\capitalinvertedquestionmark CÓMO ESTÁS, JOSÉ?}
+
+\noindent
+\textsc{José}\par
+{\lsstyle\capitalinvertedexclamationmark BIEN!  \capitalinvertedquestionmark\itcorr{-2}Y TÚ?}
+
+\noindent
+\textsc{Carmen}\par
+{\lsstyle\capitalinvertedexclamationmark BIEN TAMBIÉN!}
+\end{minipage}
+\hfill
+\begin{minipage}{.4\textwidth}\parindent=15pt
+\noindent
+\textsc{Carmen}\par
+{\scshape\capitalinvertedquestionmark cómo estás, josé?}
+
+\noindent
+\textsc{José}\par
+{\scshape\capitalinvertedexclamationmark bien!  \capitalinvertedquestionmark\itcorr{-2}y tú?}
+
+\noindent
+\textsc{Carmen}\par
+{\scshape\capitalinvertedexclamationmark bien también!}
+\end{minipage}
+
+\medskip
+
+\begin{typogsetup}{raiseinvertedmarks={5pt,*,1sp}}
+  \noindent
+  Local settings are \{\typoggetnth{\dimen0}{raiseinvertedmarks}{1}\the\dimen0,
+  \typoggetnth{\dimen0}{raiseinvertedmarks}{2}\the\dimen0,
+  \typoggetnth{\dimen0}{raiseinvertedmarks}{3}\the\dimen0\}.
+
+  Primaries: ?\capitalinvertedquestionmark? and !\capitalinvertedexclamationmark!
+
+  \makeatletter
+  \def\typog@inverted@exclamationmark@ii{\textexclamdown\textsubscript{2}}
+  \def\typog@inverted@exclamationmark@iii{\textexclamdown\textsubscript{3}}
+  \def\typog@inverted@questionmark@ii{\textquestiondown\textsubscript{2}}
+  \def\typog@inverted@questionmark@iii{\textquestiondown\textsubscript{3}}
+  \makeatother
+  Secondaries -- indexed with 2:
+  \capitalinvertedquestionmark[2] Más?
+  \capitalinvertedexclamationmark[2] Por venir!
+
+  Tertiaries -- indexed with 3:
+  \capitalinvertedquestionmark[3] Continuemos?
+  \capitalinvertedexclamationmark[3] Con el texto!
+\end{typogsetup}
 
 
 \section{Label Items}
