@@ -430,22 +430,22 @@
          {\relax}
          {\AppendingFailed}
 
-\newcommand*{\indexpackageoption}[1]
-            {\detoxindex{package~option>#1=\code{#1}|userman}%
-             \detoxindex{#1=\code{#1}~(option)|userman}%
-             \ignorespaces}
-
-\newcommand*{\indexpackageoptiondefinition}[1]
-            {\detoxindex{package~option>#1=\code{#1}|usermandef}%
-             \detoxindex{#1=\code{#1}~(option)|usermandef}%
-             \ignorespaces}
-
 \newcommand*{\linenumberdecoration}
             {\legacy_if:nTF {codeline@index}
                             {\codelineindicator}
                             {}}
 \ExplSyntaxOff
 \makeatother
+
+\newcommand*{\indexpackageoption}[1]
+            {\detoxindex{package option>#1=\code{#1}|userman}%
+             \detoxindex{#1=\code{#1}~(option)|userman}%
+             \ignorespaces}
+
+\newcommand*{\indexpackageoptiondefinition}[1]
+            {\detoxindex{package option>#1=\code{#1}|usermandef}%
+             \detoxindex{#1=\code{#1}~(option)|usermandef}%
+             \ignorespaces}
 
 \newcommand*{\logmacro}[1]
             {\ifdef{#1}
@@ -920,6 +920,8 @@
   space-skip
   stretch-limits
   text-italics-correction
+  text-exclam-down
+  text-question-down
   tight-spacing
   tracing-boxes
   tracing-para-graphs
@@ -953,7 +955,7 @@ actual            '='
 delim_0           "\\nobreak\\enspace"
 delim_1           "\\nobreak\\enspace"
 delim_2           "\\nobreak\\enspace"
-delim_r           "\\figuredash*"
+delim_r           "\\nohyperpage{\\figuredash*}"
 heading_prefix    "\\pagebreak[3]\\smallskip\n\n{\\sffamily\\bfseries\\large "
 heading_suffix    "}\\nopagebreak\n"
 headings_flag     1
@@ -988,7 +990,7 @@ quote             '!'
 %  \DoNotIndex{\baselineskip,\begin,\begingroup,\booltrue,\box}
 %  \DoNotIndex{\c,\char,\clist,\clubpenalties,\clubpenalty,\count,\cs,\csname}
 %  \DoNotIndex{\DeclareRobustCommand,\def,\define@choicekey,\define@key,\detokenize}
-%  \DoNotIndex{\dim,\dimen,\dimexpr,\discretionary,\displaywidowpenalties,\displaywidowpenalty}
+%  \DoNotIndex{\dim,\dimen,\dimexpr,\discretionary,\displaywidowpenalties,\displaywidowpenalty,\dp}
 %  \DoNotIndex{\edef,\else,\emergencystretch,\empty,\end,\endcsname,\endgroup}
 %  \DoNotIndex{\endlastlineflushrightpar}
 %  \DoNotIndex{\endlastlineraggedleftpar}
@@ -1035,9 +1037,10 @@ quote             '!'
 %  \DoNotIndex{\smoothraggedrightshapeseptuplet}
 %  \DoNotIndex{\smoothraggedrightshapetriplet}
 %  \DoNotIndex{\space,\spaceskip,\stepcounter,\str,\@strength,\string}
-%  \DoNotIndex{\textemdash,\textendash,\textsf,\textsl,\texttimes,\textwidth,\the,\times,\tl}
+%  \DoNotIndex{\textemdash,\textendash,\textexclamdown,\textquestiondown}
+%  \DoNotIndex{\textsf,\textsl,\texttimes,\textwidth,\the,\times,\tl}
 %  \DoNotIndex{\token,\tolerance,\tracingnone,\tracingpages,\tracingparagraphs}
-%  \DoNotIndex{\typeout,\typoginspect,\typoglogo}
+%  \DoNotIndex{\typeout,\typog,\typogadjuststairsfor,\typoginspect,\typoglogo}
 %  \DoNotIndex{\unhbox,\unless}
 %  \DoNotIndex{\val,\value,\vbadness,\vfuzz}
 %  \DoNotIndex{\wd,\widowpenalties,\widowpenalty}
@@ -1714,6 +1717,7 @@ end
 %  \sectionfinish
 %  \clearpage
 %  \section{Package Options}\label{sec:package-options}
+%  \index{package option|(usermandef}
 %
 %  Package \packagename{typog} does not override any existing macros or environments when
 %  loaded, unless explicitly told by a package option.
@@ -1731,7 +1735,6 @@ end
 %    \end{tabbing}
 %  \end{synopsis}
 %
-%  \index{package options|(userman}
 %  The package \meta{OPTIONs} also serve as configuration \meta{key}s (unless noted otherwise).
 %  This means they can be set with \hyperref[syn:typogsetup]{\code{typogsetup}} and their values
 %  can be retrieved with \hyperref[syn:typogget]{\cs{typogget}}.  Options that rely on
@@ -1957,7 +1960,7 @@ end
 %      \end{important}
 %    \end{description}
 %  \end{typogsetup}
-%  \index{package options|)}
+%  \index{package option|)usermandef}
 %
 %
 %  \sectionfinish
@@ -2693,7 +2696,8 @@ end
 %  introduces a hyphenation opportunity with
 %  penalty~\hyperref[item:breakpenalty]{|breakpenalty|}.
 %
-%  \begin{important}[\packagename{hyperref} bookmarks]\index{hyperref=\packagename{hyperref} (package)|userman}
+%  \begin{important}[\packagename{hyperref} bookmarks]\label{imp:hyperref-bookmarks}
+%    \index{hyperref=\packagename{hyperref} (package)|userman}
 %    If a \cs{nolig} --~whether starred or un-starred~-- occurs in an argument that is processed
 %    with package~\packagename{hyperref} for inclusion into the document's
 %    \acronym{PDF}-bookmarks\index{PDF=\acronym{PDF}|userman}\index{bookmark|userman} an
@@ -3371,16 +3375,19 @@ end
 %                 Inverted Question Mark}\label{sec:inverted-marks}
 %  \index{inverted>exclamation mark|userman}
 %  \index{inverted>question mark|userman}
+%  \index{raised character>inverted exclamation mark|userman}
+%  \index{raised character>inverted question mark|userman}
 %
 %  The Spanish (Castilian, Asturian, etc.) language requires exclamatory sentences and questions
 %  to be followed by exclamation marks and question marks, respectively and recommends that they
-%  are preceeded by inverted (or \singlequotes{upside-down}) versions of these punctuation
+%  are preceded by inverted (or \singlequotes{upside-down}) versions of these punctuation
 %  characters.
 %
-%  Usually the horizontally-mirrored versions' designs follows that of the lower-case letters.
-%  In particular the inverted marks feature descenders.  For all-uppercase or all-smallcaps
-%  phrases, e.\,g.~in headlines these \singlequotes{hanging} marks disturb the tight block
-%  structure and it may be preferable to have inverted marks that align with the baseline.
+%  Usually the horizontally-mirrored versions' designs follow that of the lower-case letters.
+%  In particular the inverted marks feature descenders (see left-hand side of
+%  \cref{fig:inverted-marks}).  For all-uppercase or all-smallcaps phrases, e.\,g.~in headlines
+%  the descending parts of these marks disturb the tight block structure and it may be
+%  preferable to have inverted marks that align with the baseline.
 %
 %  \hangindent=3\parindent
 %  \hangafter=-3
@@ -3401,12 +3408,9 @@ end
 %    \cs{capitalinvertedquestionmark}\oarg{number}
 %  \end{synopsis}
 %
-%  Typeset inverted exclamation marks and inverted question mark.    Select the appropriate mark
+%  Typeset inverted exclamation marks and inverted question mark.  Select the appropriate mark
 %  and the associated raise-amount with \meta{number}=1, 2, or~3.  The default \meta{number}
-%  is~1.
-%
-%  \indexpackageoption{raiseinvertedmarks}
-%  Configured with option~\hyperref[item:raiseinvertedmarks]{\code{raiseinvertedmarks}}.
+%  is~1.  We sketch the result of the automated correction process in \Cref{fig:inverted-marks}.
 %
 %  \iffalse
 %<*invertedmarks>
@@ -3469,7 +3473,7 @@ beginfig(1);
 
   draw (xpart (llcorner bbox_sample), ypart (llcorner bbox_sample) + descender_height) --
        (xpart (lrcorner bbox_sample), ypart (lrcorner bbox_sample) + descender_height)
-       withpen pencircle scaled .3333pt;;
+       withpen pencircle scaled .3333pt;
   draw (llcorner bbox_sample) -- (lrcorner bbox_sample)
        dashed evenly withpen pencircle scaled .25pt;
   draw (xpart (llcorner bbox_sample), ypart (llcorner bbox_sample) + descender_height + ex_height) --
@@ -3479,8 +3483,6 @@ endfig;
 end
 %</invertedmarks>
 %  \fi
-%
-%  We sketch the result of the automated correction process in \Cref{fig:inverted-marks}.
 %
 %  \begin{figure}
 %    \centering
@@ -3498,13 +3500,56 @@ end
 %             \label{fig:inverted-marks}}
 %  \end{figure}
 %
+%  \indexpackageoption{raiseinvertedmarks}
+%  Configured with option~\hyperref[item:raiseinvertedmarks]{\code{raiseinvertedmarks}}.
+%
 %  \begin{tip}
 %    For example, \sample{V}, \sample{W}, and \sample{Y} following an inverted question mark may
 %    need some manual kerning as well as \sample{J} following an inverted exclamation mark.
+%    \index{itcorr=\verb!*+\itcorr+|userman}
 %    Macro~\hyperref[syn:itcorr]{\cs{itcorr}} (\cpageref{syn:itcorr}) offers a solution that is
-%    almost portable across font changes and a \meta{stength} of \textminus1 is a good starting
+%    almost portable across font changes and a \meta{strength} of \textminus1 is a good starting
 %    point.
 %  \end{tip}
+%
+%  \begin{important}[\packagename{hyperref} bookmarks]
+%    If these two macros occur in the argument of a \cs{section} or similar macro and wind up in
+%    the \acronym{PDF}-bookmarks the \emph{Important}~note in \cref{imp:hyperref-bookmarks} on
+%    \cpageref{imp:hyperref-bookmarks} of \cs{nolig} applies, too.  In brief: append either an
+%    empty group~\sample{\{\}} or \cs{relax} to the macros, as, for example,
+%
+%    \begin{codeexample}
+%      \cs{section}\{\=\cs{scshape}  \\
+%                    \>\cs{capitalinvertedquestionmark}\{\}qué?\}  \\
+%      \cs{section}\{\cs{scshape}  \\
+%                    \>\cs{capitalinvertedquestionmark}\cs{relax} qué?\}
+%    \end{codeexample}
+%
+%    \noindent
+%    or with optional argument~\meta{number}
+%
+%    \begin{codeexample}
+%      \cs{section}\{\=\cs{scshape}  \\
+%                    \>\cs{capitalinvertedquestionmark}[1]\{\}qué?\}  \\
+%      \cs{section}\{\cs{scshape}  \\
+%                    \>\cs{capitalinvertedquestionmark}[1]\cs{relax} qué?\}
+%    \end{codeexample}
+%  \end{important}
+%
+%  The user-side macros \cs{capitalinvertedexclamationmark}\oarg{number} and
+%  \cs{capitalinvertedquestionmark}\oarg{number} call the parameter-less, internal macros
+%
+%  \begin{synopsis}
+%    \cs{typog@inverted@exclamationmark@}\meta{roman-numeral}  \\
+%    \cs{typog@inverted@questionmark@}\meta{roman-numeral}
+%  \end{synopsis}
+%
+%  \noindent
+%  where \meta{roman-numeral}=i, ii, and~iii correpspond to \meta{number}=1, 2, and~3.
+%  \index{textexclamdown=\verb!*+\textexclamdown+|userman}
+%  \index{textquestiondown=\verb!*+\textquestiondown+|userman}
+%  Their defaults are \cs{textexclamdown} and \cs{textquestiondown} for all three numbers,
+%  respectively.  Users can redefine the internal macros to hook up special fonts or characters.
 %
 %
 %  \subsection[Vertically Adjust Label Items]
@@ -4505,6 +4550,7 @@ end
 %     \cs{widespace*}
 %  \end{synopsis}
 %
+%  \index{widespacestrength=\verb!*+\widespacestrength+|userman}
 %  The unstarred macro~\cs{widespace} inserts a space that is as wide as the font's
 %  sentence-ending space in \cs{nonfrenchspacing}~mode, this is
 %  \begin{equation*}
@@ -4518,6 +4564,7 @@ end
 %  \singlequotes{\widespacestrength} uses \cs{widespace} after the period.} The latter can be
 %  overridden by the user to get a more or less pronounced effect.
 %
+%  \index{widespacescale=\verb!*+\widespacescale+|userman}
 %  If |\fontdimen7| happens to be zero \cs{widespace} uses
 %  \begin{equation*}
 %    \cs{widespacescale} \times |\fontdimen2|
@@ -4553,11 +4600,13 @@ end
 %     \cs{narrowspace*}
 %  \end{synopsis}
 %
+%  \index{narrowspacestrength=\verb!*+\narrowspacestrength+|userman}
 %  The unstarred macro~\cs{narrowspace} inserts a narrow space with the width
 %  \begin{equation*}
 %    |\fontdimen2| - \cs{narrowspacestrength} \times |\fontdimen7|
 %  \end{equation*}
 %
+%  \index{narrowspacescale=\verb!*+\narrowspacescale+|userman}
 %  \noindent
 %  if |\fontdimen7| is different from zero or otherwise
 %  \begin{equation*}
@@ -6202,7 +6251,7 @@ end
 %              \biburl{https://ctan.org/pkg/microtype}.
 %
 %      \bibitem{package:ragged2e}
-%              \bibauthor{Schr\"oder, Martin}.
+%              \bibauthor{Schröder, Martin}.
 %              \bibtitle{Package~\packagename{ragged2e}}.
 %              2019,
 %              \biburl{https://ctan.org/pkg/ragged2e}.
@@ -6788,7 +6837,7 @@ end
   {\setlength{\typog@config@ligaturekern}{#1}}
 %  \fi
 %
-%  \changes{v0.5}{2024-09-22}{Rewrite parser for package option~\code{lowercaselabelitemadjustments} to accept a star as a placehoder.}
+%  \changes{v0.5}{2024-09-22}{Rewrite parser for package option~\code{lowercaselabelitemadjustments} to accept a star as a placeholder.}
 %
 %  \iffalse
 \DeclareOptionX<typog>{lowercaselabelitemadjustments}%
@@ -6865,7 +6914,7 @@ end
    \fi}
 %  \fi
 %
-%  \changes{v0.5}{2024-09-22}{Rewrite parser for package option~\code{uppercaselabelitemadjustments} to accept a star as a placehoder.}
+%  \changes{v0.5}{2024-09-22}{Rewrite parser for package option~\code{uppercaselabelitemadjustments} to accept a star as a placeholder.}
 %
 %  \iffalse
 \DeclareOptionX<typog>{uppercaselabelitemadjustments}%
@@ -7755,6 +7804,30 @@ end
    \typog@allowhyphenation
    \ignorespaces}
 %    \end{macrocode}
+%
+%    \acronym{PDF}-substitute definition
+%
+%    \begin{macrocode}
+\typog@register@pdfsubstitute{
+   \RenewExpandableDocumentCommand{\capitalinvertedexclamationmark}{o m}{%
+     \ifx\typog@TYPOG#2\typog@TYPOG
+       \IfNoValueTF{#1}
+                   {\typog@inverted@exclamationmark@i}
+                   {\csname typog@inverted@exclamationmark@\romannumeral#1\endcsname}%
+     \else
+       \ifx\relax#2\relax
+         \IfNoValueTF{#1}
+                     {\typog@inverted@exclamationmark@i}
+                     {\csname typog@inverted@exclamationmark@\romannumeral#1\endcsname}%
+       \else
+         \PackageError{typog}
+                      {Missing second argument of \capitalinvertedexclamationmark}
+                      {Append empty group or \relax after macro invocation}
+       \fi
+     \fi
+     \ignorespaces}
+}
+%    \end{macrocode}
 %  \end{macro}
 %
 %  \begin{macro}{\capitalinvertedquestionmark}
@@ -7763,6 +7836,30 @@ end
   {\typog@raise@inverted@mark{questionmark}{#1}%
    \typog@allowhyphenation
    \ignorespaces}
+%    \end{macrocode}
+%
+%    \acronym{PDF}-substitute definition
+%
+%    \begin{macrocode}
+\typog@register@pdfsubstitute{
+  \RenewExpandableDocumentCommand{\capitalinvertedquestionmark}{o m}{%
+     \ifx\typog@TYPOG#2\typog@TYPOG
+       \IfNoValueTF{#1}
+                   {\typog@inverted@questionmark@i}
+                   {\csname typog@inverted@questionmark@\romannumeral#1\endcsname}%
+     \else
+       \ifx\relax#2\relax
+         \IfNoValueTF{#1}
+                     {\typog@inverted@questionmark@i}
+                     {\csname typog@inverted@questionmark@\romannumeral#1\endcsname}%
+       \else
+         \PackageError{typog}
+                      {Missing second argument of \capitalinvertedquestionmark}
+                      {Append empty group or \relax after macro invocation}
+       \fi
+     \fi
+     \ignorespaces}
+}
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -10688,10 +10785,16 @@ We again compare the default implementation with the adjusted one.
 \end{quote}
 
 
-\subsection{Inverted Marks}
+\subsection{Inverted Exclamation Mark and Inverted Question Mark}
 
-Without TypoG support: g\textexclamdown j\textquestiondown y!
+Without \typoglogo{} support:
+g\textexclamdown jk\textquestiondown y\enspace
+\textexclamdown E! \textquestiondown Q?
 
+All-caps versus small-caps:
+
+\noindent
+\begin{minipage}{.4\textwidth}\parindent=15pt
 \noindent
 \textsc{Carmen}\par
 {\lsstyle\capitalinvertedquestionmark CÓMO ESTÁS, JOSÉ?}
@@ -10703,15 +10806,31 @@ Without TypoG support: g\textexclamdown j\textquestiondown y!
 \noindent
 \textsc{Carmen}\par
 {\lsstyle\capitalinvertedexclamationmark BIEN TAMBIÉN!}
+\end{minipage}
+\hfill
+\begin{minipage}{.4\textwidth}\parindent=15pt
+\noindent
+\textsc{Carmen}\par
+{\scshape\capitalinvertedquestionmark cómo estás, josé?}
 
-\smallskip
+\noindent
+\textsc{José}\par
+{\scshape\capitalinvertedexclamationmark bien!  \capitalinvertedquestionmark\itcorr{-2}y tú?}
+
+\noindent
+\textsc{Carmen}\par
+{\scshape\capitalinvertedexclamationmark bien también!}
+\end{minipage}
+
+\medskip
 
 \begin{typogsetup}{raiseinvertedmarks={5pt,*,1sp}}
+  \noindent
   Local settings are \{\typoggetnth{\dimen0}{raiseinvertedmarks}{1}\the\dimen0,
   \typoggetnth{\dimen0}{raiseinvertedmarks}{2}\the\dimen0,
   \typoggetnth{\dimen0}{raiseinvertedmarks}{3}\the\dimen0\}.
 
-  ?\capitalinvertedquestionmark? and !\capitalinvertedexclamationmark!
+  Primaries: ?\capitalinvertedquestionmark? and !\capitalinvertedexclamationmark!
 
   \makeatletter
   \def\typog@inverted@exclamationmark@ii{\textexclamdown\textsubscript{2}}
