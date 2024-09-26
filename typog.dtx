@@ -895,6 +895,7 @@
   raise-capital-guillemets
   raise-capital-hyphen
   raise-capital-times
+  raise-inverted-marks
   raise-number-dash
   set-baseline-skip
   set-baseline-skip-percentage
@@ -1267,12 +1268,12 @@ end
 %        Typeset a vertically adjusted hyphen character that is hyphenatable.
 %      \endqritem
 %
-%      \qritem{syn:capitalinvertedexclamationmark}{\cs{capitalinvertedexclamationmark}}[\sigbrk\oarg{number}]
+%      \qritem{syn:capitalinvertedexclamationmark}{\cs{capitalinvertedexclamationmark}}[\sigbrk\marg{number}]
 %        Typeset an inverted (\singlequotes{upside-down}) exclamation mark that is level with
 %        the baseline.
 %      \endqritem
 %
-%      \qritem{syn:capitalinvertedquestionmark}{\cs{capitalinvertedquestionmark}}[\sigbrk\oarg{number}]
+%      \qritem{syn:capitalinvertedquestionmark}{\cs{capitalinvertedquestionmark}}[\sigbrk\marg{number}]
 %        Typeset an inverted (\singlequotes{upside-down}) question mark that is level with the
 %        baseline.
 %      \endqritem
@@ -1876,9 +1877,9 @@ end
 %      \cref{sec:inverted-marks}.
 %
 %      A \meta{dim-N} of \formatdimen*{0pt} means to \doublequotes{auto level} the mark; if a
-%      zero manual correction is desired use e.\,g.~1\,sp.  Empty list elements are ignored.
-%      The special value~\samplestar{} instructs \packagename{typog} to preserve \meta{dim-N} at
-%      that position.  Default
+%      \mbox{(quasi-)}\breakpoint zero manual correction is desired use e.\,g.~1\,sp.  Empty
+%      list elements are ignored.  The special value~\samplestar{} instructs \packagename{typog}
+%      to preserve \meta{dim-N} at that position.  Default
 %      values:~\typoggetnth{\dimen0}{raiseinvertedmarks}{1}\milliem{\the\dimen0},
 %      \typoggetnth{\dimen0}{raiseinvertedmarks}{2}\milliem{\the\dimen0},
 %      \typoggetnth{\dimen0}{raiseinvertedmarks}{3}\milliem{\the\dimen0}.
@@ -2618,9 +2619,10 @@ end
 %    \cs{breakpoint*}
 %  \end{synopsis}
 %
-%  The starred form inserts an empty discretionary,\index{hyphenation>empty discretionary|userman}
-%  which disables automatic hyphenation.  The unstarred form inserts an empty discretionary and
-%  immediately re-enables automatic hyphenation.
+%  \index{hyphenation>empty discretionary|userman}
+%  The starred form inserts an empty discretionary, which disables automatic hyphenation.  The
+%  unstarred form inserts an empty discretionary and immediately re-enables automatic
+%  hyphenation.
 %
 %  The difference between \cs{breakpoint} and the \LaTeX{} macro~\cs{allowbreak} is not only
 %  that the former has a starred form, but the penalty associated with \cs{breakpoint} is the
@@ -3404,13 +3406,13 @@ end
 %  \begin{synopsis}
 %    \label{syn:capitalinvertedexclamationmark}
 %    \label{syn:capitalinvertedquestionmark}
-%    \cs{capitalinvertedexclamationmark}\oarg{number}  \\
-%    \cs{capitalinvertedquestionmark}\oarg{number}
+%    \cs{capitalinvertedexclamationmark}\marg{number}  \\
+%    \cs{capitalinvertedquestionmark}\marg{number}
 %  \end{synopsis}
 %
 %  Typeset inverted exclamation marks and inverted question mark.  Select the appropriate mark
-%  and the associated raise-amount with \meta{number}=1, 2, or~3.  The default \meta{number}
-%  is~1.  We sketch the result of the automated correction process in \Cref{fig:inverted-marks}.
+%  and the associated raise-amount with \meta{number}=1, 2, or~3.  We sketch the result of the
+%  automated correction process in \Cref{fig:inverted-marks}.
 %
 %  \iffalse
 %<*invertedmarks>
@@ -3501,55 +3503,39 @@ end
 %  \end{figure}
 %
 %  \indexpackageoption{raiseinvertedmarks}
-%  Configured with option~\hyperref[item:raiseinvertedmarks]{\code{raiseinvertedmarks}}.
+%  Inverted exclamation and inverted question marks by the same \meta{number} are raised by the
+%  same amount which is configurable with
+%  option~\hyperref[item:raiseinvertedmarks]{\code{raiseinvertedmarks}}, where \meta{number}
+%  corresponds to the dimension at position~\meta{number}.  If the dimension is equal to
+%  \formatdimen*{0pt} the marks are auto-raised as shown in \cref{fig:inverted-marks}.  This may
+%  amount to different lengths for the inverted exclamation mark and inverted question mark even
+%  at the same \meta{number}.  A non-zero dimension raises the marks by exactly that length.  To
+%  get a \mbox{(quasi-)}\breakpoint zero length use e.\,g.~1\,sp.
 %
 %  \begin{tip}
-%    For example, \sample{V}, \sample{W}, and \sample{Y} following an inverted question mark may
-%    need some manual kerning as well as \sample{J} following an inverted exclamation mark.
 %    \index{itcorr=\verb!*+\itcorr+|userman}
-%    Macro~\hyperref[syn:itcorr]{\cs{itcorr}} (\cpageref{syn:itcorr}) offers a solution that is
-%    almost portable across font changes and a \meta{strength} of \textminus1 is a good starting
-%    point.
+%    The letters \sample{\itcorr{-2}V}, \sample{\itcorr{-2}W}, and \sample{\itcorr{-1}Y}
+%    following an inverted question mark may need some manual kerning as well as \sample{J}
+%    following an inverted exclamation mark.  Macro~\hyperref[syn:itcorr]{\cs{itcorr}}
+%    (\cpageref{syn:itcorr}) offers a solution that is almost portable across font changes and a
+%    \meta{strength} of \textminus1 is a good starting point.
 %  \end{tip}
 %
-%  \begin{important}[\packagename{hyperref} bookmarks]
-%    If these two macros occur in the argument of a \cs{section} or similar macro and wind up in
-%    the \acronym{PDF}-bookmarks the \emph{Important}~note in \cref{imp:hyperref-bookmarks} on
-%    \cpageref{imp:hyperref-bookmarks} of \cs{nolig} applies, too.  In brief: append either an
-%    empty group~\sample{\{\}} or \cs{relax} to the macros, as, for example,
-%
-%    \begin{codeexample}
-%      \cs{section}\{\=\cs{scshape}  \\
-%                    \>\cs{capitalinvertedquestionmark}\{\}qué?\}  \\
-%      \cs{section}\{\cs{scshape}  \\
-%                    \>\cs{capitalinvertedquestionmark}\cs{relax} qué?\}
-%    \end{codeexample}
-%
-%    \noindent
-%    or with optional argument~\meta{number}
-%
-%    \begin{codeexample}
-%      \cs{section}\{\=\cs{scshape}  \\
-%                    \>\cs{capitalinvertedquestionmark}[1]\{\}qué?\}  \\
-%      \cs{section}\{\cs{scshape}  \\
-%                    \>\cs{capitalinvertedquestionmark}[1]\cs{relax} qué?\}
-%    \end{codeexample}
-%  \end{important}
-%
-%  The user-side macros \cs{capitalinvertedexclamationmark}\oarg{number} and
-%  \cs{capitalinvertedquestionmark}\oarg{number} call the parameter-less, internal macros
+%  The user-side macros \cs{capitalinvertedexclamationmark}\marg{number} and
+%  \cs{capitalinvertedquestionmark}\marg{number} call the parameter-less, internal macros
 %
 %  \begin{synopsis}
 %    \cs{typog@inverted@exclamationmark@}\meta{roman-numeral}  \\
 %    \cs{typog@inverted@questionmark@}\meta{roman-numeral}
 %  \end{synopsis}
 %
-%  \noindent
-%  where \meta{roman-numeral}=i, ii, and~iii correpspond to \meta{number}=1, 2, and~3.
 %  \index{textexclamdown=\verb!*+\textexclamdown+|userman}
 %  \index{textquestiondown=\verb!*+\textquestiondown+|userman}
-%  Their defaults are \cs{textexclamdown} and \cs{textquestiondown} for all three numbers,
-%  respectively.  Users can redefine the internal macros to hook up special fonts or characters.
+%  \noindent
+%  where \meta{roman-numeral}=\code{i}, \code{ii}, and~\code{iii} correpspond to
+%  \meta{number}=1, 2, and~3.  Their defaults are \cs{textexclamdown} and \cs{textquestiondown}
+%  for all three numbers, respectively.  Users can redefine the internal macros to hook up
+%  special fonts or characters.
 %
 %
 %  \subsection[Vertically Adjust Label Items]
@@ -4379,7 +4365,6 @@ end
 %  \subsubsection[Looser\kernedslash Tighter]{Looser or Tighter Spacing}\label{sec:looser-tighter-spacing}
 %  \index{font>spacing>loose|userman}
 %  \index{font>spacing>tight|userman}
-%
 %
 %  \begin{whittyquote}
 %    Never try to adjust lines by squeezing or stretching the tracking.  \\
@@ -6382,7 +6367,7 @@ end
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
 \ProvidesPackage{typog}
-                [2024/09/25  v0.5  TypoGraphic extensions]
+                [2024/09/26  v0.5  TypoGraphic extensions]
 
 \RequirePackage{etoolbox}
 \RequirePackage{everyhook}
@@ -7799,7 +7784,7 @@ end
 %
 %  \begin{macro}{\capitalinvertedexclamationmark}
 %    \begin{macrocode}
-\NewDocumentCommand{\capitalinvertedexclamationmark}{O{1}}
+\NewDocumentCommand{\capitalinvertedexclamationmark}{m}
   {\typog@raise@inverted@mark{exclamationmark}{#1}%
    \typog@allowhyphenation
    \ignorespaces}
@@ -7809,30 +7794,16 @@ end
 %
 %    \begin{macrocode}
 \typog@register@pdfsubstitute{
-   \RenewExpandableDocumentCommand{\capitalinvertedexclamationmark}{o m}{%
-     \ifx\typog@TYPOG#2\typog@TYPOG
-       \IfNoValueTF{#1}
-                   {\typog@inverted@exclamationmark@i}
-                   {\csname typog@inverted@exclamationmark@\romannumeral#1\endcsname}%
-     \else
-       \ifx\relax#2\relax
-         \IfNoValueTF{#1}
-                     {\typog@inverted@exclamationmark@i}
-                     {\csname typog@inverted@exclamationmark@\romannumeral#1\endcsname}%
-       \else
-         \PackageError{typog}
-                      {Missing second argument of \capitalinvertedexclamationmark}
-                      {Append empty group or \relax after macro invocation}
-       \fi
-     \fi
-     \ignorespaces}
+   \def\capitalinvertedexclamationmark#1{%
+     \csname typog@inverted@exclamationmark@\romannumeral#1\endcsname
+   }
 }
 %    \end{macrocode}
 %  \end{macro}
 %
 %  \begin{macro}{\capitalinvertedquestionmark}
 %    \begin{macrocode}
-\NewDocumentCommand{\capitalinvertedquestionmark}{O{1}}
+\NewDocumentCommand{\capitalinvertedquestionmark}{m}
   {\typog@raise@inverted@mark{questionmark}{#1}%
    \typog@allowhyphenation
    \ignorespaces}
@@ -7842,23 +7813,9 @@ end
 %
 %    \begin{macrocode}
 \typog@register@pdfsubstitute{
-  \RenewExpandableDocumentCommand{\capitalinvertedquestionmark}{o m}{%
-     \ifx\typog@TYPOG#2\typog@TYPOG
-       \IfNoValueTF{#1}
-                   {\typog@inverted@questionmark@i}
-                   {\csname typog@inverted@questionmark@\romannumeral#1\endcsname}%
-     \else
-       \ifx\relax#2\relax
-         \IfNoValueTF{#1}
-                     {\typog@inverted@questionmark@i}
-                     {\csname typog@inverted@questionmark@\romannumeral#1\endcsname}%
-       \else
-         \PackageError{typog}
-                      {Missing second argument of \capitalinvertedquestionmark}
-                      {Append empty group or \relax after macro invocation}
-       \fi
-     \fi
-     \ignorespaces}
+  \def\capitalinvertedquestionmark#1{%
+    \csname typog@inverted@questionmark@\romannumeral#1\endcsname
+  }
 }
 %    \end{macrocode}
 %  \end{macro}
@@ -10797,29 +10754,29 @@ All-caps versus small-caps:
 \begin{minipage}{.4\textwidth}\parindent=15pt
 \noindent
 \textsc{Carmen}\par
-{\lsstyle\capitalinvertedquestionmark CÓMO ESTÁS, JOSÉ?}
+{\lsstyle\capitalinvertedquestionmark{1}CÓMO ESTÁS, JOSÉ?}
 
 \noindent
 \textsc{José}\par
-{\lsstyle\capitalinvertedexclamationmark BIEN!  \capitalinvertedquestionmark\itcorr{-2}Y TÚ?}
+{\lsstyle\capitalinvertedexclamationmark{1}BIEN!  \capitalinvertedquestionmark{1}\itcorr{-2}Y TÚ?}
 
 \noindent
 \textsc{Carmen}\par
-{\lsstyle\capitalinvertedexclamationmark BIEN TAMBIÉN!}
+{\lsstyle\capitalinvertedexclamationmark{1} BIEN TAMBIÉN!}
 \end{minipage}
 \hfill
 \begin{minipage}{.4\textwidth}\parindent=15pt
 \noindent
 \textsc{Carmen}\par
-{\scshape\capitalinvertedquestionmark cómo estás, josé?}
+{\scshape\capitalinvertedquestionmark{1}cómo estás, josé?}
 
 \noindent
 \textsc{José}\par
-{\scshape\capitalinvertedexclamationmark bien!  \capitalinvertedquestionmark\itcorr{-2}y tú?}
+{\scshape\capitalinvertedexclamationmark{1}bien!  \capitalinvertedquestionmark{1}\itcorr{-2}y tú?}
 
 \noindent
 \textsc{Carmen}\par
-{\scshape\capitalinvertedexclamationmark bien también!}
+{\scshape\capitalinvertedexclamationmark{1} bien también!}
 \end{minipage}
 
 \medskip
@@ -10830,7 +10787,7 @@ All-caps versus small-caps:
   \typoggetnth{\dimen0}{raiseinvertedmarks}{2}\the\dimen0,
   \typoggetnth{\dimen0}{raiseinvertedmarks}{3}\the\dimen0\}.
 
-  Primaries: ?\capitalinvertedquestionmark? and !\capitalinvertedexclamationmark!
+  Primaries: ?\capitalinvertedquestionmark{1}? and !\capitalinvertedexclamationmark{1}!
 
   \makeatletter
   \def\typog@inverted@exclamationmark@ii{\textexclamdown\textsubscript{2}}
@@ -10839,12 +10796,18 @@ All-caps versus small-caps:
   \def\typog@inverted@questionmark@iii{\textquestiondown\textsubscript{3}}
   \makeatother
   Secondaries -- indexed with 2:
-  \capitalinvertedquestionmark[2] Más?
-  \capitalinvertedexclamationmark[2] Por venir!
+  \capitalinvertedquestionmark{2}Más?
+  \capitalinvertedexclamationmark{2}Por venir!
 
   Tertiaries -- indexed with 3:
-  \capitalinvertedquestionmark[3] Continuemos?
-  \capitalinvertedexclamationmark[3] Con el texto!
+  \capitalinvertedquestionmark{3}Continuemos?
+  \capitalinvertedexclamationmark{3}Con el texto!
+
+  \iffalse
+    \section{\capitalinvertedexclamationmark{1}E! \capitalinvertedquestionmark{1}Q?}
+    \section{\capitalinvertedexclamationmark{2}E! \capitalinvertedquestionmark{2}Q?}
+    \section{\capitalinvertedexclamationmark{3}E! \capitalinvertedquestionmark{3}Q?}
+  \fi
 \end{typogsetup}
 
 
