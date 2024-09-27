@@ -1205,9 +1205,10 @@ end
 %  List \cs{item}s get tied with \hyperref[syn:vtietop]{\cs{vtietop}}.}  This is an
 %  alphabetically sorted list of all user macros and environments defined by
 %  package~\packagename{typog} along with the page numbers of their respective descriptions.  A
-%  list of all package options can be found on page~\pageref{sec:package-options}
-%  and~\pageref{secend:package-options}.  The \hyperref[sec:index]{Index} on
-%  pages~\pageref{sec:index} to~\pageref{secend:index} may provide some more detailed insights.
+%  list of all \hyperref[sec:package-options]{package options} can be found on
+%  pages~\pageref{sec:package-options} to~\pageref{secend:package-options}.  The
+%  \hyperref[sec:index]{Index} on pages~\pageref{sec:index} to~\pageref{secend:index} may
+%  provide some more detailed insights.
 %
 %  If a line-break occurs between the command and its arguments or between any of the arguments
 %  we indicate the break with triangle at the end of the initial line and at the beginning of
@@ -6335,12 +6336,13 @@ end
 %    \begingroup
 %      \setcounter{IndexColumns}{2}
 %      \setlength{\columnsep}{30pt}
-%      \label{sec:index}
 %      \phantomsection
+%      \label{sec:index}
 %      \addtocontents{toc}{\medskip}
 %      \addcontentsline{toc}{section}{\numberline{}Index}
 %      \raggedcolumns
 %      \PrintIndex
+%      \phantomsection
 %      \label{secend:index}
 %    \endgroup
 %  }
