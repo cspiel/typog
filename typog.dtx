@@ -590,6 +590,7 @@
                         \newcommand*{\specialsectionendhere}
                                     {\specialsectionend
                                      \global\togglefalse{printspecialsectionmarker}}
+                        \phantomsection
                         \item
                         \nointerlineskip
                         \leavevmode\par
@@ -1194,9 +1195,11 @@ end
 %
 %
 %  \clearpage
+%  \pagestyle{fancy}
 %  \phantomsection
-%  \addcontentsline{toc}{section}{\numberline{}Quick Reference}
+%  \addcontentsline{toc}{section}{\protect\numberline{}Quick Reference}
 %  \addtocontents{toc}{\medskip}
+%  \markboth{\sf\scshape Quick Reference}{\sf\scshape Quick Reference}
 %  \section*{Quick Reference}
 %  \index{quick reference|(userman}
 %
@@ -1269,12 +1272,14 @@ end
 %        Typeset a vertically adjusted hyphen character that is hyphenatable.
 %      \endqritem
 %
-%      \qritem{syn:capitalinvertedexclamationmark}{\cs{capitalinvertedexclamationmark}}[\sigbrk\marg{number}]
+%      \qritem{syn:capitalinvertedexclamationmark}{\cs{capital\-inverted\-exclamation\-mark}}
+%             [\sigbrk\marg{number}]
 %        Typeset an inverted (\singlequotes{upside-down}) exclamation mark that is level with
 %        the baseline.
 %      \endqritem
 %
-%      \qritem{syn:capitalinvertedquestionmark}{\cs{capitalinvertedquestionmark}}[\sigbrk\marg{number}]
+%      \qritem{syn:capitalinvertedquestionmark}{\cs{capital\-inverted\-question\-mark}}
+%             [\sigbrk\marg{number}]
 %        Typeset an inverted (\singlequotes{upside-down}) question mark that is level with the
 %        baseline.
 %      \endqritem
@@ -1640,7 +1645,6 @@ end
 %
 %
 %  \clearpage
-%  \pagestyle{fancy}
 %  \pagenumbering{arabic}
 %  \section{Introduction}\label{sec:introduction}
 %
@@ -3592,8 +3596,8 @@ end
 %
 %  The argument \meta{levels-to-adjust} is a --~possibly empty~-- comma separated list of the
 %  levels the respective adjustments are to be applied to.  The levels themselves are given as
-%  \emph{decimal} numbers, this is, 1, 2, 3, 4 or the special value~\sample{*} which stands for
-%  all four levels.  An empty argument list also has a special meaning.  Used within any
+%  \emph{decimal} numbers, this is, 1, 2, 3, 4 or the special value~\samplestar{} which stands
+%  for all four levels.  An empty argument list also has a special meaning.  Used within any
 %  \code{itemize}~environment it automatically applies the adjustment to exactly this level.
 %
 %  \begin{example}
@@ -6081,7 +6085,9 @@ end
 %      \label{sec:changes}
 %      \resetfancyhead
 %      \addtocontents{toc}{\bigskip}
-%      \addcontentsline{toc}{section}{\numberline{}Change History}
+%      \addcontentsline{toc}{section}{\protect\numberline{}Change History}
+%      \GlossaryPrologue{\section*{Change History}
+%                        \markboth{\sf\scshape Change History}{\sf\scshape Change History}}
 %      \PrintChanges
 %    \endgroup
 %
@@ -6090,8 +6096,9 @@ end
 %    \clearpage
 %    \phantomsection
 %    \addtocontents{toc}{\medskip}
-%    \addcontentsline{toc}{section}{\numberline{}References}
+%    \addcontentsline{toc}{section}{\protect\numberline{}References}
 %    \begin{RaggedRight}
+%      \def\MakeUppercase##1{\sf\scshape ##1}
 %      \begin{thebibliography}{88}
 %      \bibitem{abrahams:2020}
 %              \bibauthor{Abrahams, Paul~W.},
@@ -6099,7 +6106,7 @@ end
 %              \bibauthor{Karl Berry}.
 %              \bibtitle{\TeX{} for the Impatient}.
 %              2020,
-%              \biburl{http://tug.ctan.org/info/impatient/book.pdf}.
+%              \biburl{https://tug.ctan.org/info/impatient/book.pdf}.
 %
 %      \bibitem{package:amsmath}
 %              \bibauthor{American Mathematical Society} and the
@@ -6177,7 +6184,7 @@ end
 %              \bibauthor{Khirevich, Siarhei}.
 %              \bibtitle{Tips on Writing a Thesis in \LaTeX}.
 %              2013,
-%              \biburl{http://www.khirevich.com/latex/microtype}.
+%              \biburl{https://www.khirevich.com/latex/microtype}.
 %
 %      \bibitem{package:pdfcomment}
 %              \bibauthor{Kleber, Josef}.
@@ -6246,7 +6253,7 @@ end
 %              \bibauthor{Solomon, David}.
 %              \bibtitle{Output Routines: Examples and Techniques.  Part~I: Introduction and Examples}.
 %              TUGboat, 11(1), 69\figuredash85, 1990,
-%              \biburl{http://www.tug.org/TUGboat/Articles/tb11-1/tb27salomon.pdf}.
+%              \biburl{https://www.tug.org/TUGboat/Articles/tb11-1/tb27salomon.pdf}.
 %
 %      \bibitem{strizver:2014}
 %              \bibauthor{Strizver, Ilene}.
@@ -6339,8 +6346,10 @@ end
 %      \phantomsection
 %      \label{sec:index}
 %      \addtocontents{toc}{\medskip}
-%      \addcontentsline{toc}{section}{\numberline{}Index}
+%      \addcontentsline{toc}{section}{\protect\numberline{}Index}
 %      \raggedcolumns
+%      \IndexPrologue{\section*{Index}
+%                     \markboth{\sf\scshape Index}{\sf\scshape Index}}
 %      \PrintIndex
 %      \phantomsection
 %      \label{secend:index}
@@ -10762,7 +10771,7 @@ All-caps versus small-caps:
 
 \noindent
 \textsc{Carmen}\par
-{\lsstyle\capitalinvertedexclamationmark{1} BIEN TAMBIÉN!}
+{\lsstyle\capitalinvertedexclamationmark{1}BIEN TAMBIÉN!}
 \end{minipage}
 \hfill
 \begin{minipage}{.4\textwidth}\parindent=15pt
@@ -10776,7 +10785,7 @@ All-caps versus small-caps:
 
 \noindent
 \textsc{Carmen}\par
-{\scshape\capitalinvertedexclamationmark{1} bien también!}
+{\scshape\capitalinvertedexclamationmark{1}bien también!}
 \end{minipage}
 
 \medskip
