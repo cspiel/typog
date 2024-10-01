@@ -10187,7 +10187,7 @@ Unless otherwise noted the font used in the examples is \singlequotes{\examplefo
 \noindent
 \code{\char`\\ typogget}
 
-\begin{list}{}{}
+\begin{list}{}{\itemsep=0pt\parsep=0pt}
   \newcommand*{\expandsto}{$\mathbin{\mapsto}$}
 \item \code{breakpenalty} \expandsto{} \the\typogget{breakpenalty}
 \item \code{ligaturekern} \expandsto{} \milliem{\typogget{ligaturekern}}
@@ -10200,6 +10200,7 @@ Unless otherwise noted the font used in the examples is \singlequotes{\examplefo
 \item \code{raisecapitaltimes} \expandsto{} \the\typogget{raisecapitaltimes}
 \item \code{raisefiguredash} \expandsto{} \the\typogget{raisefiguredash}
 \item \code{raiseguillemets} \expandsto{} \the\typogget{raiseguillemets}
+\item \code{raiseinvertedmarks} \expandsto{} \typogget{raiseinvertedmarks}
 \item \code{shrinklimits} \expandsto{} \typogget{shrinklimits}
 \item \code{slashkern} \expandsto{} \the\typogget{slashkern}
 \item \code{stretchlimits} \expandsto{} \typogget{stretchlimits}
@@ -10216,9 +10217,9 @@ Unless otherwise noted the font used in the examples is \singlequotes{\examplefo
 \noindent
 \code{\char`\\ typoggetnth}
 
-\begin{list}{}{}
+\begin{list}{}{\parsep=0pt}
 \item
-  Elements of \code{lowercaselabelitemadjustments}:
+  \code{lowercaselabelitemadjustments}:
   (1)~\typoggetnth{\dimen0}{lowercaselabelitemadjustments}{1}\the\dimen0,
   (2)~\typoggetnth{\dimen0}{lowercaselabelitemadjustments}{2}\the\dimen0,
   (3)~\typoggetnth{\dimen0}{lowercaselabelitemadjustments}{3}\the\dimen0, and
@@ -10230,22 +10231,27 @@ Unless otherwise noted the font used in the examples is \singlequotes{\examplefo
   (\textminus2)~\typoggetnth{nth}{lowercaselabelitemadjustments}{-2}\nth, and
   (\textminus1)~\typoggetnth{nth}{lowercaselabelitemadjustments}{-1}\nth.
 
-\item Elements of \code{shrinklimits}:
+\item \code{raiseinvertedmarks}:
+  (1)~\typoggetnth{nth}{raiseinvertedmarks}{1}\nth,
+  (2)~\typoggetnth{nth}{raiseinvertedmarks}{2}\nth, and
+  (3)~\typoggetnth{nth}{raiseinvertedmarks}{3}\nth.
+
+\item \code{shrinklimits}:
   (1)~\typoggetnth{nth}{shrinklimits}{1}\nth,
   (2)~\typoggetnth{nth}{shrinklimits}{2}\nth, and
   (3)~\typoggetnth{nth}{shrinklimits}{3}\nth.
 
-\item Elements of \code{stretchlimits}:
+\item \code{stretchlimits}:
   (1)~\typoggetnth{nth}{stretchlimits}{1}\nth,
   (2)~\typoggetnth{nth}{stretchlimits}{2}\nth, and
   (3)~\typoggetnth{nth}{stretchlimits}{3}\nth.
 
-\item Elements of \code{trackingttspacing}:
+\item \code{trackingttspacing}:
   (1)~\typoggetnth{nth}{trackingttspacing}{1}\nth,
   (2)~\typoggetnth{nth}{trackingttspacing}{2}\nth, and
   (3)~\typoggetnth{nth}{trackingttspacing}{3}\nth.
 
-\item Elements of \code{uppercaselabelitemadjustments}:
+\item \code{uppercaselabelitemadjustments}:
   (1)~\typoggetnth{\dimen0}{uppercaselabelitemadjustments}{1}\the\dimen0,
   (2)~\typoggetnth{\dimen0}{uppercaselabelitemadjustments}{2}\the\dimen0,
   (3)~\typoggetnth{\dimen0}{uppercaselabelitemadjustments}{3}\the\dimen0, and
