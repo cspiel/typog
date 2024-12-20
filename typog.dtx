@@ -6844,7 +6844,7 @@ end
   {\setlength{\typog@config@ligaturekern}{#1}}
 %  \fi
 %
-%  \changes{v0.5}{2024-09-22}{Rewrite parser for package option~\code{lowercaselabelitemadjustments} to accept a star as a placeholder.}
+%  \changes{v0.5}{2024-09-22}{Rewrite parser for package option~\code{lowercase\-labelitem\-adjustments} to accept a star as a placeholder.}
 %
 %  \iffalse
 \DeclareOptionX<typog>{lowercaselabelitemadjustments}%
@@ -6921,7 +6921,7 @@ end
    \fi}
 %  \fi
 %
-%  \changes{v0.5}{2024-09-22}{Rewrite parser for package option~\code{uppercaselabelitemadjustments} to accept a star as a placeholder.}
+%  \changes{v0.5}{2024-09-22}{Rewrite parser for package option~\code{uppercase\-labelitem\-adjustments} to accept a star as a placeholder.}
 %
 %  \iffalse
 \DeclareOptionX<typog>{uppercaselabelitemadjustments}%
@@ -7805,6 +7805,7 @@ end
 %  The user-side macros are almost trivial now.
 %
 %  \begin{macro}{\capitalinvertedexclamationmark}
+%    \changes{v0.5}{2024-09-21}{New macro.}
 %    \begin{macrocode}
 \NewDocumentCommand{\capitalinvertedexclamationmark}{m}
   {\typog@raise@inverted@mark{exclamationmark}{#1}%
@@ -7823,6 +7824,7 @@ end
 %  \end{macro}
 %
 %  \begin{macro}{\capitalinvertedquestionmark}
+%    \changes{v0.5}{2024-09-21}{New macro.}
 %    \begin{macrocode}
 \NewDocumentCommand{\capitalinvertedquestionmark}{m}
   {\typog@raise@inverted@mark{questionmark}{#1}%
