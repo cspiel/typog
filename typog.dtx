@@ -3526,12 +3526,13 @@ end
 %  get a \mbox{(quasi-)}\breakpoint zero length use e.\,g.~1\,sp.
 %
 %  \begin{tip}
-%    \index{itcorr=\verb!*+\itcorr+|userman}
+%    \index{itcorr=\verb!*+\itcorr+|userman}\relax
 %    The letters \sample{\itcorr{-2}V}, \sample{\itcorr{-2}W}, and \sample{\itcorr{-1}Y}
-%    following an inverted question mark may need some manual kerning as well as \sample{J}
-%    following an inverted exclamation mark.  Macro~\hyperref[syn:itcorr]{\cs{itcorr}}
-%    (\cpageref{syn:itcorr}) offers a solution that is almost portable across font changes and a
-%    \meta{strength} of \textminus1 is a good starting point.
+%    following an inverted question mark may need some manual kerning as well as
+%    \sample{\itcorr{3}J} following an inverted exclamation mark.
+%    Macro~\hyperref[syn:itcorr]{\cs{itcorr}} (\cpageref{syn:itcorr}) offers a solution that is
+%    almost portable across font changes and a \meta{strength} of \textminus1 is a good starting
+%    point.
 %  \end{tip}
 %
 %  The user-side macros \cs{capitalinvertedexclamationmark}\marg{number} and
@@ -3830,6 +3831,9 @@ end
 %          \acronym{ADF} Venturis\detoxindex{font>typeface>ADF Venturis=\acronym{ADF} Venturis|userman}  &
 %          .0~~  &  1.0~~  &  .75~  &  1.0~~  &
 %          \textminus.75~  &  .0~~  &  \textminus.25~  &  .0~~  \\
+%          Aleo\detoxindex{font>typeface>Aleo|userman}  &
+%          .75~  &  .75~  &  \textminus1.5~~  &  .75~  &
+%          \textminus.25~  &  \textminus.5~~  &  \textminus2.75~  &  \textminus.325  \\
 %          Charis \acronym{SIL}\detoxindex{font>typeface>Charis SIL=Charis \acronym{SIL}|userman}  &
 %          .375  &  1.0~~  &  \textminus.75~  &  .25~  &
 %          \textminus.75~  &  .0~~  &  \textminus1.75~  &  \textminus.875  \\
