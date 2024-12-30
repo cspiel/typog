@@ -1220,6 +1220,38 @@ end
 %  \begin{widebody}
 %    \begin{quickreference}
 %      \item\relax\hspace{\leftmargin}\heading{A}\vspace{-\itemsep}%
+%      \qritem{syn:Adjustedlabelitem}{\cs{Adjustedlabelitemi}}
+%        Typeset an uppercase-adjusted \cs{label\-itemi}.
+%      \endqritem
+%
+%      \qritem{syn:adjustedlabelitem}{\cs{adjustedlabelitemi}}
+%        Typeset a lowercase-adjusted \cs{label\-itemi}.
+%      \endqritem
+%
+%      \qritem{syn:Adjustedlabelitem}{\cs{Adjustedlabelitemii}}
+%        Typeset an uppercase-adjusted \cs{label\-itemii}.
+%      \endqritem
+%
+%      \qritem{syn:adjustedlabelitem}{\cs{adjustedlabelitemii}}
+%        Typeset a lowercase-adjusted \cs{label\-itemii}.
+%      \endqritem
+%
+%      \qritem{syn:Adjustedlabelitem}{\cs{Adjustedlabelitemiii}}
+%        Typeset an uppercase-adjusted \cs{label\-itemiii}.
+%      \endqritem
+%
+%      \qritem{syn:adjustedlabelitem}{\cs{adjustedlabelitemiii}}
+%        Typeset a lowercase-adjusted \cs{label\-itemiii}.
+%      \endqritem
+%
+%      \qritem{syn:Adjustedlabelitem}{\cs{Adjustedlabelitemiv}}
+%        Typeset an uppercase-adjusted \cs{label\-itemiv}.
+%      \endqritem
+%
+%      \qritem{syn:adjustedlabelitem}{\cs{adjustedlabelitemiv}}
+%        Typeset a height-adjusted \cs{label\-itemiv}.
+%      \endqritem
+%
 %      \qritem{syn:allowhyphenation}{\cs{allow\-hyphenation}}
 %        (Re-)enable automatic hyphenation.
 %      \endqritem
@@ -3552,6 +3584,7 @@ end
 %  special fonts or characters.
 %
 %
+%  \clearpage
 %  \subsection[Vertically Adjust Label Items]
 %             {Vertically Adjust Label Items of
 %              Environment \code{itemize}}\label{sec:adjust-label-items}
@@ -3683,6 +3716,42 @@ end
 %
 %    Swashes whether upper- or lowercase always need special attention.
 %  \end{note}
+%
+%  \DescribeMacro{\Adjustedlabelitemi}
+%  \DescribeMacro{\Adjustedlabelitemii}
+%  \DescribeMacro{\Adjustedlabelitemiii}
+%  \DescribeMacro{\Adjustedlabelitemiv}
+%  \DescribeMacro{\adjustedlabelitemi}
+%  \DescribeMacro{\adjustedlabelitemii}
+%  \DescribeMacro{\adjustedlabelitemiii}
+%  \DescribeMacro{\adjustedlabelitemiv}
+%  \sinceversion{All eight since v0.5}
+%  Sometimes uppercase-adjusted or lowercase-adjusted label items are needed outside of
+%  \code{itemize}~environments.
+%
+%  \begin{synopsis}\label{syn:Adjustedlabelitem}\label{syn:adjustedlabelitem}
+%    \begin{tabular}{@{}l@{\hspace{2em}}l@{}}
+%      \cs{Adjustedlabelitemi}  &  \cs{adjustedlabelitemi}  \\
+%      \cs{Adjustedlabelitemii}  &  \cs{adjustedlabelitemii}  \\
+%      \cs{Adjustedlabelitemiii}  &  \cs{adjustedlabelitemiii}  \\
+%      \cs{Adjustedlabelitemiv}  &  \cs{adjustedlabelitemiv}
+%    \end{tabular}
+%  \end{synopsis}
+%
+%  Typeset label items that are height-adjusted according to
+%  \hyperref[item:uppercaselabelitemadjustments]{\code{uppercaselabelitemadjustments}} or
+%  \hyperref[item:lowercaselabelitemadjustments]{\code{lowercaselabelitemadjustments}} either
+%  for uppercase (macros starting with a capital~\sample{A}) or lowercase (macros starting with
+%  a small~\sample{a}).  These macros can be used anywhere.  They are \emph{not} controlled by
+%  \hyperref[syn:uppercaseadjustlabelitems]{\cs{uppercaseadjustlabelitems}},
+%  \hyperref[syn:lowercaseadjustlabelitems]{\cs{lowercaseadjustlabelitems}}, nor
+%  \hyperref[syn:noadjustlabelitems]{\cs{noadjustlabelitems}}.
+%
+%  \begin{usecases}
+%    Free, user-defined lists.~\visualpar
+%    Injection of \packagename{typog}'s height-adjustment functionality in other packages as,
+%    for example, \packagename{tasks}~\cite{package:tasks}.
+%  \end{usecases}
 %
 %  \DescribeMacro{\typogadjuststairs}
 %  \sinceversion{Since v0.4}
@@ -6245,6 +6314,12 @@ end
 %              2020,
 %              \biburl{https://ctan.org/pkg/widows-and-orphans}.
 %
+%      \bibitem{package:tasks}
+%              \bibauthor{Niederberger, Clemens}.
+%              \bibtitle{Package~\packagename{tasks}}.
+%              2022,
+%              \biburl{https://github.com/cgnieder/tasks}.
+%
 %      \bibitem{package:hyperref}
 %              \bibauthor{Rahtz, Sebastian,} and \bibauthor{Frank Mittelbach}.
 %              \bibtitle{Package~\packagename{hyperref}}.
@@ -6393,7 +6468,7 @@ end
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
 \ProvidesPackage{typog}
-                [2024/10/20  v0.5  TypoGraphic extensions]
+                [2024/12/30  v0.5  TypoGraphic extensions]
 
 \RequirePackage{etoolbox}
 \RequirePackage{everyhook}
@@ -8119,6 +8194,97 @@ end
 
 %    \end{macrocode}
 %  \end{macro}
+%
+%  Freestanding height-adjusted label items.
+%
+% \begin{macro}{\Adjustedlabelitemi}
+%   \changes{v0.5}{2024-12-30}{New macro.}
+%   \begin{macrocode}
+\NewDocumentCommand{\Adjustedlabelitemi}{}
+  {\raisebox{\typog@adjust@uppercase@labelitemi}
+            {\labelitemi}}
+%    \end{macrocode}
+%  \end{macro}
+%
+% \begin{macro}{\adjustedlabelitemi}
+%   \changes{v0.5}{2024-12-30}{New macro.}
+%   \begin{macrocode}
+\NewDocumentCommand{\adjustedlabelitemi}{}
+  {\raisebox{\typog@adjust@lowercase@labelitemi}
+            {\labelitemi}}
+%    \end{macrocode}
+%  \end{macro}
+%
+% \begin{macro}{\Adjustedlabelitemii}
+%   \changes{v0.5}{2024-12-30}{New macro.}
+%   \begin{macrocode}
+\NewDocumentCommand{\Adjustedlabelitemii}{}
+  {\raisebox{\typog@adjust@uppercase@labelitemii}
+            {\labelitemii}}
+%    \end{macrocode}
+%  \end{macro}
+%
+% \begin{macro}{\adjustedlabelitemii}
+%   \changes{v0.5}{2024-12-30}{New macro.}
+%   \begin{macrocode}
+\NewDocumentCommand{\adjustedlabelitemii}{}
+  {\raisebox{\typog@adjust@lowercase@labelitemii}
+            {\labelitemii}}
+%    \end{macrocode}
+%  \end{macro}
+%
+% \begin{macro}{\Adjustedlabelitemiii}
+%   \changes{v0.5}{2024-12-30}{New macro.}
+%   \begin{macrocode}
+\NewDocumentCommand{\Adjustedlabelitemiii}{}
+  {\raisebox{\typog@adjust@uppercase@labelitemiii}
+            {\labelitemiii}}
+%    \end{macrocode}
+%  \end{macro}
+%
+% \begin{macro}{\adjustedlabelitemiii}
+%   \changes{v0.5}{2024-12-30}{New macro.}
+%   \begin{macrocode}
+\NewDocumentCommand{\adjustedlabelitemiii}{}
+  {\raisebox{\typog@adjust@lowercase@labelitemiii}
+            {\labelitemiii}}
+%    \end{macrocode}
+%  \end{macro}
+%
+% \begin{macro}{\Adjustedlabelitemiv}
+%   \changes{v0.5}{2024-12-30}{New macro.}
+%   \begin{macrocode}
+\NewDocumentCommand{\Adjustedlabelitemiv}{}
+  {\raisebox{\typog@adjust@uppercase@labelitemiv}
+            {\labelitemiv}}
+%    \end{macrocode}
+%  \end{macro}
+%
+% \begin{macro}{\adjustedlabelitemiv}
+%   \changes{v0.5}{2024-12-30}{New macro.}
+%   \begin{macrocode}
+\NewDocumentCommand{\adjustedlabelitemiv}{}
+  {\raisebox{\typog@adjust@lowercase@labelitemiv}
+            {\labelitemiv}}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  And now for their \acronym{PDF}substitutes.
+%
+%    \begin{macrocode}
+\typog@register@pdfsubstitute{
+  \def\Adjustedlabelitemi{\labelitemi}
+  \def\adjustedlabelitemi{\labelitemi}
+  \def\Adjustedlabelitemii{\labelitemii}
+  \def\adjustedlabelitemii{\labelitemii}
+  \def\Adjustedlabelitemiii{\labelitemiii}
+  \def\adjustedlabelitemiii{\labelitemiii}
+  \def\Adjustedlabelitemiv{\labelitemiv}
+  \def\adjustedlabelitemiv{\labelitemiv}
+}
+
+%    \end{macrocode}
 %
 %  Here come our convenience macros to simplify an accurate setup of the label adjustments.
 %
@@ -9867,8 +10033,8 @@ end
 \usepackage{trace}
 \usepackage[debug,
   trackingttspacing,
-  uppercaselabelitemadjustments={0pt, .1em, .15em, .1em},
-  lowercaselabelitemadjustments={-.0667em, 0pt, .1em, 0pt}]{typog}
+  uppercaselabelitemadjustments={-0.025em, .075em, .14em, .075em},
+  lowercaselabelitemadjustments={-.1em, 0pt, .065em, 0pt}]{typog}
 \usepackage{xcolor}
 
 \usepackage[loosest, proportional, scaled=1.064]{erewhon}
@@ -10847,20 +11013,13 @@ All-caps versus small-caps:
 
 The current configurations for the uppercase and lowercase adjustments are
 \{\typogget{uppercaselabelitemadjustments}\} and \{\typogget{lowercaselabelitemadjustments}\},
-respectively.
+respectively.  Here are the results of the freestanding
+macros~\code{\string\adjusted\-label\-itemi}, \code{\string\adjusted\-label\-itemi} and so on:
 
 \begin{center}
-  \makeatletter
-  \noindent
-  A\raisebox{\typog@adjust@uppercase@labelitemi}{\labelitemi}%
-  B\raisebox{\typog@adjust@uppercase@labelitemii}{\labelitemii}%
-  E\raisebox{\typog@adjust@uppercase@labelitemiii}{\labelitemiii}%
-  G\raisebox{\typog@adjust@uppercase@labelitemiv}{\labelitemiv}H  \\
-  a\raisebox{\typog@adjust@lowercase@labelitemi}{\labelitemi}%
-  b\raisebox{\typog@adjust@lowercase@labelitemii}{\labelitemii}%
-  c\raisebox{\typog@adjust@lowercase@labelitemiii}{\labelitemiii}%
-  e\raisebox{\typog@adjust@lowercase@labelitemiv}{\labelitemiv}g
-  \makeatother
+ A\Adjustedlabelitemi B\Adjustedlabelitemii E\Adjustedlabelitemiii G\Adjustedlabelitemiv H.
+
+ a\adjustedlabelitemi b\adjustedlabelitemii e\adjustedlabelitemiii g\adjustedlabelitemiv h.
 \end{center}
 
 For the following nested lists we adjust levels one and three for uppercase and levels two and
