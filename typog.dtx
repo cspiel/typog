@@ -5974,27 +5974,40 @@ end
 %    \emph{both} packages are loaded:
 %
 %    \begin{multicols}{2}
+%      \newcommand*{\synpageref}[1]{\leavevmode
+%                                   \unskip
+%                                   \penalty9999\hbox{}\nobreak
+%                                   \hfill\quad
+%                                   \mbox{\footnotesize\textbf{\pageref{#1}}}}
 %      \begin{itemize}[label={}, nosep]
-%      \item \cs{breakpoint}
-%      \item \cs{capitalemdash}
-%      \item \cs{capitalendash}
-%      \item \cs{capitalhyphen}
-%      \item \cs{capitaltimes}
-%      \item \cs{Doubleguillemetleft}
-%      \item \cs{Doubleguillemetright}
-%      \item \cs{doubleguillemetleft}
-%      \item \cs{doubleguillemetright}
-%      \item \cs{figuredash}
-%      \item \cs{itcorr}
-%      \item \cs{kernedhyphen}
-%      \item \cs{kernedslash}
-%      \item \cs{leftkernedhyphen}
-%      \item \cs{nolig}
-%      \item \cs{rightkernedhyphen}
-%      \item \cs{Singleguillemetleft}
-%      \item \cs{Singleguillemetright}
-%      \item \cs{singleguillemetleft}
-%      \item \cs{singleguillemetright}
+%      \item \cs{Adjustedlabelitemi}\synpageref{syn:Adjustedlabelitem}
+%      \item \cs{Adjustedlabelitemii}\synpageref{syn:Adjustedlabelitem}
+%      \item \cs{Adjustedlabelitemiii}\synpageref{syn:Adjustedlabelitem}
+%      \item \cs{Adjustedlabelitemiv}\synpageref{syn:Adjustedlabelitem}
+%      \item \cs{adjustedlabelitemi}\synpageref{syn:adjustedlabelitem}
+%      \item \cs{adjustedlabelitemii}\synpageref{syn:adjustedlabelitem}
+%      \item \cs{adjustedlabelitemiii}\synpageref{syn:adjustedlabelitem}
+%      \item \cs{adjustedlabelitemiv}\synpageref{syn:adjustedlabelitem}
+%      \item \cs{breakpoint}\synpageref{syn:breakpoint}
+%      \item \cs{capitalemdash}\synpageref{syn:capitalemdash}
+%      \item \cs{capitalendash}\synpageref{syn:capitalendash}
+%      \item \cs{capitalhyphen}\synpageref{syn:capitalhyphen}
+%      \item \cs{capitaltimes}\synpageref{syn:capitaltimes}
+%      \item \cs{Doubleguillemetleft}\synpageref{syn:Doubleguillemetleft}
+%      \item \cs{Doubleguillemetright}\synpageref{syn:Doubleguillemetright}
+%      \item \cs{doubleguillemetleft}\synpageref{syn:doubleguillemetleft}
+%      \item \cs{doubleguillemetright}\synpageref{syn:doubleguillemetright}
+%      \item \cs{figuredash}\synpageref{syn:figuredash}
+%      \item \cs{itcorr}\synpageref{syn:itcorr}
+%      \item \cs{kernedhyphen}\synpageref{syn:kernedhyphen}
+%      \item \cs{kernedslash}\synpageref{syn:kernedslash}
+%      \item \cs{leftkernedhyphen}\synpageref{syn:leftkernedhyphen}
+%      \item \cs{nolig}\synpageref{syn:nolig}
+%      \item \cs{rightkernedhyphen}\synpageref{syn:rightkernedhyphen}
+%      \item \cs{Singleguillemetleft}\synpageref{syn:Singleguillemetleft}
+%      \item \cs{Singleguillemetright}\synpageref{syn:Singleguillemetright}
+%      \item \cs{singleguillemetleft}\synpageref{syn:singleguillemetleft}
+%      \item \cs{singleguillemetright}\synpageref{syn:singleguillemetright}
 %      \end{itemize}
 %    \end{multicols}
 %
