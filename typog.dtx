@@ -873,6 +873,7 @@
   last-line-fit-par
   last-line-ragged-left
   last-line-ragged-left-par
+  left-spaced-endash
   line-width
   loose-ness
   loose-spacing
@@ -898,6 +899,7 @@
   raise-capital-times
   raise-inverted-marks
   raise-number-dash
+  right-spaced-endash
   set-baseline-skip
   set-baseline-skip-percentage
   set-font-expand
@@ -922,8 +924,9 @@
   space-skip
   spaced-capital-emdash
   spaced-capital-endash
+  spaced-dash
   spaced-emdash
-  spaced-emdash
+  spaced-endash
   stretch-limits
   text-exclam-down
   text-italics-correction
@@ -3086,22 +3089,85 @@ end
 %  \subsubsection{En-Dash and Em-Dash}\label{sec:spaced-dashes}
 %  \index{spaced character>en-dash|userman}
 %
-%  \DescribeMacro{\spacedendash}
-%  \DescribeMacro{\spacedendash*}
-%  \sinceversion{Both since v0.5}
-%  Macros \cs{spacedendash*} and \cs{spacedendash} expand to an en-dash~(\sample{--}) that is
-%  surrounded by whitespace.
+%  \DescribeMacro{\leftspacedendash}
+%  \DescribeMacro{\leftspacedendash*}
+%  \DescribeMacro{\rightspacedendash}
+%  \DescribeMacro{\rightspacedendash*}
+%  \sinceversion{All four since v0.5}
+%  The macros \cs{leftspacedendash}, \cs{leftspacedendash*}, \cs{right\-spaced\-endash}, and
+%  \cs{rightspacedendash*} all expand to an en-dash~(\sample{--}) that is surrounded by
+%  whitespace.  They differ in the ways they handle line breaking before or after the en-dash.
+%
+%  A \emph{single} en-dash is used \leftspacedendash* among many other cases \rightspacedendash*
+%  to indicate a pause (e.\,g.~announcing an action to be continued), instead of a comma, or
+%  even instead of a period.  Here, the typographic rules favor either no line break at all or a
+%  break at the right-hand side of the en-dash.
+%
+%  A \emph{pair} of en-dashes is used for appositions or explanatory insertions (as exemplified
+%  in the first sentence of the previous paragraph).  In this instance there are two camps: One
+%  emphasizes the insertion and thus couples the lead-in and lead-out en-dashs to it (see
+%  \cref{item:emphasize-insertion} below).  The other avoids a dash at the beginning of a line
+%  at the cost of severing it from the insertion (\cref{item:avoid-dash-at-beginning-of-line}).
+%
 %
 %  \begin{synopsis}\label{syn:spacedendash}
 %    \begin{tabbing}
-%      \cs{spacedendash}\oarg{raise} \qquad\= \cs{spaceddash}\oarg{raise} (alias)  \\
-%      \cs{spacedendash*}\oarg{raise} \> \cs{spaceddash*}\oarg{raise} (alias)
+%      \cs{rightspacedendash*}\oarg{raise}\qquad \= \kill
+%      \cs{leftspacedendash}\oarg{raise} \> \cs{leftspaceddash} (alias)  \\
+%      \cs{leftspacedendash*}\oarg{raise} \> \cs{leftspaceddash*} (alias)  \\[\smallskipamount]
+%      \cs{rightspacedendash}\oarg{raise} \> \cs{rightspaceddash} (alias)  \\
+%      \> \cs{spacedendash} (alias)  \\
+%      \> \cs{spaceddash} (alias)  \\
+%      \cs{rightspacedendash*}\oarg{raise}
+%      \> \cs{spacedendash*} (alias)  \\
+%      \> \cs{spaceddash*} (alias)
 %    \end{tabbing}
 %  \end{synopsis}
 %
-%  Typeset an unbreakable en-dash with \cs{spacedendash*} or one that has a break point right
-%  after it with \cs{spacedendash}.  The size of the space before and after the dash is
-%  configured with option~\hyperref[item:endashspace]{\code{endashspace}}.
+%  Typeset an unbreakable en-dash with any of the starred variants.
+%
+%  The distinction between \cs{leftspacedendash} and \cs{rightspacedendash} and the definition
+%  of the alias \cs{spacedendash} for \cs{rightspacedendash} caters two different typographic
+%  preferences.
+%
+%  \begin{enumerate}
+%  \item\label{item:emphasize-insertion}
+%    One rule set prefers insertions to be preceeded and followed by dashes.  The elementary way
+%    to solve this is to code
+%
+%    \begin{codeexample}
+%      before -\nolig*-\textasciitilde insertion\textasciitilde-\nolig*- after
+%    \end{codeexample}
+%
+%    where we used the unbreakable space~\sample{\textasciitilde} as example.  For this solution
+%    \packagename{typog} offers \cs{leftspacedendash} and \cs{rightspacedendash}:
+%
+%    \begin{codeexample}
+%      before \cs{leftspacedendash} insertion \cs{rightspacedendash} after
+%    \end{codeexample}
+%
+%  \item\label{item:avoid-dash-at-beginning-of-line}
+%    Another camp insists to avoid dashes at the start of lines.  Now the simple solution looks
+%    like this:
+%
+%    \begin{codeexample}
+%      before\textasciitilde-\nolig*- insertion\textasciitilde-\nolig*- after
+%    \end{codeexample}
+%
+%    For this scenario both dashes behave like \cs{rightspacedendash} and the alias
+%    \cs{spacedendash} comes in handy:
+%
+%    \begin{codeexample}
+%      before \cs{spacedendash} insertion \cs{spacedendash} after
+%    \end{codeexample}
+%  \end{enumerate}
+%
+%  \noindent
+%  For convenience all spaced-dash macros eliminate white-space to their left.  (Technically
+%  they issue an \cs{unskip} right at the beginning.)
+%
+%  Configure the size of the space before and after the dash with
+%  option~\hyperref[item:endashspace]{\code{endashspace}}.
 %
 %  The optional argument~\meta{raise} allows to adjust the height of the en-dash just as the macros
 %  in \cref{sec:raise-characters}; it is meant for one-off solutions.  If an en-dash is needed
@@ -3230,16 +3296,25 @@ end
 %  \end{usecases}
 %
 %  \DescribeMacro{\spacedcapitalemdash}
-%  \DescribeMacro{\spacedcapitalendash}
-%  \DescribeMacro{\spacedcapitalendash*}
-%  \sinceversion{All three since v0.5}
+%  \DescribeMacro{\leftspacedcapitalendash}
+%  \DescribeMacro{\leftspacedcapitalendash*}
+%  \DescribeMacro{\rightspacedcapitalendash}
+%  \DescribeMacro{\rightspacedcapitalendash*}
+%  \sinceversion{All since v0.5}
 %  Combine raising a dash and adding some extra space around it.
 %
 %  \begin{synopsis}\label{syn:spacedcapitalemdash}\label{syn:spacedcapitalendash}
 %    \begin{tabbing}
-%      \cs{spacedcapitalemdash}  \\
-%      \cs{spacedcapitalendash}\qquad\= \cs{spacedcapitalendash} (alias)  \\
-%      \cs{spacedcapitalendash*} \> \cs{spacedcapitaldash*} (alias)
+%      \cs{rightspacedcapitalendash*}\quad \= \kill
+%      \cs{spacedcapitalemdash}  \\[\smallskipamount]
+%      \cs{leftspacedcapitalendash} \> \cs{leftspacedcapitaldash} (alias)  \\
+%      \cs{leftspacedcapitalendash*} \> \cs{leftspacedcapitaldash*} (alias)  \\[\smallskipamount]
+%      \cs{rightspacedcapitalendash} \> \cs{rightspacedcapitaldash} (alias)  \\
+%      \> \cs{spacedcapitalendash} (alias)  \\
+%      \> \cs{spacedcapitaldash} (alias)  \\
+%      \cs{rightspacedcapitalendash*}
+%      \> \cs{spacedcapitalendash*} (alias)  \\
+%      \> \cs{spacedcapitaldash*} (alias)
 %    \end{tabbing}
 %  \end{synopsis}
 %
@@ -3538,7 +3613,7 @@ end
 %  are preceded by inverted (or \singlequotes{upside-down}) versions of these punctuation
 %  characters.
 %
-%  Usually the horizontally-mirrored versions' designs follow that of the lower-case letters.
+%  Usually the horizontally-mirrored versions' designs follow that of the lowercase letters.
 %  In particular the inverted marks feature descenders (see left-hand side of
 %  \cref{fig:inverted-marks}).  For all-uppercase or all-smallcaps phrases, e.\,g.~in headlines
 %  the descending parts of these marks disturb the tight block structure and it may be
@@ -3662,7 +3737,7 @@ end
 %  corresponds to the dimension at position~\meta{number}.  If the dimension is equal to
 %  \formatdimen*{0pt} the marks are auto-raised as shown in \cref{fig:inverted-marks}.  This may
 %  amount to different lengths for the inverted exclamation mark and inverted question mark even
-%  at the same \meta{number}.  A non-zero dimension raises the marks by exactly that length.  To
+%  at the same \meta{number}.  A nonzero dimension raises the marks by exactly that length.  To
 %  get a \mbox{(quasi-)}\breakpoint zero length use e.\,g.~1\,sp.
 %
 %  \begin{tip}
@@ -7688,15 +7763,15 @@ end
 %  \subsubsection*{En-Dash and Em-Dash}
 %
 %  \begin{macro}{\typog@wrap@endash}
-%    Wrapper for the en-dash.  The first argument is used to control the line-breaking; the
-%    second argument is the actual en-dash macro.
+%    Wrapper for the en-dash.  The first and second arguments are used to control the
+%    line-breaking; the third argument is the actual en-dash macro.
 %
 %    \begin{macrocode}
-\newcommand*{\typog@wrap@endash}[2]
+\newcommand*{\typog@wrap@endash}[3]
   {\unskip
-    \nobreak\hspace{\typog@config@endashspace}%
-    #2%
-    #1\hspace{\typog@config@endashspace}}
+    #1\hspace{\typog@config@endashspace}%
+    #3%
+    #2\hspace{\typog@config@endashspace}}
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -7714,35 +7789,72 @@ end
 %    \end{macrocode}
 %  \end{macro}
 %
-%  \begin{macro}{\spacedendash}
-%    \changes{v0.5}{2025-05-15}{New macro.}
-%    User-land macro for the spaced en-dash.
+%  \begin{macro}{\leftspacedendash}
+%    \changes{v0.5}{2025-05-19}{New macro.}
+%    User-land macro for the left (aka opening or introducing) spaced en-dash.
+%    The unstarred variant introduces a breakpoint \emph{before} the en-dash.
 %
 %    \begin{macrocode}
-\NewDocumentCommand{\spacedendash}{s o}
+\NewDocumentCommand{\leftspacedendash}{s o}
   {\IfBooleanTF{#1}
     {\IfNoValueTF{#2}
-      {\typog@wrap@endash{\nobreak}{\textendash}}
-      {\typog@wrap@endash{\nobreak}{\raisebox{#2}{\textendash}}}}
+      {\typog@wrap@endash{\nobreak}{\nobreak}{\textendash}}
+      {\typog@wrap@endash{\nobreak}{\nobreak}{\raisebox{#2}{\textendash}}}}
     {\IfNoValueTF{#2}
-      {\typog@wrap@endash{\relax}{\textendash}}
-      {\typog@wrap@endash{\relax}{\raisebox{#2}{\textendash}}}}%
+      {\typog@wrap@endash{\relax}{\nobreak}{\textendash}}
+      {\typog@wrap@endash{\nobreak}{\nobreak}{\raisebox{#2}{\textendash}}}}%
     \ignorespaces}
-\let\spaceddash=\spacedendash
+\let\leftspaceddash=\leftspacedendash
 %    \end{macrocode}
 %
 %    \acronym{PDF}-substitute definition
 %
 %    \begin{macrocode}
 \typog@register@pdfsubstitute{%
-  \def\spacedendash#1{%
+  \def\leftspacedendash#1{%
     \if*\detokenize{#1}
       \textendash
     \else
       \textendash #1%
     \fi
   }
-  \let\spaceddash=\spacedendash
+  \let\leftspaceddash=\leftspacedendash
+}
+
+%  \begin{macro}{\rightspacedendash}
+%    \changes{v0.5}{2025-05-19}{New macro.}
+%    User-land macro for the right (aka closing) spaced en-dash.
+%    The unstarred variant introduces a breakpoint \emph{after} the en-dash.
+%
+%    \begin{macrocode}
+\NewDocumentCommand{\rightspacedendash}{s o}
+  {\IfBooleanTF{#1}
+    {\IfNoValueTF{#2}
+      {\typog@wrap@endash{\nobreak}{\nobreak}{\textendash}}
+      {\typog@wrap@endash{\nobreak}{\nobreak}{\raisebox{#2}{\textendash}}}}
+    {\IfNoValueTF{#2}
+      {\typog@wrap@endash{\nobreak}{\relax}{\textendash}}
+      {\typog@wrap@endash{\nobreak}{\nobreak}{\raisebox{#2}{\textendash}}}}%
+    \ignorespaces}
+\let\rightspaceddash=\rightspacedendash
+\let\spacedendash=\rightspacedendash
+\let\spaceddash=\rightspacedendash
+%    \end{macrocode}
+%
+%    \acronym{PDF}-substitute definition
+%
+%    \begin{macrocode}
+\typog@register@pdfsubstitute{%
+  \def\rightspacedendash#1{%
+    \if*\detokenize{#1}
+      \textendash
+    \else
+      \textendash #1%
+    \fi
+  }
+  \let\rightspaceddash=\rightspacedendash
+  \let\spacedendash=\rightspacedendash
+  \let\spaceddash=\rightspacedendash
 }
 
 %    \end{macrocode}
@@ -7883,28 +7995,59 @@ end
 %    \end{macrocode}
 %  \end{macro}
 %
-%  \begin{macro}{\spacedcapitalendash}
-%    \changes{v0.5}{2025-05-15}{New macro.}
-%    Thanks to our wrapper macro the definition of \cs{spacedcapitalendash} is easy to write.
+%  \begin{macro}{\leftspacedcapitalendash}
+%    \changes{v0.5}{2025-05-21}{New macro.}
+%    Thanks to our wrapper macro the definition of \cs{leftspacedcapitalendash} is easy to write.
 %  \begin{macrocode}
-\NewDocumentCommand{\spacedcapitalendash}{s}
+\NewDocumentCommand{\leftspacedcapitalendash}{s}
   {\IfBooleanTF{#1}%
-    {\typog@wrap@endash{\nobreak}{\capitalendash*}}
-    {\typog@wrap@endash{\relax}{\capitalendash}}}
-\let\spacedcapitaldash=\spacedcapitalendash
+    {\typog@wrap@endash{\nobreak}{\nobreak}{\capitalendash*}}
+    {\typog@wrap@endash{\relax}{\nobreak}{\capitalendash}}}
+\let\leftspacedcapitaldash=\leftspacedcapitalendash
 %    \end{macrocode}
 %
 %    \acronym{PDF}-substitute definition
 %
 %    \begin{macrocode}
 \typog@register@pdfsubstitute{
-  \def\spacedcapitalendash#1{%
+  \def\leftspacedcapitalendash#1{%
     \if*\detokenize{#1}%
       \textendash\ignorespaces
     \else
       \textendash#1%
     \fi}
-  \let\spacedcapitaldash=\spacedcapitalendash
+  \let\leftspacedcapitaldash=\leftspacedcapitalendash
+}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\rightspacedcapitalendash}
+%    \changes{v0.5}{2025-05-21}{New macro.}
+%    Thanks to our wrapper macro the definition of \cs{rightspacedcapitalendash} is easy to write.
+%  \begin{macrocode}
+\NewDocumentCommand{\rightspacedcapitalendash}{s}
+  {\IfBooleanTF{#1}%
+    {\typog@wrap@endash{\nobreak}{\nobreak}{\capitalendash*}}
+    {\typog@wrap@endash{\nobreak}{\relax}{\capitalendash}}}
+\let\rightspacedcapitaldash=\rightspacedcapitalendash
+\let\spacedcapitalendash=\rightspacedcapitalendash
+\let\spacedcapitaldash=\rightspacedcapitalendash
+%    \end{macrocode}
+%
+%    \acronym{PDF}-substitute definition
+%
+%    \begin{macrocode}
+\typog@register@pdfsubstitute{
+  \def\rightspacedcapitalendash#1{%
+    \if*\detokenize{#1}%
+      \textendash\ignorespaces
+    \else
+      \textendash#1%
+    \fi}
+  \let\rightspacedcapitaldash=\rightspacedcapitalendash
+  \let\spacedcapitalendash=\rightspacedcapitalendash
+  \let\spacedcapitaldash=\rightspacedcapitalendash
 }
 
 %    \end{macrocode}
@@ -7915,7 +8058,7 @@ end
 %    The same ease of definition holds for \cs{spacedcapitalemdash}.
 %  \begin{macrocode}
 \NewDocumentCommand{\spacedcapitalemdash}{}
-  {\typog@wrap@emdash{\nobreak}{\capitalemdash*}}
+  {\typog@wrap@emdash{\nobreak}{\nobreak}{\capitalemdash*}}
 %    \end{macrocode}
 %
 %    \acronym{PDF}-substitute definition
@@ -11004,6 +11147,17 @@ it decays to an ordinary minus with appropriate kerning:
 
 En-Dash
 
+\setbox0=\hbox{\leftspacedendash}%
+\setbox0=\hbox{\leftspaceddash}%
+\setbox0=\hbox{\leftspacedendash*}%
+\setbox0=\hbox{\leftspaceddash*}%
+\setbox0=\hbox{\rightspacedendash}%
+\setbox0=\hbox{\rightspaceddash}%
+\setbox0=\hbox{\spacedendash}%
+\setbox0=\hbox{\spaceddash}%
+\setbox0=\hbox{\rightspacedendash*}%
+\setbox0=\hbox{\spacedendash*}%
+\setbox0=\hbox{\spaceddash*}%
 \begin{quote}
   abc\spacedendash{}def, ghi \spacedendash jkl, mno \spacedendash[.3em] pqr (raised by .3\,em)
 \end{quote}
@@ -11019,10 +11173,14 @@ En-Dash
 \begin{quote}
   \setlength{\overfullrule}{0pt}
 
-  \parbox[t]{0pt}{\code{\string\spacedendash*}  \\  Dash \spacedendash* Spacing}
-  \hspace{80pt}
+  \parbox[t]{0pt}{\code{\string\leftspacedendash}  \\  Dash \leftspacedendash Spacing}
+  \hspace{100pt}
+  \parbox[t]{0pt}{\code{\string\rightspacedendash}  \\  Dash \rightspacedendash Spacing}
+  \hspace{100pt}
   \parbox[t]{0pt}{\code{\string\spacedendash}  \\  Dash \spacedendash Spacing}
-  \hspace{80pt}
+
+  \parbox[t]{0pt}{\code{\string\spacedendash*}  \\  Dash \spacedendash* Spacing}
+  \hspace{100pt}
   \parbox[t]{0pt}{\code{\string\spacedemdash}  \\  Dash \spacedemdash Spacing}
 \end{quote}
 
@@ -11110,6 +11268,17 @@ Starred form eats spaces?  V\capitaldash*  W.
 
 \noindent Spaced Capital En-Dash
 
+\setbox0=\hbox{\leftspacedcapitalendash}%
+\setbox0=\hbox{\leftspacedcapitaldash}%
+\setbox0=\hbox{\leftspacedcapitalendash*}%
+\setbox0=\hbox{\leftspacedcapitaldash*}%
+\setbox0=\hbox{\rightspacedcapitalendash}%
+\setbox0=\hbox{\rightspacedcapitaldash}%
+\setbox0=\hbox{\spacedcapitalendash}%
+\setbox0=\hbox{\spacedcapitaldash}%
+\setbox0=\hbox{\rightspacedcapitalendash*}%
+\setbox0=\hbox{\spacedcapitalendash*}%
+\setbox0=\hbox{\spacedcapitaldash*}%
 \begin{quote}
   abc\spacedcapitalendash{}def, ghi \spacedcapitalendash jkl
 \end{quote}
