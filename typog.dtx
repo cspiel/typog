@@ -494,6 +494,17 @@
                  \nativetextfraction{\the\numexpr\dimexpr (#1) * 1000 / \emreference}{1000}\:em%
                \fi}
 
+\newrobustcmd*{\milliemglue}[1]
+              {\nativetextfraction{\the\numexpr\dimexpr (#1) * 1000 / \emreference}{1000}\:em%
+               \ifdim\gluestretch #1>0pt
+                 \space plus~\relax
+                 \nativetextfraction{\the\numexpr\gluestretch\glueexpr (#1) * 1000 / \emreference}{1000}\:em%
+               \fi
+               \ifdim\glueshrink #1>0pt
+                 \space minus~\relax
+                 \nativetextfraction{\the\numexpr\glueshrink\glueexpr (#1) * 1000 / \emreference}{1000}\:em%
+               \fi}
+
 \let\originalmulticols=\multicols
 \let\endoriginalmulticols=\endmulticols
 \RenewDocumentEnvironment{multicols}{m o o}
@@ -1841,21 +1852,21 @@ end
 %      These two options neither can be used with \hyperref[syn:typogsetup]{\code{typogsetup}}
 %      nor with \hyperref[syn:typogget]{\cs{typogget}}.
 %
-%    \item[|emdashspace|=\meta{dim}]\label{item:emdashspace}
+%    \item[|emdashspace|=\meta{glue}]\label{item:emdashspace}
 %      \indexpackageoptiondefinition{emdashspace}
 %      \sinceversion{Since v0.5}
-%      Set \meta{dim} of the skip that is inserted before and after the em-dash in
+%      Set the horizontal skip that is inserted before and after the em-dash in
 %      macros~\hyperref[syn:spacedemdash]{\cs{spacedemdash}} and
-%      \hyperref[syn:spacedcapitalemdash]{\cs{spacedcapitalemdash}}.  Default value:
-%      \milliem{\typogget{emdashspace}}.
+%      \hyperref[syn:spacedcapitalemdash]{\cs{spacedcapitalemdash}} to \meta{glue}.  Default
+%      value: \milliemglue{\typogget{emdashspace}}.
 %
-%    \item[|endashspace|=\meta{dim}]\label{item:endashspace}
+%    \item[|endashspace|=\meta{glue}]\label{item:endashspace}
 %      \indexpackageoptiondefinition{endashspace}
 %      \sinceversion{Since v0.5}
-%      Set \meta{dim} of the skip that is inserted before and after the en-dash in
+%      Set the horizontal skip that is inserted before and after the en-dash in
 %      macros~\hyperref[syn:spacedendash]{\cs{spacedendash}} and
-%      \hyperref[syn:spacedcapitalendash]{\cs{spacedcapitalendash}}.  Default
-%      value: \milliem{\typogget{endashspace}}.
+%      \hyperref[syn:spacedcapitalendash]{\cs{spacedcapitalendash}} to \meta{glue}.  Default
+%      value: \milliemglue{\typogget{endashspace}}.
 %
 %    \item[|ligaturekern=|\meta{dim}]\label{item:ligaturekern}
 %      \indexpackageoptiondefinition{ligaturekern}
@@ -7133,7 +7144,7 @@ end
 \DeclareOptionX<typog>{debug}{\typog@debugtrue}
 \DeclareOptionX<typog>{emdashspace}[.05555em]%
   {\setlength{\typog@config@emdashspace}{#1}}
-\DeclareOptionX<typog>{endashspace}[.25em]%
+\DeclareOptionX<typog>{endashspace}[.25em plus.05em minus.01em]%
   {\setlength{\typog@config@endashspace}{#1}}
 \DeclareOptionX<typog>{mathitalicscorrection}[.4mu]%
   {\typog@config@mathitalicscorrection=#1\relax}%
