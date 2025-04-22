@@ -335,6 +335,8 @@
 
 \newrobustcmd*{\acronym}[1]{\mbox{\scshape\MakeLowercase{#1}}}
 
+\newcommand*{\aliasfor}[2]{$\rightarrow$ #1}
+
 \newcommand*{\application}[1]{\mbox{\sffamily #1}}
 
 \renewcommand*{\arraystretch}{1.12}
@@ -3101,10 +3103,18 @@ end
 %  \index{spaced character>en-dash|userman}
 %
 %  \DescribeMacro{\leftspacedendash}
+%  \DescribeMacro{\leftspaceddash}
 %  \DescribeMacro{\leftspacedendash*}
+%  \DescribeMacro{\leftspaceddash*}
 %  \DescribeMacro{\rightspacedendash}
+%  \DescribeMacro{\rightspaceddash}
+%  \DescribeMacro{\spacedendash}
+%  \DescribeMacro{\spaceddash}
 %  \DescribeMacro{\rightspacedendash*}
-%  \sinceversion{All four since v0.5}
+%  \DescribeMacro{\rightspaceddash*}
+%  \DescribeMacro{\spacedendash*}
+%  \DescribeMacro{spaceddash*}
+%  \sinceversion{All since v0.5}
 %  The macros \cs{leftspacedendash}, \cs{leftspacedendash*}, \cs{right\-spaced\-endash}, and
 %  \cs{rightspacedendash*} all expand to an en-dash~\sample{--} that is surrounded by
 %  whitespace.  They differ in the ways they handle line breaking before or after the en-dash.
@@ -3119,7 +3129,6 @@ end
 %  emphasizes the insertion and thus couples the lead-in and lead-out en-dashs to it (see
 %  \cref{item:emphasize-insertion} below).  The other avoids a dash at the beginning of a line
 %  at the cost of severing it from the insertion (\cref{item:avoid-dash-at-beginning-of-line}).
-%
 %
 %  \begin{synopsis}\label{syn:spacedendash}
 %    \begin{tabbing}
@@ -3306,9 +3315,13 @@ end
 %
 %  \DescribeMacro{\spacedcapitalemdash}
 %  \DescribeMacro{\leftspacedcapitalendash}
+%  \DescribeMacro{\leftspacedcapitaldash}
 %  \DescribeMacro{\leftspacedcapitalendash*}
+%  \DescribeMacro{\leftspacedcapitaldash*}
 %  \DescribeMacro{\rightspacedcapitalendash}
+%  \DescribeMacro{\rightspacedcapitaldash}
 %  \DescribeMacro{\rightspacedcapitalendash*}
+%  \DescribeMacro{\rightspacedcapitaldash*}
 %  \sinceversion{All since v0.5}
 %  Combine raising a dash and adding some extra space around it.
 %
@@ -5144,6 +5157,7 @@ end
 %
 %  \noindent
 %  \DescribeEnv{nofontexpansion}
+%  \DescribeEnv{nofontexpand}
 %  Disable the \packagename{microtype} feature~\singlequotes{expansion} inside of the
 %  environment.
 %
