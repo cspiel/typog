@@ -1291,12 +1291,10 @@ end
 %
 %      \heading{C}
 %      \qritem{syn:capitaldash}{\cs{capitaldash*}}
-%        Typeset a vertically adjusted \cs{textendash}.
 %        Alias for \cs{capitalendash*}.
 %      \endqritem
 %
 %      \qritem{syn:capitaldash}{\cs{capitaldash}}
-%        Typeset a vertically adjusted \cs{textendash} that is hyphenatable.
 %        Alias for \cs{capitalendash}.
 %      \endqritem
 %
@@ -1419,7 +1417,6 @@ end
 %      \endqritem
 %
 %      \qritem{syn:lastlineflushrightpar}{\code{last\-line\-flush\-right\-par}}
-%        Align the last line of a paragraph flush-right.
 %        Alias for \code{lastlineraggedleftpar}.
 %      \endqritem
 %
@@ -1437,6 +1434,19 @@ end
 %        Typeset a hyphen, apply kerning to its left-hand side, and insert a breakpoint after
 %        it.
 %      \endqritem
+%
+%      \qritem{syn:spacedendash}{\cs{left\-spaced\-dash*}}[\sigbrk\oarg{raise}]
+%        Alias for \cs{left\-spaced\-endash*}.
+%
+%      \qritem{syn:spacedendash}{\cs{left\-spaced\-dash}}[\sigbrk\oarg{raise}]
+%        Alias for \cs{left\-spaced\-endash}.
+%
+%      \qritem{syn:spacedendash}{\cs{left\-spaced\-endash*}}[\sigbrk\oarg{raise}]
+%        Typeset an en-dash with some space around it.  Prohibit line-breaks before and after
+%        it.
+%
+%      \qritem{syn:spacedendash}{\cs{left\-spaced\-endash}}[\sigbrk\oarg{raise}]
+%        Typeset an en-dash with some space around it.  Allow line-breaks at its left-hand side.
 %
 %      \qritem{syn:loosespacing}{\code{loose\-spacing}}[\sigbrk\oarg{level}]
 %        Increase the width of the space character.
@@ -1466,8 +1476,7 @@ end
 %      \endqritem
 %
 %      \qritem{syn:nofontexpansion}{\code{nofontexpand}}
-%        Deactivate font expansion.
-%      Alias for \code{nofontexpansion}.
+%        Alias for \code{nofontexpansion}.
 %      \endqritem
 %
 %      \qritem{syn:nofontexpansion}{\code{nofontexpansion}}
@@ -1507,6 +1516,20 @@ end
 %        Typeset a hyphen, apply kerning to its right-hand side, and insert a breakpoint after
 %        it.
 %      \endqritem
+%
+%      \qritem{syn:spacedendash}{\cs{right\-spaced\-dash*}}[\sigbrk\oarg{raise}]
+%        Alias for \cs{right\-spaced\-endash*}.
+%
+%      \qritem{syn:spacedendash}{\cs{right\-spaced\-dash}}[\sigbrk\oarg{raise}]
+%        Alias for \cs{right\-spaced\-endash}.
+%
+%      \qritem{syn:spacedendash}{\cs{right\-spaced\-endash*}}[\sigbrk\oarg{raise}]
+%        Typeset an en-dash with some space around it.  Prohibit line-breaks before and after
+%        it.
+%
+%      \qritem{syn:spacedendash}{\cs{right\-spaced\-endash}}[\sigbrk\oarg{raise}]
+%        Typeset an en-dash with some space around it.  Allow line-breaks at its right-hand
+%        side.
 %
 %      \heading{S}
 %      \qritem{syn:setbaselineskippercentage}{\cs{set\-baseline\-skip\-percentage}}
@@ -1609,6 +1632,22 @@ end
 %
 %      \qritem{syn:spacedcapitalendash}{\cs{spacedcapitalendash}}
 %        Typeset a height-adjusted em-dash with some space around it.
+%      \endqritem
+%
+%      \qritem{syn:spacedendash}{\cs{spaceddash*}}[\oarg{raise}]
+%        Alias for \cs{rightspacedendash*}.
+%      \endqritem
+%
+%      \qritem{syn:spacedendash}{\cs{spaceddash}}[\oarg{raise}]
+%        Alias for \cs{rightspacedendash}.
+%      \endqritem
+%
+%      \qritem{syn:spacedendash}{\cs{spacedendash*}}[\oarg{raise}]
+%        Alias for \cs{rightspacedendash*}.
+%      \endqritem
+%
+%      \qritem{syn:spacedendash}{\cs{spacedendash}}[\oarg{raise}]
+%        Alias for \cs{rightspacedendash}.
 %      \endqritem
 %
 %      \qritem{syn:spacedemdash}{\cs{spacedemdash}}[\oarg{raise}]
