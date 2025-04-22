@@ -1176,8 +1176,8 @@ end
 %    This package is copyright \textcopyright~2024 Ch.~L.~Spiel.  It may be distributed
 %    and\kernedslash*or modified under the conditions of the
 %    \href{https://www.latex-project.org/lppl.txt}{\LaTeX{} Project Public License}
-%    \acronym{(LPPL)}, either version~1.3c of this license or --~at your option~-- any later
-%    version.  This work has the \acronym{LPPL} maintenance status
+%    \acronym{(LPPL)}, either version~1.3c of this license or \leftspacedendash at your option
+%    \rightspacedendash any later version.  This work has the \acronym{LPPL} maintenance status
 %    \doublequotes{author-maintained}.
 %  \end{lastlinecenteredpar}
 %
@@ -1731,9 +1731,9 @@ end
 %  \end{whittyquote}
 %
 %  \noindent
-%  \LaTeX{} is the beginning of good typesetting -- not the end.  This package provides some
-%  tools for even better looking documents.  When applied correctly its effects appear subtle
-%  and inconspicuous.
+%  \LaTeX{} is the beginning of good typesetting \spacedendash not the end.  This package
+%  provides some tools for even better looking documents.  When applied correctly its effects
+%  appear subtle and inconspicuous.
 %
 %
 %  \subsection{Overview}\label{sec:overview}
@@ -2097,7 +2097,7 @@ end
 %  \end{synopsis}
 %
 %  The package can be (re-)configured\index{reconfigure|userman} at any point with
-%  \cs{typogsetup}\marg{keys}, or --~for localized changes~-- as
+%  \cs{typogsetup}\marg{keys}, or \leftspacedendash for localized changes \rightspacedendash as
 %
 %  \begin{codeexample}
 %    12\=\kill
@@ -2169,11 +2169,12 @@ end
 %     \cs{typoggetnth}\marg{dimen-register}\marg{key}\marg{index}
 %  \end{synopsis}
 %
-%  Retrieve the configuration value --~which is a comma-separated list~-- that is associated
-%  with~\meta{key} and store the item having position~\meta{index} in \meta{dimen-register} or
-%  the parameter-less, global macro~\meta{csname}.  The destination \meta{dimen-register} may be
-%  predefined like, e.\,g., \cs{dimen0} or user-defined.  Dimensions can also be stored in a
-%  macro by using the \meta{csname}~form of \cs{typoggetnth} but not \foreignphrase{vice versa}.
+%  Retrieve the configuration value \leftspacedendash which is a comma-separated list
+%  \rightspacedendash that is associated with~\meta{key} and store the item having
+%  position~\meta{index} in \meta{dimen-register} or the parameter-less, global
+%  macro~\meta{csname}.  The destination \meta{dimen-register} may be predefined like, e.\,g.,
+%  \cs{dimen0} or user-defined.  Dimensions can also be stored in a macro by using the
+%  \meta{csname}~form of \cs{typoggetnth} but not \foreignphrase{vice versa}.
 %
 %  Index into the list either from left-to-right with positive indices starting at~\(1\) up to
 %  the length of the list, or from right-to-left with negative indices starting at~\(-1\) down
@@ -2712,7 +2713,7 @@ end
 %  \DescribeMacro{\breakpoint}
 %  \DescribeMacro{\breakpoint*}
 %  The empty discretionary construct~\cite[p.~95]{knuth:1986}, \cs{discretionary\{\}\{\}\{\}},
-%  is so helpful that it deserves its own macro --~with a descriptive name.
+%  is so helpful that it deserves its own macro \spacedendash with a descriptive name.
 %
 %  \begin{synopsis}\label{syn:breakpoint}
 %    \cs{breakpoint}  \\
@@ -2800,10 +2801,10 @@ end
 %
 %  \begin{important}[\packagename{hyperref} bookmarks]\label{imp:hyperref-bookmarks}
 %    \index{hyperref=\packagename{hyperref} (package)|userman}
-%    If a \cs{nolig} --~whether starred or un-starred~-- occurs in an argument that is processed
-%    with package~\packagename{hyperref} for inclusion into the document's
-%    \acronym{PDF}-bookmarks\index{PDF=\acronym{PDF}|userman}\index{bookmark|userman} an
-%    additional argument is necessary to parse the macro.  This argument either is \cs{relax}
+%    If a \cs{nolig} \leftspacedendash whether starred or un-starred \rightspacedendash occurs
+%    in an argument that is processed with package~\packagename{hyperref} for inclusion into the
+%    document's \acronym{PDF}-bookmarks\index{PDF=\acronym{PDF}|userman}\index{bookmark|userman}
+%    an additional argument is necessary to parse the macro.  This argument either is \cs{relax}
 %    or~the empty group~(\code{\{\}}).
 %
 %    \begin{synopsis}
@@ -2883,8 +2884,9 @@ end
 %  \end{displaymath}
 %
 %  A well-chosen \meta{strength} should be the absolute minimum value which avoids that the
-%  glyphs typeset in italics collide with other --~usually non-italics~-- letters or symbols
-%  unless this disturbs the consistency of the overall tracking.
+%  glyphs typeset in italics collide with other \leftspacedendash usually non-italics
+%  \rightspacedendash letters or symbols unless this disturbs the consistency of the overall
+%  tracking.
 %
 %  Correction of the right-hand side and \mbox{\(\alpha > 0\)}: A reasonable first guess of
 %  \meta{strength} is the highest point where the rightmost part of the letter would touch a
@@ -2971,8 +2973,9 @@ end
 %             even no correction at all.~\visualpar The \sample{a} at the right-hand side is an
 %             example of why \TeX{} allows to assign an italic~correction to each individual
 %             character of a font.  Not only features the lowercase~\sample{a} a
-%             larger~\(\alpha\) --~despite being a member of the same font~-- but its serif adds
-%             as much to the width as the slanted stem.\label{fig:slant-angle}}
+%             larger~\(\alpha\) \leftspacedendash despite being a member of the same font
+%             \rightspacedendash but its serif adds as much to the width as the slanted
+%             stem.\label{fig:slant-angle}}
 %    \vspace{-3\baselineskip}
 %    \llap{\parbox{\marginparwidth}
 %                 {\marginnoteformat
@@ -3106,7 +3109,7 @@ end
 %  \DescribeMacro{\rightspacedendash*}
 %  \sinceversion{All four since v0.5}
 %  The macros \cs{leftspacedendash}, \cs{leftspacedendash*}, \cs{right\-spaced\-endash}, and
-%  \cs{rightspacedendash*} all expand to an en-dash~(\sample{--}) that is surrounded by
+%  \cs{rightspacedendash*} all expand to an en-dash~\sample{--} that is surrounded by
 %  whitespace.  They differ in the ways they handle line breaking before or after the en-dash.
 %
 %  A \emph{single} en-dash is used \leftspacedendash* among many other cases \rightspacedendash*
@@ -3187,7 +3190,7 @@ end
 %
 %  \DescribeMacro{\spacedemdash}
 %  \sinceversion{Since v0.5}
-%  Macro \cs{spacedemdash} expands to an em-dash~(\sample{---}) that is surrounded by
+%  Macro \cs{spacedemdash} expands to an em-dash~\sample{---} that is surrounded by
 %  whitespace.
 %
 %  \begin{synopsis}\label{syn:spacedemdash}
@@ -3343,8 +3346,8 @@ end
 %  The en-dash often gets used as separator for numerical ranges.  In most fonts it has the
 %  correct height above baseline for oldstyle numerals,
 %  e.\,g.~\oldstylenums{12}--\oldstylenums{34}--\oldstylenums{56}--\oldstylenums{78}, but with
-%  lining numerals --~depending on the font~-- it may look like it suffers from
-%  \doublequotes{broken suspenders}:
+%  lining numerals \leftspacedendash depending on the font \rightspacedendash it may look like
+%  it suffers from \doublequotes{broken suspenders}:
 %  12\textendash34\textendash56\textendash78.\marginnote{\cs{figuredash} yields
 %  12\figuredash34\figuredash56\figuredash78 for sans-serif and {\rm
 %  12\figuredash34\figuredash56\figuredash78} for the roman typeface.}  The situation is similar
@@ -3461,8 +3464,9 @@ end
 %  \subsubsection{Guillemets}\label{sec:guillemets}
 %  \index{raised character>guillemets|userman}
 %
-%  Another possible typographic problem this package addresses is that both sets --~single and
-%  double quotes~-- of guillemets may suffer from a too small distance to the baseline.
+%  Another possible typographic problem this package addresses is that both sets
+%  \leftspacedendash single and double quotes \rightspacedendash of guillemets may suffer from a
+%  too small distance to the baseline.
 %
 %  For the implementation \packagename{typog} relies on the T1\footnote{Font
 %  encoding~T1\detoxindex{font>encoding|userman} can be forced via
@@ -3830,11 +3834,12 @@ end
 %  They are doubly font dependent: on the one hand the font where the label itself comes from
 %  and on the other hand the font of the copy.
 %
-%  The argument \meta{levels-to-adjust} is a --~possibly empty~-- comma separated list of the
-%  levels the respective adjustments are to be applied to.  The levels themselves are given as
-%  \emph{decimal} numbers, this is, 1, 2, 3, 4 or the special value~\samplestar{} which stands
-%  for all four levels.  An empty argument list also has a special meaning.  Used within any
-%  \code{itemize}~environment it automatically applies the adjustment to exactly this level.
+%  The argument \meta{levels-to-adjust} is a \leftspacedendash possibly empty \rightspacedendash
+%  comma separated list of the levels the respective adjustments are to be applied to.  The
+%  levels themselves are given as \emph{decimal} numbers, this is, 1, 2, 3, 4 or the special
+%  value~\samplestar{} which stands for all four levels.  An empty argument list also has a
+%  special meaning.  Used within any \code{itemize}~environment it automatically applies the
+%  adjustment to exactly this level.
 %
 %  \begin{example}
 %    \begin{typogsetup}{uppercaselabelitemadjustments={.1em}}
@@ -3976,8 +3981,9 @@ end
 %  \end{gather*}
 %
 %  \noindent
-%  The central step --~which is always surrounded by a bit more space~-- shows the neutral
-%  alignment, this is~0\,pt.  \cs{typogadjuststairs} never prints the contents of \meta{sample}.
+%  The central step \leftspacedendash which is always surrounded by a bit more space
+%  \rightspacedendash shows the neutral alignment, this is~0\,pt.  \cs{typogadjuststairs} never
+%  prints the contents of \meta{sample}.
 %
 %  \begin{example}
 %    Play ball!
@@ -4399,8 +4405,8 @@ end
 %    cases botch it.
 %
 %    Prudent users check the appearance of the problematic, original paragraph against one or
-%    more corrected versions of it~-- at least visually.  Quantitative comparisons can be
-%    performed with the help of~\cs{tracingparagraphs}.
+%    more corrected versions of it \spacedendash at least visually.  Quantitative comparisons
+%    can be performed with the help of~\cs{tracingparagraphs}.
 %  \end{tip}
 %
 %  \begin{important}
@@ -4544,9 +4550,9 @@ end
 %
 %  \subsubsection{Specialized Environments}\label{sec:fill-last-line-specialized-environments}
 %
-%  We introduce environments not just skips to get the correct behavior --~set up all paragraph
-%  parameters \emph{before} the paragraph ends~-- and, at the same time, limit the range of this
-%  parameter change.
+%  We introduce environments not just skips to get the correct behavior \leftspacedendash set up
+%  all paragraph parameters \emph{before} the paragraph ends \rightspacedendash and, at the same
+%  time, limit the range of this parameter change.
 %
 %  \DescribeEnv{covernextindentpar}
 %  Environment \code{covernextindentpar}%
@@ -4941,7 +4947,7 @@ end
 %  \index{microtype=\packagename{microtype} (package)|userman}
 %
 %  The functionalities are just front-ends of selected macros in
-%  package~\packagename{microtype} -- welcome syntactic sugar.
+%  package~\packagename{microtype} \spacedendash welcome syntactic sugar.
 %
 %  \begin{important}
 %    All macros and environments introduced in this section require that
@@ -5009,7 +5015,7 @@ end
 %
 %  \begin{usecases}
 %    Nudge line breaks or hyphenation points.~\visualpar Avoid clashes of descenders and
-%    ascenders, e.\,g., for \cs{smash}ed symbols of inline math.~-- Think of
+%    ascenders, e.\,g., for \cs{smash}ed symbols of inline math.\spacedendash Think of
 %    integrals.~\visualpar Control the length of the last line in a paragraph.
 %  \end{usecases}
 %
@@ -5082,9 +5088,9 @@ end
 %  \indexpackageoption{shrinklimits}
 %  \indexpackageoption{stretchlimits}
 %  The three (nonzero) shrink limits of \code{setfontshrink} can be configured with package
-%  option~\hyperref[item:shrinklimits]{\code{shrinklimits}} and --~in the same way~-- the three
-%  (nonzero) stretch limits of \code{setfontstretch} with package
-%  option~\hyperref[item:stretchlimits]{\code{stretchlimits}}.
+%  option~\hyperref[item:shrinklimits]{\code{shrinklimits}} and \leftspacedendash in the same
+%  way \rightspacedendash the three (nonzero) stretch limits of \code{setfontstretch} with
+%  package option~\hyperref[item:stretchlimits]{\code{stretchlimits}}.
 %
 %  \begin{usecases}
 %    Nudge line breaks or hyphenation points.~\visualpar Control the length of the last line in
@@ -5280,8 +5286,8 @@ end
 %  \subsection{Vertically Partially-Tied Paragraphs}\label{sec:vtie-paragraph}
 %  \index{paragraph>vertically tied|userman}
 %
-%  \LaTeX{} provides several macros and environments to tie material vertically~-- most
-%  prominently |samepage| and |minipage|.\footnote{A valuable complement to these is
+%  \LaTeX{} provides several macros and environments to tie material vertically \spacedendash
+%  most prominently |samepage| and |minipage|.\footnote{A valuable complement to these is
 %  package~\packagename{needspace}~\cite{package:needspace} which takes a different approach and
 %  reliably works in \emph{mixed} horizontal and vertical mode situations.}
 %  \packagename{Typog's} macros and environments constitute more sophisticated but weaker forms
@@ -5644,7 +5650,7 @@ end
 %
 %  \DescribeMacro{\setbaselineskip}
 %  \sinceversion{Since v0.3}
-%  Set the line skip using an absolute length -- technically: a |dimen|.
+%  Set the line skip using an absolute length \spacedendash technically: a |dimen|.
 %
 %  \begin{synopsis}\label{syn:setbaselineskip}
 %    \cs{setbaselineskip}\marg{baseline-skip}
@@ -6227,8 +6233,9 @@ end
 %  \clearpage
 %  \section{Other Packages for Fine \LaTeX~Typography}\label{sec:other-typography-packages}
 %
-%  Many other packages help with getting better output from \LaTeX.  Here is a list --~in
-%  alphabetical order~-- of the ones the author considers particularly valuable.
+%  Many other packages help with getting better output from \LaTeX.  Here is a list
+%  \leftspacedendash in alphabetical order \rightspacedendash of the ones the author considers
+%  particularly valuable.
 %
 %  \sbox{\listlabelbox}{\packagename{enumitem}}
 %  \begin{description}[font=\normalfont, labelsep*=1em, labelwidth=\wd\listlabelbox, leftmargin=!]
@@ -7531,8 +7538,8 @@ end
 %
 %  \begin{environment}{hyphenmin}
 %    \changes{v0.3}{2024-05-04}{New environment.}
-%    No trickery here. -- We use the mandatory argument for the value of \cs{lefthyphenmin} if
-%    the optional argument has been omitted.
+%    No trickery here. \spacedendash We use the mandatory argument for the value of
+%    \cs{lefthyphenmin} if the optional argument has been omitted.
 %
 %    \begin{macrocode}
 \NewDocumentEnvironment{hyphenmin}{o m}
@@ -8960,7 +8967,7 @@ end
 %  \begin{environment}{prolongpar}
 %    We try to be prudent and inhibit hyphenation of the next-to-last line
 %    just in case the longer paragraph could be cheaply achieved by hyphenation
-%    --~at the worst~-- of the last word.
+%    \leftspacedendash at the worst \rightspacedendash of the last word.
 %
 %    \begin{macrocode}
 \NewDocumentEnvironment{prolongpar}{}
