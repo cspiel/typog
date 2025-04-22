@@ -2716,8 +2716,7 @@ end
 %  is so helpful that it deserves its own macro \spacedendash with a descriptive name.
 %
 %  \begin{synopsis}\label{syn:breakpoint}
-%    \cs{breakpoint}  \\
-%    \cs{breakpoint*}
+%    \cs{breakpoint}\qquad \cs{breakpoint*}
 %  \end{synopsis}
 %
 %  \index{hyphenation>empty discretionary|userman}
@@ -2838,8 +2837,7 @@ end
 %  The italic correction offered by \TeX{} or \LaTeX{} sometimes needs a helping hand.
 %
 %  \begin{synopsis}\label{syn:itcorr}
-%    \cs{itcorr}\marg{strength}  \\
-%    \cs{itcorr*}\marg{strength}
+%    \cs{itcorr}\marg{strength}\qquad \cs{itcorr*}\marg{strength}
 %  \end{synopsis}
 %
 %  In text mode macro~\cs{itcorr} inserts a kern whose width is proportional to \cs{fontdim1},
@@ -3002,8 +3000,7 @@ end
 %  extra space around it.
 %
 %  \begin{synopsis}\label{syn:kernedslash}
-%     \cs{kernedslash}  \\
-%     \cs{kernedslash*}
+%     \cs{kernedslash}\qquad \cs{kernedslash*}
 %  \end{synopsis}
 %
 %  \indexpackageoption{breakpenalty}
@@ -3088,7 +3085,7 @@ end
 %
 %  \begin{synopsis}\label{syn:leftkernedhyphen}\label{syn:rightkernedhyphen}
 %    \cs{leftkernedhyphen}\oarg{raise}\marg{left-kerning}  \\
-%    \cs{leftkernedhyphen*}\oarg{raise}\marg{left-kerning}  \\
+%    \cs{leftkernedhyphen*}\oarg{raise}\marg{left-kerning}  \\[\smallskipamount]
 %    \cs{rightkernedhyphen}\oarg{raise}\marg{right-kerning}  \\
 %    \cs{rightkernedhyphen*}\oarg{raise}\marg{right-kerning}
 %  \end{synopsis}
@@ -3241,8 +3238,7 @@ end
 %  be too low for compounds involving capitals.
 %
 %  \begin{synopsis}\label{syn:capitalhyphen}
-%     \cs{capitalhyphen}  \\
-%     \cs{capitalhyphen*}
+%     \cs{capitalhyphen}\qquad \cs{capitalhyphen*}
 %  \end{synopsis}
 %
 %  \indexpackageoption{breakpenalty}
@@ -3299,8 +3295,7 @@ end
 %  en-dash sibling.
 %
 %  \begin{synopsis}\label{syn:capitalemdash}
-%    \cs{capitalemdash}
-%    \cs{capitalemdash*}
+%    \cs{capitalemdash}\qquad \cs{capitalemdash*}
 %  \end{synopsis}
 %
 %  \begin{usecases}
@@ -3355,8 +3350,7 @@ end
 %  \cref{sec:capital-hyphen,sec:capital-dash}.
 %
 %  \begin{synopsis}\label{syn:figuredash}
-%     \cs{figuredash}  \\
-%     \cs{figuredash*}
+%     \cs{figuredash}\qquad \cs{figuredash*}
 %  \end{synopsis}
 %
 %  \indexpackageoption{breakpenalty}
@@ -4213,9 +4207,7 @@ end
 %  Ref.~\citenum{wermuth:2018}.}
 %
 %  \begin{synopsis}\label{syn:lastlinecenteredpar}
-%    \cs{begin}|{lastlinecenteredpar}|  \\
-%    \hspace*{1em}\dots  \\
-%    \cs{end}|{lastlinecenteredpar}|
+%    \cs{begin}|{lastlinecenteredpar}| \dots{} \cs{end}|{lastlinecenteredpar}|
 %  \end{synopsis}
 %
 %  \begin{usecases}
@@ -4579,9 +4571,7 @@ end
 %  full or completely filled.
 %
 %  \begin{synopsis}\label{syn:openlastlinepar}
-%    \cs{begin}|{openlastlinepar}|\oarg{dim}  \\
-%    \hspace*{1em}\dots  \\
-%    \cs{end}|{openlastlinepar}|
+%    \cs{begin}|{openlastlinepar}|\oarg{dim} \dots{} \cs{end}|{openlastlinepar}|
 %  \end{synopsis}
 %
 %  It may resolve \hyperref[item:o2]{case~O2} as it attempts to prevent a completely filled line
@@ -4613,9 +4603,7 @@ end
 %  Typeset a single paragraph with \cs{lastlinefit} set to a given value.
 %
 %  \begin{synopsis}\label{syn:lastlinefitpar}
-%    \cs{begin}|{lastlinefitpar}|\oarg{value}  \\
-%    \hspace*{1em}\dots  \\
-%    \cs{end}|{lastlinefitpar}|
+%    \cs{begin}|{lastlinefitpar}|\oarg{value} \dots{} \cs{end}|{lastlinefitpar}|
 %  \end{synopsis}
 %
 %  The parameter range of \meta{value} is zero to thousand.  It controls the fraction of
@@ -4820,8 +4808,7 @@ end
 %  \Cref{tab:space-sizes} for a comparison of the various sizes.
 %
 %  \begin{synopsis}\label{syn:widespace}
-%     \cs{widespace}  \\
-%     \cs{widespace*}
+%     \cs{widespace}\qquad \cs{widespace*}
 %  \end{synopsis}
 %
 %  \index{widespacestrength=\verb!*+\widespacestrength+|userman}
@@ -4870,8 +4857,7 @@ end
 %  sizes.
 %
 %  \begin{synopsis}\label{syn:narrowspace}
-%     \cs{narrowspace}  \\
-%     \cs{narrowspace*}
+%     \cs{narrowspace}\qquad \cs{narrowspace*}
 %  \end{synopsis}
 %
 %  \index{narrowspacestrength=\verb!*+\narrowspacestrength+|userman}
@@ -4977,9 +4963,7 @@ end
 %  Override the default tracking for all fonts.
 %
 %  \begin{synopsis}\label{syn:setfonttracking}
-%    \cs{begin}|{setfonttracking}|\marg{delta}  \\
-%    \hspace*{1em}\dots  \\
-%    \cs{end}|{setfonttracking}|
+%    \cs{begin}|{setfonttracking}|\marg{delta} \dots{} \cs{end}|{setfonttracking}|
 %  \end{synopsis}
 %
 %  The environment~|setfonttracking| manages a group for \cs{lsstyle} of
