@@ -49,7 +49,7 @@
 \usepackage{sidecap}
 \usepackage{tabularx}
 \usepackage[most]{tcolorbox}
-\usepackage{titlesec}\renewcommand*{\bottomtitlespace}{.15\textheight}%nobottomtitles*
+\usepackage[nobottomtitles*]{titlesec}\renewcommand*{\bottomtitlespace}{.15\textheight}
 \usepackage[debug, raise*=.05em,
   uppercaselabelitemadjustments={.0125em, .075em, -.1em, .0125em},
   lowercaselabelitemadjustments={-.075em, 0pt, -.2em, -.075em}]{typog}
@@ -310,7 +310,7 @@
             {\sffamily\normalsize\bfseries}{\theparagraph}{1em}{}
 
 
-\let\footnoterule=\relax% suppress footnote rule
+\def\footnoterule{\vfill}% push footnotes to the bottom of the page
 
 \makeatletter
 \renewcommand*{\@makefntext}[1]
@@ -334,6 +334,8 @@
 
 
 \newrobustcmd*{\acronym}[1]{\mbox{\scshape\MakeLowercase{#1}}}
+
+\newcommand*{\aliasfor}[2]{$\rightarrow$ #1}
 
 \newcommand*{\application}[1]{\mbox{\sffamily #1}}
 
@@ -494,6 +496,17 @@
                  \nativetextfraction{\the\numexpr\dimexpr (#1) * 1000 / \emreference}{1000}\:em%
                \fi}
 
+\newrobustcmd*{\milliemglue}[1]
+              {\nativetextfraction{\the\numexpr\dimexpr (#1) * 1000 / \emreference}{1000}\:em%
+               \ifdim\gluestretch #1>0pt
+                 \space plus~\relax
+                 \nativetextfraction{\the\numexpr\gluestretch\glueexpr (#1) * 1000 / \emreference}{1000}\:em%
+               \fi
+               \ifdim\glueshrink #1>0pt
+                 \space minus~\relax
+                 \nativetextfraction{\the\numexpr\glueshrink\glueexpr (#1) * 1000 / \emreference}{1000}\:em%
+               \fi}
+
 \let\originalmulticols=\multicols
 \let\endoriginalmulticols=\endmulticols
 \RenewDocumentEnvironment{multicols}{m o o}
@@ -512,6 +525,8 @@
 
 \newcommand*{\needtocspace}[1][3]
             {\addtocontents{toc}{\protect\needspace{#1\baselineskip}}}
+
+\let\newpagetofixtoc=\newpage
 
 \newcommand*{\packagename}[1]{\mbox{\textsf{#1}}}
 \newcommand*{\programname}[1]{\mbox{\textbf{#1}}}
@@ -772,8 +787,8 @@
                 {\newcommand*{\heading}[1]
                              {\pagebreak[3]%
                               \medskip
-                              {\sffamily\bfseries\large ##1}%
-                              \nopagebreak}
+                              \needspace{2\baselineskip}%
+                              {\sffamily\bfseries\large ##1}}
                  \newcommand*{\sigbrk}
                              {\discretionary{\hbox{\raise .025em \hbox{$\triangleright$}}}
                                             {\hbox{\raise .025em \hbox{$\triangleleft$}}}
@@ -873,6 +888,7 @@
   last-line-fit-par
   last-line-ragged-left
   last-line-ragged-left-par
+  left-spaced-endash
   line-width
   loose-ness
   loose-spacing
@@ -898,6 +914,7 @@
   raise-capital-times
   raise-inverted-marks
   raise-number-dash
+  right-spaced-endash
   set-baseline-skip
   set-baseline-skip-percentage
   set-font-expand
@@ -920,9 +937,14 @@
   smooth-ragged-right-shape-septuplet
   smooth-ragged-right-shape-triplet
   space-skip
+  spaced-capital-emdash
+  spaced-capital-endash
+  spaced-dash
+  spaced-emdash
+  spaced-endash
   stretch-limits
-  text-italics-correction
   text-exclam-down
+  text-italics-correction
   text-question-down
   tight-spacing
   tracing-boxes
@@ -1158,8 +1180,8 @@ end
 %    This package is copyright \textcopyright~2024 Ch.~L.~Spiel.  It may be distributed
 %    and\kernedslash*or modified under the conditions of the
 %    \href{https://www.latex-project.org/lppl.txt}{\LaTeX{} Project Public License}
-%    \acronym{(LPPL)}, either version~1.3c of this license or --~at your option~-- any later
-%    version.  This work has the \acronym{LPPL} maintenance status
+%    \acronym{(LPPL)}, either version~1.3c of this license or \leftspacedendash at your option
+%    \rightspacedendash any later version.  This work has the \acronym{LPPL} maintenance status
 %    \doublequotes{author-maintained}.
 %  \end{lastlinecenteredpar}
 %
@@ -1271,12 +1293,10 @@ end
 %
 %      \heading{C}
 %      \qritem{syn:capitaldash}{\cs{capitaldash*}}
-%        Typeset a vertically adjusted \cs{textendash}.
 %        Alias for \cs{capitalendash*}.
 %      \endqritem
 %
 %      \qritem{syn:capitaldash}{\cs{capitaldash}}
-%        Typeset a vertically adjusted \cs{textendash} that is hyphenatable.
 %        Alias for \cs{capitalendash}.
 %      \endqritem
 %
@@ -1399,7 +1419,6 @@ end
 %      \endqritem
 %
 %      \qritem{syn:lastlineflushrightpar}{\code{last\-line\-flush\-right\-par}}
-%        Align the last line of a paragraph flush-right.
 %        Alias for \code{lastlineraggedleftpar}.
 %      \endqritem
 %
@@ -1417,6 +1436,19 @@ end
 %        Typeset a hyphen, apply kerning to its left-hand side, and insert a breakpoint after
 %        it.
 %      \endqritem
+%
+%      \qritem{syn:spacedendash}{\cs{left\-spaced\-dash*}}[\sigbrk\oarg{raise}]
+%        Alias for \cs{left\-spaced\-endash*}.
+%
+%      \qritem{syn:spacedendash}{\cs{left\-spaced\-dash}}[\sigbrk\oarg{raise}]
+%        Alias for \cs{left\-spaced\-endash}.
+%
+%      \qritem{syn:spacedendash}{\cs{left\-spaced\-endash*}}[\sigbrk\oarg{raise}]
+%        Typeset an en-dash with some space around it.  Prohibit line-breaks before and after
+%        it.
+%
+%      \qritem{syn:spacedendash}{\cs{left\-spaced\-endash}}[\sigbrk\oarg{raise}]
+%        Typeset an en-dash with some space around it.  Allow line-breaks at its left-hand side.
 %
 %      \qritem{syn:loosespacing}{\code{loose\-spacing}}[\sigbrk\oarg{level}]
 %        Increase the width of the space character.
@@ -1438,7 +1470,7 @@ end
 %
 %      \qritem{syn:noadjustlabelitems}{\cs{no\-adjust\-label\-items}}
 %             [\sigbrk\marg{levels}]
-%        Deactivate eight-adjustment of label items.
+%        Deactivate height-adjustment of label items.
 %      \endqritem
 %
 %      \qritem{syn:nocharprotrusion}{\code{nocharprotrusion}}
@@ -1446,8 +1478,7 @@ end
 %      \endqritem
 %
 %      \qritem{syn:nofontexpansion}{\code{nofontexpand}}
-%        Deactivate font expansion.
-%      Alias for \code{nofontexpansion}.
+%        Alias for \code{nofontexpansion}.
 %      \endqritem
 %
 %      \qritem{syn:nofontexpansion}{\code{nofontexpansion}}
@@ -1487,6 +1518,20 @@ end
 %        Typeset a hyphen, apply kerning to its right-hand side, and insert a breakpoint after
 %        it.
 %      \endqritem
+%
+%      \qritem{syn:spacedendash}{\cs{right\-spaced\-dash*}}[\sigbrk\oarg{raise}]
+%        Alias for \cs{right\-spaced\-endash*}.
+%
+%      \qritem{syn:spacedendash}{\cs{right\-spaced\-dash}}[\sigbrk\oarg{raise}]
+%        Alias for \cs{right\-spaced\-endash}.
+%
+%      \qritem{syn:spacedendash}{\cs{right\-spaced\-endash*}}[\sigbrk\oarg{raise}]
+%        Typeset an en-dash with some space around it.  Prohibit line-breaks before and after
+%        it.
+%
+%      \qritem{syn:spacedendash}{\cs{right\-spaced\-endash}}[\sigbrk\oarg{raise}]
+%        Typeset an en-dash with some space around it.  Allow line-breaks at its right-hand
+%        side.
 %
 %      \heading{S}
 %      \qritem{syn:setbaselineskippercentage}{\cs{set\-baseline\-skip\-percentage}}
@@ -1577,6 +1622,48 @@ end
 %      \endqritem
 %      \resumemulticols
 %
+%
+%      \qritem{syn:spacedcapitalemdash}{\cs{spacedcapitalemdash}}
+%        Typeset a height-adjusted em-dash with some space around it.
+%      \endqritem
+%
+%      \qritem{syn:spacedcapitalendash}{\cs{spacedcapitalendash*}}
+%        Typeset a height-adjusted en-dash with some space around it.  Prohibit line breaks
+%        before and after the dash.
+%      \endqritem
+%
+%      \qritem{syn:spacedcapitalendash}{\cs{spacedcapitalendash}}
+%        Typeset a height-adjusted em-dash with some space around it.
+%      \endqritem
+%
+%      \qritem{syn:spacedendash}{\cs{spaceddash*}}[\oarg{raise}]
+%        Alias for \cs{rightspacedendash*}.
+%      \endqritem
+%
+%      \qritem{syn:spacedendash}{\cs{spaceddash}}[\oarg{raise}]
+%        Alias for \cs{rightspacedendash}.
+%      \endqritem
+%
+%      \qritem{syn:spacedendash}{\cs{spacedendash*}}[\oarg{raise}]
+%        Alias for \cs{rightspacedendash*}.
+%      \endqritem
+%
+%      \qritem{syn:spacedendash}{\cs{spacedendash}}[\oarg{raise}]
+%        Alias for \cs{rightspacedendash}.
+%      \endqritem
+%
+%      \qritem{syn:spacedemdash}{\cs{spacedemdash}}[\oarg{raise}]
+%        Typeset an em-dash with some space around it.
+%      \endqritem
+%
+%      \qritem{syn:spacedendash}{\cs{spacedendash*}}[\oarg{raise}]
+%        Typeset an en-dash with some space around it.  Prohibit line breaks before and after
+%        the dash.
+%      \endqritem
+%
+%      \qritem{syn:spacedendash}{\cs{spacedendash}}[\oarg{raise}]
+%        Typeset an em-dash with some space around it.
+%      \endqritem
 %
 %      \qritem{syn:splicevtietop}{\cs{splicevtietop}}[\sigbrk\marg{lines}]
 %        Inside of a \code{list}-like environment fuse the first lines.
@@ -1687,9 +1774,9 @@ end
 %  \end{whittyquote}
 %
 %  \noindent
-%  \LaTeX{} is the beginning of good typesetting -- not the end.  This package provides some
-%  tools for even better looking documents.  When applied correctly its effects appear subtle
-%  and inconspicuous.
+%  \LaTeX{} is the beginning of good typesetting \spacedendash not the end.  This package
+%  provides some tools for even better looking documents.  When applied correctly its effects
+%  appear subtle and inconspicuous.
 %
 %
 %  \subsection{Overview}\label{sec:overview}
@@ -1713,11 +1800,15 @@ end
 %
 %  \Cref{sec:latex-hyphenation} expands the hyphenation facilities of \LaTeX.
 %
-%  \Cref{sec:break-ligatures,sec:manual-italic-correction,sec:extra-kerning,sec:raise-characters}
-%  deal with vertically positioning glyphs in a more pleasant way.  Also in the realm of
-%  vertical alignments is \cref{sec:adjust-label-items} that explains how to height-adjust the
-%  labels in |itemize|~lists to perfection whether the items are followed by uppercase or by
-%  lowercase letters.
+%  \Cref{sec:break-ligatures,sec:manual-italic-correction} treat the breaking of ligatures and
+%  also manually applying italic correction \spacedendash in a generalized way.
+%
+%  \Cref{sec:extra-kerning} introduces macros to kern or space some punctuation signs.
+%
+%  \Cref{sec:raise-characters} deals with vertically positioning glyphs in a more pleasant way.
+%  Also in the realm of vertical alignments is \cref{sec:adjust-label-items} that explains how
+%  to height-adjust the labels in |itemize|~lists to perfection whether the items are followed
+%  by uppercase or by lowercase letters.
 %
 %  \Cref{sec:align-last-line,sec:fill-last-line} discuss dearly missed macros for better control
 %  of the last line of a paragraph.
@@ -1796,8 +1887,8 @@ end
 %        reset to their defaults by wrapping it in a
 %        \hyperref[syn:typogsetup]{\code{typogsetup}}~environment with an empty argument.}
 %        Penalty for a line break at various points.  Default
-%        value:~\the\typogget{breakpenalty}; initialized by the current
-%        \cs{exhyphenpenalty}:~\the\exhyphenpenalty.
+%        value: \the\typogget{breakpenalty}; initialized by the current
+%        \cs{exhyphenpenalty}: \the\exhyphenpenalty.
 %
 %    \item[|debug|, |nodebug|]\label{item:debug}
 %      \indexpackageoptiondefinition{debug}
@@ -1808,13 +1899,27 @@ end
 %      These two options neither can be used with \hyperref[syn:typogsetup]{\code{typogsetup}}
 %      nor with \hyperref[syn:typogget]{\cs{typogget}}.
 %
+%    \item[|emdashspace|=\meta{glue}]\label{item:emdashspace}
+%      \indexpackageoptiondefinition{emdashspace}
+%      \sinceversion{Since v0.5}
+%      Set the horizontal skip that is inserted before and after the em-dash in
+%      macros~\hyperref[syn:spacedemdash]{\cs{spacedemdash}} and
+%      \hyperref[syn:spacedcapitalemdash]{\cs{spacedcapitalemdash}} to \meta{glue}.  Default
+%      value: \milliemglue{\typogget{emdashspace}}.
+%
+%    \item[|endashspace|=\meta{glue}]\label{item:endashspace}
+%      \indexpackageoptiondefinition{endashspace}
+%      \sinceversion{Since v0.5}
+%      Set the horizontal skip that is inserted before and after the en-dash in
+%      macros~\hyperref[syn:spacedendash]{\cs{spacedendash}} and
+%      \hyperref[syn:spacedcapitalendash]{\cs{spacedcapitalendash}} to \meta{glue}.  Default
+%      value: \milliemglue{\typogget{endashspace}}.
+%
 %    \item[|ligaturekern=|\meta{dim}]\label{item:ligaturekern}
 %      \indexpackageoptiondefinition{ligaturekern}
 %      Set \meta{dim} of the kern that is inserted to split a ligature in
-%      macro\hyperref[syn:nolig]{\cs{nolig}}.  See
-%      \cref{sec:break-ligatures}.\shiftedmarginnote{We access all the (default) configuration
-%      values with \hyperref[syn:typogget]{\cs{typogget}}.}  Default
-%      value:~\milliem{\typogget{ligaturekern}}.
+%      macro~\hyperref[syn:nolig]{\cs{nolig}}.  See \cref{sec:break-ligatures}.  Default
+%      value: \milliem{\typogget{ligaturekern}}.
 %
 %    \item[|lowercaselabelitemadjustments=\{|\meta{dim-1}, \dots, \meta{dim-4}|\}|]%
 %      \label{item:lowercaselabelitemadjustments}
@@ -1830,7 +1935,7 @@ end
 %      configuration option
 %      \hyperref[item:uppercaselabelitemadjustments]{\code{uppercaseadjustlabelitem}}.
 %
-%      All four lengths default to~\formatdimen*{0pt}.
+%      All four lengths default to \formatdimen*{0pt}.
 %
 %      \begin{important}
 %        \slightlysloppy
@@ -1847,20 +1952,21 @@ end
 %      Lower the slash typeset by \hyperref[syn:kernedslash]{\cs{kernedslash}}.  Positive
 %      lengths~\meta{dim} \emph{lower} the glyph, negative ones raise it.  This is the opposite
 %      \singlequotes{direction} of \cs{raisebox}.  See \cref{sec:slash-with-kern}.  Default
-%      value:~\milliem{\typogget{lowerslash}}.
+%      value: \milliem{\typogget{lowerslash}}.
 %
 %    \item[|mathitalicscorrection=|\meta{dim}]\label{item:mathitalicscorrection}
 %      \indexpackageoptiondefinition{mathitalicscorrection}
 %      Italics correction in math mode.  See \cref{sec:manual-italic-correction} and also the
 %      complementary configuration
 %      option~\hyperref[item:textitalicscorrection]{|textitalicscorrection|}.  Default
-%      value:~\the\typogget{mathitalicscorrection}.\footnote{Note that 1\,mu is
+%      value: \the\typogget{mathitalicscorrection}.\footnote{Note that 1\,mu is
 %      \nativetextfraction{1}{18}\,em of the mathematical font's~em.}
 %
 %    \item[|raise*=|\meta{dim}]\label{item:raise}
 %      \indexpackageoptiondefinition{raise*}
 %      Set the length by which selected characters (dash, hyphen, times, and number dash) are
-%      raised.  Default value:~\formatdimen*{0pt}.
+%      raised.  Default value: \formatdimen*{0pt}.\shiftedmarginnote{We access all the (default)
+%      configuration values with \hyperref[syn:typogget]{\cs{typogget}}.}
 %
 %      Only the raise amounts for guillemets and inverted marks are unaffected by this option.
 %
@@ -1872,7 +1978,7 @@ end
 %      \indexpackageoptiondefinition{raisecapitaldash}
 %      Set the length that the \cs{textendash} is raised in
 %      \hyperref[syn:capitaldash]{\cs{capitaldash}}.  See \cref{sec:capital-dash}.  Default
-%      value:~\milliem{\the\typogget{raisecapitaldash}}.
+%      value: \milliem{\the\typogget{raisecapitaldash}}.
 %
 %    \item[|raisecapitalhyphen=|\meta{dim}]\label{item:raisecapitalhyphen}
 %      \indexpackageoptiondefinition{raisecapitalhyphen}
@@ -1881,31 +1987,31 @@ end
 %      \cref{sec:capital-hyphen}.\shiftedmarginnote{This description list is protected against
 %      breaking items across pages within the first three lines by
 %      \hyperref[syn:vtietop]{\code{vtietop}}.}  Default
-%      value:~\milliem{\the\typogget{raisecapitalhyphen}}.
+%      value: \milliem{\the\typogget{raisecapitalhyphen}}.
 %
 %    \item[|raisecapitaltimes=|\meta{dim}]\label{item:raisecapitaltimes}
 %      \indexpackageoptiondefinition{raisecapitaltimes}
 %      Set the length that the multiplication symbol~\sample{\texttimes} is raised in
 %      \hyperref[syn:capitaltimes]{\cs{capitaltimes}}.  See \cref{sec:mult-sign}.  Default
-%      value:~\milliem{\the\typogget{raisecapitaltimes}}.
+%      value: \milliem{\the\typogget{raisecapitaltimes}}.
 %
 %    \item[|raisecapitalguillemets=|\meta{dim}]\label{item:raisecapitalguillemets}
 %      \indexpackageoptiondefinition{raisecapitalguillemets}
 %      Set the length that single and double guillemets are raised in the uppercase versions of
 %      the guillemet macros.  See \cref{sec:guillemets}.  Default
-%      value:~\milliem{\the\typogget{raisecapitalguillemets}}.
+%      value: \milliem{\the\typogget{raisecapitalguillemets}}.
 %
 %    \item[|raiseguillemets=|\meta{dim}]\label{item:raiseguillemets}
 %      \indexpackageoptiondefinition{raiseguillemets}
 %      Set the length that single and double guillemets are raised in the lowercase versions of
 %      the guillemet macros.  See \cref{sec:guillemets}.  Default
-%      value:~\milliem{\the\typogget{raiseguillemets}}.
+%      value: \milliem{\the\typogget{raiseguillemets}}.
 %
 %    \item[|raisefiguredash=|\meta{dim}]\label{item:raisefiguredash}
 %      \indexpackageoptiondefinition{raisefiguredash}
 %      Set the length that the \cs{textendash} is raised in
 %      \hyperref[syn:figuredash]{\cs{figuredash}}.  See \cref{sec:number-dash}.  Default
-%      value:~\milliem{\the\typogget{raisefiguredash}}.
+%      value: \milliem{\the\typogget{raisefiguredash}}.
 %
 %    \item[|raiseinvertedmarks=\{|\meta{dim-1}, \meta{dim-2}, \meta{dim-3}|\}|]\label{item:raiseinvertedmarks}
 %      \indexpackageoptiondefinition{raiseinvertedmarks}
@@ -1921,7 +2027,7 @@ end
 %      \mbox{(quasi-)}\breakpoint zero manual correction is desired use e.\,g.~1\,sp.  Empty
 %      list elements are ignored.  The special value~\samplestar{} instructs \packagename{typog}
 %      to preserve \meta{dim-N} at that position.  Default
-%      values:~\typoggetnth{\dimen0}{raiseinvertedmarks}{1}\milliem{\the\dimen0},
+%      values: \typoggetnth{\dimen0}{raiseinvertedmarks}{1}\milliem{\the\dimen0},
 %      \typoggetnth{\dimen0}{raiseinvertedmarks}{2}\milliem{\the\dimen0},
 %      \typoggetnth{\dimen0}{raiseinvertedmarks}{3}\milliem{\the\dimen0}.
 %
@@ -1951,7 +2057,7 @@ end
 %    \item[|slashkern=|\meta{dim}]\label{item:slashkern}
 %      \indexpackageoptiondefinition{slashkern}
 %      Set the size of the kerns before and after \hyperref[syn:kernedslash]{\cs{kernedslash}}.
-%      See \cref{sec:slash-with-kern}.  Default value:~\milliem{\typogget{slashkern}}.
+%      See \cref{sec:slash-with-kern}.  Default value: \milliem{\typogget{slashkern}}.
 %
 %    \item[|textitalicscorrection=|\meta{dim}]\label{item:textitalicscorrection}
 %      \indexpackageoptiondefinition{textitalicscorrection}
@@ -1959,7 +2065,7 @@ end
 %      \cref{sec:manual-italic-correction} on manual italic correction and also the
 %      complementary configuration
 %      option~\hyperref[item:mathitalicscorrection]{|mathitalicscorrection|}.  Default
-%      value:~\milliem{\typogget{textitalicscorrection}}.
+%      value: \milliem{\typogget{textitalicscorrection}}.
 %
 %    \item[|trackingttspacing=|\code{\{\meta{outer-spacing}\}}\quad\microtyperequiredmarker]\label{item:trackingttspacing}
 %      \indexpackageoptiondefinition{trackingttspacing}
@@ -1969,7 +2075,7 @@ end
 %      The argument \meta{outer-spacing} gets passed to \packagename{microtype}'s
 %      \cs{SetTracking} option~\code{outer spacing}~\cite[Sec.~5.3]{package:microtype}.  If it
 %      contains commas, enclose the whole argument in curly braces.  Default argument
-%      value:~\mbox{\typogget{trackingttspacing}}.
+%      value: \mbox{\typogget{trackingttspacing}}.
 %
 %      The option can be used when loading the package and in the document preamble, but
 %      \emph{not} in the document body.
@@ -1990,7 +2096,7 @@ end
 %      configuration option
 %      \hyperref[item:lowercaselabelitemadjustments]{\code{lowercaseadjustlabelitem}}.
 %
-%      All four lengths default to~\formatdimen*{0pt}.
+%      All four lengths default to \formatdimen*{0pt}.
 %
 %      \begin{important}
 %        \slightlysloppy
@@ -2038,7 +2144,7 @@ end
 %  \end{synopsis}
 %
 %  The package can be (re-)configured\index{reconfigure|userman} at any point with
-%  \cs{typogsetup}\marg{keys}, or --~for localized changes~-- as
+%  \cs{typogsetup}\marg{keys}, or \leftspacedendash for localized changes \rightspacedendash as
 %
 %  \begin{codeexample}
 %    12\=\kill
@@ -2110,11 +2216,12 @@ end
 %     \cs{typoggetnth}\marg{dimen-register}\marg{key}\marg{index}
 %  \end{synopsis}
 %
-%  Retrieve the configuration value --~which is a comma-separated list~-- that is associated
-%  with~\meta{key} and store the item having position~\meta{index} in \meta{dimen-register} or
-%  the parameter-less, global macro~\meta{csname}.  The destination \meta{dimen-register} may be
-%  predefined like, e.\,g., \cs{dimen0} or user-defined.  Dimensions can also be stored in a
-%  macro by using the \meta{csname}~form of \cs{typoggetnth} but not \foreignphrase{vice versa}.
+%  Retrieve the configuration value \leftspacedendash which is a comma-separated list
+%  \rightspacedendash that is associated with~\meta{key} and store the item having
+%  position~\meta{index} in \meta{dimen-register} or the parameter-less, global
+%  macro~\meta{csname}.  The destination \meta{dimen-register} may be predefined like, e.\,g.,
+%  \cs{dimen0} or user-defined.  Dimensions can also be stored in a macro by using the
+%  \meta{csname}~form of \cs{typoggetnth} but not \foreignphrase{vice versa}.
 %
 %  Index into the list either from left-to-right with positive indices starting at~\(1\) up to
 %  the length of the list, or from right-to-left with negative indices starting at~\(-1\) down
@@ -2653,11 +2760,10 @@ end
 %  \DescribeMacro{\breakpoint}
 %  \DescribeMacro{\breakpoint*}
 %  The empty discretionary construct~\cite[p.~95]{knuth:1986}, \cs{discretionary\{\}\{\}\{\}},
-%  is so helpful that it deserves its own macro --~with a descriptive name.
+%  is so helpful that it deserves its own macro \spacedendash with a descriptive name.
 %
 %  \begin{synopsis}\label{syn:breakpoint}
-%    \cs{breakpoint}  \\
-%    \cs{breakpoint*}
+%    \cs{breakpoint}\qquad \cs{breakpoint*}
 %  \end{synopsis}
 %
 %  \index{hyphenation>empty discretionary|userman}
@@ -2703,6 +2809,7 @@ end
 %  \end{usecase}
 %
 %
+%  \newpagetofixtoc
 %  \subsection{Disable\kernedslash Break Ligatures}\label{sec:break-ligatures}
 %  \index{ligature|userman}
 %
@@ -2739,13 +2846,14 @@ end
 %  introduces a hyphenation opportunity with
 %  penalty~\hyperref[item:breakpenalty]{|breakpenalty|}.
 %
-%  \begin{important}[\packagename{hyperref} bookmarks]\label{imp:hyperref-bookmarks}
-%    \index{hyperref=\packagename{hyperref} (package)|userman}
-%    If a \cs{nolig} --~whether starred or un-starred~-- occurs in an argument that is processed
-%    with package~\packagename{hyperref} for inclusion into the document's
+%  \begin{important}[\packagename{hyperref} bookmarks]
+%    If a \cs{nolig} \leftspacedendash whether starred or un-starred \rightspacedendash occurs
+%    in an argument that is processed with
+%    package~\packagename{hyperref}\index{hyperref=\packagename{hyperref} (package)|userman}
+%    for inclusion into the document's
 %    \acronym{PDF}-bookmarks\index{PDF=\acronym{PDF}|userman}\index{bookmark|userman} an
 %    additional argument is necessary to parse the macro.  This argument either is \cs{relax}
-%    or~the empty group~(\code{\{\}}).
+%    or~the empty group~\sample*{\{\kern.1em\}}.
 %
 %    \begin{synopsis}
 %      \begin{tabbing}
@@ -2757,8 +2865,9 @@ end
 %    The prototypical places where this processing-for-\acronym{PDF}-bookmarks happens are the
 %    sectioning macros, e.\,g., \cs{chapter}, \cs{section}, \cs{subsection},~etc.
 %
-%    \LaTeX{} will bail out with an error if the extra argument is not passed to \cs{nolig} in
-%    these situations.
+%    \LaTeX{} will trip with \doublequotes{Undefined control sequence} on
+%    \cs{typog@\-missing@\-argument} if the extra argument is not passed to
+%    \cs{leftspacedendash}, \cs{rightspacedendash}, or any of its aliases in these situations.
 %
 %    Alternatively use \cs{texorpdfstring}~\cite[Sec.~4.1.2, p.~22]{package:hyperref}.
 %  \end{important}
@@ -2771,6 +2880,7 @@ end
 %  \end{usecases}
 %
 %
+%  \newpagetofixtoc
 %  \subsection{Manual Italic Correction}\label{sec:manual-italic-correction}\label{italic correction}
 %
 %  \DescribeMacro{\itcorr}
@@ -2778,8 +2888,7 @@ end
 %  The italic correction offered by \TeX{} or \LaTeX{} sometimes needs a helping hand.
 %
 %  \begin{synopsis}\label{syn:itcorr}
-%    \cs{itcorr}\marg{strength}  \\
-%    \cs{itcorr*}\marg{strength}
+%    \cs{itcorr}\marg{strength}\qquad \cs{itcorr*}\marg{strength}
 %  \end{synopsis}
 %
 %  In text mode macro~\cs{itcorr} inserts a kern whose width is proportional to \cs{fontdim1},
@@ -2824,8 +2933,9 @@ end
 %  \end{displaymath}
 %
 %  A well-chosen \meta{strength} should be the absolute minimum value which avoids that the
-%  glyphs typeset in italics collide with other --~usually non-italics~-- letters or symbols
-%  unless this disturbs the consistency of the overall tracking.
+%  glyphs typeset in italics collide with other \leftspacedendash usually non-italics
+%  \rightspacedendash letters or symbols unless this disturbs the consistency of the overall
+%  tracking.
 %
 %  Correction of the right-hand side and \mbox{\(\alpha > 0\)}: A reasonable first guess of
 %  \meta{strength} is the highest point where the rightmost part of the letter would touch a
@@ -2912,8 +3022,9 @@ end
 %             even no correction at all.~\visualpar The \sample{a} at the right-hand side is an
 %             example of why \TeX{} allows to assign an italic~correction to each individual
 %             character of a font.  Not only features the lowercase~\sample{a} a
-%             larger~\(\alpha\) --~despite being a member of the same font~-- but its serif adds
-%             as much to the width as the slanted stem.\label{fig:slant-angle}}
+%             larger~\(\alpha\) \leftspacedendash despite being a member of the same font
+%             \rightspacedendash but its serif adds as much to the width as the slanted
+%             stem.\label{fig:slant-angle}}
 %    \vspace{-3\baselineskip}
 %    \llap{\parbox{\marginparwidth}
 %                 {\marginnoteformat
@@ -2923,11 +3034,13 @@ end
 %  \end{figure}
 %
 %
-%  \subsection{Apply Extra Kerning}\label{sec:extra-kerning}
+%  \newpagetofixtoc
+%  \subsection{Apply Extra Kerning or Spacing}\label{sec:extra-kerning}
 %  \index{kerning>extra|userman}
+%  \index{extra spacing|userman}
 %
 %  Package \packagename{typog} supplies two sets of macros to kern some of the punctuation
-%  symbols.  One is for forward slashes the other, more extensive one, for hyphens.
+%  symbols.  One is for forward slashes the other, more extensive one, for hyphens and dashes.
 %
 %
 %  \subsubsection{Slash}\label{sec:slash-with-kern}
@@ -2939,8 +3052,7 @@ end
 %  extra space around it.
 %
 %  \begin{synopsis}\label{syn:kernedslash}
-%     \cs{kernedslash}  \\
-%     \cs{kernedslash*}
+%     \cs{kernedslash}\qquad \cs{kernedslash*}
 %  \end{synopsis}
 %
 %  \indexpackageoption{breakpenalty}
@@ -3025,7 +3137,7 @@ end
 %
 %  \begin{synopsis}\label{syn:leftkernedhyphen}\label{syn:rightkernedhyphen}
 %    \cs{leftkernedhyphen}\oarg{raise}\marg{left-kerning}  \\
-%    \cs{leftkernedhyphen*}\oarg{raise}\marg{left-kerning}  \\
+%    \cs{leftkernedhyphen*}\oarg{raise}\marg{left-kerning}  \\[\smallskipamount]
 %    \cs{rightkernedhyphen}\oarg{raise}\marg{right-kerning}  \\
 %    \cs{rightkernedhyphen*}\oarg{raise}\marg{right-kerning}
 %  \end{synopsis}
@@ -3035,6 +3147,154 @@ end
 %    capitalized.~\visualpar Composites where one or both sides of the hyphen are typeset in
 %    different fonts, like, \meta{small-caps}-\meta{roman}.
 %  \end{usecases}
+%
+%
+%  \newpagetofixtoc
+%  \subsubsection{En-Dash and Em-Dash}\label{sec:spaced-dashes}
+%  \index{spaced character>en-dash|userman}
+%
+%  \DescribeMacro{\leftspacedendash}
+%  \DescribeMacro{\leftspaceddash}
+%  \DescribeMacro{\leftspacedendash*}
+%  \DescribeMacro{\leftspaceddash*}
+%  \DescribeMacro{\rightspacedendash}
+%  \DescribeMacro{\rightspaceddash}
+%  \DescribeMacro{\spacedendash}
+%  \DescribeMacro{\spaceddash}
+%  \DescribeMacro{\rightspacedendash*}
+%  \DescribeMacro{\rightspaceddash*}
+%  \DescribeMacro{\spacedendash*}
+%  \DescribeMacro{spaceddash*}
+%  \sinceversion{All since v0.5}
+%  The macros \cs{leftspacedendash}, \cs{leftspacedendash*}, \cs{right\-spaced\-endash}, and
+%  \cs{rightspacedendash*} all expand to an en-dash~\sample{--} that is surrounded by
+%  whitespace.  They differ in the ways they handle line breaking before or after the en-dash.
+%
+%  A \emph{single} en-dash is used \leftspacedendash* among many other cases \rightspacedendash*
+%  to indicate a pause (e.\,g.~announcing an action to be continued), instead of a comma, or
+%  even instead of a period.  Here, the typographic rules favor either no line break at all or a
+%  break at the right-hand side of the en-dash.
+%
+%  A \emph{pair} of en-dashes is used for appositions or explanatory insertions (as exemplified
+%  in the first sentence of the previous paragraph).  In this instance there are two camps: One
+%  emphasizes the insertion and thus couples the lead-in and lead-out en-dashs to it (see
+%  \cref{item:emphasize-insertion} below).  The other avoids a dash at the beginning of a line
+%  at the cost of severing it from the insertion (\cref{item:avoid-dash-at-beginning-of-line}).
+%
+%  \begin{synopsis}\label{syn:spacedendash}
+%    \begin{tabbing}
+%      \cs{rightspacedendash*}\oarg{raise}\qquad \= \kill
+%      \cs{leftspacedendash}\oarg{raise} \> \cs{leftspaceddash} (alias)  \\
+%      \cs{leftspacedendash*}\oarg{raise} \> \cs{leftspaceddash*} (alias)  \\[\smallskipamount]
+%      \cs{rightspacedendash}\oarg{raise} \> \cs{rightspaceddash} (alias)  \\
+%      \> \cs{spacedendash} (alias)  \\
+%      \> \cs{spaceddash} (alias)  \\
+%      \cs{rightspacedendash*}\oarg{raise}
+%      \> \cs{spacedendash*} (alias)  \\
+%      \> \cs{spaceddash*} (alias)
+%    \end{tabbing}
+%  \end{synopsis}
+%
+%  Typeset an unbreakable en-dash with any of the starred variants.
+%
+%  The distinction between \cs{leftspacedendash} and \cs{rightspacedendash} and the definition
+%  of the alias \cs{spacedendash} for \cs{rightspacedendash} caters two different typographic
+%  preferences.
+%
+%  \begin{enumerate}
+%  \item\label{item:emphasize-insertion}
+%    One rule set prefers insertions to be preceded and followed by dashes.  The elementary way
+%    to solve this is to code
+%
+%    \begin{codeexample}
+%      before -\nolig*-\textasciitilde insertion\textasciitilde-\nolig*- after
+%    \end{codeexample}
+%
+%    where we used the unbreakable space~\sample{\textasciitilde} as example.  For this solution
+%    \packagename{typog} offers \cs{leftspacedendash} and \cs{rightspacedendash}:
+%
+%    \begin{codeexample}
+%      before \cs{leftspacedendash} insertion \cs{rightspacedendash} after
+%    \end{codeexample}
+%
+%  \item\label{item:avoid-dash-at-beginning-of-line}
+%    Another camp insists to avoid dashes at the start of lines.  Now the simple solution looks
+%    like this:
+%
+%    \begin{codeexample}
+%      before\textasciitilde-\nolig*- insertion\textasciitilde-\nolig*- after
+%    \end{codeexample}
+%
+%    For this scenario both dashes behave like \cs{rightspacedendash} and the alias
+%    \cs{spacedendash} comes in handy:
+%
+%    \begin{codeexample}
+%      before \cs{spacedendash} insertion \cs{spacedendash} after
+%    \end{codeexample}
+%  \end{enumerate}
+%
+%  \noindent
+%  For convenience all spaced-dash macros eliminate white-space to their left.  (Technically
+%  they issue an \cs{unskip} right at the beginning.)
+%
+%  Configure the size of the space before and after the dash with
+%  option~\hyperref[item:endashspace]{\code{endashspace}}.
+%
+%  The optional argument~\meta{raise} allows to adjust the height of the en-dash just as the macros
+%  in \cref{sec:raise-characters}; it is meant for one-off solutions.  If an en-dash is needed
+%  that is both raised and spaced prefer
+%  macro~\hyperref[syn:spacedcapitalendash]{\cs{spacedcapitalendash}}.
+%
+%  \begin{important}[\packagename{hyperref} bookmarks]\label{imp:hyperref-bookmarks-spacedendash}\relax
+%    If any of \cs{leftspacedendash}, \cs{rightspacedendash}, \cs{spacedendash},
+%    \cs{spaceddash}, or \cs{spacedemdash} (see below) \leftspacedendash whether starred or
+%    un-starred \rightspacedendash occur in an argument that is processed with
+%    package~\packagename{hyperref}\index{hyperref=\packagename{hyperref} (package)|userman}
+%    for inclusion into the document's
+%    \acronym{PDF}-bookmarks\index{PDF=\acronym{PDF}|userman}\index{bookmark|userman} an
+%    additional argument is necessary to parse the macro.  This argument either is \cs{relax}
+%    or~the empty group~\sample*{\{\kern.1em\}}.
+%
+%    We showcase the modifications of the plain calls for macro~\cs{spaceddash}:
+%
+%    \begin{synopsis}
+%      \begin{tabbing}
+%        \cs{spaceddash*}\oarg{raise}\cs{relax}\qquad\= \cs{spaceddash}\oarg{raise}\cs{relax} \\
+%        \cs{spaceddash*}\oarg{raise}\code{\{\}}\> \cs{spaceddash}\oarg{raise}\code{\{\}}
+%      \end{tabbing}
+%    \end{synopsis}
+%
+%    The prototypical places where this processing-for-\acronym{PDF}-bookmarks happens are the
+%    sectioning macros, e.\,g., \cs{chapter}, \cs{section}, \cs{subsection},~etc.
+%
+%    \LaTeX{} will trip with \doublequotes{Undefined control sequence} on
+%    \cs{typog@\-missing@\-argument} if the extra argument is not passed to
+%    \cs{leftspacedendash}, \cs{rightspacedendash}, or any of its aliases in these situations.
+%
+%    Also note that space to the left of the macros is not gobbled in \acronym{PDF}-bookmarks.
+%
+%    Alternatively use \cs{texorpdfstring}~\cite[Sec.~4.1.2, p.~22]{package:hyperref}.
+%  \end{important}
+%
+%  \DescribeMacro{\spacedemdash}
+%  \sinceversion{Since v0.5}
+%  Macro \cs{spacedemdash} expands to an em-dash~\sample{---} that is surrounded by
+%  whitespace.
+%
+%  \begin{synopsis}\label{syn:spacedemdash}
+%    \cs{spacedemdash}\oarg{raise}
+%  \end{synopsis}
+%
+%  Typeset an unbreakable em-dash with \cs{spacedemdash}.  The size of the space before and
+%  after the dash is is configured with option~\hyperref[item:emdashspace]{\code{emdashspace}}.
+%
+%  The optional argument~\meta{raise} allows to adjust the height of the em-dash just as the
+%  macros in \cref{sec:raise-characters}; it is meant for one-off solutions.  If an em-dash is
+%  needed that is both raised and spaced prefer
+%  macro~\hyperref[syn:spacedcapitalemdash]{\cs{spacedcapitalemdash}}.
+%
+%  The same \hyperref[imp:hyperref-bookmarks-spacedendash]{\emph{Important} note} on hyperref
+%  bookmarks holds for \cs{spacedemdash} as for \cs{spaceddash}.
 %
 %
 %  \subsection{Raise Selected Characters}\label{sec:raise-characters}
@@ -3072,8 +3332,7 @@ end
 %  be too low for compounds involving capitals.
 %
 %  \begin{synopsis}\label{syn:capitalhyphen}
-%     \cs{capitalhyphen}  \\
-%     \cs{capitalhyphen*}
+%     \cs{capitalhyphen}\qquad \cs{capitalhyphen*}
 %  \end{synopsis}
 %
 %  \indexpackageoption{breakpenalty}
@@ -3130,8 +3389,7 @@ end
 %  en-dash sibling.
 %
 %  \begin{synopsis}\label{syn:capitalemdash}
-%    \cs{capitalemdash}  \\
-%    \cs{capitalemdash*}
+%    \cs{capitalemdash}\qquad \cs{capitalemdash*}
 %  \end{synopsis}
 %
 %  \begin{usecases}
@@ -3139,6 +3397,38 @@ end
 %    letter.~\visualpar Theorem headings, like, e.\,g., \mbox{Definition 6.2 \capitalemdash{}
 %    \textsc{Lie} Algebra}.
 %  \end{usecases}
+%
+%  \DescribeMacro{\spacedcapitalemdash}
+%  \DescribeMacro{\leftspacedcapitalendash}
+%  \DescribeMacro{\leftspacedcapitaldash}
+%  \DescribeMacro{\leftspacedcapitalendash*}
+%  \DescribeMacro{\leftspacedcapitaldash*}
+%  \DescribeMacro{\rightspacedcapitalendash}
+%  \DescribeMacro{\rightspacedcapitaldash}
+%  \DescribeMacro{\rightspacedcapitalendash*}
+%  \DescribeMacro{\rightspacedcapitaldash*}
+%  \sinceversion{All since v0.5}
+%  Combine raising a dash and adding some extra space around it.
+%
+%  \begin{synopsis}\label{syn:spacedcapitalemdash}\label{syn:spacedcapitalendash}
+%    \begin{tabbing}
+%      \cs{rightspacedcapitalendash*}\quad \= \kill
+%      \cs{spacedcapitalemdash}  \\[\smallskipamount]
+%      \cs{leftspacedcapitalendash} \> \cs{leftspacedcapitaldash} (alias)  \\
+%      \cs{leftspacedcapitalendash*} \> \cs{leftspacedcapitaldash*} (alias)  \\[\smallskipamount]
+%      \cs{rightspacedcapitalendash} \> \cs{rightspacedcapitaldash} (alias)  \\
+%      \> \cs{spacedcapitalendash} (alias)  \\
+%      \> \cs{spacedcapitaldash} (alias)  \\
+%      \cs{rightspacedcapitalendash*}
+%      \> \cs{spacedcapitalendash*} (alias)  \\
+%      \> \cs{spacedcapitaldash*} (alias)
+%    \end{tabbing}
+%  \end{synopsis}
+%
+%  These macros unite the features of \hyperref[syn:capitalemdash]{\cs{capitalemdash}},
+%  \hyperref[syn:capitalendash]{\cs{capitalendash}}, and
+%  \hyperref[syn:capitalendash]{\cs{capitalendash*}}, respectively with those of
+%  \hyperref[syn:spacedendash]{\cs{spacedendash}} as described in \cref{sec:spaced-dashes}.
 %
 %
 %  \subsubsection{Number Dash (Figure Dash)}\label{sec:number-dash}
@@ -3149,8 +3439,8 @@ end
 %  The en-dash often gets used as separator for numerical ranges.  In most fonts it has the
 %  correct height above baseline for oldstyle numerals,
 %  e.\,g.~\oldstylenums{12}--\oldstylenums{34}--\oldstylenums{56}--\oldstylenums{78}, but with
-%  lining numerals --~depending on the font~-- it may look like it suffers from
-%  \doublequotes{broken suspenders}:
+%  lining numerals \leftspacedendash depending on the font \rightspacedendash it may look like
+%  it suffers from \doublequotes{broken suspenders}:
 %  12\textendash34\textendash56\textendash78.\marginnote{\cs{figuredash} yields
 %  12\figuredash34\figuredash56\figuredash78 for sans-serif and {\rm
 %  12\figuredash34\figuredash56\figuredash78} for the roman typeface.}  The situation is similar
@@ -3158,8 +3448,7 @@ end
 %  \cref{sec:capital-hyphen,sec:capital-dash}.
 %
 %  \begin{synopsis}\label{syn:figuredash}
-%     \cs{figuredash}  \\
-%     \cs{figuredash*}
+%     \cs{figuredash}\qquad \cs{figuredash*}
 %  \end{synopsis}
 %
 %  \indexpackageoption{breakpenalty}
@@ -3267,8 +3556,9 @@ end
 %  \subsubsection{Guillemets}\label{sec:guillemets}
 %  \index{raised character>guillemets|userman}
 %
-%  Another possible typographic problem this package addresses is that both sets --~single and
-%  double quotes~-- of guillemets may suffer from a too small distance to the baseline.
+%  Another possible typographic problem this package addresses is that both sets
+%  \leftspacedendash single and double quotes \rightspacedendash of guillemets may suffer from a
+%  too small distance to the baseline.
 %
 %  For the implementation \packagename{typog} relies on the T1\footnote{Font
 %  encoding~T1\detoxindex{font>encoding|userman} can be forced via
@@ -3430,7 +3720,7 @@ end
 %  are preceded by inverted (or \singlequotes{upside-down}) versions of these punctuation
 %  characters.
 %
-%  Usually the horizontally-mirrored versions' designs follow that of the lower-case letters.
+%  Usually the horizontally-mirrored versions' designs follow that of the lowercase letters.
 %  In particular the inverted marks feature descenders (see left-hand side of
 %  \cref{fig:inverted-marks}).  For all-uppercase or all-smallcaps phrases, e.\,g.~in headlines
 %  the descending parts of these marks disturb the tight block structure and it may be
@@ -3554,7 +3844,7 @@ end
 %  corresponds to the dimension at position~\meta{number}.  If the dimension is equal to
 %  \formatdimen*{0pt} the marks are auto-raised as shown in \cref{fig:inverted-marks}.  This may
 %  amount to different lengths for the inverted exclamation mark and inverted question mark even
-%  at the same \meta{number}.  A non-zero dimension raises the marks by exactly that length.  To
+%  at the same \meta{number}.  A nonzero dimension raises the marks by exactly that length.  To
 %  get a \mbox{(quasi-)}\breakpoint zero length use e.\,g.~1\,sp.
 %
 %  \begin{tip}
@@ -3584,7 +3874,7 @@ end
 %  special fonts or characters.
 %
 %
-%  \clearpage
+%  \newpagetofixtoc
 %  \subsection[Vertically Adjust Label Items]
 %             {Vertically Adjust Label Items of
 %              Environment \code{itemize}}\label{sec:adjust-label-items}
@@ -3592,7 +3882,7 @@ end
 %
 %  \begin{whittyquote}
 %    Perfection of planned layout  \\
-%    is archieved only by institutions  \\
+%    is achieved only by institutions  \\
 %    on the point of collapse.  \\
 %    \capitalemdash*~\propername{Cyril Northcote Parkinson}
 %  \end{whittyquote}
@@ -3636,11 +3926,12 @@ end
 %  They are doubly font dependent: on the one hand the font where the label itself comes from
 %  and on the other hand the font of the copy.
 %
-%  The argument \meta{levels-to-adjust} is a --~possibly empty~-- comma separated list of the
-%  levels the respective adjustments are to be applied to.  The levels themselves are given as
-%  \emph{decimal} numbers, this is, 1, 2, 3, 4 or the special value~\samplestar{} which stands
-%  for all four levels.  An empty argument list also has a special meaning.  Used within any
-%  \code{itemize}~environment it automatically applies the adjustment to exactly this level.
+%  The argument \meta{levels-to-adjust} is a \leftspacedendash possibly empty \rightspacedendash
+%  comma separated list of the levels the respective adjustments are to be applied to.  The
+%  levels themselves are given as \emph{decimal} numbers, this is, 1, 2, 3, 4 or the special
+%  value~\samplestar{} which stands for all four levels.  An empty argument list also has a
+%  special meaning.  Used within any \code{itemize}~environment it automatically applies the
+%  adjustment to exactly this level.
 %
 %  \begin{example}
 %    \begin{typogsetup}{uppercaselabelitemadjustments={.1em}}
@@ -3782,8 +4073,9 @@ end
 %  \end{gather*}
 %
 %  \noindent
-%  The central step --~which is always surrounded by a bit more space~-- shows the neutral
-%  alignment, this is~0\,pt.  \cs{typogadjuststairs} never prints the contents of \meta{sample}.
+%  The central step \leftspacedendash which is always surrounded by a bit more space
+%  \rightspacedendash shows the neutral alignment, this is~0\,pt.  \cs{typogadjuststairs} never
+%  prints the contents of \meta{sample}.
 %
 %  \begin{example}
 %    Play ball!
@@ -4013,9 +4305,7 @@ end
 %  Ref.~\citenum{wermuth:2018}.}
 %
 %  \begin{synopsis}\label{syn:lastlinecenteredpar}
-%    \cs{begin}|{lastlinecenteredpar}|  \\
-%    \hspace*{1em}\dots  \\
-%    \cs{end}|{lastlinecenteredpar}|
+%    \cs{begin}|{lastlinecenteredpar}| \dots{} \cs{end}|{lastlinecenteredpar}|
 %  \end{synopsis}
 %
 %  \begin{usecases}
@@ -4166,6 +4456,7 @@ end
 %      \end{center}
 %    \end{minipage}
 %
+%  \needspace{2\baselineskip}
 %  \item\label{item:o2}
 %    \(\cs{parindent} = 0\) \cite[O2]{wermuth:2018}
 %
@@ -4205,8 +4496,8 @@ end
 %    cases botch it.
 %
 %    Prudent users check the appearance of the problematic, original paragraph against one or
-%    more corrected versions of it~-- at least visually.  Quantitative comparisons can be
-%    performed with the help of~\cs{tracingparagraphs}.
+%    more corrected versions of it \spacedendash at least visually.  Quantitative comparisons
+%    can be performed with the help of~\cs{tracingparagraphs}.
 %  \end{tip}
 %
 %  \begin{important}
@@ -4226,6 +4517,7 @@ end
 %  \end{important}
 %
 %
+%  \newpagetofixtoc
 %  \subsubsection{Manual Changes}\label{sec:fill-last-line-other-methods}
 %
 %  Most \hyperref[item:o1]{O1} or \hyperref[item:o2]{O2} situations can be navigated with
@@ -4307,6 +4599,7 @@ end
 %  \end{enumerate}
 %
 %
+%  \newpagetofixtoc
 %  \subsubsection{Multi\capitalhyphen Purpose Environments}\label{sec:fill-last-line-gp-environments}
 %
 %  \DescribeEnv{shortenpar}
@@ -4350,9 +4643,9 @@ end
 %
 %  \subsubsection{Specialized Environments}\label{sec:fill-last-line-specialized-environments}
 %
-%  We introduce environments not just skips to get the correct behavior --~set up all paragraph
-%  parameters \emph{before} the paragraph ends~-- and, at the same time, limit the range of this
-%  parameter change.
+%  We introduce environments not just skips to get the correct behavior \leftspacedendash set up
+%  all paragraph parameters \emph{before} the paragraph ends \rightspacedendash and, at the same
+%  time, limit the range of this parameter change.
 %
 %  \DescribeEnv{covernextindentpar}
 %  Environment \code{covernextindentpar}%
@@ -4379,9 +4672,7 @@ end
 %  full or completely filled.
 %
 %  \begin{synopsis}\label{syn:openlastlinepar}
-%    \cs{begin}|{openlastlinepar}|\oarg{dim}  \\
-%    \hspace*{1em}\dots  \\
-%    \cs{end}|{openlastlinepar}|
+%    \cs{begin}|{openlastlinepar}|\oarg{dim} \dots{} \cs{end}|{openlastlinepar}|
 %  \end{synopsis}
 %
 %  It may resolve \hyperref[item:o2]{case~O2} as it attempts to prevent a completely filled line
@@ -4413,9 +4704,7 @@ end
 %  Typeset a single paragraph with \cs{lastlinefit} set to a given value.
 %
 %  \begin{synopsis}\label{syn:lastlinefitpar}
-%    \cs{begin}|{lastlinefitpar}|\oarg{value}  \\
-%    \hspace*{1em}\dots  \\
-%    \cs{end}|{lastlinefitpar}|
+%    \cs{begin}|{lastlinefitpar}|\oarg{value} \dots{} \cs{end}|{lastlinefitpar}|
 %  \end{synopsis}
 %
 %  The parameter range of \meta{value} is zero to thousand.  It controls the fraction of
@@ -4435,7 +4724,6 @@ end
 %
 %
 %  \needtocspace
-%  \Needspace{150pt}
 %  \subsection{Spacing}\label{sec:spacing-control}
 %  \index{font>spacing|userman}
 %
@@ -4620,8 +4908,7 @@ end
 %  \Cref{tab:space-sizes} for a comparison of the various sizes.
 %
 %  \begin{synopsis}\label{syn:widespace}
-%     \cs{widespace}  \\
-%     \cs{widespace*}
+%     \cs{widespace}\qquad \cs{widespace*}
 %  \end{synopsis}
 %
 %  \index{widespacestrength=\verb!*+\widespacestrength+|userman}
@@ -4670,8 +4957,7 @@ end
 %  sizes.
 %
 %  \begin{synopsis}\label{syn:narrowspace}
-%     \cs{narrowspace}  \\
-%     \cs{narrowspace*}
+%     \cs{narrowspace}\qquad \cs{narrowspace*}
 %  \end{synopsis}
 %
 %  \index{narrowspacestrength=\verb!*+\narrowspacestrength+|userman}
@@ -4747,7 +5033,7 @@ end
 %  \index{microtype=\packagename{microtype} (package)|userman}
 %
 %  The functionalities are just front-ends of selected macros in
-%  package~\packagename{microtype} -- welcome syntactic sugar.
+%  package~\packagename{microtype} \spacedendash welcome syntactic sugar.
 %
 %  \begin{important}
 %    All macros and environments introduced in this section require that
@@ -4777,9 +5063,7 @@ end
 %  Override the default tracking for all fonts.
 %
 %  \begin{synopsis}\label{syn:setfonttracking}
-%    \cs{begin}|{setfonttracking}|\marg{delta}  \\
-%    \hspace*{1em}\dots  \\
-%    \cs{end}|{setfonttracking}|
+%    \cs{begin}|{setfonttracking}|\marg{delta} \dots{} \cs{end}|{setfonttracking}|
 %  \end{synopsis}
 %
 %  The environment~|setfonttracking| manages a group for \cs{lsstyle} of
@@ -4815,7 +5099,7 @@ end
 %
 %  \begin{usecases}
 %    Nudge line breaks or hyphenation points.~\visualpar Avoid clashes of descenders and
-%    ascenders, e.\,g., for \cs{smash}ed symbols of inline math.~-- Think of
+%    ascenders, e.\,g., for \cs{smash}ed symbols of inline math.\spacedendash Think of
 %    integrals.~\visualpar Control the length of the last line in a paragraph.
 %  \end{usecases}
 %
@@ -4888,9 +5172,9 @@ end
 %  \indexpackageoption{shrinklimits}
 %  \indexpackageoption{stretchlimits}
 %  The three (nonzero) shrink limits of \code{setfontshrink} can be configured with package
-%  option~\hyperref[item:shrinklimits]{\code{shrinklimits}} and --~in the same way~-- the three
-%  (nonzero) stretch limits of \code{setfontstretch} with package
-%  option~\hyperref[item:stretchlimits]{\code{stretchlimits}}.
+%  option~\hyperref[item:shrinklimits]{\code{shrinklimits}} and \leftspacedendash in the same
+%  way \rightspacedendash the three (nonzero) stretch limits of \code{setfontstretch} with
+%  package option~\hyperref[item:stretchlimits]{\code{stretchlimits}}.
 %
 %  \begin{usecases}
 %    Nudge line breaks or hyphenation points.~\visualpar Control the length of the last line in
@@ -4960,6 +5244,7 @@ end
 %
 %  \noindent
 %  \DescribeEnv{nofontexpansion}
+%  \DescribeEnv{nofontexpand}
 %  Disable the \packagename{microtype} feature~\singlequotes{expansion} inside of the
 %  environment.
 %
@@ -5086,8 +5371,8 @@ end
 %  \subsection{Vertically Partially-Tied Paragraphs}\label{sec:vtie-paragraph}
 %  \index{paragraph>vertically tied|userman}
 %
-%  \LaTeX{} provides several macros and environments to tie material vertically~-- most
-%  prominently |samepage| and |minipage|.\footnote{A valuable complement to these is
+%  \LaTeX{} provides several macros and environments to tie material vertically \spacedendash
+%  most prominently |samepage| and |minipage|.\footnote{A valuable complement to these is
 %  package~\packagename{needspace}~\cite{package:needspace} which takes a different approach and
 %  reliably works in \emph{mixed} horizontal and vertical mode situations.}
 %  \packagename{Typog's} macros and environments constitute more sophisticated but weaker forms
@@ -5422,7 +5707,6 @@ end
 %  \end{usecases}
 %
 %
-%  \clearpage
 %  \subsection{\packagename{Setspace} Front-End}\label{sec:setspace-frontend}
 %
 %  Package \packagename{setspace} \cite{package:setspace} is a base hit when it comes to
@@ -5450,7 +5734,7 @@ end
 %
 %  \DescribeMacro{\setbaselineskip}
 %  \sinceversion{Since v0.3}
-%  Set the line skip using an absolute length -- technically: a |dimen|.
+%  Set the line skip using an absolute length \spacedendash technically: a |dimen|.
 %
 %  \begin{synopsis}\label{syn:setbaselineskip}
 %    \cs{setbaselineskip}\marg{baseline-skip}
@@ -5938,7 +6222,7 @@ end
 %        the \smoothraggedrightgenerator~generator and a rag-width of only
 %        \the\smoothraggedrightragwidth{} in a paragraph that is \the\linewidth~wide and
 %        averages around twelve words per line.  There is much more glue to adapt to the
-%        line-ends and thus the desired rag is archieved far easier.  The sloppyness is minimal,
+%        line-ends and thus the desired rag is achieved far easier.  The sloppyness is minimal,
 %        this is, \cs{fussy} is in effect and character protrusion into the margins is switched
 %        off.  A limitation of the current implementation is that it is ineffective inside of lists.
 %        Therefore, this paragraph has not been wrapped inside of an \singlequotes{example}, because
@@ -5973,13 +6257,14 @@ end
 %    default string substitution inside of \acronym{PDF}-bookmarks for the following macros if
 %    \emph{both} packages are loaded:
 %
+%    \setlength{\columnsep}{25pt}
 %    \begin{multicols}{2}
 %      \newcommand*{\synpageref}[1]{\leavevmode
 %                                   \unskip
 %                                   \penalty9999\hbox{}\nobreak
 %                                   \hfill\quad
 %                                   \mbox{\footnotesize\textbf{\pageref{#1}}}}
-%      \begin{itemize}[label={}, nosep]
+%      \begin{itemize}[label={}, leftmargin=0pt, nosep]
 %      \item \cs{Adjustedlabelitemi}\synpageref{syn:Adjustedlabelitem}
 %      \item \cs{Adjustedlabelitemii}\synpageref{syn:Adjustedlabelitem}
 %      \item \cs{Adjustedlabelitemiii}\synpageref{syn:Adjustedlabelitem}
@@ -6002,18 +6287,25 @@ end
 %      \item \cs{kernedhyphen}\synpageref{syn:kernedhyphen}
 %      \item \cs{kernedslash}\synpageref{syn:kernedslash}
 %      \item \cs{leftkernedhyphen}\synpageref{syn:leftkernedhyphen}
+%      \item \cs{leftspacedendash}\synpageref{syn:spacedendash}
 %      \item \cs{nolig}\synpageref{syn:nolig}
 %      \item \cs{rightkernedhyphen}\synpageref{syn:rightkernedhyphen}
+%      \item \cs{rightspacedendash}\synpageref{syn:spacedendash}
 %      \item \cs{Singleguillemetleft}\synpageref{syn:Singleguillemetleft}
 %      \item \cs{Singleguillemetright}\synpageref{syn:Singleguillemetright}
 %      \item \cs{singleguillemetleft}\synpageref{syn:singleguillemetleft}
 %      \item \cs{singleguillemetright}\synpageref{syn:singleguillemetright}
+%      \item \cs{spacedcapitalemdash}\synpageref{syn:spacedcapitalemdash}
+%      \item \cs{spacedcapitalendash}\synpageref{syn:spacedcapitalendash}
+%      \item \cs{spaceddash}\synpageref{syn:spacedendash}
+%      \item \cs{spacedemdash}\synpageref{syn:spacedemdash}
+%      \item \cs{spacedendash}\synpageref{syn:spacedendash}
 %      \end{itemize}
 %    \end{multicols}
 %
-%    Use \cs{texorpdfstring} --~which is part of
-%    package~\packagename{hyperref}~\cite{package:hyperref}~-- in the relevant sectioning
-%    macros to recover string substitution on a case-by-case basis.
+%    Use \cs{texorpdfstring} \spacedendash\marginnote{The sentence uses \cs{spaced\-endash}es.}
+%    which is part of package~\packagename{hyperref}~\cite{package:hyperref} \spacedendash in
+%    the relevant sectioning macros to recover string substitution on a case-by-case basis.
 %
 %    \begin{example}
 %      \begin{codeexample}
@@ -6028,8 +6320,9 @@ end
 %  \clearpage
 %  \section{Other Packages for Fine \LaTeX~Typography}\label{sec:other-typography-packages}
 %
-%  Many other packages help with getting better output from \LaTeX.  Here is a list --~in
-%  alphabetical order~-- of the ones the author considers particularly valuable.
+%  Many other packages help with getting better output from \LaTeX.  Here is a list
+%  \leftspacedendash in alphabetical order \rightspacedendash of the ones the author considers
+%  particularly valuable.
 %
 %  \sbox{\listlabelbox}{\packagename{enumitem}}
 %  \begin{description}[font=\normalfont, labelsep*=1em, labelwidth=\wd\listlabelbox, leftmargin=!]
@@ -6481,7 +6774,7 @@ end
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
 \ProvidesPackage{typog}
-                [2024/12/30  v0.5  TypoGraphic extensions]
+                [2025/04/15  v0.5  TypoGraphic extensions]
 
 \RequirePackage{etoolbox}
 \RequirePackage{everyhook}
@@ -6650,6 +6943,22 @@ end
 
 %    \end{macrocode}
 %  \end{macro}
+%
+%  Space around em-dash.
+%
+%  \begin{ldimen}{\typog@config@emdashspace}
+%    \begin{macrocode}
+\newlength{\typog@config@emdashspace}
+%    \end{macrocode}
+%  \end{ldimen}
+%
+%  Space around en-dash.
+%
+%  \begin{ldimen}{\typog@config@endashspace}
+%    \begin{macrocode}
+\newlength{\typog@config@endashspace}
+%    \end{macrocode}
+%  \end{ldimen}
 %
 %  Actual \cs{labelitem}\meta{N} corrections.
 %
@@ -6927,6 +7236,10 @@ end
 \DeclareOptionX<typog>{breakpenalty}%
   {\renewcommand*{\typog@config@breakpenalty}{#1}}
 \DeclareOptionX<typog>{debug}{\typog@debugtrue}
+\DeclareOptionX<typog>{emdashspace}[.05555em]%
+  {\setlength{\typog@config@emdashspace}{#1}}
+\DeclareOptionX<typog>{endashspace}[.25em plus.05em minus.01em]%
+  {\setlength{\typog@config@endashspace}{#1}}
 \DeclareOptionX<typog>{mathitalicscorrection}[.4mu]%
   {\typog@config@mathitalicscorrection=#1\relax}%
 \DeclareOptionX<typog>{nodebug}{\typog@debugfalse}
@@ -7032,6 +7345,7 @@ end
 
 \newcommand*{\typog@initialize@options}
   {\ExecuteOptionsX<typog>{
+     emdashspace, endashspace,
      ligaturekern,
      mathitalicscorrection, textitalicscorrection,
      raisecapitaldash, raisecapitalhyphen, raisecapitaltimes,
@@ -7311,8 +7625,8 @@ end
 %
 %  \begin{environment}{hyphenmin}
 %    \changes{v0.3}{2024-05-04}{New environment.}
-%    No trickery here. -- We use the mandatory argument for the value of \cs{lefthyphenmin} if
-%    the optional argument has been omitted.
+%    No trickery here. \spacedendash We use the mandatory argument for the value of
+%    \cs{lefthyphenmin} if the optional argument has been omitted.
 %
 %    \begin{macrocode}
 \NewDocumentEnvironment{hyphenmin}{o m}
@@ -7359,9 +7673,7 @@ end
       \ifx\relax#3\relax
         \relax
       \else
-        \PackageError{typog}
-                     {Missing third argument of \nolig}
-                     {Append empty group or \relax after macro invocation}
+        \typog@missing@argument
       \fi
     \fi}
 }
@@ -7551,6 +7863,150 @@ end
 %    \end{macrocode}
 %
 %
+%  \subsubsection*{En-Dash and Em-Dash}
+%
+%  \begin{macro}{\typog@wrap@endash}
+%    Wrapper for the en-dash.  The first and second arguments are used to control the
+%    line-breaking; the third argument is the actual en-dash macro.
+%
+%    \begin{macrocode}
+\newcommand*{\typog@wrap@endash}[3]
+  {\unskip
+    #1\hspace{\typog@config@endashspace}%
+    #3%
+    #2\hspace{\typog@config@endashspace}}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\typog@wrap@emdash}
+%    Wrapper for the em-dash.  The first argument is used to control the line-breaking; the
+%    second argument is the actual em-dash macro.
+%
+%    \begin{macrocode}
+\newcommand*{\typog@wrap@emdash}[2]
+  {\unskip
+    #1\hspace{\typog@config@emdashspace}%
+    #2%
+    #1\hspace{\typog@config@emdashspace}}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\leftspacedendash}
+%    \changes{v0.5}{2025-05-19}{New macro.}
+%    User-land macro for the left (aka opening or introducing) spaced en-dash.
+%    The unstarred variant introduces a breakpoint \emph{before} the en-dash.
+%
+%    \begin{macrocode}
+\NewDocumentCommand{\leftspacedendash}{s o}
+  {\IfBooleanTF{#1}
+    {\IfNoValueTF{#2}
+      {\typog@wrap@endash{\nobreak}{\nobreak}{\textendash}}
+      {\typog@wrap@endash{\nobreak}{\nobreak}{\raisebox{#2}{\textendash}}}}
+    {\IfNoValueTF{#2}
+      {\typog@wrap@endash{\relax}{\nobreak}{\textendash}}
+      {\typog@wrap@endash{\nobreak}{\nobreak}{\raisebox{#2}{\textendash}}}}%
+    \ignorespaces}
+\let\leftspaceddash=\leftspacedendash
+%    \end{macrocode}
+%
+%    \acronym{PDF}-substitute definition
+%
+%    \begin{macrocode}
+\typog@register@pdfsubstitute{
+  \RenewExpandableDocumentCommand{\leftspacedendash}{s o m}{%
+    \ifx\typog@TYPOG#3\typog@TYPOG
+      \textendash
+    \else
+      \ifx\relax#3\relax
+        \textendash
+      \else
+        \PackageError{typog}
+                     {Missing third argument of \leftspacedendash}
+                     {Append empty group or \relax after macro invocation}
+      \fi
+    \fi}
+  \let\leftspaceddash=\leftspacedendash
+}
+
+%  \begin{macro}{\rightspacedendash}
+%    \changes{v0.5}{2025-05-19}{New macro.}
+%    User-land macro for the right (aka closing) spaced en-dash.
+%    The unstarred variant introduces a breakpoint \emph{after} the en-dash.
+%
+%    \begin{macrocode}
+\NewDocumentCommand{\rightspacedendash}{s o}
+  {\IfBooleanTF{#1}
+    {\IfNoValueTF{#2}
+      {\typog@wrap@endash{\nobreak}{\nobreak}{\textendash}}
+      {\typog@wrap@endash{\nobreak}{\nobreak}{\raisebox{#2}{\textendash}}}}
+    {\IfNoValueTF{#2}
+      {\typog@wrap@endash{\nobreak}{\relax}{\textendash}}
+      {\typog@wrap@endash{\nobreak}{\nobreak}{\raisebox{#2}{\textendash}}}}%
+    \ignorespaces}
+\let\rightspaceddash=\rightspacedendash
+\let\spacedendash=\rightspacedendash
+\let\spaceddash=\rightspacedendash
+%    \end{macrocode}
+%
+%    \acronym{PDF}-substitute definition
+%
+%    \begin{macrocode}
+\typog@register@pdfsubstitute{
+  \RenewExpandableDocumentCommand{\rightspacedendash}{s o m}{%
+    \ifx\typog@TYPOG#3\typog@TYPOG
+      \space\textendash\space
+    \else
+      \ifx\relax#3\relax
+        \space\textendash\space
+      \else
+        \typog@missing@argument
+      \fi
+    \fi
+    \ignorespaces}
+  \let\rightspaceddash=\rightspacedendash
+  \let\spacedendash=\rightspacedendash
+  \let\spaceddash=\rightspacedendash
+}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\spacedemdash}
+%    \changes{v0.5}{2025-05-15}{New macro.}
+%    User-land macro for the spaced em-dash.
+%
+%    \begin{macrocode}
+\NewDocumentCommand{\spacedemdash}{o}
+  {\IfNoValueTF{#1}
+    {\typog@wrap@emdash{\nobreak}{\textemdash}}
+    {\typog@wrap@emdash{\nobreak}{\raisebox{#1}{\textemdash}}}%
+    \ignorespaces}
+
+%    \end{macrocode}
+%
+%    \acronym{PDF}-substitute definition
+%
+%    \begin{macrocode}
+\typog@register@pdfsubstitute{
+  \RenewExpandableDocumentCommand{\spacedemdash}{o m}{%
+    \ifx\typog@TYPOG#2\typog@TYPOG
+      \textemdash
+    \else
+      \ifx\relax#2\relax
+        \textemdash
+      \else
+        \typog@missing@argument
+      \fi
+    \fi
+    \ignorespaces
+  }
+}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%
 %  \subsection{Raise Selected Characters}
 %
 %  \begin{macro}{\typog@breakpoint}
@@ -7656,6 +8112,79 @@ end
 %    \end{macrocode}
 %  \end{macro}
 %
+%  \begin{macro}{\leftspacedcapitalendash}
+%    \changes{v0.5}{2025-05-21}{New macro.}
+%    Thanks to our wrapper macro the definition of \cs{leftspacedcapitalendash} is easy to write.
+%  \begin{macrocode}
+\NewDocumentCommand{\leftspacedcapitalendash}{s}
+  {\IfBooleanTF{#1}%
+    {\typog@wrap@endash{\nobreak}{\nobreak}{\capitalendash*}}
+    {\typog@wrap@endash{\relax}{\nobreak}{\capitalendash}}}
+\let\leftspacedcapitaldash=\leftspacedcapitalendash
+%    \end{macrocode}
+%
+%    \acronym{PDF}-substitute definition
+%
+%    \begin{macrocode}
+\typog@register@pdfsubstitute{
+  \def\leftspacedcapitalendash#1{%
+    \if*\detokenize{#1}%
+      \textendash\ignorespaces
+    \else
+      \textendash#1%
+    \fi}
+  \let\leftspacedcapitaldash=\leftspacedcapitalendash
+}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\rightspacedcapitalendash}
+%    \changes{v0.5}{2025-05-21}{New macro.}
+%    Thanks to our wrapper macro the definition of \cs{rightspacedcapitalendash} is easy to write.
+%  \begin{macrocode}
+\NewDocumentCommand{\rightspacedcapitalendash}{s}
+  {\IfBooleanTF{#1}%
+    {\typog@wrap@endash{\nobreak}{\nobreak}{\capitalendash*}}
+    {\typog@wrap@endash{\nobreak}{\relax}{\capitalendash}}}
+\let\rightspacedcapitaldash=\rightspacedcapitalendash
+\let\spacedcapitalendash=\rightspacedcapitalendash
+\let\spacedcapitaldash=\rightspacedcapitalendash
+%    \end{macrocode}
+%
+%    \acronym{PDF}-substitute definition
+%
+%    \begin{macrocode}
+\typog@register@pdfsubstitute{
+  \def\rightspacedcapitalendash#1{%
+    \if*\detokenize{#1}%
+      \textendash\ignorespaces
+    \else
+      \textendash#1%
+    \fi}
+  \let\rightspacedcapitaldash=\rightspacedcapitalendash
+  \let\spacedcapitalendash=\rightspacedcapitalendash
+  \let\spacedcapitaldash=\rightspacedcapitalendash
+}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\spacedcapitalemdash}
+%    \changes{v0.5}{2025-05-15}{New macro.}
+%    The same ease of definition holds for \cs{spacedcapitalemdash}.
+%  \begin{macrocode}
+\NewDocumentCommand{\spacedcapitalemdash}{}
+  {\typog@wrap@emdash{\nobreak}{\nobreak}{\capitalemdash*}}
+%    \end{macrocode}
+%
+%    \acronym{PDF}-substitute definition
+%
+%    \begin{macrocode}
+\typog@register@pdfsubstitute{\def\spacedcapitalemdash{\textemdash}}
+
+%    \end{macrocode}
+%  \end{macro}
 %
 %  \begin{macro}{\figuredash}
 %    Macro~\cs{figuredash} introduces a hyphenation possibility right after the dash;
@@ -8537,7 +9066,7 @@ end
 %  \begin{environment}{prolongpar}
 %    We try to be prudent and inhibit hyphenation of the next-to-last line
 %    just in case the longer paragraph could be cheaply achieved by hyphenation
-%    --~at the worst~-- of the last word.
+%    \leftspacedendash at the worst \rightspacedendash of the last word.
 %
 %    \begin{macrocode}
 \NewDocumentEnvironment{prolongpar}{}
@@ -8769,7 +9298,7 @@ end
 %
 %  \begin{environment}{setfonttracking}
 %
-%  To archieve the control we want,
+%  To achieve the control we want,
 %  we must tinker with \packagename{microtype's} internals.
 %  Doh!
 %
@@ -10721,6 +11250,58 @@ it decays to an ordinary minus with appropriate kerning:
 \(G \kernedhyphen{-30}{-50} V\)\!.
 
 
+\subsection{En-Dash and Em-Dash}
+
+\iffalse
+  \section{abc\spacedendash\relax def}
+  \section{ghi\spacedendash*{}jkl}
+  \section{mno\spacedendash[1pt]\relax pqr}
+  \section{stu\spacedendash*[1pt]{}vwx}
+
+  \section{GHI\spacedemdash\relax JKL}
+  \section{MNO\spacedemdash[1pt]{}PQR}
+\fi
+
+En-Dash
+
+\setbox0=\hbox{\leftspacedendash}%
+\setbox0=\hbox{\leftspaceddash}%
+\setbox0=\hbox{\leftspacedendash*}%
+\setbox0=\hbox{\leftspaceddash*}%
+\setbox0=\hbox{\rightspacedendash}%
+\setbox0=\hbox{\rightspaceddash}%
+\setbox0=\hbox{\spacedendash}%
+\setbox0=\hbox{\spaceddash}%
+\setbox0=\hbox{\rightspacedendash*}%
+\setbox0=\hbox{\spacedendash*}%
+\setbox0=\hbox{\spaceddash*}%
+\begin{quote}
+  abc\spacedendash{}def, ghi \spacedendash jkl, mno \spacedendash[.3em] pqr (raised by .3\,em)
+\end{quote}
+
+\noindent Em-Dash
+
+\begin{quote}
+  abc\spacedemdash{}def, ghi \spacedemdash jkl, mno \spacedemdash[.3em] pqr (raised by .3\,em)
+\end{quote}
+
+\noindent Line-Breaking Behavior
+
+\begin{quote}
+  \setlength{\overfullrule}{0pt}
+
+  \parbox[t]{0pt}{\code{\string\leftspacedendash}  \\  Dash \leftspacedendash Spacing}
+  \hspace{100pt}
+  \parbox[t]{0pt}{\code{\string\rightspacedendash}  \\  Dash \rightspacedendash Spacing}
+  \hspace{100pt}
+  \parbox[t]{0pt}{\code{\string\spacedendash}  \\  Dash \spacedendash Spacing}
+
+  \parbox[t]{0pt}{\code{\string\spacedendash*}  \\  Dash \spacedendash* Spacing}
+  \hspace{100pt}
+  \parbox[t]{0pt}{\code{\string\spacedemdash}  \\  Dash \spacedemdash Spacing}
+\end{quote}
+
+
 \section{Raise Selected Characters}
 
 \subsection{Capital Hyphen}
@@ -10799,6 +11380,31 @@ Compare the result of plain~\code{\string\textendash}
 \noindent where the en-dash has been raised by \milliem{\exemplaryraisecapitaldash}.
 
 Starred form eats spaces?  V\capitaldash*  W.
+
+\smallskip
+
+\noindent Spaced Capital En-Dash
+
+\setbox0=\hbox{\leftspacedcapitalendash}%
+\setbox0=\hbox{\leftspacedcapitaldash}%
+\setbox0=\hbox{\leftspacedcapitalendash*}%
+\setbox0=\hbox{\leftspacedcapitaldash*}%
+\setbox0=\hbox{\rightspacedcapitalendash}%
+\setbox0=\hbox{\rightspacedcapitaldash}%
+\setbox0=\hbox{\spacedcapitalendash}%
+\setbox0=\hbox{\spacedcapitaldash}%
+\setbox0=\hbox{\rightspacedcapitalendash*}%
+\setbox0=\hbox{\spacedcapitalendash*}%
+\setbox0=\hbox{\spacedcapitaldash*}%
+\begin{quote}
+  abc\spacedcapitalendash{}def, ghi \spacedcapitalendash jkl
+\end{quote}
+
+\noindent Spaced Capital Em-Dash
+
+\begin{quote}
+  abc\spacedcapitalemdash{}def, ghi \spacedcapitalemdash jkl
+\end{quote}
 
 
 \subsection{Number Dash}

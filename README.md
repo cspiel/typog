@@ -10,6 +10,7 @@ it covers a variety of topics:
 * Disable/break ligatures
 * Manual italic correction
 * Extra kerning for slash and hyphen
+* Extra spacing for en-dash and em-dash
 * Raising selected characters (e.g. hyphen, en-dash, and em-dash)
 * Adjusting the vertical position of `itemize`'s labels
 * Aligning of the last line of a paragraph
