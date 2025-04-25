@@ -49,7 +49,7 @@
 \usepackage{sidecap}
 \usepackage{tabularx}
 \usepackage[most]{tcolorbox}
-\usepackage{titlesec}\renewcommand*{\bottomtitlespace}{.15\textheight}%nobottomtitles*
+\usepackage[nobottomtitles*]{titlesec}\renewcommand*{\bottomtitlespace}{.15\textheight}
 \usepackage[debug, raise*=.05em,
   uppercaselabelitemadjustments={.0125em, .075em, -.1em, .0125em},
   lowercaselabelitemadjustments={-.075em, 0pt, -.2em, -.075em}]{typog}
@@ -310,7 +310,7 @@
             {\sffamily\normalsize\bfseries}{\theparagraph}{1em}{}
 
 
-\let\footnoterule=\relax% suppress footnote rule
+\def\footnoterule{\vfill}% push footnotes to the bottom of the page
 
 \makeatletter
 \renewcommand*{\@makefntext}[1]
@@ -525,6 +525,8 @@
 
 \newcommand*{\needtocspace}[1][3]
             {\addtocontents{toc}{\protect\needspace{#1\baselineskip}}}
+
+\let\newpagetofixtoc=\newpage
 
 \newcommand*{\packagename}[1]{\mbox{\textsf{#1}}}
 \newcommand*{\programname}[1]{\mbox{\textbf{#1}}}
@@ -785,8 +787,8 @@
                 {\newcommand*{\heading}[1]
                              {\pagebreak[3]%
                               \medskip
-                              {\sffamily\bfseries\large ##1}%
-                              \nopagebreak}
+                              \needspace{2\baselineskip}%
+                              {\sffamily\bfseries\large ##1}}
                  \newcommand*{\sigbrk}
                              {\discretionary{\hbox{\raise .025em \hbox{$\triangleright$}}}
                                             {\hbox{\raise .025em \hbox{$\triangleleft$}}}
@@ -1468,7 +1470,7 @@ end
 %
 %      \qritem{syn:noadjustlabelitems}{\cs{no\-adjust\-label\-items}}
 %             [\sigbrk\marg{levels}]
-%        Deactivate eight-adjustment of label items.
+%        Deactivate height-adjustment of label items.
 %      \endqritem
 %
 %      \qritem{syn:nocharprotrusion}{\code{nocharprotrusion}}
@@ -1798,11 +1800,15 @@ end
 %
 %  \Cref{sec:latex-hyphenation} expands the hyphenation facilities of \LaTeX.
 %
-%  \Cref{sec:break-ligatures,sec:manual-italic-correction,sec:extra-kerning,sec:raise-characters}
-%  deal with vertically positioning glyphs in a more pleasant way.  Also in the realm of
-%  vertical alignments is \cref{sec:adjust-label-items} that explains how to height-adjust the
-%  labels in |itemize|~lists to perfection whether the items are followed by uppercase or by
-%  lowercase letters.
+%  \Cref{sec:break-ligatures,sec:manual-italic-correction} treat the breaking of ligatures and
+%  also manually applying italic correction \spacedendash in a generalized way.
+%
+%  \Cref{sec:extra-kerning} introduces macros to kern or space some punctuation signs.
+%
+%  \Cref{sec:raise-characters} deals with vertically positioning glyphs in a more pleasant way.
+%  Also in the realm of vertical alignments is \cref{sec:adjust-label-items} that explains how
+%  to height-adjust the labels in |itemize|~lists to perfection whether the items are followed
+%  by uppercase or by lowercase letters.
 %
 %  \Cref{sec:align-last-line,sec:fill-last-line} discuss dearly missed macros for better control
 %  of the last line of a paragraph.
@@ -2803,6 +2809,7 @@ end
 %  \end{usecase}
 %
 %
+%  \newpagetofixtoc
 %  \subsection{Disable\kernedslash Break Ligatures}\label{sec:break-ligatures}
 %  \index{ligature|userman}
 %
@@ -2839,13 +2846,14 @@ end
 %  introduces a hyphenation opportunity with
 %  penalty~\hyperref[item:breakpenalty]{|breakpenalty|}.
 %
-%  \begin{important}[\packagename{hyperref} bookmarks]\label{imp:hyperref-bookmarks}
-%    \index{hyperref=\packagename{hyperref} (package)|userman}
+%  \begin{important}[\packagename{hyperref} bookmarks]
 %    If a \cs{nolig} \leftspacedendash whether starred or un-starred \rightspacedendash occurs
-%    in an argument that is processed with package~\packagename{hyperref} for inclusion into the
-%    document's \acronym{PDF}-bookmarks\index{PDF=\acronym{PDF}|userman}\index{bookmark|userman}
-%    an additional argument is necessary to parse the macro.  This argument either is \cs{relax}
-%    or~the empty group~(\code{\{\}}).
+%    in an argument that is processed with
+%    package~\packagename{hyperref}\index{hyperref=\packagename{hyperref} (package)|userman}
+%    for inclusion into the document's
+%    \acronym{PDF}-bookmarks\index{PDF=\acronym{PDF}|userman}\index{bookmark|userman} an
+%    additional argument is necessary to parse the macro.  This argument either is \cs{relax}
+%    or~the empty group~\sample*{\{\kern.1em\}}.
 %
 %    \begin{synopsis}
 %      \begin{tabbing}
@@ -2857,8 +2865,9 @@ end
 %    The prototypical places where this processing-for-\acronym{PDF}-bookmarks happens are the
 %    sectioning macros, e.\,g., \cs{chapter}, \cs{section}, \cs{subsection},~etc.
 %
-%    \LaTeX{} will bail out with an error if the extra argument is not passed to \cs{nolig} in
-%    these situations.
+%    \LaTeX{} will trip with \doublequotes{Undefined control sequence} on
+%    \cs{typog@\-missing@\-argument} if the extra argument is not passed to
+%    \cs{leftspacedendash}, \cs{rightspacedendash}, or any of its aliases in these situations.
 %
 %    Alternatively use \cs{texorpdfstring}~\cite[Sec.~4.1.2, p.~22]{package:hyperref}.
 %  \end{important}
@@ -2871,6 +2880,7 @@ end
 %  \end{usecases}
 %
 %
+%  \newpagetofixtoc
 %  \subsection{Manual Italic Correction}\label{sec:manual-italic-correction}\label{italic correction}
 %
 %  \DescribeMacro{\itcorr}
@@ -3024,6 +3034,7 @@ end
 %  \end{figure}
 %
 %
+%  \newpagetofixtoc
 %  \subsection{Apply Extra Kerning or Spacing}\label{sec:extra-kerning}
 %  \index{kerning>extra|userman}
 %  \index{extra spacing|userman}
@@ -3138,6 +3149,7 @@ end
 %  \end{usecases}
 %
 %
+%  \newpagetofixtoc
 %  \subsubsection{En-Dash and Em-Dash}\label{sec:spaced-dashes}
 %  \index{spaced character>en-dash|userman}
 %
@@ -3191,7 +3203,7 @@ end
 %
 %  \begin{enumerate}
 %  \item\label{item:emphasize-insertion}
-%    One rule set prefers insertions to be preceeded and followed by dashes.  The elementary way
+%    One rule set prefers insertions to be preceded and followed by dashes.  The elementary way
 %    to solve this is to code
 %
 %    \begin{codeexample}
@@ -3233,6 +3245,37 @@ end
 %  that is both raised and spaced prefer
 %  macro~\hyperref[syn:spacedcapitalendash]{\cs{spacedcapitalendash}}.
 %
+%  \begin{important}[\packagename{hyperref} bookmarks]\label{imp:hyperref-bookmarks-spacedendash}\relax
+%    If any of \cs{leftspacedendash}, \cs{rightspacedendash}, \cs{spacedendash},
+%    \cs{spaceddash}, or \cs{spacedemdash} (see below) \leftspacedendash whether starred or
+%    un-starred \rightspacedendash occur in an argument that is processed with
+%    package~\packagename{hyperref}\index{hyperref=\packagename{hyperref} (package)|userman}
+%    for inclusion into the document's
+%    \acronym{PDF}-bookmarks\index{PDF=\acronym{PDF}|userman}\index{bookmark|userman} an
+%    additional argument is necessary to parse the macro.  This argument either is \cs{relax}
+%    or~the empty group~\sample*{\{\kern.1em\}}.
+%
+%    We showcase the modifications of the plain calls for macro~\cs{spaceddash}:
+%
+%    \begin{synopsis}
+%      \begin{tabbing}
+%        \cs{spaceddash*}\oarg{raise}\cs{relax}\qquad\= \cs{spaceddash}\oarg{raise}\cs{relax} \\
+%        \cs{spaceddash*}\oarg{raise}\code{\{\}}\> \cs{spaceddash}\oarg{raise}\code{\{\}}
+%      \end{tabbing}
+%    \end{synopsis}
+%
+%    The prototypical places where this processing-for-\acronym{PDF}-bookmarks happens are the
+%    sectioning macros, e.\,g., \cs{chapter}, \cs{section}, \cs{subsection},~etc.
+%
+%    \LaTeX{} will trip with \doublequotes{Undefined control sequence} on
+%    \cs{typog@\-missing@\-argument} if the extra argument is not passed to
+%    \cs{leftspacedendash}, \cs{rightspacedendash}, or any of its aliases in these situations.
+%
+%    Also note that space to the left of the macros is not gobbled in \acronym{PDF}-bookmarks.
+%
+%    Alternatively use \cs{texorpdfstring}~\cite[Sec.~4.1.2, p.~22]{package:hyperref}.
+%  \end{important}
+%
 %  \DescribeMacro{\spacedemdash}
 %  \sinceversion{Since v0.5}
 %  Macro \cs{spacedemdash} expands to an em-dash~\sample{---} that is surrounded by
@@ -3249,6 +3292,9 @@ end
 %  macros in \cref{sec:raise-characters}; it is meant for one-off solutions.  If an em-dash is
 %  needed that is both raised and spaced prefer
 %  macro~\hyperref[syn:spacedcapitalemdash]{\cs{spacedcapitalemdash}}.
+%
+%  The same \hyperref[imp:hyperref-bookmarks-spacedendash]{\emph{Important} note} on hyperref
+%  bookmarks holds for \cs{spacedemdash} as for \cs{spaceddash}.
 %
 %
 %  \subsection{Raise Selected Characters}\label{sec:raise-characters}
@@ -3828,7 +3874,7 @@ end
 %  special fonts or characters.
 %
 %
-%  \clearpage
+%  \newpagetofixtoc
 %  \subsection[Vertically Adjust Label Items]
 %             {Vertically Adjust Label Items of
 %              Environment \code{itemize}}\label{sec:adjust-label-items}
@@ -3836,7 +3882,7 @@ end
 %
 %  \begin{whittyquote}
 %    Perfection of planned layout  \\
-%    is archieved only by institutions  \\
+%    is achieved only by institutions  \\
 %    on the point of collapse.  \\
 %    \capitalemdash*~\propername{Cyril Northcote Parkinson}
 %  \end{whittyquote}
@@ -4410,6 +4456,7 @@ end
 %      \end{center}
 %    \end{minipage}
 %
+%  \needspace{2\baselineskip}
 %  \item\label{item:o2}
 %    \(\cs{parindent} = 0\) \cite[O2]{wermuth:2018}
 %
@@ -4470,6 +4517,7 @@ end
 %  \end{important}
 %
 %
+%  \newpagetofixtoc
 %  \subsubsection{Manual Changes}\label{sec:fill-last-line-other-methods}
 %
 %  Most \hyperref[item:o1]{O1} or \hyperref[item:o2]{O2} situations can be navigated with
@@ -4551,6 +4599,7 @@ end
 %  \end{enumerate}
 %
 %
+%  \newpagetofixtoc
 %  \subsubsection{Multi\capitalhyphen Purpose Environments}\label{sec:fill-last-line-gp-environments}
 %
 %  \DescribeEnv{shortenpar}
@@ -4675,7 +4724,6 @@ end
 %
 %
 %  \needtocspace
-%  \Needspace{150pt}
 %  \subsection{Spacing}\label{sec:spacing-control}
 %  \index{font>spacing|userman}
 %
@@ -5659,7 +5707,6 @@ end
 %  \end{usecases}
 %
 %
-%  \clearpage
 %  \subsection{\packagename{Setspace} Front-End}\label{sec:setspace-frontend}
 %
 %  Package \packagename{setspace} \cite{package:setspace} is a base hit when it comes to
@@ -6175,7 +6222,7 @@ end
 %        the \smoothraggedrightgenerator~generator and a rag-width of only
 %        \the\smoothraggedrightragwidth{} in a paragraph that is \the\linewidth~wide and
 %        averages around twelve words per line.  There is much more glue to adapt to the
-%        line-ends and thus the desired rag is archieved far easier.  The sloppyness is minimal,
+%        line-ends and thus the desired rag is achieved far easier.  The sloppyness is minimal,
 %        this is, \cs{fussy} is in effect and character protrusion into the margins is switched
 %        off.  A limitation of the current implementation is that it is ineffective inside of lists.
 %        Therefore, this paragraph has not been wrapped inside of an \singlequotes{example}, because
@@ -6240,14 +6287,17 @@ end
 %      \item \cs{kernedhyphen}\synpageref{syn:kernedhyphen}
 %      \item \cs{kernedslash}\synpageref{syn:kernedslash}
 %      \item \cs{leftkernedhyphen}\synpageref{syn:leftkernedhyphen}
+%      \item \cs{leftspacedendash}\synpageref{syn:spacedendash}
 %      \item \cs{nolig}\synpageref{syn:nolig}
 %      \item \cs{rightkernedhyphen}\synpageref{syn:rightkernedhyphen}
+%      \item \cs{rightspacedendash}\synpageref{syn:spacedendash}
 %      \item \cs{Singleguillemetleft}\synpageref{syn:Singleguillemetleft}
 %      \item \cs{Singleguillemetright}\synpageref{syn:Singleguillemetright}
 %      \item \cs{singleguillemetleft}\synpageref{syn:singleguillemetleft}
 %      \item \cs{singleguillemetright}\synpageref{syn:singleguillemetright}
 %      \item \cs{spacedcapitalemdash}\synpageref{syn:spacedcapitalemdash}
 %      \item \cs{spacedcapitalendash}\synpageref{syn:spacedcapitalendash}
+%      \item \cs{spaceddash}\synpageref{syn:spacedendash}
 %      \item \cs{spacedemdash}\synpageref{syn:spacedemdash}
 %      \item \cs{spacedendash}\synpageref{syn:spacedendash}
 %      \end{itemize}
@@ -7623,9 +7673,7 @@ end
       \ifx\relax#3\relax
         \relax
       \else
-        \PackageError{typog}
-                     {Missing third argument of \nolig}
-                     {Append empty group or \relax after macro invocation}
+        \typog@missing@argument
       \fi
     \fi}
 }
@@ -7865,14 +7913,19 @@ end
 %    \acronym{PDF}-substitute definition
 %
 %    \begin{macrocode}
-\typog@register@pdfsubstitute{%
-  \def\leftspacedendash#1{%
-    \if*\detokenize{#1}
+\typog@register@pdfsubstitute{
+  \RenewExpandableDocumentCommand{\leftspacedendash}{s o m}{%
+    \ifx\typog@TYPOG#3\typog@TYPOG
       \textendash
     \else
-      \textendash #1%
-    \fi
-  }
+      \ifx\relax#3\relax
+        \textendash
+      \else
+        \PackageError{typog}
+                     {Missing third argument of \leftspacedendash}
+                     {Append empty group or \relax after macro invocation}
+      \fi
+    \fi}
   \let\leftspaceddash=\leftspacedendash
 }
 
@@ -7899,14 +7952,18 @@ end
 %    \acronym{PDF}-substitute definition
 %
 %    \begin{macrocode}
-\typog@register@pdfsubstitute{%
-  \def\rightspacedendash#1{%
-    \if*\detokenize{#1}
-      \textendash
+\typog@register@pdfsubstitute{
+  \RenewExpandableDocumentCommand{\rightspacedendash}{s o m}{%
+    \ifx\typog@TYPOG#3\typog@TYPOG
+      \space\textendash\space
     \else
-      \textendash #1%
+      \ifx\relax#3\relax
+        \space\textendash\space
+      \else
+        \typog@missing@argument
+      \fi
     \fi
-  }
+    \ignorespaces}
   \let\rightspaceddash=\rightspacedendash
   \let\spacedendash=\rightspacedendash
   \let\spaceddash=\rightspacedendash
@@ -7923,8 +7980,8 @@ end
 \NewDocumentCommand{\spacedemdash}{o}
   {\IfNoValueTF{#1}
     {\typog@wrap@emdash{\nobreak}{\textemdash}}
-    {\typog@wrap@emdash{\nobreak}{\raisebox{#1}{\textemdash}}%
-      \ignorespaces}}
+    {\typog@wrap@emdash{\nobreak}{\raisebox{#1}{\textemdash}}}%
+    \ignorespaces}
 
 %    \end{macrocode}
 %
@@ -7932,12 +7989,17 @@ end
 %
 %    \begin{macrocode}
 \typog@register@pdfsubstitute{
-  \def\spacedemdash#1{%
-    \if*\detokenize{#1}
+  \RenewExpandableDocumentCommand{\spacedemdash}{o m}{%
+    \ifx\typog@TYPOG#2\typog@TYPOG
       \textemdash
     \else
-      \textemdash #1%
+      \ifx\relax#2\relax
+        \textemdash
+      \else
+        \typog@missing@argument
+      \fi
     \fi
+    \ignorespaces
   }
 }
 
@@ -9236,7 +9298,7 @@ end
 %
 %  \begin{environment}{setfonttracking}
 %
-%  To archieve the control we want,
+%  To achieve the control we want,
 %  we must tinker with \packagename{microtype's} internals.
 %  Doh!
 %
@@ -11191,13 +11253,13 @@ it decays to an ordinary minus with appropriate kerning:
 \subsection{En-Dash and Em-Dash}
 
 \iffalse
-  \section{abc\spacedendash def}
-  \section{ghi\spacedendash* jkl}
-  \section{mno\spacedendash[1pt] pqr}
-  \section{stu\spacedendash*[1pt] vwx}
+  \section{abc\spacedendash\relax def}
+  \section{ghi\spacedendash*{}jkl}
+  \section{mno\spacedendash[1pt]\relax pqr}
+  \section{stu\spacedendash*[1pt]{}vwx}
 
-  \section{GHI\spacedemdash JKL}
-  \section{MNO\spacedemdash[1pt]PQR}
+  \section{GHI\spacedemdash\relax JKL}
+  \section{MNO\spacedemdash[1pt]{}PQR}
 \fi
 
 En-Dash
