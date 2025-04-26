@@ -1229,8 +1229,8 @@ end
 %  \hyperref[syn:setbaselineskippercentage]{\cs{set\-base\-line\-skip\-per\-cent\-age}}~.\visualpar
 %  List \cs{item}s get tied with \hyperref[syn:vtietop]{\cs{vtietop}}.}  This is an
 %  alphabetically sorted list of all user macros and environments defined by
-%  package~\packagename{typog} along with the page numbers of their respective descriptions.  A
-%  list of all \hyperref[sec:package-options]{package options} can be found on
+%  package~\packagename{typog} along with the page numbers of their descriptions.  A list of all
+%  \hyperref[sec:package-options]{package options} can be found on
 %  pages~\pageref{sec:package-options} to~\pageref{secend:package-options}.  The
 %  \hyperref[sec:index]{Index} on pages~\pageref{sec:index} to~\pageref{secend:index} may
 %  provide some more detailed insights.
@@ -1789,8 +1789,8 @@ end
 %
 %  \Cref{sec:information} tends to the wish for more information in the typesetting process
 %  whether during the draft phase or in the final printed manuscript.\marginnote{Throughout the
-%  whole document we indicate actual uses of the package's features in the margin.  All these
-%  notes are examples themselves as they are typeset with
+%  whole document we indicate actual uses of the package's macros and environments in the
+%  margin.  All these notes are examples themselves as they are typeset with
 %  \hyperref[syn:slightlysloppy]{\code{slightlysloppy}},
 %  \hyperref[syn:loosespacing]{\code{loosespacing}}, and
 %  \hyperref[syn:smoothraggedrightpar]{\code{smoothraggedrightpar}}.~\visualpar The title page
@@ -1837,9 +1837,9 @@ end
 %  \subsection{Prerequisites}\label{sec:packageprerequisites}
 %
 %  Package \packagename{typog} requires \eTeX; it relies on the \LaTeXIII{}~interface.  Parts of
-%  it are based on package~\packagename{microtype}.  However, if the respective functionality is
-%  not used, \packagename{typog} can be used without \packagename{microtype}.  The same holds
-%  true for the \packagename{setspace} front-end.
+%  it are based on package~\packagename{microtype}.  However, if the functionality is not used,
+%  \packagename{typog} can be used without \packagename{microtype}.  The same holds true for the
+%  \packagename{setspace} front-end.
 %
 %  The package was tested with
 %  \programname{pdfTeX}~3.141592653\capitalhyphen*2.6\capitalhyphen*1.40.24 from the TeX~Live
@@ -2020,8 +2020,7 @@ end
 %      \hyperref[syn:capitalinvertedexclamationmark]{\cs{capitalinvertedexclamationmark}} and
 %      \hyperref[syn:capitalinvertedquestionmark]{\cs{capitalinvertedquestionmark}} raise their
 %      associated inverted exclamation marks and inverted question marks.  Each dimension
-%      corresponds to the respective optional indices of the macros.  See
-%      \cref{sec:inverted-marks}.
+%      corresponds to the optional indices of the macros.  See \cref{sec:inverted-marks}.
 %
 %      A \meta{dim-N} of \formatdimen*{0pt} means to \doublequotes{auto level} the mark; if a
 %      \mbox{(quasi-)}\breakpoint zero manual correction is desired use e.\,g.~1\,sp.  Empty
@@ -2036,7 +2035,7 @@ end
 %      \indexpackageoptiondefinition{shrinklimits}
 %      \indexpackageoptiondefinition{stretchlimits}
 %      Set the three limits, given in \nativetextfraction{1}{1000}\,em, of shrinkability and
-%      stretchability for the respective levels.  They are used in
+%      stretchability for the levels.  They are used in
 %      \hyperref[syn:setfontshrink]{\code{setfontshrink}} (|shrinklimits| triple only),
 %      \hyperref[syn:setfontstretch]{\code{setfontstretch}} (|stretchlimits| triple only), and
 %      \hyperref[syn:setfontexpand]{\code{setfontexpand}} (both triples of limits).  See
@@ -2391,7 +2390,7 @@ end
 %        -cnf-line=max\_print\_line=2147483647
 %      \end{codeexample}
 %
-%      to the respective command-line.
+%      to the command-line.
 %
 %    \item If more trace information is needed just add \cs{tracing\dots} calls right after
 %      \code{\string\begin\{typoginspect\}}
@@ -2462,7 +2461,7 @@ end
 %  \end{example}
 %
 %  \begin{note}
-%    When package~\packagename{microtype}'s font expansion feature jumps in the reports on
+%    When package~\packagename{microtype}'s font expansion jumps in the reports on
 %    \doublequotes{Loose \textbackslash hbox (badness \dots)} and \doublequotes{Tight
 %    \textbackslash hbox (badness \dots)} \shiftedmarginnote{All of our guillemets were raised
 %    by \milliem{\the\typogget{raiseguillemets}}.}  contain the amount of shrinking or expansion
@@ -2479,8 +2478,8 @@ end
 %    \end{codeexample}
 %
 %    An \sample{ls} appended to the font name specification indicates that
-%    \packagename{microtype}'s letter~spacing feature is active and changed the tracking by that
-%    many thousands on an em as indicated before~\sample{ls}.
+%    \packagename{microtype}'s letter~spacing is active and changed the tracking by that many
+%    thousands on an em as indicated before~\sample{ls}.
 %  \end{note}
 %
 %
@@ -2568,8 +2567,7 @@ end
 %  \end{synopsis}
 %
 %  Macro~\cs{allowhyphenation}\index{hyphenation>re-enable automatic|userman} re-enables
-%  automatic hyphenation after \TeX{} has turned it off, for example, in the innocuous case of a
-%  hyphenated compound.
+%  automatic hyphenation after \TeX{} has turned it off, e.\,g.~in a hyphenated compound.
 %
 %  The admittedly simple rules when \TeX{} auto-hyphenates and when not give rise to so many
 %  different, yet interesting cases that we devote \cref{tab:hyphens-and-hyphenations} to them.
@@ -2585,7 +2583,7 @@ end
 %    \item All examples from the bottom of \cref{tab:hyphens-and-hyphenations} on
 %      \cpageref{tab:hyphens-and-hyphenations}.
 %
-%    \item Fix line breaks of index-entries in a narrow index:
+%    \item Mend line breaks of index-entries in a narrow index:
 %
 %      \begin{codeexample}
 %        Halbgruppe, Transformations\cs{allowhyphenation}\cs{mbox}\{-\}\cs{,}-\nolig*-\nolig*-
@@ -2739,9 +2737,8 @@ end
 %
 %  \index{hyphenation>first word|userman}
 %  \index{hyphenation>hskip=\cs{hskip}|userman}
-%  \TeX{} never hyphenates the initial word in a paragraph and \cs{allowhyphenation} cannot help
-%  in this case.  Start the paragraph with \cs{hskip~0pt} to enable hyphenation even for the
-%  first word.
+%  \TeX{} never hyphenates the initial word in a paragraph even with \cs{allowhyphenation}.
+%  Start the paragraph with \cs{hskip~0pt} to enable hyphenation even for the first word.
 %
 %  \begin{tip}[Typewriter Fonts]
 %    Sometimes it is desired to get a hyphenatable typewriter font.  \LaTeX{} suppresses any
@@ -2760,7 +2757,7 @@ end
 %  \DescribeMacro{\breakpoint}
 %  \DescribeMacro{\breakpoint*}
 %  The empty discretionary construct~\cite[p.~95]{knuth:1986}, \cs{discretionary\{\}\{\}\{\}},
-%  is so helpful that it deserves its own macro \spacedendash with a descriptive name.
+%  is helpful.  It deserves its own macro \spacedendash with a descriptive name.
 %
 %  \begin{synopsis}\label{syn:breakpoint}
 %    \cs{breakpoint}\qquad \cs{breakpoint*}
@@ -2799,7 +2796,7 @@ end
 %  \meta{hyphen-minimum}.  When called with an optional argument it sets \cs{lefthyphenmin} to
 %  \meta{left-hyphen-minimum} and \cs{righthyphenmin} to \meta{hyphen-minimum}.\footnote{The
 %  current values for \cs{lefthyphenmin} and \cs{righthyphenmin} in this document
-%  are~\the\lefthyphenmin{} and~\the\righthyphenmin, respectively.}
+%  are~\the\lefthyphenmin{} and~\the\righthyphenmin.}
 %
 %  \begin{usecase}
 %    If the hyphen minimums were \emph{increased} e.\,g.~in the preamble: Reduce the hyphen
@@ -3094,7 +3091,7 @@ end
 %    example, \meta{city}/\meta{state-code} (\acronym{US}-specific) or
 %    \meta{anything}/\meta{noun} (any language that capitalizes \meta{noun}).~\visualpar Use
 %    option~\code{lowerslash} to adjust the slash to surrounding lowercase letters.~\visualpar
-%    Fix a too high raising slash of a font
+%    Correct a too high raising slash of a font
 %    (e.\,g.~Cochineal\detoxindex{font>typeface>Cochineal|userman}) with
 %    option~\code{lowerslash}.
 %  \end{usecases}
@@ -3427,7 +3424,7 @@ end
 %
 %  These macros unite the features of \hyperref[syn:capitalemdash]{\cs{capitalemdash}},
 %  \hyperref[syn:capitalendash]{\cs{capitalendash}}, and
-%  \hyperref[syn:capitalendash]{\cs{capitalendash*}}, respectively with those of
+%  \hyperref[syn:capitalendash]{\cs{capitalendash*}}, with those of
 %  \hyperref[syn:spacedendash]{\cs{spacedendash}} as described in \cref{sec:spaced-dashes}.
 %
 %
@@ -3716,12 +3713,11 @@ end
 %  \index{raised character>inverted question mark|userman}
 %
 %  The Spanish (Castilian, Asturian, etc.) language requires exclamatory sentences and questions
-%  to be followed by exclamation marks and question marks, respectively and recommends that they
-%  are preceded by inverted (or \singlequotes{upside-down}) versions of these punctuation
-%  characters.
+%  to be followed by exclamation marks and question marks and recommends that they are preceded
+%  by inverted (or \singlequotes{upside-down}) versions of these punctuation characters.
 %
-%  Usually the horizontally-mirrored versions' designs follow that of the lowercase letters.
-%  In particular the inverted marks feature descenders (see left-hand side of
+%  Usually the horizontally-mirrored versions' designs follow that of the lowercase letters.  In
+%  particular the inverted marks exhibit descenders (see left-hand side of
 %  \cref{fig:inverted-marks}).  For all-uppercase or all-smallcaps phrases, e.\,g.~in headlines
 %  the descending parts of these marks disturb the tight block structure and it may be
 %  preferable to have inverted marks that align with the baseline.
@@ -3870,8 +3866,8 @@ end
 %  \noindent
 %  where \meta{roman-numeral}=\code{i}, \code{ii}, and~\code{iii} correpspond to
 %  \meta{number}=1, 2, and~3.  Their defaults are \cs{textexclamdown} and \cs{textquestiondown}
-%  for all three numbers, respectively.  Users can redefine the internal macros to hook up
-%  special fonts or characters.
+%  for all three numbers.  Users can redefine the internal macros to hook up special fonts or
+%  characters.
 %
 %
 %  \newpagetofixtoc
@@ -3927,8 +3923,8 @@ end
 %  and on the other hand the font of the copy.
 %
 %  The argument \meta{levels-to-adjust} is a \leftspacedendash possibly empty \rightspacedendash
-%  comma separated list of the levels the respective adjustments are to be applied to.  The
-%  levels themselves are given as \emph{decimal} numbers, this is, 1, 2, 3, 4 or the special
+%  comma separated list of the levels the adjustments are to be applied to.  The levels
+%  themselves are given as \emph{decimal} numbers, this is, 1, 2, 3, 4 or the special
 %  value~\samplestar{} which stands for all four levels.  An empty argument list also has a
 %  special meaning.  Used within any \code{itemize}~environment it automatically applies the
 %  adjustment to exactly this level.
@@ -3978,8 +3974,8 @@ end
 %      \end{codeexample}
 %      \end{itemize}
 %
-%      The observant reader will have noticed that the itemized list in this emphasized section
-%      uses the code of the last example.
+%      The observant reader will have noticed that the itemized list in this example uses this
+%      code.
 %    \end{typogsetup}
 %  \end{example}
 %
@@ -4154,7 +4150,7 @@ end
 %
 %  \noindent
 %  They display as \sample{\labelitemi}, \sample{\labelitemii}, \sample{\labelitemiii}, and
-%  \sample{\labelitemiv}, respectively.
+%  \sample{\labelitemiv}.
 %
 %  \begin{table}
 %    \centering
@@ -4268,8 +4264,8 @@ end
 %      \palladiomark\enspace Contained in package~\packagename{mathpazo}.
 %
 %      \utopiamark\enspace Utopia is available through package~\packagename{fourier} or
-%      package~\packagename{mathdesign}.  In the latter case pass option~\code{adobe-utopia} to
-%      the package.
+%      package~\packagename{mathdesign}.  For the latter pass option~\code{adobe-utopia} to the
+%      package.
 %    \end{tablenotes}
 %  \end{table}
 %
@@ -4301,7 +4297,7 @@ end
 %
 %  \DescribeEnv{lastlinecenteredpar}
 %  Center\index{paragraph>align last line>centered|userman} the last lines of the paragraphs
-%  enclosed by this environment.\footnote{Also compare the approach taken in
+%  enclosed by this environment.\footnote{Also compare with the approach taken in
 %  Ref.~\citenum{wermuth:2018}.}
 %
 %  \begin{synopsis}\label{syn:lastlinecenteredpar}
@@ -4488,8 +4484,8 @@ end
 %
 %  \begin{tip}
 %    In theory both problems, O1 and O2 can be resolved by either shortening or prolonging the
-%    last line of the paragraph.  For the concrete case it is up to the user to decide which
-%    direction to go and to choose the method that yields the most pleasing typographic results.
+%    last line of the paragraph.  The user to decide which direction to go and to choose the
+%    method that yields the most pleasing typographic results.
 %
 %    \TeX{} always considers the paragraph in its entirety.  Thus any change the user demands
 %    \doublequotes{just for the last line} will permeate the whole paragraph and in unfortunate
@@ -4763,8 +4759,7 @@ end
 %  \DescribeEnv{tightspacing}
 %  Environments |loosespacing| and |tightspacing| introduce four \meta{level}s of
 %  \singlequotes{looseness} or \singlequotes{tightness}, where \meta{level}~=~0 disables the
-%  functionalities.  The higher the \meta{level} the looser or tighter the text will by typeset,
-%  respectively.
+%  functionalities.  The higher the \meta{level} the looser or tighter the text will by typeset.
 %
 %  \begin{synopsis}\label{syn:loosespacing}
 %    \cs{begin}|{loosespacing}|\oarg{level}
@@ -4980,8 +4975,7 @@ end
 %
 %  The stretchability and shrinkability of \cs{narrowspace} always get scaled with
 %  \cs{narrowspacescale}.  Both factors, \cs{narrowspacestrength} and \cs{narrowspacescale} can
-%  be redefined by the user; their defaults are \narrowspacestrength{} and \narrowspacescale,
-%  respectively.
+%  be redefined by the user; their defaults are \narrowspacestrength{} and \narrowspacescale.
 %
 %  \begin{usecase}
 %    Tighten loose lines with a series of~\cs{narrowspace}s.\footnote{Footnote
@@ -5110,7 +5104,7 @@ end
 %  \DescribeEnv{setfontshrink}
 %  \DescribeEnv{setfontstretch}
 %  Adjust the limits of either only stretchability or only shrinkability and zero the other
-%  component, i.\,e., shrinkability and stretchability, respectively.
+%  component, i.\,e., shrinkability and stretchability.
 %
 %  \begin{synopsis}\label{syn:setfontshrink}\label{syn:setfontstretch}
 %    \cs{begin}|{setfontshrink}|\oarg{level}
@@ -5296,8 +5290,8 @@ end
 %  \code{slightlysloppypar}, with a user-selectable \meta{sloppiness} parameter.  The
 %  constructions recover the known settings \cs{fussy} (\meta{sloppiness}~=~0) and \cs{sloppy}
 %  (\meta{sloppiness}~\(\ge\)~8), and introduce seven intermediate
-%  \meta{sloppiness}~levels.\footnote{Also compare the findings for \cs{emergencystretch} in
-%  Ref.~\citenum{wermuth:2017a}.}  The default \meta{sloppiness} is 1.
+%  \meta{sloppiness}~levels.\footnote{Also compare with the findings for \cs{emergencystretch}
+%  in Ref.~\citenum{wermuth:2017a}.}  The default \meta{sloppiness} is 1.
 %
 %  \begin{synopsis}\label{syn:slightlysloppy}\label{syn:slightlysloppypar}
 %    \cs{slightlysloppy}\oarg{sloppiness}  \\[\smallskipamount]
@@ -5519,8 +5513,8 @@ end
 %  and~\cs{postdisplaypenalty} to~10000.}
 %
 %  Zero or one for \meta{before-disp-number\hyp{}of\hyp{}lines} as well as
-%  \meta{after\hyp{}disp\hyp{}number\hyp{}of\hyp{}lines} are no-ops for the respective
-%  paragraph.  Up to nine lines each can be fused.
+%  \meta{after\hyp{}disp\hyp{}number\hyp{}of\hyp{}lines} are no-ops for the paragraph.  Up to
+%  nine lines each can be fused.
 %
 %  Both optional arguments default to three.  If only the first argument is given the second
 %  acquires the same value.
@@ -5615,7 +5609,7 @@ end
 %  \end{tips}\unskip
 %
 %  \begin{usecases}
-%    Fix widows and orphans, e.\,g., those turned up by
+%    Avoid widows and orphans, e.\,g., those turned up by
 %    package~\packagename{widows-and-orphans}~\cite{package:widows-and-orphans}.~\visualpar
 %    Extend the typographic convention of \doublequotes{three to four lines instead of a single
 %    club or widow line} to a context-dependent number of lines that tries to keep all (well,
@@ -5905,8 +5899,8 @@ end
 %  \end{codeexample}
 %
 %  \begin{tip}
-%    All macros in this section actually accept expressions of their respective argument types,
-%    though the sick rules of \TeX{} \meta{dimen}- and \meta{skip}-expressions apply.
+%    All macros in this section actually accept expressions of their argument types, though the
+%    sick rules of \TeX{} \meta{dimen}- and \meta{skip}-expressions apply.
 %
 %    Here are some forms that do work:
 %
@@ -5954,9 +5948,8 @@ end
 %    lines): \code{smoothraggedrightshapetriplet}, \code{smoothraggedrightshapequintuplet}, and
 %    \code{smoothraggedrightshapeseptuplet}; they work for paragraph lengths up to
 %    \makeatletter
-%      \typog@triplet@max@lines, \typog@quintuplet@max@lines, and \typog@septuplet@max@lines~lines,
+%      \typog@triplet@max@lines, \typog@quintuplet@max@lines, and \typog@septuplet@max@lines~lines.
 %    \makeatother
-%    respectively.
 %  \end{slightlysloppypar}
 %
 %  \begin{widebody}
@@ -6430,7 +6423,7 @@ end
 %          positive finite stretchability or was shrunk with positive shrinkability;
 %    \item the last line has infinite stretchability entirely due to \cs{par\-fill\-skip} glue;
 %    \item if the previous line was stretched or shrunk the last line has positive finite
-%          stretchability or shrinkability respectively.
+%          stretchability or shrinkability.
 %    \end{enumerate}
 %
 %    \noindent
@@ -6654,7 +6647,7 @@ end
 %      \bibitem{strizver:2014}
 %              \bibauthor{Strizver, Ilene}.
 %              \bibtitle{Type rules!: the designer's guide to professional typography},
-%              4\textsuperior{th}~ed.
+%              4\textsuperior{th}~ed.\widespace
 %              John Wiley~\& Sons, Hoboken\kernedslash NJ,
 %              2014.
 %
@@ -9384,7 +9377,7 @@ end
 %  \begin{macro}{\typog@test@microtype@expansion@feature}
 %    We cannot even parse the \cs{iftypog@microtype@preloaded}~part further down
 %    unless the \cs{ifMT@expansion}~conditional exists.
-%    So we hoist this test in a macro of its own.
+%    So, we hoist this test in a macro of its own.
 %    It only gets called if package~\packagename{microtype} already has been sourced.
 %
 %    \begin{macrocode}
@@ -9408,7 +9401,7 @@ end
 %    We are all set for the initialization of the font expansion,
 %    however, we must be careful in which (load-)state
 %    package~\packagename{microtype} is in.
-%    Compare the code for \cs{typog@require@microtype}
+%    Compare with the code for \cs{typog@require@microtype}
 %    and~\cs{typog@require@preloaded@microtype}.
 %
 %    Initialize our own flag and setup meaningful messages for later feature checks.
@@ -11504,7 +11497,7 @@ We again compare the default implementation with the adjusted one.
 
 \noindent Corrected by raising the glyphs by
 \milliem{\exemplaryraiseguillemets} and
-\milliem{\exemplaryraisecapitalguillemets}, respectively:
+\milliem{\exemplaryraisecapitalguillemets}:
 
 \begin{quote}
   \typogsetup{raiseguillemets=\exemplaryraiseguillemets,
@@ -11631,9 +11624,9 @@ All-caps versus small-caps:
 \section{Label Items}
 
 The current configurations for the uppercase and lowercase adjustments are
-\{\typogget{uppercaselabelitemadjustments}\} and \{\typogget{lowercaselabelitemadjustments}\},
-respectively.  Here are the results of the freestanding
-macros~\code{\string\adjusted\-label\-itemi}, \code{\string\adjusted\-label\-itemi} and so on:
+\{\typogget{uppercaselabelitemadjustments}\} and \{\typogget{lowercaselabelitemadjustments}\}.
+Here are the results of the freestanding macros~\code{\string\adjusted\-label\-itemi},
+\code{\string\adjusted\-label\-itemi} and so on:
 
 \begin{center}
  A\Adjustedlabelitemi B\Adjustedlabelitemii E\Adjustedlabelitemiii G\Adjustedlabelitemiv H.
@@ -11694,7 +11687,7 @@ For this document the calls
 \sample{\typoguppercaseadjustcheck{ABCDEFGHIJKLMNOPQRSTUVWXYZ}} and
 \sample{\typoglowercaseadjustcheck{acegmnopqrsuvwxyz}}, where the adjustments in effect are
 \code{\{\typogget{uppercaselabelitemadjustments}\}} and
-\code{\{\typogget{lowercaselabelitemadjustments}\}}, respectively.
+\code{\{\typogget{lowercaselabelitemadjustments}\}}.
 
 
 \clearpage
@@ -13584,7 +13577,7 @@ between C<E<lt>typog-inspect id="I<ID>" ...E<gt>>
 and C<E<lt>/typog-inspectE<gt>> excluding the XML-tags themselves.
 Access the I<JOB-NAME>, I<LINE-NUMBER>, and I<PAGE-NUMBER>
 with the commandline options
-B<--job-name>, B<--line-number>, and B<--page-number>, respectively.
+B<--job-name>, B<--line-number>, and B<--page-number>.
 Use B<--id> to show the name of the IDs that matched I<REGEXP>.
 
 C<typoginspect> environments can be nested.
@@ -13604,7 +13597,7 @@ The list of options is sorted by the names of the long options.
 ID-discovery mode:
 Discover all C<typog-inspect> elements independent of any matching patterns
 and print their I<ID>s.
-The results are printed in their order of occurrence in the respective F<LOG-FILE>s.
+The results are printed in their order of occurrence in the F<LOG-FILE>s.
 Pipe the output into B<sort> to get alphabetically ordered I<ID>s.
 
 Augment with options
