@@ -3186,12 +3186,13 @@ end
 %  \end{center}
 %
 %  \noindent
+%  \skip1=\glueexpr\fontdimen2\font plus \fontdimen3\font minus \fontdimen4\font\relax
 %  The possible typographic improvement lies with the reduction of the width of the space around
-%  the en-dash with respect to the normal space.\dimen1=\fontdimen2\font\footnote{The current
-%  font's space width is \milliem{\the\dimen1} compared to \packagename{typog}s
-%  \hyperref[item:endashspace]{\code{endashspace}} of \milliemglue{\typogget{endashspace}}.}  On
-%  the other hand, the em-dash macros assume that there is no space between the \meta{WORD}s and
-%  the em-dash:
+%  the en-dash with respect to the normal space.\footnote{The current font's space width is
+%  \milliemglue{\skip1} compared to \packagename{typog}s
+%  \hyperref[item:endashspace]{\code{endashspace}} width of
+%  \milliemglue{\typogget{endashspace}}.}  On the other hand, the em-dash macros assume that
+%  there is no space between the \meta{WORD}s and the em-dash:
 %
 %  \begin{center}
 %      \meta{WORD}\textemdash\meta{WORD}.
@@ -7432,7 +7433,7 @@ end
 \DeclareOptionX<typog>{debug}{\typog@debugtrue}
 \DeclareOptionX<typog>{emdashspace}[.05555em]%
   {\setlength{\typog@config@emdashspace}{#1}}
-\DeclareOptionX<typog>{endashspace}[.2em plus.03333em minus.01em]%
+\DeclareOptionX<typog>{endashspace}[.2em plus.1em minus.0667em]%
   {\setlength{\typog@config@endashspace}{#1}}
 \DeclareOptionX<typog>{mathitalicscorrection}[.4mu]%
   {\typog@config@mathitalicscorrection=#1\relax}%
