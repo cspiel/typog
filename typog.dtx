@@ -929,6 +929,7 @@
   raise-inverted-marks
   raise-number-dash
   right-spaced-endash
+  Set-Extra-Kerning
   set-baseline-skip
   set-baseline-skip-percentage
   set-font-expand
@@ -3456,6 +3457,12 @@ end
 %  The same \hyperref[imp:hyperref-bookmarks-spacedendash]{\emph{Important} note} on hyperref
 %  bookmarks holds for \cs{spacedemdash} as for \cs{spacedendash}.
 %
+%  \begin{note}
+%    Alternatively use package \packagename{microtype} to achieve a similar effect.
+%    Macro~\cs{SetExtraKerning}~\cite[Sec.~5.4]{package:microtype} allows to modify the
+%    side-bearings of any glyph.
+%  \end{note}
+%
 %
 %  \subsection{Raise Selected Characters}\label{sec:raise-characters}
 %  \index{raised character|userman}
@@ -3588,6 +3595,10 @@ end
 %    \end{synopsis}
 %  \end{list}
 %
+%  These macros unite the features of \hyperref[syn:capitalendash]{\cs{capitalendash}} with
+%  those of \hyperref[syn:spacedendash]{\cs{spacedendash}} as described in
+%  \cref{sec:spaced-dashes}.
+%
 %  \DescribeMacro{\leftspacedcapitalemdash}
 %  \DescribeMacro{\leftspacedcapitalemdash*}
 %  \DescribeMacro{\rightspacedcapitalemdash}
@@ -3611,10 +3622,9 @@ end
 %    \end{synopsis}
 %  \end{list}
 %
-%  These macros unite the features of \hyperref[syn:capitalemdash]{\cs{capitalemdash}},
-%  \hyperref[syn:capitalendash]{\cs{capitalendash}}, and
-%  \hyperref[syn:capitalendash]{\cs{capitalendash*}}, with those of
-%  \hyperref[syn:spacedendash]{\cs{spacedendash}} as described in \cref{sec:spaced-dashes}.
+%  These macros unite the features of \hyperref[syn:capitalemdash]{\cs{capitalemdash}} with
+%  those of \hyperref[syn:spacedemdash]{\cs{spacedemdash}} as described in
+%  \cref{sec:spaced-dashes}.
 %
 %
 %  \subsubsection{Number Dash (Figure Dash)}\label{sec:number-dash}
