@@ -1992,7 +1992,7 @@ end
 %      Italics correction in math mode.  See \cref{sec:manual-italic-correction} and also the
 %      complementary configuration
 %      option~\hyperref[item:textitalicscorrection]{|textitalicscorrection|}.  Default
-%      value: \the\typogget{mathitalicscorrection}.\footnote{Note that 1\,mu is
+%      value: \the\typogget{mathitalicscorrection}.\!\footnote{Note that 1\,mu is
 %      \nativetextfraction{1}{18}\,em of the mathematical font's~em.}
 %
 %    \item[|raise*=|\meta{dim}]\label{item:raise}
@@ -2484,7 +2484,7 @@ end
 %      The following two values only show up if\/ \(\cs{lastlinefit} \not= 0\):
 %      \begin{enumerate}[beginpenalty=10000, nosep]
 %      \item The shortfall~\sample{s} and
-%      \item glue~\sample{a} or~\sample{g}.\footnote{The author is unaware of any descriptions
+%      \item glue~\sample{a} or~\sample{g}.\!\footnote{The author is unaware of any descriptions
 %        of \sample{s}, \sample{a}, or~\sample{g} and the interested reader is referred to the
 %        source code, e.\,g., \filesystem{pdftex.web}; search for \code{print("\textvisiblespace
 %        s=")}.  In the weaved documentation the first relevant section is~\S1851.}
@@ -2524,7 +2524,7 @@ end
 %
 %  Use \code{\cs{tracingpages}=1} or the \hyperref[syn:typoginspect]{typoginspect}~environment
 %  to switch on tracing of \TeX's page-break
-%  information~\cite[p.~112n]{knuth:1986}.\footnote{See also the discussion of the \TeX~output
+%  information~\cite[p.~112n]{knuth:1986}.\!\footnote{See also the discussion of the \TeX~output
 %  routines by \propername{Solomon}~\cite{solomon:1990}.}
 %
 %  The first time vertical material enters a new page, \TeX{} logs
@@ -2648,9 +2648,9 @@ end
 %      put \cs{hskip0pt} in front of it.
 %
 %    \item Enable automatic hyphenation in the rare but weird cases when \TeX{} does not
-%      hyphenate a word that is hyphenatable despite the result is an overfull box.\footnote{The
-%      author of \packagename{typog} has no idea, why this happens, but he has been successful
-%      in fixing the problems with code like \code{(\cs{allowhyphenation}
+%      hyphenate a word that is hyphenatable despite the result is an overfull
+%      box.\!\footnote{The author of \packagename{typog} has no idea, why this happens, but he
+%      has been successful in fixing the problems with code like \code{(\cs{allowhyphenation}
 %      \mbox{Superpositionsprinzip})} or \code{(\cs{allowhyphenation}
 %      \mbox{Superauswahlregel})}.  Elucidation by a \TeX-savant is highly
 %      welcome.}\specialsectionendhere
@@ -2829,7 +2829,7 @@ end
 %
 %  Without optional argument |hyphenmin| sets both \cs{lefthyphenmin} and \cs{righthyphenmin} to
 %  \meta{hyphen-minimum}.  When called with an optional argument it sets \cs{lefthyphenmin} to
-%  \meta{left-hyphen-minimum} and \cs{righthyphenmin} to \meta{hyphen-minimum}.\footnote{The
+%  \meta{left-hyphen-minimum} and \cs{righthyphenmin} to \meta{hyphen-minimum}.\!\footnote{The
 %  current values for \cs{lefthyphenmin} and \cs{righthyphenmin} in this document
 %  are~\the\lefthyphenmin{} and~\the\righthyphenmin.}
 %
@@ -3195,7 +3195,7 @@ end
 %  \noindent
 %  \skip1=\glueexpr\fontdimen2\font plus \fontdimen3\font minus \fontdimen4\font\relax
 %  The possible typographic improvement lies with the reduction of the width of the space around
-%  the en-dash with respect to the normal space.\footnote{The current font's space width is
+%  the en-dash with respect to the normal space.\!\footnote{The current font's space width is
 %  \milliemglue{\skip1} compared to \packagename{typog}s
 %  \hyperref[item:endashspace]{\code{endashspace}} width of
 %  \milliemglue{\typogget{endashspace}}.}  On the other hand, the em-dash macros assume that
@@ -3208,7 +3208,7 @@ end
 %  \noindent
 %  The spaced em-dash macros add some (hairline-) space between the em-dash and the
 %  \meta{WORD}s, which may prevent the em-dash from running right into its
-%  neighbors.\footnote{Some fonts offer dashes with no side bearings to facilitate drawing
+%  neighbors.\!\footnote{Some fonts offer dashes with no side bearings to facilitate drawing
 %  horizontal lines by abutting these dashes.}
 %
 %  \paragraph{Line Breaking at Dashes.}
@@ -3477,7 +3477,7 @@ end
 %  We introduce a set of macros for the most common cases that typeset these characters at a
 %  user definable, adjusted height above the baseline.  Readers familiar with
 %  \mbox{OpenType} fonts will be reminded of the \code{case}~feature.  Users can base their own
-%  definitions of raised characters on their associated dimensions.\footnote{Also compare with
+%  definitions of raised characters on their associated dimensions.\!\footnote{Also compare with
 %  Ex.~12 in Ref.~\citenum{wermuth:2023} for an attempt to automate vertical alignment.}
 %
 %  \begin{caution}
@@ -4088,7 +4088,7 @@ end
 %  align well in the vertical direction with the following text.  Sometimes the label is too
 %  low, especially if followed by an uppercase (initial) letter.  In rare occasions the label is
 %  placed too far above the baseline.  If any label has been taken from a math-font vertical
-%  alignment with the text font is almost purely accidental.\footnote{The exception being
+%  alignment with the text font is almost purely accidental.\!\footnote{The exception being
 %  mathematics typeset as text via package~\packagename{mathastext}~\cite{package:mathastext}.}
 %
 %  \hangindent=2\parindent
@@ -4190,7 +4190,7 @@ end
 %
 %  The macros assume a \singlequotes{correct} height that they derive from the measured height
 %  of a sample text scaled by a user-defined factor, which defaults
-%  to~\nativetextfraction{1}{2}.\footnote{The default factor of~.5 hearkens back to
+%  to~\nativetextfraction{1}{2}.\!\footnote{The default factor of~.5 hearkens back to
 %  \propername{Strizver's} suggestion that \doublequotes{[b]ullets should be centered on either
 %  the cap~height or x-height of the neighboring text, \dots.}~\cite[p.~220]{strizver:2014}.}
 %  The then correct height gets indicated by a thin horizontal line parallel to the baseline.
@@ -4497,7 +4497,7 @@ end
 %
 %  \DescribeEnv{lastlinecenteredpar}
 %  Center\index{paragraph>align last line>centered|userman} the last lines of the paragraphs
-%  enclosed by this environment.\footnote{Also compare with the approach taken in
+%  enclosed by this environment.\!\footnote{Also compare with the approach taken in
 %  Ref.~\citenum{wermuth:2018}.}
 %
 %  \begin{synopsis}\label{syn:lastlinecenteredpar}
@@ -4640,7 +4640,7 @@ end
 %    The same problem arises with displayed math in a flush-left\footnote{The common practice of
 %    centering displayed equations does not call for the manipulations of a paragraph's last
 %    line discussed here.}  setting, e.\,g., \packagename{amsmath}~\cite{package:amsmath} and
-%    option~|fleqn|.\footnote{For displayed equations and \packagename{amsmath} the relevant
+%    option~|fleqn|.\!\footnote{For displayed equations and \packagename{amsmath} the relevant
 %    parameter is~\cs{mathindent}.}
 %
 %    \begin{minipage}{\linewidth}
@@ -4678,8 +4678,8 @@ end
 %    \end{minipage}
 %
 %    The suggestions for the gap-width vary from two~em to twice the width of a
-%    \singlequotes{typical} \cs{parindent}\footnote{% For example, \LaTeX's class
-%    \packagename{article} uses a \cs{parindent} of~25\,pt.}  for the gap~\cite{carlisle:1996}.
+%    \singlequotes{typical} \cs{parindent}\footnote{For example, \LaTeX's class
+%    \packagename{article} uses a \cs{parindent} of~25\,pt.} for the gap~\cite{carlisle:1996}.
 %  \end{enumerate}
 %
 %  \begin{tip}
@@ -4821,7 +4821,7 @@ end
 %    \cs{end}|{shortenpar}|
 %  \end{synopsis}
 %
-%  Environment |shortenpar| decreases the \cs{looseness} of the paragraph.\footnote{Command
+%  Environment |shortenpar| decreases the \cs{looseness} of the paragraph.\!\footnote{Command
 %  \cs{looseness} is a \TeX{}~primitive~\cite[p.~103n]{knuth:1986}.  A thorough discussion of
 %  the interaction of \cs{linepenalty} and \cs{looseness} can be found in
 %  Ref.~\citenum{wermuth:2017c}.}  It performs well if the last line of the paragraph is short
@@ -4888,7 +4888,7 @@ end
 %  \index{lastlinefit=\verb!*+\lastlinefit+|userman}
 %  Since \eTeX{} the paragraph-breaking algorithm can be instructed to match the spacing of the
 %  last line of a paragraph to the next-to-last line with the
-%  built-in~\cs{lastlinefit}~\cite[Sec.~3.8]{package:etex}.\footnote{The actual algorithm is
+%  built-in~\cs{lastlinefit}~\cite[Sec.~3.8]{package:etex}.\!\footnote{The actual algorithm is
 %  somewhat involved.  So, for ease of reference, we have included the relevant part of the
 %  \eTeX-manual as \Cref{app:epsilon-tex-lastlinefit} on
 %  \cpageref{app:epsilon-tex-lastlinefit}.}  Package~\packagename{typog} wraps this control in
@@ -5059,7 +5059,7 @@ end
 %  several of the current font's \cs{fontdimen}\meta{number}s.  \TeX{} addresses the latter by
 %  integers, which is totally non-memnonic.  Therefore, we play softball by first presenting
 %  \cref{tab:fontdimen} that associates the \cs{fontdimen}\meta{number}s with their meanings and
-%  also reports on their current values (for this document).\footnote{The association is given
+%  also reports on their current values (for this document).\!\footnote{The association is given
 %  in Appendix~F (p.~433) of Ref.~\citenum{knuth:1986}.  For a concise and understandable
 %  explanation of the \TeX~\cs{fontdimen} parameters consult Ref.~\citenum{carlisle:2013}.}
 %
@@ -5137,7 +5137,7 @@ end
 %    Useful as a sentence-ending space if, for example, the sentence ends in an abbreviation
 %    with a period or decimal number without trailing digits \emph{and} the next sentence should
 %    be delimited in a clearer way.~\visualpar Open tight lines with a series
-%    of~\cs{widespace}s.\footnote{\label{fn:widespace}See also \doublequotes{Investigating the
+%    of~\cs{widespace}s.\!\footnote{\label{fn:widespace}See also \doublequotes{Investigating the
 %    badness of a paragraph} on \Cpageref{sec:investigating-paragraph-badness}.}
 %  \end{usecase}
 %
@@ -5178,7 +5178,7 @@ end
 %  be redefined by the user; their defaults are \narrowspacestrength{} and \narrowspacescale.
 %
 %  \begin{usecase}
-%    Tighten loose lines with a series of~\cs{narrowspace}s.\footnote{Footnote
+%    Tighten loose lines with a series of~\cs{narrowspace}s.\!\footnote{Footnote
 %    \ref{fn:widespace} again applies.}
 %  \end{usecase}
 %
@@ -5492,7 +5492,7 @@ end
 %  \code{slightlysloppypar}, with a user-selectable \meta{sloppiness} parameter.  The
 %  constructions recover the known settings \cs{fussy} (\meta{sloppiness}~=~0) and \cs{sloppy}
 %  (\meta{sloppiness}~\(\ge\)~8), and introduce seven intermediate
-%  \meta{sloppiness}~levels.\footnote{Also compare with the findings for \cs{emergencystretch}
+%  \meta{sloppiness}~levels.\!\footnote{Also compare with the findings for \cs{emergencystretch}
 %  in Ref.~\citenum{wermuth:2017a}.}  The default \meta{sloppiness} is 1.
 %
 %  \begin{synopsis}\label{syn:slightlysloppy}\label{syn:slightlysloppypar}
@@ -5569,7 +5569,7 @@ end
 %  \index{paragraph>vertically tied|userman}
 %
 %  \LaTeX{} provides several macros and environments to tie material vertically~--
-%  most prominently |samepage| and |minipage|.\footnote{A valuable complement to these is
+%  most prominently |samepage| and |minipage|.\!\footnote{A valuable complement to these is
 %  package~\packagename{needspace}~\cite{package:needspace} which takes a different approach and
 %  reliably works in \emph{mixed} horizontal and vertical mode situations.}
 %  \packagename{Typog's} macros and environments constitute more sophisticated but weaker forms
@@ -5711,7 +5711,7 @@ end
 %  Vertically tie the last \meta{before\hyp{}disp\hyp{}number\hyp{}of\hyp{}lines} in the
 %  paragraph before a display and the first
 %  \meta{after\hyp{}disp\hyp{}number\hyp{}of\hyp{}lines} in the paragraph after the display.
-%  Moreover, turn the paragraphs and the display into an un-breakable unit.\footnote{The
+%  Moreover, turn the paragraphs and the display into an un-breakable unit.\!\footnote{The
 %  paragraphs and the display are concreted together by setting both \cs{predisplaypenalty}
 %  and~\cs{postdisplaypenalty} to~10000.}
 %
@@ -5912,8 +5912,8 @@ end
 %  factor.\fontsizeinfo{setspacefontsizeinfo}\marginnote{The copy of this document gets typeset
 %  with~\setspacefontsizeinfo*.}  The \LaTeX{} user however prefers to keep her eyes on the ball
 %  and set the line skip\index{baseline skip|userman} directly (e.\,g.~12.5\,pt) or the lines'
-%  leading\index{leading|userman} to a length or percentage of the font's size.\footnote{To find
-%  out about the current font's size and the \cs{baselineskip} in printable form check out
+%  leading\index{leading|userman} to a length or percentage of the font's size.\!\footnote{To
+%  find out about the current font's size and the \cs{baselineskip} in printable form check out
 %  \cref{sec:font-information} on \cpageref{sec:font-information}.}  This is where the following
 %  macros go to bat.
 %
@@ -6610,9 +6610,9 @@ end
 %    \begin{enumerate}[nosep]
 %    \item \cs{lastlinefit} is positive;
 %    \item \cs{parfillskip} has infinite stretchability; and
-%    \item the stretchability of \cs{leftskip} plus \cs{rightskip} is finite.\footnote{As usual
-%          for parameters influencing \TeX's line-breaking algorithm, the values current at the
-%          end of the (partial) paragraph are used.}
+%    \item the stretchability of \cs{leftskip} plus \cs{rightskip} is finite.\!\footnote{As
+%          usual for parameters influencing \TeX's line-breaking algorithm, the values current
+%          at the end of the (partial) paragraph are used.}
 %    \end{enumerate}
 %
 %    \noindent
@@ -12289,9 +12289,9 @@ in particular if the chapters' ends are marked with centered dingbats.
 
 \subsection{Narrow\kernedslash Wide Space}
 
-The current font's parameters are shown in \cref{tab:fontdim}.\footnote{For a concise and
-understandable explanation of the plethora of font parameters
-consult \propername{David Carlisle's} excellent post on \propername{StackExchange}:
+The current font's parameters are shown in \cref{tab:fontdim}.\!\footnote{For a concise and
+understandable explanation of the plethora of font parameters consult \propername{David
+  Carlisle's} excellent post on \propername{StackExchange}:
 \href{https://tex.stackexchange.com/questions/88991/what-do-different-fontdimennum-mean}%
      {What Do Different Fontdimennum Mean}.}
 
@@ -12626,7 +12626,7 @@ have their merits and their own flaws.
   \begin{vtietoppar}[2]
     After breaking a paragraph into lines, \TeX{} computes the interline
     penalties by adding the values of: \code{\string\clubpenalty} after
-    the first line of a paragraph.\footnote{Footnote of \code{vtietoppar}.}
+    the first line of a paragraph.\!\footnote{Footnote of \code{vtietoppar}.}
     \eTeX{} generalizes the concept of interline, club, widow, and display widow penalty
     by allowing their replacement by arrays of penalty values.
   \end{vtietoppar}
