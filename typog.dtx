@@ -7464,12 +7464,12 @@ end
 %
 %  \iffalse
 \DeclareOptionX<typog>{lowercaselabelitemadjustments}%
-  {\typog@debug@typeout{lowercaselabelitemadjustments={#1}}
-   \def\typog@@do##1{\addtocounter{typog@@iteration}{1}
+  {\typog@debug@typeout{lowercaselabelitemadjustments={#1}}%
+   \def\typog@@do##1{\addtocounter{typog@@iteration}{1}%
      \ifstrequal{##1}{*}
        {\relax}
-       {\global\setlength{\csname typog@adjust@lowercase@labelitem\romannumeral\thetypog@@iteration\endcsname}{##1}}}
-   \setcounter{typog@@iteration}{0}
+       {\global\setlength{\csname typog@adjust@lowercase@labelitem\romannumeral\thetypog@@iteration\endcsname}{##1}}}%
+   \setcounter{typog@@iteration}{0}%
    \forcsvlist{\typog@@do}{#1}}
 \newcommand*{\typog@config@lowercaselabelitemadjustments}
   {\the\typog@adjust@lowercase@labelitemi,\space
@@ -7541,12 +7541,12 @@ end
 %
 %  \iffalse
 \DeclareOptionX<typog>{uppercaselabelitemadjustments}%
-  {\typog@debug@typeout{uppercaselabelitemadjustments={#1}}
-   \def\typog@@do##1{\addtocounter{typog@@iteration}{1}
+  {\typog@debug@typeout{uppercaselabelitemadjustments={#1}}%
+   \def\typog@@do##1{\addtocounter{typog@@iteration}{1}%
      \ifstrequal{##1}{*}
        {\relax}
-       {\setlength{\csname typog@adjust@uppercase@labelitem\romannumeral\thetypog@@iteration\endcsname}{##1}}}
-   \setcounter{typog@@iteration}{0}
+       {\setlength{\csname typog@adjust@uppercase@labelitem\romannumeral\thetypog@@iteration\endcsname}{##1}}}%
+   \setcounter{typog@@iteration}{0}%
    \forcsvlist{\typog@@do}{#1}}
 \newcommand*{\typog@config@uppercaselabelitemadjustments}
   {\the\typog@adjust@uppercase@labelitemi,\space
@@ -7562,10 +7562,10 @@ end
      raisecapitaldash, raisecapitalhyphen, raisecapitaltimes,
      raiseguillemets, raisecapitalguillemets,
      raisefiguredash,
-     slashkern, lowerslash}
+     slashkern, lowerslash}%
    \ifdefined\MT@MT
      \unless\ifx\@onlypreamble\@notprerr
-       \ExecuteOptionsX<typog>{shrinklimits, stretchlimits}
+       \ExecuteOptionsX<typog>{shrinklimits, stretchlimits}%
      \fi
    \fi}
 
@@ -8831,27 +8831,27 @@ end
   {\@typog@maybe@patch@itemize
    \ifstrequal{#1}{*}
               {\setlength{\typog@adjust@labelitemi}
-                         {\typog@adjust@uppercase@labelitemi}
+                         {\typog@adjust@uppercase@labelitemi}%
                \setlength{\typog@adjust@labelitemii}
-                         {\typog@adjust@uppercase@labelitemii}
+                         {\typog@adjust@uppercase@labelitemii}%
                \setlength{\typog@adjust@labelitemiii}
-                         {\typog@adjust@uppercase@labelitemiii}
+                         {\typog@adjust@uppercase@labelitemiii}%
                \setlength{\typog@adjust@labelitemiv}
                          {\typog@adjust@uppercase@labelitemiv}}
               {\ifcase #1% 0
                  \relax  % outside of any itemize environment
                \or % 1
                  \setlength{\typog@adjust@labelitemi}
-                           {\typog@adjust@uppercase@labelitemi}
+                           {\typog@adjust@uppercase@labelitemi}%
                \or % 2
                  \setlength{\typog@adjust@labelitemii}
-                           {\typog@adjust@uppercase@labelitemii}
+                           {\typog@adjust@uppercase@labelitemii}%
                \or % 3
                  \setlength{\typog@adjust@labelitemiii}
-                           {\typog@adjust@uppercase@labelitemiii}
+                           {\typog@adjust@uppercase@labelitemiii}%
                \or % 4
                  \setlength{\typog@adjust@labelitemiv}
-                           {\typog@adjust@uppercase@labelitemiv}
+                           {\typog@adjust@uppercase@labelitemiv}%
                \else
                  \PackageError{typog}
                               {Itemize level out of range}
@@ -8870,27 +8870,27 @@ end
   {\@typog@maybe@patch@itemize
    \ifstrequal{#1}{*}
               {\setlength{\typog@adjust@labelitemi}
-                         {\typog@adjust@lowercase@labelitemi}
+                         {\typog@adjust@lowercase@labelitemi}%
                \setlength{\typog@adjust@labelitemii}
-                         {\typog@adjust@lowercase@labelitemii}
+                         {\typog@adjust@lowercase@labelitemii}%
                \setlength{\typog@adjust@labelitemiii}
-                         {\typog@adjust@lowercase@labelitemiii}
+                         {\typog@adjust@lowercase@labelitemiii}%
                \setlength{\typog@adjust@labelitemiv}
                          {\typog@adjust@lowercase@labelitemiv}}
               {\ifcase #1% 0
                  \relax  % outside of any itemize environment
                \or % 1
                  \setlength{\typog@adjust@labelitemi}
-                           {\typog@adjust@lowercase@labelitemi}
+                           {\typog@adjust@lowercase@labelitemi}%
                \or % 2
                  \setlength{\typog@adjust@labelitemii}
-                           {\typog@adjust@lowercase@labelitemii}
+                           {\typog@adjust@lowercase@labelitemii}%
                \or % 3
                  \setlength{\typog@adjust@labelitemiii}
-                           {\typog@adjust@lowercase@labelitemiii}
+                           {\typog@adjust@lowercase@labelitemiii}%
                \or % 4
                  \setlength{\typog@adjust@labelitemiv}
-                           {\typog@adjust@lowercase@labelitemiv}
+                           {\typog@adjust@lowercase@labelitemiv}%
                \else
                  \PackageError{typog}
                               {Itemize level out of range}
@@ -8907,20 +8907,20 @@ end
 %    \begin{macrocode}
 \newcommand*{\@typog@noadjust@labelitem}[1]
   {\ifstrequal{#1}{*}
-              {\setlength{\typog@adjust@labelitemi}{\z@}
-               \setlength{\typog@adjust@labelitemii}{\z@}
-               \setlength{\typog@adjust@labelitemiii}{\z@}
+              {\setlength{\typog@adjust@labelitemi}{\z@}%
+               \setlength{\typog@adjust@labelitemii}{\z@}%
+               \setlength{\typog@adjust@labelitemiii}{\z@}%
                \setlength{\typog@adjust@labelitemiv}{\z@}}
               {\ifcase #1% 0
                  \relax  % outside of any itemize environment
                \or % 1
-                 \setlength{\typog@adjust@labelitemi}{\z@}
+                 \setlength{\typog@adjust@labelitemi}{\z@}%
                \or % 2
-                 \setlength{\typog@adjust@labelitemii}{\z@}
+                 \setlength{\typog@adjust@labelitemii}{\z@}%
                \or % 3
-                 \setlength{\typog@adjust@labelitemiii}{\z@}
+                 \setlength{\typog@adjust@labelitemiii}{\z@}%
                \or % 4
-                 \setlength{\typog@adjust@labelitemiv}{\z@}
+                 \setlength{\typog@adjust@labelitemiv}{\z@}%
                \else
                  \PackageError{typog}
                               {Itemize level out of range}
@@ -9065,7 +9065,7 @@ end
               {\typog@debug@typeout{patching enumitem \string\enit@itemize@i\space succeeded}}
               {\PackageError{typog}
                             {Patching enumitem macro \string\enit@itemize@i\space failed}
-                            {}}
+                            {}}%
    \else
      \patchcmd{\itemize}
               {\expandafter}
@@ -9073,7 +9073,7 @@ end
               {\typog@debug@typeout{patching \string\itemize\space succeeded}}
               {\PackageError{typog}
                             {Patching plain LaTeX macro \string\itemize\space failed}
-                            {}}
+                            {}}%
    \fi}
 
 %    \end{macrocode}
