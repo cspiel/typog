@@ -51,8 +51,8 @@
 \usepackage[most]{tcolorbox}
 \usepackage[nobottomtitles*]{titlesec}\renewcommand*{\bottomtitlespace}{.15\textheight}
 \usepackage[debug, raise*=.05em,
-  uppercaselabelitemadjustments={.0125em, .075em, -.1em, .0125em},
-  lowercaselabelitemadjustments={-.075em, 0pt, -.2em, -.075em}]{typog}
+  uppercaselabelitemadjustments={.25pt, 1pt, -.875pt, .25pt},
+  lowercaselabelitemadjustments={-.75pt, 0pt, -2pt, -.75pt}]{typog}
 \usepackage{xcolor}
 
 
@@ -1240,16 +1240,16 @@ end
 %  \section*{Quick Reference}
 %  \index{quick reference|(userman}
 %
-%  \marginnote{We reduce the line spacing in the multi-column parts to 120\% with
-%  \hyperref[syn:setbaselineskippercentage]{\cs{set\-base\-line\-skip\-per\-cent\-age}}~.\visualpar
-%  List \cs{item}s get tied with \hyperref[syn:vtietop]{\cs{vtietop}}.}  This is an
-%  alphabetically sorted list of all user macros and environments defined by
+%  This is an alphabetically sorted list of all user macros and environments defined by
 %  package~\packagename{typog} along with the page numbers of their descriptions.  A list of all
 %  \hyperref[sec:package-options]{package options} can be found on
 %  pages~\pageref{sec:package-options} to~\pageref{secend:package-options}.  The
 %  \hyperref[sec:index]{Index} on pages~\pageref{sec:index} to~\pageref{secend:index} may
 %  provide some more detailed insights.
 %
+%  \marginnote{We reduce the line spacing in the multi-column parts to 120\% with
+%  \hyperref[syn:setbaselineskippercentage]{\cs{set\-base\-line\-skip\-per\-cent\-age}}~.\visualpar
+%  List \cs{item}s get tied with \hyperref[syn:vtietop]{\cs{vtietop}}.}\relax
 %  If a line-break occurs between the command and its arguments or between any of the arguments
 %  we indicate the break with triangle at the end of the initial line and at the beginning of
 %  the following line.
@@ -1823,7 +1823,7 @@ end
 %  \Cref{sec:information} tends to the wish for more information in the typesetting process
 %  whether during the draft phase or in the final printed manuscript.\marginnote{Throughout the
 %  whole document we indicate actual uses of the package's macros and environments in the
-%  margin.  All these notes are examples themselves as they are typeset with
+%  margin.  All these notes are examples themselves as they are typeset with the help of
 %  \hyperref[syn:slightlysloppy]{\code{slightlysloppy}},
 %  \hyperref[syn:loosespacing]{\code{loosespacing}}, and
 %  \hyperref[syn:smoothraggedrightpar]{\code{smoothraggedrightpar}}.~\visualpar The title page
@@ -1890,14 +1890,14 @@ end
 %
 %  \begin{synopsis}
 %    \begin{tabbing}
-%      |\usepackage[|\,\dots|]{microtype}|
+%      |\usepackage[|\,\ttdots|]{microtype}|
 %          \=\texttt{\%\space}\textit{Only required for macros and}  \\
 %          \>\texttt{\%\space}\textit{environments in \cref{sec:microtype-frontend}.}  \\
 %      \\[-.5em]
-%      |\usepackage[|\,\dots|]{setspace}|
+%      |\usepackage[|\,\ttdots|]{setspace}|
 %          \=\texttt{\%\space}\textit{Only required for macros in \cref{sec:setspace-frontend}.}  \\
 %      \\[-.5em]
-%      |\usepackage[|\meta{OPTION}\dots|]{typog}|
+%      |\usepackage[|\meta{OPTION}\ttdots|]{typog}|
 %    \end{tabbing}
 %  \end{synopsis}
 %
@@ -2159,7 +2159,7 @@ end
 %  This is the \doublequotes{User Manual}~section of the documentation, where we describe all
 %  user-relevant macros and environments that are defined in package~\packagename{typog}.
 %
-%  We follow the naming convention that every environment whose name ends with \code{\dots par}
+%  We follow the naming convention that every environment whose name ends with \code{\dots~par}
 %  issues a \cs{par} at its end.  Environments with different name suffixes never close
 %  with~\cs{par}.
 %
@@ -2173,7 +2173,7 @@ end
 %
 %  \begin{synopsis}\label{syn:typogsetup}
 %     \cs{begin}|{typogsetup}|\marg{keys}
-%     \dots{}
+%     \ttdots{}
 %     \cs{end}|{typogsetup}|
 %  \end{synopsis}
 %
@@ -2183,7 +2183,7 @@ end
 %  \begin{codeexample}
 %    12\=\kill
 %    \cs{begin}|{typogsetup}|\marg{keys}  \\
-%      \> \dots  \\
+%      \> \ttdots  \\
 %    \cs{end}|{typogsetup}|
 %  \end{codeexample}
 %
@@ -2325,10 +2325,10 @@ end
 %    \label{syn:typoginspect}
 %    \label{syn:typoginspectpar}
 %    \cs{begin}|{typoginspect}|\oarg{option}\marg{id}
-%    \dots{}
+%    \ttdots{}
 %    \cs{end}|{typoginspect}|  \\[\smallskipamount]
 %    \cs{begin}|{typoginspectpar}|\oarg{option}\marg{id}  \\
-%    \hspace*{1em}\dots  \\
+%    \hspace*{1em}\ttdots  \\
 %    \cs{end}|{typoginspectpar}|
 %  \end{synopsis}
 %
@@ -2364,7 +2364,7 @@ end
 %                  job="\meta{jobname}"\textvisiblespace
 %                  line="\meta{line-number}"\textvisiblespace
 %                  page="\meta{page-number}">  \\
-%    ~~\dots  \\
+%    ~~\ttdots  \\
 %    </typog-inspect>
 %  \end{widecodeexample}
 %
@@ -2384,7 +2384,7 @@ end
 %    extract the information gathered by~|typoginspect|, for example:
 %
 %    \begin{codeexample}
-%      sed \= -ne '/<typog-inspect\textvisiblespace id="\dots"/,\textbackslash\#</typog-inspect>\#p'  \\
+%      sed \= -ne '/<typog-inspect\textvisiblespace id="\ttdots"/,\textbackslash\#</typog-inspect>\#p'  \\
 %         \> < jobname.log
 %    \end{codeexample}
 %
@@ -2393,7 +2393,7 @@ end
 %    \begin{codeexample}
 %      perl \= -ne '\= \$a=0 if /<\textbackslash/typog-inspect>/; \textbackslash  \\
 %                  \>\> print \$\_ if \$a; \textbackslash  \\
-%                  \>\> \$a=1 if /<typog-inspect\textvisiblespace id="\dots"/' \textbackslash  \\
+%                  \>\> \$a=1 if /<typog-inspect\textvisiblespace id="\ttdots"/' \textbackslash  \\
 %           \> < jobname.log
 %    \end{codeexample}
 %
@@ -2427,7 +2427,7 @@ end
 %
 %      to the command-line.
 %
-%    \item If more trace information is needed just add \cs{tracing\dots} calls right after
+%    \item If more trace information is needed just add \cs{tracing\ttdots} calls right after
 %      \code{\string\begin\{typoginspect\}}
 %      or~\code{\string\begin\{typoginspectpar\}}.
 %
@@ -2497,19 +2497,19 @@ end
 %
 %  \begin{note}
 %    When package~\packagename{microtype}'s font expansion jumps in the reports on
-%    \doublequotes{Loose \textbackslash hbox (badness \dots)} and \doublequotes{Tight
-%    \textbackslash hbox (badness \dots)} \shiftedmarginnote{All of our guillemets were raised
+%    \doublequotes{Loose \textbackslash hbox (badness~\dots)} and \doublequotes{Tight
+%    \textbackslash hbox (badness~\dots)} \shiftedmarginnote{All of our guillemets were raised
 %    by \milliem{\the\typogget{raiseguillemets}}.}  contain the amount of shrinking or expansion
 %    as parenthesized values (units are thousandths of the current font's~em) like, e.\,g.,
 %
 %    \begin{codeexample}
-%      \textbackslash T1/erewhon-LF/m/n/9/@/@ (-13) \dots
+%      \textbackslash T1/erewhon-LF/m/n/9/@/@ (-13) \ttdots
 %    \end{codeexample}
 %
 %    or
 %
 %    \begin{codeexample}
-%      \textbackslash T1/erewhon-LF/m/n/9/@/@/10ls (+7) \dots
+%      \textbackslash T1/erewhon-LF/m/n/9/@/@/10ls (+7) \ttdots
 %    \end{codeexample}
 %
 %    An \sample{ls} appended to the font name specification indicates that
@@ -2631,7 +2631,7 @@ end
 %    \item Re-enable hyphenation when a macro decays into a \cs{hbox}:
 %
 %      \begin{codeexample}
-%        Einselement\cs{allowhyphenation}\cs{rlap}\{,\}\cs{footnote}\{\dots\}
+%        Einselement\cs{allowhyphenation}\cs{rlap}\{,\}\cs{footnote}\{\ttdots\}
 %      \end{codeexample}
 %
 %      where \cs{rlap} is equivalent to something like
@@ -2823,7 +2823,7 @@ end
 %
 %  \begin{synopsis}\label{syn:hyphenmin}
 %    \cs{begin}|{hyphenmin}|\oarg{left-hyphen-minimum}\marg{hyphen-minimum}  \\
-%    \hspace*{1em}\dots  \\
+%    \hspace*{1em}\ttdots  \\
 %    \cs{end}|{hyphenmin}|
 %  \end{synopsis}
 %
@@ -3686,7 +3686,7 @@ end
 %        \acronym{STIX}\detoxindex{font>typeface>STIX=\acronym{STIX}|userman}, and many more  &
 %        .0  \\
 %        Charis \acronym{SIL}\detoxindex{font>typeface>Charis SIL=Charis \acronym{SIL}|userman},
-%        fbb\fbbmark\detoxindex{font>typeface>fbb|userman},
+%        fbb\fbbmark\detoxindex{font>typeface>fbb|userman}\!,
 %        Source Serif Pro\detoxindex{font>typeface>Source Serif Pro|userman}  &
 %        .05  \\
 %        Libre Baskerville\detoxindex{font>typeface>Libre Baskerville|userman},
@@ -3710,6 +3710,7 @@ end
 %    \end{tabfigures}
 %
 %    \begin{tablenotes}
+%      \renewcommand*{\tablenotemark}[1]{#1}%
 %      \fbbmark\enspace Free Bembo.
 %    \end{tablenotes}
 %  \end{table}
@@ -4154,7 +4155,7 @@ end
 %      \begin{codeexample}
 %        \cs{begin}\{itemize\}  \\
 %        \cs{noadjustlabelitems}\{\}  \\
-%        \cs{item} \dots  \\
+%        \cs{item} \ttdots  \\
 %        \cs{end}\{itemize\}
 %      \end{codeexample}
 %
@@ -4168,7 +4169,7 @@ end
 %              \>\cs{renewcommand*}\{\cs{labelitemi}\}\{\{\cs{small}\$\cs{rhd}\$\}\}  \\
 %              \>\cs{begin}\{itemize\}  \\
 %              \>\cs{uppercaseadjustlabelitems}\{\}  \\
-%              \>\cs{item} \dots  \\
+%              \>\cs{item} \ttdots  \\
 %              \>\cs{end}\{itemize\}  \\
 %        \cs{end}\{typogsetup\}
 %      \end{codeexample}
@@ -4192,7 +4193,7 @@ end
 %  of a sample text scaled by a user-defined factor, which defaults
 %  to~\nativetextfraction{1}{2}.\!\footnote{The default factor of~.5 hearkens back to
 %  \propername{Strizver's} suggestion that \doublequotes{[b]ullets should be centered on either
-%  the cap~height or x-height of the neighboring text, \dots.}~\cite[p.~220]{strizver:2014}.}
+%  the cap~height or x-height of the neighboring text,~\dots.}~\cite[p.~220]{strizver:2014}.}
 %  The then correct height gets indicated by a thin horizontal line parallel to the baseline.
 %  Thus, at sufficiently high magnifications it is possible to judge whether a label gets
 %  typeset too high or too low with respect to this reference line.
@@ -4277,12 +4278,12 @@ end
 %    Play ball!
 %
 %    \begin{center}
-%      \typogadjuststairs{.25pt}{9}{ABC}
+%      \typogadjuststairs{.25pt}{11}{ABC}
 %    \end{center}
 %
-%    This is the result of \code{\string\typogadjuststairs\{.25pt\}\{9\}\{ABC\}} with the
-%    document's definitions of \cs{labelitem}\meta{N}.  The fifth label~item in each line is the
-%    uncorrected one.
+%    This is the result of \code{\string\typogadjuststairs\{.25pt\}\{11\}\{ABC\}} with the
+%    document's definitions of \cs{labelitem}\meta{N}.  The middle (6\textsuperscript{th})
+%    label~item in each line is the uncorrected one.
 %  \end{example}
 %
 %  \hangindent=2\parindent
@@ -4358,8 +4359,8 @@ end
 %            {Some suggested values for the vertical adjustments of label items.  The table
 %             assumes that the default definitions (of class~\packagename{article}) for
 %             \cs{labelitem}\meta{N} are in effect.  The \code{itemize}-list levels~\code{i},
-%             \code{ii}, \code{iii} and~\code{iv} are referred to with \(N = 1, 2, 3, 4\).  All
-%             lengths are given as printer points~(pt) and refer to a document font size of
+%             \code{ii}, \code{iii}, and~\code{iv} are referred to with \(N = 1, 2, 3, 4\).  All
+%             lengths are given as printer points~(pt) and relate to a document font size of
 %             \formatdimen*{10pt}.}
 %    \label{tab:labelitemadjustvalues}
 %
@@ -4383,90 +4384,107 @@ end
 %          \mc{1}  &  \mc{2}  &  \mc{3}  &  \mc{4}  \\
 %        \midrule
 %          \acronym{ADF} Accanthis\detoxindex{font>typeface>ADF Venturis=\acronym{ADF} Accanthis|userman}  &
-%          .5~~  &  1.5~~  &  \textminus1.5~~  &  1.125  &
-%          \textminus.75~  &  .25~  &  \textminus2.75~  &  \textminus.125  \\
+%          1.0~~  &  .75~  &  1.125  &  1.125  &
+%          .0~~  &  \textminus.25~  &  \textminus.125  &  .0~~  \\
 %          \acronym{ADF} Venturis\detoxindex{font>typeface>ADF Venturis=\acronym{ADF} Venturis|userman}  &
-%          .0~~  &  1.0~~  &  .75~  &  1.0~~  &
-%          \textminus.75~  &  .0~~  &  \textminus.25~  &  .0~~  \\
+%          .75~  &  .5~~  &  .75~  &  .875  &
+%          \textminus.125  &  \textminus.25~  &  \textminus.125  &  \textminus.125  \\
 %          Aleo\detoxindex{font>typeface>Aleo|userman}  &
-%          .75~  &  .75~  &  \textminus1.5~~  &  .75~  &
-%          \textminus.25~  &  \textminus.5~~  &  \textminus2.75~  &  \textminus.325  \\
+%          1.25~  &  1.0~~  &  1.25~  &  1.25~  &
+%          .0~~  &  \textminus.25~  &  .0~~  &  .125  \\
 %          Charis \acronym{SIL}\detoxindex{font>typeface>Charis SIL=Charis \acronym{SIL}|userman}  &
-%          .375  &  1.0~~  &  \textminus.75~  &  .25~  &
-%          \textminus.75~  &  .0~~  &  \textminus1.75~  &  \textminus.875  \\
+%          1.0~~  &  1.0~~  &  1.0~~  &  1.125  &
+%          .0~~  &  \textminus.25~  &  .0~~  &  .125  \\
 %          \acronym{CM} Roman\detoxindex{font>typeface>CM Roman=\acronym{CM} Roman|userman}  &
 %          1.0~~  & .75~  &  1.0~~  &  1.0~~  &
 %          \textminus.25~  &  \textminus.5~~  &  \textminus.25~  &  \textminus.25~  \\
 %          Domitian\detoxindex{font>typeface>Domitian|userman}  &
-%          .25~  &  1.0~~  &  .75~  &  1.0~~  &
-%          \textminus1.0~~  &  .0~~  &  \textminus.325  &  \textminus.25~  \\
+%          1.0~~  &  .75~  &  1.0~~  &  1.0~~  &
+%          .0~~  &  \textminus.25~  &  \textminus.25~  &  .0~~  \\
 %          Cochineal\detoxindex{font>typeface>Cochineal|userman}  &
-%          1.0~~  &  1.0~~  &  1.0~~  &  1.0~~  &
-%          \textminus.125  &  \textminus.125  &  \textminus.125  &  \textminus.125  \\
+%          .75~  &  .75~  &  .75~  &  .75~  &
+%          \textminus.25~  &  \textminus.5~~  &  \textminus.25~  &  \textminus.25~  \\
 %          \acronym{EB} Garamond\detoxindex{font>typeface>EB Garamond=\acronym{EB} Garamond|userman}  &
-%          .0~~  &  1.25~  &  \textminus.875  &  1.325  &
-%          \textminus1.5~~  &  .0~~  &  \textminus2.0~~  &  0.125  \\
+%          1.0~~  &  .75~  &  .75~  &  1.0~~  &
+%          \textminus.25~  &  \textminus.5~~  &  \textminus.25~  &  \textminus.25~  \\
 %          etbb\etbbmark\detoxindex{font>typeface>etbb|userman}  &
-%          .25~  &  1.0~~  &  1.125  &  .5~~  &
-%          \textminus1.0~~  &  \textminus.0~~  &  \textminus.0~~  &  \textminus.5~~  \\
+%          1.0~~  &  .75~  &  1.0~~  &  1.0~~  &
+%          \textminus.25~  &  \textminus.5~~  &  \textminus.25~  &  \textminus.25~  \\
 %          Extended Charter\xchartermark\detoxindex{font>typeface>Extended Charter|userman}  &
-%          \textminus.25~  &  1.0~~  &  1.75~  &  .125  &
-%          \textminus1.125  &  .0~~  &  .875  & \textminus.875  \\
-%          Gentium\detoxindex{font>typeface>Gentium|userman}  &
-%          .0~~  &  .75~  &  .0~~  &  .0~~  &
-%          \textminus.5~~  &  \textminus.25~  &  \textminus.75~  &  \textminus1.0~~  \\
+%          1.0~~  &  .75~  &  1.0~~  &  1.0~~  &
+%          .0~~  &  \textminus.25~  &  .0~~  &  .0~~  \\
+%          Gentium Plus\detoxindex{font>typeface>Gentium Plus|userman}  &
+%          .75~  &  .5~~  &  .75~  &  .75~  &
+%          \textminus.25~  &  \textminus.5~~  &  \textminus.25~  &  .0~~  \\
 %          \acronym{GFS} Bodoni\detoxindex{font>typeface>GFS Bodoni=\acronym{GFS} Bodoni|userman}  &
-%          \textminus.25~  &  .625  &  1.0~~  &  1.125  &
-%          \textminus1.25~  &  \textminus.625  &  \textminus.5~~  &  \textminus.25~  \\
+%          1.0~~  &  .75~  &  1.0~~  &  1.0~~  &
+%          .0~~  &  \textminus.25~  &  \textminus.125  &  .0~~  \\
 %          \acronym{GFS} Didot\detoxindex{font>typeface>GFS Didot=\acronym{GFS} Didot|userman}  &
-%          \textminus1.5~~  &  .75~  &  1.0~~  &  1.25~  &
-%          \textminus2.75~  &  \textminus.25~  &  \textminus.25~  &  .25~  \\
-%          \acronym{IBM} Plex Serif\detoxindex{font>typeface>IBM Plex Serif=\acronym{IBM} Plex Serif|userman}  &
-%          .5~~  &  .5~~  &  \textminus1.325  &  .5~~  &
-%          \textminus.25~  &  \textminus.25~  &  \textminus2.25~  &  \textminus.25~  \\
-%          \acronym{KP} Serif\kpmark\detoxindex{font>typeface>KP Serif=\acronym{KP} Serif|userman}  &
-%          .0~~  &  1.0~~  &  1.25~  &  .75~  &
-%          \textminus1.0~~  &  .0~~  &  .0~~  &  \textminus.5~~  \\
-%          Libertinus Serif\detoxindex{font>typeface>Libertinus Serif|userman}  &
-%          1.0~~  &  .75~  &  1.125  &  .75~  &
-%          .0~~  &  \textminus.325  &  .0~~  &  \textminus.25~  \\
-%          \acronym{ML} Modern\detoxindex{font>typeface>ML Modern=\acronym{ML} Modern|userman}  &
-%          1.25~  &  .75~  &  1.0~~  &  .125  &
-%          .0~~  &  \textminus.5~~  &  \textminus.25~  &  \textminus.125  \\
-%          Source Serif Pro\detoxindex{font>typeface>Source Serif Pro|userman}  &
-%          .125  &  .75~  &  \textminus1.0~~  &  .125  &
-%          \textminus.75~  &  .0~~  &  \textminus2.0~~  &  \textminus.75~  \\
-%          Spectral\detoxindex{font>typeface>Spectral|userman}  &
-%          .625  &  .625  &  \textminus1.5~~  &  .625  &
-%          \textminus.25~  &  \textminus.25~  &  \textminus2.5~~  &  \textminus.25~  \\
-%          \acronym{STIX}\detoxindex{font>typeface>STIX=\acronym{STIX}|userman}  &
-%          1.0~~  &  1.0~~  &  .75~  &  1.0~~  &
+%          1.25~  &  1.0~~  &  1.25~  &  1.25~  &
 %          .0~~  &  .0~~  &  .0~~  &  .0~~  \\
+%          \acronym{IBM} Plex Serif\detoxindex{font>typeface>IBM Plex Serif=\acronym{IBM} Plex Serif|userman}  &
+%          1.125  &  1.0~~  &  1.125  &  1.25~  &
+%          .25~  &  .25~  &  .25~  &  .25~  \\
+%          \acronym{KP} Serif\itcorr{8}\kpmark\detoxindex{font>typeface>KP Serif=\acronym{KP} Serif|userman}  &
+%          1.0~~  &  .75~  &  1.0~~  &  1.0~~  &
+%          \textminus.25~  &  \textminus.5~~  &  \textminus.25~  &  \textminus.25~  \\
+%          Libertinus Serif\detoxindex{font>typeface>Libertinus Serif|userman}  &
+%          .75~  &  .5~~  &  .75~  &  .875  &
+%          \textminus.25~  &  \textminus.5~~  &  \textminus.25~  &  \textminus.25~  \\
+%          \acronym{ML} Modern\detoxindex{font>typeface>ML Modern=\acronym{ML} Modern|userman}  &
+%          1.~~~  &  .75~  &  1.0~~  &  1.0~~  &
+%          \textminus.25~  &  \textminus.5~~  &  \textminus.25~  &  \textminus.25~  \\
+%          Source Serif Pro\detoxindex{font>typeface>Source Serif Pro|userman}  &
+%          1.0~~  &  .75~  &  1.0~~  &  1.0~~  &
+%          .0~~  &  \textminus.25~  &  .0~~  &  .0~~  \\
+%          Spectral\detoxindex{font>typeface>Spectral|userman}  &
+%          1.0~~  &  .75~  &  .75~  &  1.0~~  &
+%          .0~~  &  \textminus.25~  &  \textminus.25~  &  .0~~  \\
+%          \acronym{STIX}\detoxindex{font>typeface>STIX=\acronym{STIX}|userman}  &
+%          1.0~~  &  .75~  &  1.0~~  &  1.0~~  &
+%          \textminus.25~  &  \textminus.5~~  &  \textminus.25~  &  .0~~  \\
 %          \acronym{URW} Palladio\palladiomark\detoxindex{font>typeface>URW Palladio=\acronym{URW} Palladio|userman}  &
-%          .25~  &  1.125  &  1.0~~  &  1.0~~  &
-%          \textminus1.0~~  &  \textminus.125  &  \textminus.125  &  \textminus.125  \\
-%          Utopia Regular\utopiamark\detoxindex{font>typeface>Utopia Regular|userman}  &
-%          .0~~  &  1.0~~  &  .75~  &  1.0~~  &
-%          \textminus.75~  &  .0~~  &  \textminus.25~  &  .0~~  \\
+%          1.0~~  &  .75~  &  1.0~~  &  1.0~~  &
+%          .0~~  &  .0~~  &  .0~~  &  .0~~  \\
+%          Utopia\itcorr{2}\utopiamark\detoxindex{font>typeface>Utopia|userman}  &
+%          .75~  &  .5~~  &  .75~  &  .75~  &
+%          \textminus.25~  &  \textminus.5~~  &  \textminus.25~  &  \textminus.25~  \\
 %        \bottomrule
 %      \end{tabular}}
 %    \end{tabfigures}
 %
 %    \begin{tablenotes}
-%      \etbbmark\enspace \propername{Edward Tufte}'s Bembo in package~\packagename{ETbb}.  Note
-%      the two initial capital letters in the filename.
+%      \renewcommand*{\tablenotemark}[1]{#1}%
+%      \etbbmark\enspace
+%      \propername{Edward Tufte}'s Bembo in package~\packagename{ETbb}.  Note the two initial
+%      capital letters in the filename.
 %
-%      \xchartermark\enspace Found in package \packagename{XCharter}.  Again note the two
-%      initial capitals in the filename.
+%      \xchartermark\enspace
+%      Found in package \packagename{XCharter}.  Again note the two initial capitals in the
+%      filename.
 %
-%      \kpmark\enspace In package \packagename{kpfonts}.
+%      \kpmark\enspace
+%      In package \packagename{kpfonts}.
 %
-%      \palladiomark\enspace Contained in package~\packagename{mathpazo}.
+%      \palladiomark\enspace
+%      Contained in package~\packagename{mathpazo}.
 %
-%      \utopiamark\enspace Utopia is available through package~\packagename{fourier} or
+%      \utopiamark\enspace
+%      Utopia is available through package~\packagename{fourier} or
 %      package~\packagename{mathdesign}.  For the latter pass option~\code{adobe-utopia} to the
 %      package.
 %    \end{tablenotes}
+%
+%    \begin{note}
+%      Depending on the font packages loaded (and on their load order) the three
+%      macros~\cs{text\-endash}, \cs{text\-asterisk\-centered}, \cs{text\-period\-centered} may
+%      be redefined and thus expand to different glyphs which need different adjustment values
+%      than the ones mentioned in \Cref{tab:labelitemadjustvalues}.  To ensure a set of
+%      correction values works use
+%      macros~\hyperref[syn:typoguppercaseadjustcheck]{\cs{typog\-upper\-case\-adjust\-check}}
+%      or \hyperref[syn:typoglowercaseadjustcheck]{\cs{typog\-lower\-case\-adjust\-check}}
+%      inside of the target document.
+%    \end{note}
 %  \end{table}
 %
 %
@@ -4488,7 +4506,7 @@ end
 %
 %  \begin{synopsis}\label{syn:lastlineraggedleftpar}\label{syn:lastlineflushrightpar}
 %    \cs{begin}|{lastlineraggedleftpar}|  \\
-%    \hspace*{1em}\dots  \\
+%    \hspace*{1em}\ttdots  \\
 %    \cs{end}|{lastlineraggedleftpar}|  \\[\smallskipamount]
 %    |lastlineflushrightpar|~(alias)
 %  \end{synopsis}
@@ -4501,7 +4519,7 @@ end
 %  Ref.~\citenum{wermuth:2018}.}
 %
 %  \begin{synopsis}\label{syn:lastlinecenteredpar}
-%    \cs{begin}|{lastlinecenteredpar}| \dots{} \cs{end}|{lastlinecenteredpar}|
+%    \cs{begin}|{lastlinecenteredpar}| \ttdots{} \cs{end}|{lastlinecenteredpar}|
 %  \end{synopsis}
 %
 %  \begin{usecases}
@@ -4817,7 +4835,7 @@ end
 %
 %  \begin{synopsis}\label{syn:shortenpar}
 %    \cs{begin}|{shortenpar}|
-%    \dots{}
+%    \ttdots{}
 %    \cs{end}|{shortenpar}|
 %  \end{synopsis}
 %
@@ -4829,7 +4847,7 @@ end
 %
 %  \begin{synopsis}\label{syn:prolongpar}
 %    \cs{begin}|{prolongpar}|
-%    \dots{}
+%    \ttdots{}
 %    \cs{end}|{prolongpar}|
 %  \end{synopsis}
 %
@@ -4850,7 +4868,7 @@ end
 %
 %  \begin{synopsis}\label{syn:covernextindentpar}
 %    \cs{begin}|{covernextindentpar}|\oarg{dim}  \\
-%    \hspace*{1em}\dots  \\
+%    \hspace*{1em}\ttdots  \\
 %    \cs{end}|{covernextindentpar}|
 %  \end{synopsis}
 %
@@ -4868,7 +4886,7 @@ end
 %  full or completely filled.
 %
 %  \begin{synopsis}\label{syn:openlastlinepar}
-%    \cs{begin}|{openlastlinepar}|\oarg{dim} \dots{} \cs{end}|{openlastlinepar}|
+%    \cs{begin}|{openlastlinepar}|\oarg{dim} \ttdots{} \cs{end}|{openlastlinepar}|
 %  \end{synopsis}
 %
 %  It may resolve \hyperref[item:o2]{case~O2} as it attempts to prevent a completely filled line
@@ -4900,7 +4918,7 @@ end
 %  Typeset a single paragraph with \cs{lastlinefit} set to a given value.
 %
 %  \begin{synopsis}\label{syn:lastlinefitpar}
-%    \cs{begin}|{lastlinefitpar}|\oarg{value} \dots{} \cs{end}|{lastlinefitpar}|
+%    \cs{begin}|{lastlinefitpar}|\oarg{value} \ttdots{} \cs{end}|{lastlinefitpar}|
 %  \end{synopsis}
 %
 %  The parameter range of \meta{value} is zero to thousand.  It controls the fraction of
@@ -4963,7 +4981,7 @@ end
 %
 %  \begin{synopsis}\label{syn:loosespacing}
 %    \cs{begin}|{loosespacing}|\oarg{level}
-%    \dots{}
+%    \ttdots{}
 %    \cs{end}|{loosespacing}|
 %  \end{synopsis}
 %
@@ -5003,7 +5021,7 @@ end
 %
 %  \begin{synopsis}\label{syn:tightspacing}
 %    \cs{begin}|{tightspacing}|\oarg{level}
-%    \dots{}
+%    \ttdots{}
 %    \cs{end}|{tightspacing}|
 %  \end{synopsis}
 %
@@ -5235,8 +5253,8 @@ end
 %    \emph{before} package~\packagename{typog}
 %
 %    \begin{codeexample}
-%      \cs{usepackage}[\meta{microtype-options}\dots]\{microtype\}  \\
-%      \cs{usepackage}[\meta{typog-options}\dots]\{typog\}
+%      \cs{usepackage}[\meta{microtype-options}\ttdots]\{microtype\}  \\
+%      \cs{usepackage}[\meta{typog-options}\ttdots]\{typog\}
 %    \end{codeexample}
 %
 %    \noindent
@@ -5258,7 +5276,7 @@ end
 %  Override the default tracking for all fonts.
 %
 %  \begin{synopsis}\label{syn:setfonttracking}
-%    \cs{begin}|{setfonttracking}|\marg{delta} \dots{} \cs{end}|{setfonttracking}|
+%    \cs{begin}|{setfonttracking}|\marg{delta} \ttdots{} \cs{end}|{setfonttracking}|
 %  \end{synopsis}
 %
 %  The environment~|setfonttracking| manages a group for \cs{lsstyle} of
@@ -5310,10 +5328,10 @@ end
 %
 %  \begin{synopsis}\label{syn:setfontshrink}\label{syn:setfontstretch}
 %    \cs{begin}|{setfontshrink}|\oarg{level}
-%    \dots{}
+%    \ttdots{}
 %    \cs{end}|{setfontshrink}|  \\
 %    \cs{begin}|{setfontstretch}|\oarg{level}
-%    \dots{}
+%    \ttdots{}
 %    \cs{end}|{setfontstretch}|
 %  \end{synopsis}
 %
@@ -5383,7 +5401,7 @@ end
 %
 %  \begin{synopsis}\label{syn:setfontexpand}
 %    \cs{begin}|{setfontexpand}|\oarg{level}
-%    \dots{}
+%    \ttdots{}
 %    \cs{end}|{setfontexpand}|
 %  \end{synopsis}
 %
@@ -5446,7 +5464,7 @@ end
 %
 %  \begin{synopsis}\label{syn:nofontexpansion}\label{syn:nofontexpand}
 %    \cs{begin}|{nofontexpansion}|
-%    \dots{}
+%    \ttdots{}
 %    \cs{end}|{nofontexpansion}|  \\[\smallskipamount]
 %    |nofontexpand|~(alias)
 %  \end{synopsis}
@@ -5470,7 +5488,7 @@ end
 %
 %  \begin{synopsis}\label{syn:nocharprotrusion}
 %    \cs{begin}|{nocharprotrusion}|
-%    \dots{}
+%    \ttdots{}
 %    \cs{end}|{nocharprotrusion}|
 %  \end{synopsis}
 %
@@ -5498,7 +5516,7 @@ end
 %  \begin{synopsis}\label{syn:slightlysloppy}\label{syn:slightlysloppypar}
 %    \cs{slightlysloppy}\oarg{sloppiness}  \\[\smallskipamount]
 %    \cs{begin}|{slightlysloppypar}|\oarg{sloppiness}  \\
-%    \hspace*{1em}\dots  \\
+%    \hspace*{1em}\ttdots  \\
 %    \cs{end}|{slightlysloppypar}|
 %  \end{synopsis}
 %
@@ -5539,6 +5557,7 @@ end
 %    \end{suspendshortverb}
 %
 %    \begin{tablenotes}
+%      \renewcommand*{\tablenotemark}[1]{#1}%
 %      \tolerancemark\enspace
 %      All intermediate levels set \(\cs{pretolerance} = \cs{tolerance} / 2\).
 %
@@ -5588,7 +5607,7 @@ end
 %  \begin{synopsis}\label{syn:vtietop}\label{syn:vtietoppar}
 %    \cs{vtietop}\oarg{number-of-lines}  \\[\smallskipamount]
 %    \cs{begin}|{vtietoppar}|\oarg{number-of-lines}
-%    \dots{}
+%    \ttdots{}
 %    \cs{end}|{vtietoppar}|
 %  \end{synopsis}
 %
@@ -5616,7 +5635,7 @@ end
 %
 %  Use this macro \emph{inside} of a \code{list}-like environment to equip each \cs{item} with
 %  \cs{vtietop}\oarg{number-of-lines}.  The default \meta{number-of-lines} is three as for any
-%  of the \code{vtie\dots}~functions.
+%  of the \code{vtie\ttdots}~functions.
 %
 %  Example for a \code{description}~list and plain \LaTeX:
 %
@@ -5660,7 +5679,7 @@ end
 %  \begin{synopsis}\label{syn:vtiebot}\label{syn:vtiebotpar}
 %    \cs{vtiebot}\oarg{number-of-lines}  \\[\smallskipamount]
 %    \cs{begin}|{vtiebotpar}|\oarg{number-of-lines}
-%    \dots{}
+%    \ttdots{}
 %    \cs{end}|{vtiebotpar}|
 %  \end{synopsis}
 %
@@ -5675,7 +5694,7 @@ end
 %
 %  \begin{synopsis}\label{syn:vtiebotdisp}\label{syn:vtiebotdisppar}
 %    \cs{begin}|vtiebotdisp|\oarg{before-disp-number-of-lines}  \\
-%    \hspace*{1em}\dots  \\
+%    \hspace*{1em}\ttdots  \\
 %    \cs{end}|{vtiebotdisp}|
 %  \end{synopsis}
 %
@@ -5703,7 +5722,7 @@ end
 %    \begin{tabbing}
 %      \cs{begin}|{vtiebotdisptoppar}|\= \oarg{before-disp-number-of-lines}  \\
 %                                     \> \oarg{after-disp-number-of-lines}  \\
-%      \hspace*{1em}\dots  \\
+%      \hspace*{1em}\ttdots  \\
 %      \cs{end}|{vtiebotdisptoppar}|
 %    \end{tabbing}
 %  \end{synopsis}
@@ -5784,6 +5803,7 @@ end
 %    \end{tabfigures}
 %
 %    \begin{tablenotes}
+%      \renewcommand*{\tablenotemark}[1]{#1}%
 %      \clubmark\enspace
 %      This is \eTeX's counting scheme of \cs{clubpenalties}; it also holds for
 %      \code{vtietoppar}.
@@ -5834,7 +5854,7 @@ end
 %
 %  \begin{synopsis}\label{syn:breakabledisplay}
 %    \cs{begin}|{breakabledisplay}|\oarg{level}  \\
-%    \hspace*{1em}\dots  \\
+%    \hspace*{1em}\ttdots  \\
 %    \cs{end}|{breakabledisplay}|
 %  \end{synopsis}
 %
@@ -5869,6 +5889,7 @@ end
 %    \end{tabfigures}
 %
 %    \begin{tablenotes}
+%      \renewcommand*{\tablenotemark}[1]{#1}%
 %      \clubmark\enspace
 %      This is the default of \cs{allowdisplaybreaks}.
 %    \end{tablenotes}
@@ -6157,20 +6178,20 @@ end
 %
 %  \begin{widebody}
 %    \begin{synopsis}\label{syn:smoothraggedrightshapetriplet}\label{syn:smoothraggedrightshapequintuplet}\label{syn:smoothraggedrightshapeseptuplet}
-%       \cs{begin}|{smoothraggedrightshapetriplet}|{[\meta{option}\dots]}\marg{width1}\marg{width2}\marg{width3}  \\
-%       \hspace*{1em}\dots  \\
+%       \cs{begin}|{smoothraggedrightshapetriplet}|{[\meta{option}\ttdots]}\marg{width1}\marg{width2}\marg{width3}  \\
+%       \hspace*{1em}\ttdots  \\
 %       \cs{end}|{smoothraggedrightshapetriplet}|  \\[\smallskipamount]
-%       \cs{begin}|{smoothraggedrightshapequintuplet}|{[\meta{option}\dots]}\marg{width1}\dots\marg{width5} \\
-%       \hspace*{1em}\dots  \\
+%       \cs{begin}|{smoothraggedrightshapequintuplet}|{[\meta{option}\ttdots]}\marg{width1}\ttdots\marg{width5} \\
+%       \hspace*{1em}\ttdots  \\
 %       \cs{end}|{smoothraggedrightshapequintuplet}|  \\[\smallskipamount]
-%       \cs{begin}|smoothraggedrightshapeseptuplet|{[\meta{option}\dots]}\marg{width1}\dots\marg{width7}  \\
-%       \hspace*{1em}\dots  \\
+%       \cs{begin}|smoothraggedrightshapeseptuplet|{[\meta{option}\ttdots]}\marg{width1}\ttdots\marg{width7}  \\
+%       \hspace*{1em}\ttdots  \\
 %       \cs{end}|{smoothraggedrightshapeseptuplet}|
 %    \end{synopsis}
 %  \end{widebody}
 %
 %  The environments take \(N\) = 3, 5, or~7 mandatory line-width parameters, where each
-%  \meta{width\itcorr{3}I}, \(I = 1,\dots, N\) is a skip, i.\,e.,~a dimen that can include some
+%  \meta{width\itcorr{3}I}, \(I = 1,~\dots, N\) is a skip, i.\,e.,~a dimen that can include some
 %  glue.
 %
 %
@@ -6193,8 +6214,8 @@ end
 %  the length-difference of the longest and the shortest lines.
 %
 %  \begin{synopsis}\label{syn:smoothraggedrightpar}
-%    \cs{begin}|{smoothraggedrightpar}|{[\meta{option}\dots]}  \\
-%    \hspace*{1em}\dots  \\
+%    \cs{begin}|{smoothraggedrightpar}|{[\meta{option}\ttdots]}  \\
+%    \hspace*{1em}\ttdots  \\
 %    \cs{end}|{smoothraggedrightpar}|
 %  \end{synopsis}
 %
@@ -6358,8 +6379,8 @@ end
 %  \code{smoothraggedrightpar}.  It takes the same optional arguments.
 %
 %  \begin{synopsis}\label{syn:smoothraggedright}
-%    \cs{begin}|{smoothraggedright}|{[\meta{option}\dots]}  \\
-%    \hspace*{1em}\dots  \\
+%    \cs{begin}|{smoothraggedright}|{[\meta{option}\ttdots]}  \\
+%    \hspace*{1em}\ttdots  \\
 %    \cs{end}|{smoothraggedright}|
 %  \end{synopsis}
 %
@@ -6607,13 +6628,15 @@ end
 %
 %    The new algorithm is used only if
 %
-%    \begin{enumerate}[nosep]
-%    \item \cs{lastlinefit} is positive;
-%    \item \cs{parfillskip} has infinite stretchability; and
-%    \item the stretchability of \cs{leftskip} plus \cs{rightskip} is finite.\!\footnote{As
-%          usual for parameters influencing \TeX's line-breaking algorithm, the values current
-%          at the end of the (partial) paragraph are used.}
-%    \end{enumerate}
+%    \begin{tabfigures}
+%      \begin{enumerate}[nosep]
+%      \item \cs{lastlinefit} is positive;
+%      \item \cs{parfillskip} has infinite stretchability; and
+%      \item the stretchability of \cs{leftskip} plus \cs{rightskip} is finite.\!\footnote{As
+%            usual for parameters influencing \TeX's line-breaking algorithm, the values current
+%            at the end of the (partial) paragraph are used.}
+%      \end{enumerate}
+%    \end{tabfigures}
 %
 %    \noindent
 %    Thus the last line of a paragraph would normally be typeset at its natural width and the
@@ -6623,13 +6646,15 @@ end
 %    visually incompatible lines.  When a candidate for the last line has been reached, the
 %    following conditions are tested:
 %
-%    \begin{enumerate}[nosep, resume]
-%    \item the previous line was not \doublequotes{infinitely bad} and was stretched with
-%          positive finite stretchability or was shrunk with positive shrinkability;
-%    \item the last line has infinite stretchability entirely due to \cs{par\-fill\-skip} glue;
-%    \item if the previous line was stretched or shrunk the last line has positive finite
-%          stretchability or shrinkability.
-%    \end{enumerate}
+%    \begin{tabfigures}
+%      \begin{enumerate}[nosep, resume]
+%      \item the previous line was not \doublequotes{infinitely bad} and was stretched with
+%            positive finite stretchability or was shrunk with positive shrinkability;
+%      \item the last line has infinite stretchability entirely due to \cs{par\-fill\-skip} glue;
+%      \item if the previous line was stretched or shrunk the last line has positive finite
+%            stretchability or shrinkability.
+%      \end{enumerate}
+%    \end{tabfigures}
 %
 %    \noindent
 %    If all three conditions are satisfied, a glue adjustment factor of \(f\)~times that of the
@@ -6690,7 +6715,7 @@ end
 %      \begin{thebibliography}{88}
 %      \bibitem{abrahams:2020}
 %              \bibauthor{Abrahams, Paul~W.},
-%              \bibauthor{Hargreaves, Kathryn~A.,} and
+%              \bibauthor{Kathryn A.~Hargreaves,} and
 %              \bibauthor{Karl Berry}.
 %              \bibtitle{\TeX{} for the Impatient}.
 %              2020,
@@ -6767,7 +6792,7 @@ end
 %              \biburl{https://www.eijkhout.net/tex/tex-by-topic.html}.
 %
 %      \bibitem{forssman-de-jong:2008}
-%              \bibauthor{Forssman, Friedrich} and \bibauthor{Ralf de Jong}.
+%              \bibauthor{Forssman, Friedrich,} and \bibauthor{Ralf de Jong}.
 %              \bibtitle{Detailtypographie}.
 %              4.~Aufl.\widespace
 %              Verlag Hermann Schmitz, Mainz,
@@ -6775,7 +6800,7 @@ end
 %
 %      \bibitem{package:mathtools}
 %              \bibauthor{H{\o}gholm, Morten},
-%              \bibauthor{Madsen, Lars} and
+%              \bibauthor{Lars Madsen,} and
 %              the \bibauthor{\LaTeXIII\ Project Team}.
 %              \bibtitle{Package~\packagename{mathtools}}.
 %              2020,
@@ -6985,7 +7010,7 @@ end
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
 \ProvidesPackage{typog}
-                [2025/05/05  v0.5  TypoGraphic extensions]
+                [2025/05/18  v0.5  TypoGraphic extensions]
 
 \RequirePackage{etoolbox}
 \RequirePackage{everyhook}
@@ -7146,7 +7171,7 @@ end
 %    \end{macrocode}
 %  \end{macro}
 %
-%  Our own state\dots
+%  Our own state \dots
 %
 %  \begin{macro}{\typog@config@mathitalicscorrection}
 %    \begin{macrocode}
@@ -7248,7 +7273,7 @@ end
 %    \end{macrocode}
 %  \end{ldimen}
 %
-%  Other lengths\dots
+%  Other lengths \dots
 %
 %  \begin{macro}{\typog@config@textitalicscorrection}
 %    \begin{macrocode}
@@ -9246,7 +9271,7 @@ end
 %    \begin{macrocode}
    \loop
      \ifnum\thetypog@@iteration=\numexpr\count0 / 2\relax
-       \dimen1=2\dimen0
+       \dimen1=3\dimen0
      \else
        \dimen1=\dimen0
      \fi
@@ -10809,7 +10834,7 @@ end
    \typog@fuzzwidth=\smoothraggedrightfuzzfactor\smoothraggedrightragwidth
 %    \end{macrocode}
 %
-%    Now for the generator-specific code\dots
+%    Now for the generator-specific code \dots
 %    \begin{macrocode}
    \ifcase\typog@@generatorchoice
 %    \end{macrocode}
