@@ -11116,6 +11116,27 @@ end
                  \generictextfraction{\the\numexpr\dimexpr (#1) * 1000 / \emreference}{1000}\:em%
                \fi}
 
+
+\makeatletter
+\newcommand*{\getpackagefullinfo}[1]{\csname ver@#1.sty\endcsname}
+
+\def\@synthslant@getpackagedate#1/#2/#3 v#4\@nil{#1/#2/#3}
+\newcommand*{\getpackagedate}[1]
+            {\edef\@tempa{\getpackagefullinfo{#1}}%
+             \expandafter\@synthslant@getpackagedate\@tempa\@nil}
+
+\def\@synthslant@getpackageversion#1/#2/#3 v#4 #5\@nil{#4}
+\newcommand*{\getpackageversion}[1]
+            {\edef\@tempa{\getpackagefullinfo{#1}}%
+             \expandafter\@synthslant@getpackageversion\@tempa\@nil}
+
+\def\@synthslant@getpackageinfo#1/#2/#3 v#4 #5\@nil{#5}
+\newcommand*{\getpackageinfo}[1]
+            {\edef\@tempa{\getpackagefullinfo{#1}}%
+             \expandafter\@synthslant@getpackageinfo\@tempa\@nil}
+\makeatother
+
+
 \newcommand*{\generictextfraction}[2]
             {\raisebox{.4em}[0pt]{\scriptsize #1}%
              \kern-.05em\textfractionsolidus\kern-.05em
@@ -11309,12 +11330,17 @@ end
 
 \begin{document}
 \fussy
-\lastlinefit=1000
+\lastlinefit=1000%
 \nonfrenchspacing
 
 \begin{center}
-  \Huge\bf\sf
-  TypoG Examples
+  \sf
+  {\Huge\bfseries TypoG Examples}
+
+  \medskip
+
+  for \packagename{typog} version~\getpackageversion{typog} as of
+  \getpackagedate{typog}
 \end{center}
 
 \bigskip
