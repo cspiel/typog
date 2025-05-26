@@ -40,7 +40,7 @@
 \usepackage[LGR,T1]{fontenc}
 \usepackage{hypdoc}
 \usepackage{hyphenat}
-\usepackage[kerning=true, shrink=10, stretch=10, verbose=true]{microtype}
+\usepackage[shrink=10, stretch=10, verbose=true]{microtype}
 \usepackage{multirow}
 \usepackage{needspace}
 \usepackage[section]{placeins}
@@ -49,7 +49,7 @@
 \usepackage{sidecap}
 \usepackage{tabularx}
 \usepackage[most]{tcolorbox}
-\usepackage[nobottomtitles*]{titlesec}\renewcommand*{\bottomtitlespace}{.15\textheight}
+\usepackage[nobottomtitles*]{titlesec}\renewcommand*{\bottomtitlespace}{.2\textheight}
 \usepackage[debug, raise*=.05em,
   uppercaselabelitemadjustments={.25pt, 1pt, -.875pt, .25pt},
   lowercaselabelitemadjustments={-.75pt, 0pt, -2pt, -.75pt}]{typog}
@@ -125,18 +125,6 @@
   raiselinks = false,
   urlcolor = [rgb]{0, 0, .5}% = navy
 }
-
-
-\SetExtraKerning[context=drop-left-sidebearing, name=source-code-normal, unit=space]
-                {font={T1/SourceCodePro-LF/m/n/44, T1/SourceCodePro-TLF/m/n/44}}
-                {
-                  1={-150,},
-                  2={-120,},
-                  3={-120,},
-                  4={-40,},
-                  A={-100,},
-                  B={-170,}
-                }
 
 \newlength{\sectiontocindent}
 \newlength{\sectionnumberwidth}
@@ -287,17 +275,19 @@
   \fancyhead[L]{\rightmark}
   \fancyhead[R]{\thepage}
 }
+
+\newcommand*{\letterspacedsmallcaps}[1]{\textsc{\textls[20]{#1}}}
 \newcommand*{\resetfancyhead}
-            {\fancyhead[L]{\textsf{\textsc{\textls[20]{\nouppercase\rightmark}}}}}
+            {\fancyhead[L]{\textsf{\letterspacedsmallcaps{\nouppercase\rightmark}}}}
 
 \renewcommand*{\headrulewidth}{0pt}
 \renewcommand*{\sectionmark}[1]
               {\def\truesectionname{#1}%
                \markright{\textsf{\marginalizesectionnumber{\thesection}%
-                                  \textsc{\textls[20]{#1}}}}}
+                                  \letterspacedsmallcaps{#1}}}}
 \renewcommand*{\subsectionmark}[1]
               {\markright{\textsf{\marginalizesectionnumber{\thesubsection}%
-                                  \textsc{\textls[20]{\truesectionname:\enspace}}#1}}}
+                                  \letterspacedsmallcaps{\truesectionname:\enspace}#1}}}
 
 
 \titleformat{\section}[hang]
@@ -402,14 +392,14 @@
          {\relax}
          {\AppendingFailed}
 
-\let\oldhdpindex=\hdpindex
-\renewcommand*{\hdpindex}[2]{\textbf{\oldhdpindex{#1}{#2}}}
-
 \let\oldhdclindex=\hdclindex
 \renewcommand*{\hdclindex}[2]
               {\ifstrequal{#2}{code}
                           {\oldhdclindex{#1}{codeidx}}
                           {\oldhdclindex{#1}{#2}}}
+
+\let\oldhdpindex=\hdpindex
+\renewcommand*{\hdpindex}[2]{\textbf{\oldhdpindex{#1}{#2}}}
 
 \newcommand*{\hollowrectangle}[2]
             {\setlength{\fboxrule}{.5pt}%
@@ -423,20 +413,19 @@
          {\AppendingFailed}
 
 \makeatletter
-\ExplSyntaxOn
-\apptocmd{\index@prologue}
-         {\legacy_if:nTF {codeline@index}
-                         {We\space prefix\space all\space references\space
-                          to\space code\space lines\space with~\singlequotes{\codelineindicator}.}
-                         {}}
-         {\relax}
-         {\AppendingFailed}
+\IndexPrologue{\section*{Index}%
+               \markboth{\sf\letterspacedsmallcaps{Index}}{\sf\letterspacedsmallcaps{Index}}%
+               Numbers written in italics refer to definitions;
+               numbers in regular style refer to pages where an entry is used.
+               \ifx\special@index\HD@codeline@wrindex
+                 References to code lines are prefixed with~\singlequotes{\codelineindicator}.
+                 Again italics refer to definitions and regular style to lines where the code is used.
+               \fi}
 
 \newcommand*{\linenumberdecoration}
-            {\legacy_if:nTF {codeline@index}
-                            {\codelineindicator}
-                            {}}
-\ExplSyntaxOff
+            {\ifx\special@index\HD@codeline@wrindex
+               \codelineindicator
+             \fi}
 \makeatother
 
 \newcommand*{\indexpackageoption}[1]
@@ -461,13 +450,13 @@
                    {\message{^^JMacro \string#1 is not defined.^^J}}}
 
 \newcommand*{\marginnoteformat}
-            {\setstretch{1}%\overfullrule=0pt
+            {\setstretch{1}
              \sffamily
              \footnotesize
              \nofontexpansion
              \slightlysloppy[1]
              \loosespacing[1]
-             \setlength{\smoothraggedrightragwidth}{1.5em}
+             \setlength{\smoothraggedrightragwidth}{1.5em}%
              \def\smoothraggedrightgenerator{quintuplet}%
              \smoothraggedrightpar}
 \newcommand*{\marginnote}[1]{\marginpar{\marginnoteformat #1}}
@@ -555,14 +544,30 @@
 
 \newcommand*{\samplestar}{\sample{\raisebox{-.25em}[0pt][0pt]{*}}}
 
-\newcommand*{\sectionfinish}
-            {\vfill
-             {\centering
-              \textcolor{customred4}
-                        {\filledsquare{5pt}\enspace\filledsquare{5pt}}%
-              \par}%
-             \vfill}
-\let\sectionfinish=\relax
+\newcommand*{\sectionfinish}[1][0]
+            {\ifnum#1=0%
+               \relax
+             \else
+               \vfill
+               \begingroup
+               \centering
+               \textcolor{\markercolor}
+                         {\ifcase#1% 0
+                            \relax
+                          \or % 1
+                            \filledsquare{5pt}\enspace\filledsquare{5pt}%
+                          \or % 2
+                            \filledsquare{4pt}\enspace\filledsquare{4pt}\enspace\filledsquare{4pt}%
+                          \or % 3
+                            $\bullet\enspace\bullet\enspace\bullet$%
+                          \or % 4
+                            \large
+                            \textasteriskcentered\enspace\textasteriskcentered\enspace\textasteriskcentered
+                          \fi}%
+               \par
+               \endgroup
+               \vfill
+             \fi}
 
 \newcommand*{\sinceversion}[1]{% modeled after \NewIn of "doc.dtx"
   \leavevmode
@@ -795,6 +800,8 @@
 \newcommand*{\qrcolumns}{2}
 \newcommand*{\qrlistparam}{\itemindent=-\leftmargin
                            \itemsep=5pt plus 2pt minus 1pt}
+\newcommand*{\qrtightspacing}{1}
+\SetTracking[context = quickreference]{encoding = *, family = {rm*, sf*}}{0}
 
 \newenvironment*{quickreference}
                 {\NewDocumentCommand{\heading}{s m}
@@ -812,7 +819,7 @@
                  \newcommand*{\suspendseparator}
                              {\noindent\horizontalcolumnseparator\rule{.5pt}{7pt}}
                  \newcommand*{\resumeseparator}
-                             {\hfill\rule[-7pt]{.5pt}{7pt}\horizontalcolumnseparator}
+                             {\hfill\rule[-6.5pt]{.5pt}{7pt}\horizontalcolumnseparator}
                  \setlength{\columnsep}{25pt}%
                  \setbaselineskippercentage{120}%
                  \NewDocumentEnvironment{qritem}{m m O{}}
@@ -831,22 +838,34 @@
                                          \mbox{\footnotesize\textbf{\qrpageref}}}%
                  \newcommand*{\suspendmulticols}
                              {\end{list}%
+                              \end{tightspacing}%
+                              \end{microtypecontext}%
                               \end{multicols}%
                               \suspendseparator
+                              \begin{microtypecontext}{tracking=quickreference}%
+                              \begin{tightspacing}[\qrtightspacing]%
                               \begin{list}{}{\qrlistparam}}%
                  \newcommand*{\resumemulticols}
                              {\end{list}%
+                              \end{tightspacing}%
+                              \end{microtypecontext}%
                               \resumeseparator
                               \begin{multicols}{\qrcolumns}
                               \raggedcolumns
                               \RaggedRight
+                              \begin{microtypecontext}{tracking=quickreference}%
+                              \begin{tightspacing}[\qrtightspacing]%
                               \begin{list}{}{\qrlistparam}}%
                  \begin{multicols}{\qrcolumns}
                    \global\qrcolumnwidth=\columnwidth
                    \raggedcolumns
                    \RaggedRight
+                   \begin{microtypecontext}{tracking=quickreference}%
+                   \begin{tightspacing}[\qrtightspacing]%
                    \begin{list}{}{\qrlistparam}}
-                {\end{list}
+                {\end{list}%
+                 \end{tightspacing}%
+                 \end{microtypecontext}%
                  \end{multicols}}
 
 \makeatletter
@@ -854,7 +873,7 @@
             {\def\@oddhead{\begingroup
                              \sf
                              \kern-\marginparwidth
-                             {\scshape Quick Reference}\hfill
+                             {\letterspacedsmallcaps{Quick Reference}}\hfill
                              \textnormal{\FirstMark{QuickReference}}\enspace---\enspace
                              \textnormal{\LastMark{QuickReference}}%
                            \endgroup
@@ -1236,8 +1255,8 @@ end
 %  \phantomsection
 %  \addcontentsline{toc}{section}{\protect\numberline{}Quick Reference}
 %  \addtocontents{toc}{\medskip}
-%  \markboth{\sf\scshape Quick Reference}{\sf\scshape Quick Reference}
 %  \section*{Quick Reference}
+%  \markboth{\sf\letterspacedsmallcaps{Quick Reference}}{\sf\letterspacedsmallcaps{Quick Reference}}
 %  \index{quick reference|(userman}
 %
 %  This is an alphabetically sorted list of all user macros and environments defined by
@@ -1792,6 +1811,7 @@ end
 %        Typeset a wide space whose width depends on \cs{fontdimen7} or \cs{fontdimen2}.
 %      \endqritem
 %    \end{quickreference}
+%    \sectionfinish
 %  \end{widebody}
 %  \index{quick reference|)userman}
 %
@@ -3463,6 +3483,26 @@ end
 %    side-bearings of any glyph.
 %  \end{note}
 %
+%  \begin{tip}\label{tip:textemdash-textendash}\relax
+%    \index{textemdash=\verb!*+\textemdash+|userman}\relax
+%    \index{textendash=\verb!*+\textendash+|userman}\relax
+%    The macros rely on \cs{textemdash} and \cs{textendash} to typeset em-dashes and en-dashes.
+%    If different glyphs are desired redefine them (preferably locally).
+%
+%    \noindent
+%    Example with the fictitious macro~\cs{fancydash}:
+%
+%    \begin{codeexample}
+%      \cs{let}\cs{origspacedemdash}=\cs{spacedemdash}  \\
+%      \cs{renewcommand*}\=\{\cs{spacedemdash}\}  \\
+%      \>\{\cs{begingroup}  \\
+%      \>~\cs{typogsetup}\{emdashspace=.2pt\}\%  \\
+%      \>~\cs{let}\cs{textemdash}=\cs{fancydash}  \\
+%      \>~\cs{origspacedemdash}  \\
+%      \>~\cs{endgroup}\}\specialsectionendhere
+%    \end{codeexample}
+%  \end{tip}
+%
 %
 %  \subsection{Raise Selected Characters}\label{sec:raise-characters}
 %  \index{raised character|userman}
@@ -3489,7 +3529,6 @@ end
 %  front of any punctuation.
 %
 %
-%  \newpagetofixtoc
 %  \subsubsection{Capital Hyphen}\label{sec:capital-hyphen}
 %  \index{raised character>hyphen|userman}
 %
@@ -3520,6 +3559,7 @@ end
 %  \end{usecases}
 %
 %
+%  \newpagetofixtoc
 %  \subsubsection{Capital En-Dash and Capital Em-Dash}\label{sec:capital-dash}
 %  \index{raised character>en-dash|userman}
 %
@@ -3567,7 +3607,6 @@ end
 %    \textsc{Lie} Algebra}.
 %  \end{usecases}
 %
-%  \clearpage
 %  \DescribeMacro{\leftspacedcapitalendash}
 %  \DescribeMacro{\leftspacedcapitaldash}
 %  \DescribeMacro{\leftspacedcapitalendash*}
@@ -3625,6 +3664,16 @@ end
 %  These macros unite the features of \hyperref[syn:capitalemdash]{\cs{capitalemdash}} with
 %  those of \hyperref[syn:spacedemdash]{\cs{spacedemdash}} as described in
 %  \cref{sec:spaced-dashes}.
+%
+%  \begin{tip}
+%    \index{textemdash=\verb!*+\textemdash+|userman}\relax
+%    \index{textendash=\verb!*+\textendash+|userman}\relax
+%    The macros rely on \cs{textemdash} and \cs{textendash} to typeset em-dashes and en-dashes.
+%    If different glyphs are desired redefine them (preferably locally).
+%
+%    See the \hyperref[tip:textemdash-textendash]{tip} on \cpageref{tip:textemdash-textendash}
+%    for a code example.
+%  \end{tip}
 %
 %
 %  \subsubsection{Number Dash (Figure Dash)}\label{sec:number-dash}
@@ -4022,13 +4071,13 @@ end
 %    \centering
 %    \includegraphics{inverted-marks-1.mps}
 %    \caption[Inverted exclamation and question marks]
-%            {The left-hand sample shows the inverted exclamation mark and question marks wedged
-%             between some lowercase letters.  The baseline is drawn solid and the ex-height as
-%             well as the descender depth are indicated with dashed lines.~\visualpar On the
-%             right hand side we display the same marks in conjunction with capital letters.
-%             The gray glyphs demonstrate the result of shifting them up such that they exactly
-%             touch the baseline, which mimics the auto-raise mode described in the
-%             text.~\visualpar The sample font once again is
+%            {The left-hand sample shows the inverted exclamation marks and question marks
+%             wedged between some lowercase letters.  The baseline is drawn with a solid lineand
+%             the ex-height as well as the descender depth are indicated with dashed
+%             lines.~\visualpar On the right hand side we display the same marks in conjunction
+%             with capital letters.  The gray glyphs demonstrate the result of shifting them up
+%             such that they exactly touch the baseline, which mimics the auto-raise mode
+%             described in the text.~\visualpar The sample font once again is
 %             \acronym{URW}~Palladio%
 %             \detoxindex{font>typeface>URW Palladio=\acronym{URW} Palladio|userman}.%
 %             \label{fig:inverted-marks}}
@@ -4071,7 +4120,6 @@ end
 %  characters.
 %
 %
-%  \newpagetofixtoc
 %  \subsection[Vertically Adjust Label Items]
 %             {Vertically Adjust Label Items of
 %              Environment \code{itemize}}\label{sec:adjust-label-items}
@@ -4529,6 +4577,7 @@ end
 %  \end{usecases}
 %
 %
+%  \newpagetofixtoc
 %  \toccontinuesonnextpage
 %  \subsection[Fill Last Line]
 %             {Fill Last Line of a Paragraph}\label{sec:fill-last-line}
@@ -4731,7 +4780,6 @@ end
 %  \end{important}
 %
 %
-%  \newpagetofixtoc
 %  \subsubsection{Manual Changes}\label{sec:fill-last-line-other-methods}
 %
 %  Most \hyperref[item:o1]{O1} or \hyperref[item:o2]{O2} situations can be navigated with
@@ -4813,7 +4861,6 @@ end
 %  \end{enumerate}
 %
 %
-%  \newpagetofixtoc
 %  \subsubsection{Multi\capitalhyphen Purpose Environments}\label{sec:fill-last-line-gp-environments}
 %
 %  \DescribeEnv{shortenpar}
@@ -4901,6 +4948,7 @@ end
 %  last line is avoided, but the result may be of \hyperref[item:o1]{type~O1} nonetheless.
 %
 %
+%  \newpagetofixtoc
 %  \subsubsection{Consistent Spacing of Last Line}\label{sec:consistent-spacing-of-last-line}
 %
 %  \index{lastlinefit=\verb!*+\lastlinefit+|userman}
@@ -5070,6 +5118,7 @@ end
 %  \end{usecases}
 %
 %
+%  \newpagetofixtoc
 %  \subsubsection{Wide Space}\label{sec:wide-space}
 %  \index{wide space|userman}
 %
@@ -5241,6 +5290,7 @@ end
 %  \end{table}
 %
 %
+%  \newpagetofixtoc
 %  \subsection{\packagename{Microtype} Front\capitalhyphen End}\label{sec:microtype-frontend}
 %  \index{microtype=\packagename{microtype} (package)|userman}
 %
@@ -5262,7 +5312,6 @@ end
 %  \end{important}
 %
 %
-%  \newpagetofixtoc
 %  \subsubsection{Tracking}\label{sec:tracking-control}
 %  \index{font>tracking|userman}
 %
@@ -6686,7 +6735,7 @@ end
 %
 %
 %  \newcommand*{\codeidx}[1]{\linenumberdecoration\textbf{#1}}
-%  \renewcommand*{\main}[1]{\linenumberdecoration\underbar{\textbf{#1}}}
+%  \renewcommand*{\main}[1]{\linenumberdecoration\textit{\textbf{#1}}}
 %  \renewcommand*{\usage}[1]{\textit{\textbf{#1}}}
 %
 %  \MaybeStop{
@@ -6700,7 +6749,7 @@ end
 %      \addtocontents{toc}{\bigskip}
 %      \addcontentsline{toc}{section}{\protect\numberline{}Change History}
 %      \GlossaryPrologue{\section*{Change History}
-%                        \markboth{\sf\scshape Change History}{\sf\scshape Change History}}
+%                        \markboth{\sf\letterspacedsmallcaps{Change History}}{\sf\letterspacedsmallcaps{Change History}}}
 %      \PrintChanges
 %    \endgroup
 %
@@ -6711,7 +6760,7 @@ end
 %    \addtocontents{toc}{\medskip}
 %    \addcontentsline{toc}{section}{\protect\numberline{}References}
 %    \begin{RaggedRight}
-%      \def\MakeUppercase##1{\sf\scshape ##1}
+%      \def\MakeUppercase##1{\sf\letterspacedsmallcaps{##1}}
 %      \begin{thebibliography}{88}
 %      \bibitem{abrahams:2020}
 %              \bibauthor{Abrahams, Paul~W.},
@@ -6980,8 +7029,6 @@ end
 %      \addtocontents{toc}{\medskip}
 %      \addcontentsline{toc}{section}{\protect\numberline{}Index}
 %      \raggedcolumns
-%      \IndexPrologue{\section*{Index}
-%                     \markboth{\sf\scshape Index}{\sf\scshape Index}}
 %      \PrintIndex
 %      \phantomsection
 %      \label{secend:index}
@@ -7000,6 +7047,8 @@ end
 %  \addtocontents{toc}{\tocsquashedsubsections}
 %  \addtocontents{toc}{\protect\begin{multicols}{2}}
 %  \addtocontents{toc}{\protect\raggedcolumns}
+%  \index{package code|userman}
+%  \index{code reference|userman}
 %
 %  This is the \doublequotes{Reference Manual}~section of the documentation
 %  where we describe the package's code
