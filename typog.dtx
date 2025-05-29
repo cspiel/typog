@@ -64,8 +64,8 @@
 
 
 \makeatletter
-\def\@get@fontclan#1-#2\relax{#1}
-\newcommand*{\fontclan}{\expandafter\@get@fontclan\f@family\relax}
+\def\@get@fontclan#1-#2\@nil{#1}
+\newcommand*{\fontclan}{\expandafter\@get@fontclan\f@family\@nil}
 \makeatother
 
 \DeclareRobustCommand{\proportionalliningfigures}{\fontfamily{\fontclan-LF}\selectfont}
@@ -1110,22 +1110,28 @@ quote             '!'
 %
 %  \pagenumbering{roman}
 %
-%  \title{\typoglogo{} \capitalendash{} Typographic Fine\rightkernedhyphen*[20]{-120}Tuning}
+%  \title{\vspace{-40pt}%
+%         {\sffamily
+%          \elseries\fontsize{72}{0}\selectfont
+%          \textls[-25]{\typoglogo}  \\[10pt]
+%          \elseries\fontsize{26}{0}\selectfont
+%          \textls[-5]{T\kern-.05em ypographic Fine\rightkernedhyphen*[20]{-120}T\kern-.075em uning}}  \\[22pt]
+%         \large A \LaTeX{} Package for Micro-Typographic Enhancements}
 %  \author{Ch.~L.~Spiel\footnote{\quarterspace\texttt{cspiel@users.sourceforge.org}}}
 %  \date{\fileversion\qquad \filedate}
 %  \maketitle
 %  \thispagestyle{empty}
 %
 %  \begingroup
+%    \renewcommand*{\abstractname}{{\sffamily Abstract}}
 %    \let\small=\normalsize
 %    \begin{abstract}
 %      \begin{lastlinecenteredpar}
 %        \noindent
-%        Package~\packagename{typog} provides macros and environments for
-%        \mbox{(micro-)\itcorr{2}}\breakpoint typographic enhancements.  It also supplies some
-%        means to avoid common typographic problems as, for example, orphan or widow lines.
-%        Moreover it supplies high-level front-ends for packages~\packagename{microtype} and
-%        \packagename{setspace}.
+%        The \packagename{typog} package provides macros and environments for micro-typographic
+%        enhancements.  It also supplies some means to avoid common typographic problems as, for
+%        example, orphan or widow lines.  Moreover it supplies high-level front-ends for
+%        packages~\packagename{microtype} and \packagename{setspace}.
 %      \end{lastlinecenteredpar}
 %    \end{abstract}
 %  \endgroup
@@ -1260,15 +1266,17 @@ end
 %  \index{quick reference|(userman}
 %
 %  This is an alphabetically sorted list of all user macros and environments defined by
-%  package~\packagename{typog} along with the page numbers of their descriptions.  A list of all
-%  \hyperref[sec:package-options]{package options} can be found on
+%  package~\packagename{typog} along with the page numbers of their descriptions.
+%  \marginnote{In the multi-column parts of the Quick Reference we reduce the line spacing from
+%  125\% to 120\% with
+%  \hyperref[syn:setbaselineskippercentage]{\cs{set\-base\-line\-skip\-per\-cent\-age}} and the
+%  inter-word spacing by 1.25\% with \hyperref[syn:tightspacing]{\code{tightspacing}}.  List
+%  \cs{item}s get tied with \hyperref[syn:vtietop]{\cs{vtietop}}.}\relax
+%  A list of all \hyperref[sec:package-options]{package options} can be found on
 %  pages~\pageref{sec:package-options} to~\pageref{secend:package-options}.  The
 %  \hyperref[sec:index]{Index} on pages~\pageref{sec:index} to~\pageref{secend:index} may
 %  provide some more detailed insights.
 %
-%  \marginnote{We reduce the line spacing in the multi-column parts to 120\% with
-%  \hyperref[syn:setbaselineskippercentage]{\cs{set\-base\-line\-skip\-per\-cent\-age}}~.\visualpar
-%  List \cs{item}s get tied with \hyperref[syn:vtietop]{\cs{vtietop}}.}\relax
 %  If a line-break occurs between the command and its arguments or between any of the arguments
 %  we indicate the break with triangle at the end of the initial line and at the beginning of
 %  the following line.
@@ -1588,7 +1596,7 @@ end
 %      \heading{S}
 %      \qritem{syn:setbaselineskippercentage}{\cs{set\-baseline\-skip\-percentage}}
 %             [\sigbrk\marg{percentage}]
-%        Set \cs{baselineskip} as percentage relative to font design size.
+%        Set \cs{baselineskip} as percentage relative to the point size of the font.
 %      \endqritem
 %
 %      \qritem{syn:setbaselineskip}{\cs{set\-baseline\-skip}}[\sigbrk\marg{baselineskip}]
@@ -1834,57 +1842,39 @@ end
 %
 %  \subsection{Overview}\label{sec:overview}
 %
-%  Package~\packagename{typog} focuses on (micro-)typographic improvements.
+%  Package~\packagename{typog} focuses on micro-typographic improvements.
 %
 %  \Cref{sec:setup} presents how to reconfigure package~\packagename{typog} after has been
 %  loaded and how to access its configuration values for introspection or inclusion in the
-%  user's own code.
-%
-%  \Cref{sec:information} tends to the wish for more information in the typesetting process
-%  whether during the draft phase or in the final printed manuscript.\marginnote{Throughout the
-%  whole document we indicate actual uses of the package's macros and environments in the
-%  margin.  All these notes are examples themselves as they are typeset with the help of
-%  \hyperref[syn:slightlysloppy]{\code{slightlysloppy}},
+%  user's own code.  \Cref{sec:information} tends to the wish for more information in the
+%  typesetting process whether during the draft phase or in the final printed
+%  manuscript.\marginnote{Throughout the whole document we indicate actual uses of the package's
+%  macros and environments in the margin.  All these notes are examples themselves as they are
+%  typeset with the help of \hyperref[syn:slightlysloppy]{\code{slightlysloppy}},
 %  \hyperref[syn:loosespacing]{\code{loosespacing}}, and
 %  \hyperref[syn:smoothraggedrightpar]{\code{smoothraggedrightpar}}.~\visualpar The title page
 %  has already demonstrated the effect of
 %  \hyperref[syn:lastlinecenteredpar]{\code{lastlinecenteredpar}} in justified paragraphs for
-%  the abstract and the copyright notice.}
-%
-%  \Cref{sec:latex-hyphenation} expands the hyphenation facilities of \LaTeX.
-%
-%  \Cref{sec:break-ligatures,sec:manual-italic-correction} treat the breaking of ligatures and
-%  also manually applying italic correction -- in a generalized way.
-%
+%  the abstract and the copyright notice.}  \Cref{sec:latex-hyphenation} expands the hyphenation
+%  facilities of \LaTeX.  \Cref{sec:break-ligatures,sec:manual-italic-correction} treat the
+%  breaking of ligatures and also manually applying italic correction -- in a generalized way.
 %  \Cref{sec:extra-kerning} introduces macros to kern or space some punctuation signs.
-%
 %  \Cref{sec:raise-characters} deals with vertically positioning glyphs in a more pleasant way.
 %  Also in the realm of vertical alignments is \cref{sec:adjust-label-items} that explains how
 %  to height-adjust the labels in |itemize|~lists to perfection whether the items are followed
-%  by uppercase or by lowercase letters.
-%
-%  \Cref{sec:align-last-line,sec:fill-last-line} discuss dearly missed macros for better control
-%  of the last line of a paragraph.
-%
+%  by uppercase or by lowercase letters.  \Cref{sec:align-last-line,sec:fill-last-line} discuss
+%  dearly missed macros for better control of the last line of a paragraph.
 %  \Cref{sec:spacing-control} covers the manipulation of the length of a paragraph.
-%
 %  \Cref{sec:microtype-frontend} expounds on the \packagename{microtype} front-end: font
 %  tracking~(\ref{sec:tracking-control}), font expansion~(\ref{sec:font-expansion-control}), and
-%  character protrusion~(\ref{sec:protrusion}).
-%
-%  In \cref{sec:sloppy-paragraphs} we address some shortcomings of spacing control with a
-%  replacement for the macro~\cs{sloppy} and the related environment~\code{sloppypar}.
-%
-%  \Cref{sec:vtie-paragraph} presents several special functions to avoid club or widow lines in
-%  a paragraph.
-%
-%  As a simple extension of displayed mathematical equations we define a breakable variant in
-%  \cref{sec:breakable-display}.
-%
-%  \Cref{sec:setspace-frontend} introduces the \packagename{setspace} front-end.
-%
-%  In the last part, \cref{sec:smooth-ragged}, we introduce a novel way of generating ragged
-%  paragraphs, which still is experimental.
+%  character protrusion~(\ref{sec:protrusion}).  In \cref{sec:sloppy-paragraphs} we address some
+%  shortcomings of spacing control with a replacement for the macro~\cs{sloppy} and the related
+%  environment~\code{sloppypar}.  \Cref{sec:vtie-paragraph} presents several special functions
+%  to avoid club or widow lines in a paragraph.  As a simple extension of displayed mathematical
+%  equations we define a breakable variant in \cref{sec:breakable-display}.
+%  \Cref{sec:setspace-frontend} introduces the \packagename{setspace} front-end.  In the last
+%  part, \cref{sec:smooth-ragged}, we introduce a novel way of generating ragged paragraphs,
+%  which still is experimental.
 %
 %
 %  \subsection{Prerequisites}\label{sec:packageprerequisites}
@@ -1905,8 +1895,12 @@ end
 %  \section{Package Options}\label{sec:package-options}
 %  \index{package option|(usermandef}
 %
-%  Package \packagename{typog} does not override any existing macros or environments when
-%  loaded, unless explicitly told by a package option.
+%  The \packagename{typog} package is loaded as usual via \cs{usepackage}.  It can be configured
+%  during loading with package \meta{OPTIONs} or later on with
+%  \hyperref[syn:typogsetup]{\code{typogsetup}} as described in \cref{sec:setup}.  For
+%  \packagename{typog} provides front-ends to packages~\packagename{microtype} and
+%  \packagename{setspace}, we mention them in the synopsis; they are \emph{not} automatically
+%  loaded by \packagename{typog}.
 %
 %  \begin{synopsis}
 %    \begin{tabbing}
@@ -1921,7 +1915,7 @@ end
 %    \end{tabbing}
 %  \end{synopsis}
 %
-%  The package \meta{OPTIONs} also serve as configuration \meta{key}s (unless noted otherwise).
+%  The package \meta{OPTIONs} also serve as configuration \meta{key}s unless noted otherwise.
 %  This means they can be set with \hyperref[syn:typogsetup]{\code{typogsetup}} and their values
 %  can be retrieved with \hyperref[syn:typogget]{\cs{typogget}}.  Options that rely on
 %  package~\packagename{microtype} are indicated with \doublequotes{\microtyperequiredmarker}.
@@ -2042,11 +2036,8 @@ end
 %    \item[|raisecapitalhyphen=|\meta{dim}]\label{item:raisecapitalhyphen}
 %      \indexpackageoptiondefinition{raisecapitalhyphen}
 %      Set the length that the hyphen character~\sample{-} is raised in
-%      \hyperref[syn:capitalhyphen]{\cs{capitalhyphen}}.  See
-%      \cref{sec:capital-hyphen}.\shiftedmarginnote{This description list is protected against
-%      breaking items across pages within the first three lines by
-%      \hyperref[syn:vtietop]{\code{vtietop}}.}  Default
-%      value: \milliem{\the\typogget{raisecapitalhyphen}}.
+%      \hyperref[syn:capitalhyphen]{\cs{capitalhyphen}}.  See \cref{sec:capital-hyphen}.
+%      Default value: \milliem{\the\typogget{raisecapitalhyphen}}.
 %
 %    \item[|raisecapitaltimes=|\meta{dim}]\label{item:raisecapitaltimes}
 %      \indexpackageoptiondefinition{raisecapitaltimes}
@@ -2221,8 +2212,8 @@ end
 %    \cs{typogsetup} can substitute configuring the package at load-time or serve as an
 %    addition.~\visualpar Using the |typogsetup|~environment allows to fine-tune the parameters
 %    for a specific use, e.\,g., display-sized text.~\visualpar It even is conceivable that a
-%    well-established \packagename{typog}-configuration gets attached to font-changing macros
-%    like \cs{rm}, \cs{sf},~etc.
+%    well-established \packagename{typog}-configuration could be attached to font-changing
+%    macros like \cs{rm}, \cs{sf},~etc.
 %  \end{usecases}
 %
 %
@@ -3442,7 +3433,7 @@ end
 %      before-\nolig*-\nolig*-insertion-\nolig*-\nolig*-after
 %    \end{codeexample}
 %
-%    The spaced solution with package~\packagename{typog} like this:
+%    The spaced solution with package~\packagename{typog} looks like this:
 %
 %    \begin{codeexample}
 %      before\cs{spacedemdash}  \\
@@ -4239,12 +4230,13 @@ end
 %
 %  The macros assume a \singlequotes{correct} height that they derive from the measured height
 %  of a sample text scaled by a user-defined factor, which defaults
-%  to~\nativetextfraction{1}{2}.\!\footnote{The default factor of~.5 hearkens back to
-%  \propername{Strizver's} suggestion that \doublequotes{[b]ullets should be centered on either
-%  the cap~height or x-height of the neighboring text,~\dots.}~\cite[p.~220]{strizver:2014}.}
-%  The then correct height gets indicated by a thin horizontal line parallel to the baseline.
-%  Thus, at sufficiently high magnifications it is possible to judge whether a label gets
-%  typeset too high or too low with respect to this reference line.
+%  to~\nativetextfraction{1}{2}.\!\footnote{The default factor of~\nativetextfraction{1}{2}
+%  hearkens back to \propername{Strizver's} suggestion that \doublequotes{[b]ullets should be
+%  centered on either the cap~height or x-height of the neighboring
+%  text,~[\dots].}~\cite[p.~220]{strizver:2014}.}  The then correct height gets indicated by a
+%  thin horizontal line parallel to the baseline.  Thus, at sufficiently high magnifications it
+%  is possible to judge whether a label gets typeset too high or too low with respect to this
+%  reference line.
 %
 %  \begin{note}
 %    The macros use the actual height of a given sample~text.  So, a lowercase~sample should not
@@ -4704,7 +4696,7 @@ end
 %      \end{center}
 %    \end{minipage}
 %
-%    The same problem arises with displayed math in a flush-left\footnote{The common practice of
+%    A similar issue occurs with displayed math in a flush-left\footnote{The common practice of
 %    centering displayed equations does not call for the manipulations of a paragraph's last
 %    line discussed here.}  setting, e.\,g., \packagename{amsmath}~\cite{package:amsmath} and
 %    option~|fleqn|.\!\footnote{For displayed equations and \packagename{amsmath} the relevant
@@ -4812,10 +4804,10 @@ end
 %        recipes~\ref{enum:vary-spacing} to~\ref{enum:vary-font-expansion}.
 %    \end{enumerate}
 %
-%    Tying and \cs{mbox}ing lend themselves to generalizations.  We need not only tie at end of
-%    a paragraph but fuse logical units of sentences or inline equations so that the relevant
-%    information literally stays in the reader's focus.  Cementing together text of course finds
-%    an end when overfull lines start to show up.
+%    Tying and the use of \cs{mbox} can be generalized.  It is not only useful at the end of
+%    paragraphs but also effective for grouping logical units of sentences or inline equations,
+%    ensuring the key information remains in the reader's focus.  Cementing together text of
+%    course finds an end when overfull lines start to show up.
 %
 %  \item Uniform paragraph change.\label{enum:uniform-paragraph-change}
 %
@@ -4956,7 +4948,7 @@ end
 %  last line of a paragraph to the next-to-last line with the
 %  built-in~\cs{lastlinefit}~\cite[Sec.~3.8]{package:etex}.\!\footnote{The actual algorithm is
 %  somewhat involved.  So, for ease of reference, we have included the relevant part of the
-%  \eTeX-manual as \Cref{app:epsilon-tex-lastlinefit} on
+%  \eTeX-manual as \Cref{app:epsilon-tex-lastlinefit} starting on
 %  \cpageref{app:epsilon-tex-lastlinefit}.}  Package~\packagename{typog} wraps this control in
 %  an environment to limit the scope as its effects are not always beneficial to the appearance
 %  of the body.
@@ -5113,6 +5105,7 @@ end
 %  \end{note}
 %
 %  \begin{usecases}
+%    Tighten spacing in narrow lines as, for example, in multi-column environments.~\visualpar
 %    Nudge line breaks or hyphenation points.~\visualpar Separate clashing descenders and
 %    ascenders.~\visualpar Eliminate rivers.
 %  \end{usecases}
@@ -6057,7 +6050,7 @@ end
 %  \DescribeMacro{\setbaselineskippercentage}
 %  \sinceversion{Since v0.3}
 %  Set the \cs{baselineskip} with a relative value calculated as a percentage of the current
-%  font's design size.
+%  font's point size.
 %
 %  \begin{synopsis}\label{syn:setbaselineskippercentage}
 %    \cs{setbaselineskippercentage}\marg{baselineskip-percentage}
@@ -6066,7 +6059,7 @@ end
 %  Set \cs{baselineskip} to \(\cs{typogfontsize} \times \meta{baselineskip-percentage} / 100\).
 %
 %  \begin{example}
-%    We modify the previous example and assume a font design size of 10\,pt, but now write
+%    We modify the previous example and assume a point size of 10\,pt, but now write
 %
 %    \begin{codeexample}
 %      \cs{setbaselineskippercentage}\{125\}
@@ -6088,7 +6081,7 @@ end
 %  \meta{leading} can be negative, e.\,g.~to set solid.
 %
 %  \begin{example}
-%    Another solution of the previous example, given a font design size of 10\,pt is to write
+%    Another solution of the previous example, given a point size of 10\,pt is to write
 %
 %    \begin{codeexample}
 %      \cs{setleading}\{2.5pt\}
@@ -6110,7 +6103,7 @@ end
 %  Set \cs{baselineskip} to \(\cs{typogfontsize} \times (1 + \meta{leading-percentage} / 100)\).
 %
 %  \begin{example}
-%    We modify the previous example and again assume a font design size of 10\,pt, but now write
+%    We modify the previous example and again assume a point size of 10\,pt, but now write
 %
 %    \begin{codeexample}
 %      \cs{setleadingpercentage}\{25\}
@@ -6138,7 +6131,7 @@ end
 %  \end{codeexample}
 %
 %  \noindent
-%  which is also called its \doublequotes{nominal size} or its \doublequotes{design size}.  This
+%  which is also called its \doublequotes{nominal size} or its \doublequotes{point size}.  This
 %  assignment can be repeated at any point in the document to record a reference font's size.
 %  To set just \cs{typogfontsize} without changing the current font, encapsulate the font change
 %  in a group and export the new value:
@@ -6151,7 +6144,7 @@ end
 %    \cs{endgroup}
 %  \end{codeexample}
 %
-%  An alternative to relying on the design size is using the actual size of an uppercase letter:
+%  An alternative to relying on the point size is using the actual size of an uppercase letter:
 %
 %  \begin{codeexample}
 %    \cs{settoheight}\{\cs{typogfontsize}\}\{CEMNORSUVWXZ\}
@@ -7082,8 +7075,9 @@ end
 %  \begin{macro}{\typoglogo}
 %    We have our own, low-key logo.
 %
+%    \changes{v0.5}{2025-05-26}{Make macro independent of typog setup.}
 %    \begin{macrocode}
-\newcommand*{\typoglogo}{\textsf{T\itcorr*{-5}\textsl{y}poG}}
+\newcommand*{\typoglogo}{\textsf{T\kern-.12em\textsl{y}poG}}
 %    \end{macrocode}
 %  \end{macro}
 %
