@@ -18,7 +18,6 @@
 
 \tracingonline=0
 
-%--\OnlyDescription
 \EnableCrossrefs
 \CodelineIndex
 \RecordChanges
@@ -407,6 +406,9 @@
              \framebox{\rule{#1}{0pt}\rule{0pt}{#2}}}
 \newcommand*{\hollowsquare}[1]{\hollowrectangle{#1}{#1}}
 
+\NewMarkClass{IndexGroup}
+\newcommand*{\indexgroup}[1]{\InsertMark{IndexGroup}{#1}#1}
+
 \apptocmd{\IndexParms}
          {\RaggedRight\small}
          {\relax}
@@ -450,19 +452,19 @@
                    {\message{^^JMacro \string#1 is not defined.^^J}}}
 
 \newcommand*{\marginnoteformat}
-            {\setstretch{1}
+            {\resetbaselineskip
              \sffamily
              \footnotesize
              \nofontexpansion
              \slightlysloppy[1]
              \loosespacing[1]
-             \setlength{\smoothraggedrightragwidth}{1.5em}%
+             \setlength{\smoothraggedrightragwidth}{1em}%
              \def\smoothraggedrightgenerator{quintuplet}%
              \smoothraggedrightpar}
 \newcommand*{\marginnote}[1]{\marginpar{\marginnoteformat #1}}
 \addtolength{\marginparpush}{3pt}
 \addtolength{\marginparsep}{25pt}
-\addtolength{\marginparwidth}{-20pt}
+\addtolength{\marginparwidth}{-25pt}
 \newcommand*{\shiftedmarginnote}[1]
             {\marginpar{\moveleft \leftmargin
                                   \hbox{\parbox{\dimexpr\marginparwidth - \marginparsep}
@@ -874,7 +876,7 @@
                              \sf
                              \kern-\marginparwidth
                              {\letterspacedsmallcaps{Quick Reference}}\hfill
-                             \textnormal{\FirstMark{QuickReference}}\enspace---\enspace
+                             \textnormal{\FirstMark{QuickReference}}\enspace\capitalemdash*\enspace
                              \textnormal{\LastMark{QuickReference}}%
                            \endgroup
                            \hfill
@@ -1014,7 +1016,7 @@ delim_0           "\\nobreak\\enspace"
 delim_1           "\\nobreak\\enspace"
 delim_2           "\\nobreak\\enspace"
 delim_r           "\\nohyperpage{\\figuredash*}"
-heading_prefix    "\\pagebreak[3]\\smallskip\n\n{\\sffamily\\bfseries\\large "
+heading_prefix    "\\pagebreak[3]\\smallskip\n\n{\\sffamily\\bfseries\\large\\indexgroup "
 heading_suffix    "}\\nopagebreak\n"
 headings_flag     1
 level             '>'
@@ -1825,6 +1827,7 @@ end
 %
 %
 %  \clearpage
+%  \pagestyle{fancy}
 %  \pagenumbering{arabic}
 %  \section{Introduction}\label{sec:introduction}
 %
@@ -7040,8 +7043,8 @@ end
 %  \addtocontents{toc}{\tocsquashedsubsections}
 %  \addtocontents{toc}{\protect\begin{multicols}{2}}
 %  \addtocontents{toc}{\protect\raggedcolumns}
-%  \index{package code|userman}
-%  \index{code reference|userman}
+%  \index{package code|(userman}
+%  \index{code reference|(userman}
 %
 %  This is the \doublequotes{Reference Manual}~section of the documentation
 %  where we describe the package's code
@@ -10964,6 +10967,8 @@ end
 
 %    \end{macrocode}
 %  \end{environment}
+%  \index{package code|)userman}
+%  \index{code reference|)userman}
 %
 %
 %  \iffalse
