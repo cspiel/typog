@@ -1123,14 +1123,17 @@ quote             '!'
 %
 %  \begingroup
 %    \renewcommand*{\abstractname}{{\sffamily Abstract}}
-%    \let\small=\normalsize
 %    \begin{abstract}
 %      \begin{lastlinecenteredpar}
 %        \noindent
-%        The \packagename{typog} package provides macros and environments for micro-typographic
-%        enhancements.  It also supplies some means to avoid common typographic problems as, for
-%        example, orphan or widow lines.  Moreover, it supplies high-level front-ends for
-%        packages~\packagename{microtype} and \packagename{setspace}.
+%        The \packagename{typog} package is a comprehensive set of macros and environments
+%        designed to enhance the micro-typographic quality of documents.  It provides a variety
+%        of means that allow users to fine-tune typographic elements such as hyphenation,
+%        spacing, font adjustments, and alignment.  Key features include advanced control over
+%        hyphenation, customizable spacing options, and the ability to adjust font
+%        characteristics for improved readability and aesthetic appeal.  The package also offers
+%        specialized environments for managing paragraph layouts and aligning typographic
+%        elements with precision.
 %      \end{lastlinecenteredpar}
 %    \end{abstract}
 %  \endgroup
@@ -1204,8 +1207,7 @@ end
 %</title>
 %  \fi
 %
-%
-%  \vspace*{20pt}
+%  \vfill
 %
 %  \begin{center}
 %    \includegraphics{title-1.mps}
@@ -7052,7 +7054,7 @@ end
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
 \ProvidesPackage{typog}
-                [2025/05/18  v0.5  TypoGraphic extensions]
+                [2025/06/08  v0.5  TypoGraphic extensions]
 
 \RequirePackage{etoolbox}
 \RequirePackage{everyhook}
