@@ -1129,7 +1129,7 @@ quote             '!'
 %        \noindent
 %        The \packagename{typog} package provides macros and environments for micro-typographic
 %        enhancements.  It also supplies some means to avoid common typographic problems as, for
-%        example, orphan or widow lines.  Moreover it supplies high-level front-ends for
+%        example, orphan or widow lines.  Moreover, it supplies high-level front-ends for
 %        packages~\packagename{microtype} and \packagename{setspace}.
 %      \end{lastlinecenteredpar}
 %    \end{abstract}
@@ -1276,7 +1276,7 @@ end
 %  \hyperref[sec:index]{Index} on pages~\pageref{sec:index} to~\pageref{secend:index} may
 %  provide some more detailed insights.
 %
-%  If a line-break occurs between the command and its arguments or between any of the arguments
+%  If a line-break occurs between the macro and its arguments or between any of the arguments
 %  we indicate the break with triangle at the end of the initial line and at the beginning of
 %  the following line.
 %
@@ -1349,7 +1349,7 @@ end
 %      \endqritem
 %
 %      \qritem{syn:capitalemdash}{\cs{capitalemdash}}
-%        Typeset a vertically adjusted \cs{textemdash} that is hyphenatable.
+%        Typeset a vertically adjusted \cs{textemdash} that is breakable.
 %      \endqritem
 %
 %      \qritem{syn:capitalendash}{\cs{capitalendash*}}
@@ -1357,7 +1357,7 @@ end
 %      \endqritem
 %
 %      \qritem{syn:capitalendash}{\cs{capitalendash}}
-%        Typeset a vertically adjusted \cs{textendash} that is hyphenatable.
+%        Typeset a vertically adjusted \cs{textendash} that is breakable.
 %      \endqritem
 %
 %      \qritem{syn:capitalhyphen}{\cs{capitalhyphen*}}
@@ -1365,7 +1365,7 @@ end
 %      \endqritem
 %
 %      \qritem{syn:capitalhyphen}{\cs{capitalhyphen}}
-%        Typeset a vertically adjusted hyphen character that is hyphenatable.
+%        Typeset a vertically adjusted hyphen character that is breakable.
 %      \endqritem
 %
 %      \qritem{syn:capitalinvertedexclamationmark}{\cs{capital\-inverted\-exclamation\-mark}}
@@ -1411,7 +1411,7 @@ end
 %      \endqritem
 %
 %      \qritem{syn:figuredash}{\cs{figuredash}}
-%        Typeset a hyphenatable \cs{textendash} vertically adjusted for figures (numerals).
+%        Typeset a breakable \cs{textendash} vertically adjusted for figures (numerals).
 %      \endqritem
 %
 %      \qritem{syn:fontsizeinfo}{\cs{fontsize\-info}}[\sigbrk\marg{cs-name}]
@@ -1425,13 +1425,13 @@ end
 %
 %      \heading{I}
 %      \qritem{syn:itcorr}{\cs{itcorr*}}[\sigbrk\marg{strength}]
-%        Apply italic correction in the for of a \cs{kern} scaled by
-%      \code{textitalicscorrection}.
+%        Apply italic correction in the form of a \cs{kern} scaled by
+%        \code{textitalicscorrection}.
 %      \endqritem
 %
 %      \qritem{syn:itcorr}{\cs{itcorr}}[\sigbrk\marg{strength}]
-%        Apply italic correction in the for of a \cs{kern} scaled by
-%      \cs{fontdim1} or \code{textitalicscorrection}.
+%        Apply italic correction in the form of a \cs{kern} scaled by
+%        \cs{fontdim1} or \code{textitalicscorrection}.
 %      \endqritem
 %
 %      \heading{K}
@@ -1450,7 +1450,7 @@ end
 %      \endqritem
 %
 %      \qritem{syn:kernedslash}{\cs{kernedslash}}
-%        Typeset an breakable forward slash and apply kerning to its left and right.
+%        Typeset a breakable forward slash and apply kerning to its left and right.
 %      \endqritem
 %
 %      \heading{L}
@@ -1835,16 +1835,17 @@ end
 %  \end{whittyquote}
 %
 %  \noindent
-%  \LaTeX{} is the beginning of good typesetting -- not the end.  This package
-%  provides some tools for even better looking documents.  When applied correctly its effects
-%  appear subtle and inconspicuous.
+%  \LaTeX{} is the beginning of good typesetting -- not the end.  This package provides some
+%  tools for even better looking documents.  When applied correctly its effects appear subtle
+%  and inconspicuous.
 %
 %
 %  \subsection{Overview}\label{sec:overview}
 %
-%  Package~\packagename{typog} focuses on micro-typographic improvements.
+%  The primary focus (\doublequotes{strike zone}) of \packagename{typog} are micro-typographic
+%  improvements, where it tries to hit it out of the ballpark in terms of typographic polish.
 %
-%  \Cref{sec:setup} presents how to reconfigure package~\packagename{typog} after has been
+%  \Cref{sec:setup} presents how to reconfigure package~\packagename{typog} after it has been
 %  loaded and how to access its configuration values for introspection or inclusion in the
 %  user's own code.  \Cref{sec:information} tends to the wish for more information in the
 %  typesetting process whether during the draft phase or in the final printed
@@ -1943,8 +1944,8 @@ end
 %      Write some package-specific debug information to the \filesystem{log}~file.  Opposite:
 %      |nodebug|.  The default is not to record debug information.
 %
-%      These two options neither can be used with \hyperref[syn:typogsetup]{\code{typogsetup}}
-%      nor with \hyperref[syn:typogget]{\cs{typogget}}.
+%      These two options cannot be used with \hyperref[syn:typogsetup]{\code{typogsetup}} or
+%      \hyperref[syn:typogget]{\cs{typogget}}.
 %
 %    \item[|emdashspace|=\meta{glue}]\label{item:emdashspace}
 %      \indexpackageoptiondefinition{emdashspace}
@@ -2692,7 +2693,7 @@ end
 %        \code{hyphenated-compound}  &
 %                \zbox{hyphenated-compound}  &
 %                Most frequently used code; the hyphen~\sample{\code{-}} expands to
-%                \code{\cs{discretionary}\mbox{\{-\}\{\}\{-\}}} rendering the parts un-breakable  \\
+%                \code{\cs{discretionary}\mbox{\{-\}\{\}\{-\}}} rendering the parts unbreakable  \\
 %
 %        \code{hyphenated\cs{mbox}\{-\}\%}\newline
 %        \code{compound}  &
@@ -2766,8 +2767,8 @@ end
 %  \end{codeexample}
 %
 %  \noindent
-%  and we want to have hyphenatable \foreignphrase{\doublequotes{\propername{Abel}sche Gruppe}}
-%  or \foreignphrase{\doublequotes{\propername{Euklid}ischer Vektorraum}} without dropping the
+%  and we want to have breakable \foreignphrase{\doublequotes{\propername{Abel}sche Gruppe}} or
+%  \foreignphrase{\doublequotes{\propername{Euklid}ischer Vektorraum}} without dropping the
 %  markup.  To that end we define commands that insert a hyphenation point at the right place:
 %
 %  \begin{codeexample}
@@ -2787,9 +2788,9 @@ end
 %  Start the paragraph with \cs{hskip~0pt} to enable hyphenation even for the first word.
 %
 %  \begin{tip}[Typewriter Fonts]
-%    Sometimes it is desired to get a hyphenatable typewriter font.  \LaTeX{} suppresses any
+%    Sometimes it is desired to get a breakable typewriter font.  \LaTeX{} suppresses any
 %    hyphenation for fonts in \cs{ttfamily} by un-defining their \cs{hyphenchar}s.  If these are
-%    reassigned, the usual hyphenation occurs again.
+%    reassigned, the usual line-breaking and hyphenation occurs again.
 %
 %    So, a fictitious macro `\cs{code}' to typeset short pieces of code could look like this:
 %
@@ -2909,8 +2910,7 @@ end
 %    sectioning macros, e.\,g., \cs{chapter}, \cs{section}, \cs{subsection},~etc.
 %
 %    \LaTeX{} will trip with \doublequotes{Undefined control sequence} on
-%    \cs{typog@\-missing@\-argument} if the extra argument is not passed to
-%    \cs{leftspacedendash}, \cs{rightspacedendash}, or any of its aliases in these situations.
+%    \cs{typog@\-missing@\-argument} if the extra argument is not passed.
 %
 %    Alternatively use \cs{texorpdfstring}~\cite[Sec.~4.1.2, p.~22]{package:hyperref}.
 %  \end{important}
@@ -2918,8 +2918,8 @@ end
 %  \begin{usecases}
 %    \cs{nolig} can be used with just about any ligature that needs to be split into its
 %    parts.~\visualpar It also has proven beneficial in separating pairs of characters that are
-%    kerned to tightly (e.\,g.~the \sample{ij}, as in bi\itcorr{2}jection, which is particularly
-%    distractive here, for it occurs at the boundary of two syllables).
+%    kerned too tightly (e.\,g.~the \sample{ij}, as in bi\itcorr{2}jection, which is
+%    particularly distractive here, for it occurs at the boundary of two syllables).
 %  \end{usecases}
 %
 %
@@ -2928,7 +2928,7 @@ end
 %
 %  \DescribeMacro{\itcorr}
 %  \DescribeMacro{\itcorr*}
-%  The italic correction offered by \TeX{} or \LaTeX{} sometimes needs a helping hand.
+%  The italic correction offered by \TeX{} or \LaTeX{} sometimes needs manual adjustment.
 %
 %  \begin{synopsis}\label{syn:itcorr}
 %    \cs{itcorr}\marg{strength}\qquad \cs{itcorr*}\marg{strength}
@@ -3236,11 +3236,11 @@ end
 %  the right-hand side~\cite[6.82]{chicago-manual-of-style:2017} of the dash, which also is
 %  \TeX's default.
 %
-%  A pair of dashes is used for appositions or explanatory insertions (as exemplified in the
-%  first sentence of the previous paragraph).  In this instance there exist two camps: one
-%  emphasizes the insertion and thus couples the lead-in and lead-out dashes to it (see
-%  \cref{item:emphasize-insertion} below)~\cite[p.~173]{forssman-de-jong:2008}.  The other
-%  avoids a dash at the beginning of a line at the cost of severing it from the insertion
+%  Dashes are often used for appositions or explanatory phrases, as in the first sentence above.
+%  In this instance there exist two camps: one emphasizes the insertion and thus couples the
+%  lead-in and lead-out dashes to it (see \cref{item:emphasize-insertion}
+%  below)~\cite[p.~173]{forssman-de-jong:2008}.  The other avoids a dash at the beginning of a
+%  line at the cost of severing it from the insertion
 %  (\cref{item:avoid-dash-at-beginning-of-line}).  We demonstrate the alternatives with
 %  en-dashes.
 %
@@ -4727,6 +4727,7 @@ end
 %    as \mbox{6\,pt plus 2\,pt} for a base size of~10\,pt.}
 %
 %    \medskip
+%
 %    \begin{minipage}{\linewidth}
 %      A possible, more legible solution is to reformat the paragraph in a way such that its
 %      last line leaves a marked gap with respect to the right margin.
@@ -4736,9 +4737,11 @@ end
 %      \end{center}
 %    \end{minipage}
 %
-%    The suggestions for the gap-width vary from two~em to twice the width of a
-%    \singlequotes{typical} \cs{parindent}\footnote{For example, \LaTeX's class
-%    \packagename{article} uses a \cs{parindent} of~25\,pt.} for the gap~\cite{carlisle:1996}.
+%    \medskip
+%
+%    Recommended gap widths range from two ems to twice the typical \cs{parindent}\footnote{For
+%    example, \LaTeX's class \packagename{article} uses a \cs{parindent}
+%    of~25\,pt.} value~\cite{carlisle:1996}.
 %  \end{enumerate}
 %
 %  \begin{tip}
@@ -4746,13 +4749,12 @@ end
 %    last line of the paragraph.  The user to decide which direction to go and to choose the
 %    method that yields the most pleasing typographic results.
 %
-%    \TeX{} always considers the paragraph in its entirety.  Thus any change the user demands
-%    \doublequotes{just for the last line} will permeate the whole paragraph and in unfortunate
-%    cases botch it.
+%    \TeX{} evaluates paragraphs as a whole.  Therefore, even changes intended for just the last
+%    line may affect the entire paragraph and potentially degrade its appearance.
 %
 %    Prudent users check the appearance of the problematic, original paragraph against one or
-%    more corrected versions of it -- at least visually.  Quantitative comparisons
-%    can be performed with the help of~\cs{tracingparagraphs}.
+%    more corrected versions~-- at a minimum, visually.  Quantitative comparisons can be
+%    performed with the help of~\cs{tracingparagraphs}.
 %  \end{tip}
 %
 %  \begin{important}
@@ -4799,15 +4801,15 @@ end
 %
 %        Add a \cs{linebreak} to the back part of the paragraph (approximately where the
 %        \cs{mbox} of item~\ref{enum:mbox-last-words} would start) in a way that the last line
-%        receives the desired length~\cite{wermuth:2022-8-2}.  In turn the next-to-last lines
-%        may become unsightly.  Counteract this degradation e.\,g.~with
+%        receives the desired length~\cite{wermuth:2022-8-2}.  As a result, the penultimate
+%        lines may become unsightly.  Counteract this degradation e.\,g.~with
 %        recipes~\ref{enum:vary-spacing} to~\ref{enum:vary-font-expansion}.
 %    \end{enumerate}
 %
-%    Tying and the use of \cs{mbox} can be generalized.  It is not only useful at the end of
+%    Tying and the use of \cs{mbox} can be generalized.  They are useful not only at the end of
 %    paragraphs but also effective for grouping logical units of sentences or inline equations,
-%    ensuring the key information remains in the reader's focus.  Cementing together text of
-%    course finds an end when overfull lines start to show up.
+%    ensuring the key information remains in the reader's focus.  Of course, binding text
+%    segments together must stop when overfull lines begin to appear.
 %
 %  \item Uniform paragraph change.\label{enum:uniform-paragraph-change}
 %
@@ -4878,11 +4880,11 @@ end
 %    \cs{end}|{shortenpar}|
 %  \end{synopsis}
 %
-%  Environment |shortenpar| decreases the \cs{looseness} of the paragraph.\!\footnote{Command
-%  \cs{looseness} is a \TeX{}~primitive~\cite[p.~103n]{knuth:1986}.  A thorough discussion of
-%  the interaction of \cs{linepenalty} and \cs{looseness} can be found in
-%  Ref.~\citenum{wermuth:2017c}.}  It performs well if the last line of the paragraph is short
-%  or the whole paragraph is loose.
+%  Environment |shortenpar| decreases the \cs{looseness} of the
+%  paragraph.\!\footnote{\cs{looseness} is a \TeX{}~primitive~\cite[p.~103n]{knuth:1986}.  A
+%  thorough discussion of the interaction of \cs{linepenalty} and \cs{looseness} can be found in
+%  Ref.~\citenum{wermuth:2017c}.}  This environment works well when the last line is short or
+%  the paragraph overall is loosely set.
 %
 %  \begin{synopsis}\label{syn:prolongpar}
 %    \cs{begin}|{prolongpar}|
@@ -4911,7 +4913,7 @@ end
 %    \cs{end}|{covernextindentpar}|
 %  \end{synopsis}
 %
-%  The environment asks \TeX{} to extend the last line of a paragraph such that it takes at
+%  The environment forces \TeX{} to extend the last line of a paragraph such that it takes at
 %  least
 %  \makeatletter\dumpmacro{\typog@covernextindentpar@nonzero@parindent}\makeatother{}
 %  (if \(\cs{parindent} \not= 0\)),
@@ -4936,8 +4938,8 @@ end
 %  \makeatletter\typog@openlastlinepar@zero@parindent\makeatother{} (if \(\cs{parindent} = 0\)).
 %  The optional argument~\meta{dim} directly sets the gap threshold.
 %
-%  Note that the application of this environment can be successful, this is, a completely filled
-%  last line is avoided, but the result may be of \hyperref[item:o1]{type~O1} nonetheless.
+%  Note that using this environment can succeed in avoiding a fully filled last line; however,
+%  the result might still fall into case \hyperref[item:o1]{type~O1}.
 %
 %
 %  \newpagetofixtoc
@@ -5658,7 +5660,7 @@ end
 %  to link three lines.
 %
 %  \begin{usecases}
-%    String together the first paragraph right after a sectioning command.~\visualpar Tie the
+%    String together the first paragraph right after a sectioning macro.~\visualpar Tie the
 %    first line of an itemized, enumerated, or a description list\index{list|userman} with the
 %    paragraph following~\cs{item}.
 %  \end{usecases}
@@ -5744,8 +5746,8 @@ end
 %  before a display.  Zero or one for \meta{before\hyp{}disp\hyp{}number\hyp{}of\hyp{}lines} are
 %  no-ops.  Up to nine lines can be fused.  The default is to link three lines.
 %
-%  To use the function bracket the paragraph before the display (the one that needs protection)
-%  and the associated displayed math:
+%  To use the environment, bracket the paragraph before the display (the one that needs
+%  protection) and the associated displayed math:
 %
 %  \begin{codeexample}
 %    \cs{begin}\{vtiebotdisp\}  \\
@@ -5772,7 +5774,7 @@ end
 %  Vertically tie the last \meta{before\hyp{}disp\hyp{}number\hyp{}of\hyp{}lines} in the
 %  paragraph before a display and the first
 %  \meta{after\hyp{}disp\hyp{}number\hyp{}of\hyp{}lines} in the paragraph after the display.
-%  Moreover, turn the paragraphs and the display into an un-breakable unit.\!\footnote{The
+%  Moreover, turn the paragraphs and the display into an unbreakable unit.\!\footnote{The
 %  paragraphs and the display are concreted together by setting both \cs{predisplaypenalty}
 %  and~\cs{postdisplaypenalty} to~10000.}
 %
@@ -5783,8 +5785,7 @@ end
 %  Both optional arguments default to three.  If only the first argument is given the second
 %  acquires the same value.
 %
-%
-%  To use the function bracket the paragraphs before and after the display:
+%  To use the environment, bracket the paragraphs before and after the display:
 %
 %  \begin{codeexample}
 %    \cs{begin}\{vtiebotdisptoppar\}  \\
@@ -5876,9 +5877,9 @@ end
 %  \begin{usecases}
 %    Avoid widows and orphans, e.\,g., those turned up by
 %    package~\packagename{widows-and-orphans}~\cite{package:widows-and-orphans}.~\visualpar
-%    Extend the typographic convention of \doublequotes{three to four lines instead of a single
-%    club or widow line} to a context-dependent number of lines that tries to keep all (well,
-%    dream on) the information together the reader needs at that particular point.
+%    Extend the convention of using three to four lines instead of a single club or widow line
+%    to a flexible, context-dependent rule that aims to keep all the relevant information
+%    together for the reader~-- ideally, at least.
 %  \end{usecases}
 %
 %
@@ -5890,9 +5891,8 @@ end
 %  \cs{allowdisplaybreaks} to render displayed equations breakable at each of their lines.
 %  Environment~\cs{breakabledisplay} is a wrapper around it which limits the macro's influence
 %  to the environment.  Furthermore, the default \meta{level} of \code{breakabledisplay} is~3
-%  whereas that of \cs{allowdisplaybreaks} is~4.  This makes \code{breakabledisplay} less eager
-%  to break a displayed equation and thus better suited to full automation of the page-breaking
-%  process.
+%  whereas that of \cs{allowdisplaybreaks} is~4.  This results in fewer breaks in displayed
+%  equations, making \code{breakabledisplay} more suitable for automated page breaking.
 %
 %  \begin{synopsis}\label{syn:breakabledisplay}
 %    \cs{begin}|{breakabledisplay}|\oarg{level}  \\
@@ -6512,9 +6512,9 @@ end
 %
 %  \begin{description}
 %  \item[Interference with package \packagename{pdfcomment}~\cite{package:pdfcomment}.]
-%    To play well with \packagename{pdfcomment} package~\packagename{typog} \emph{turns off} the
-%    default string substitution inside of \acronym{PDF}-bookmarks for the following macros
-%    (including their starred variants) if \emph{both} packages are loaded.
+%    To ensure compatibility with the \packagename{pdfcomment} package, \packagename{typog}
+%    \emph{disables} the default string substitution inside of \acronym{PDF}-bookmarks for the
+%    following macros (including their starred variants) if \emph{both} packages are loaded.
 %
 %    \setlength{\columnsep}{25pt}
 %    \begin{multicols}{2}
@@ -11455,7 +11455,7 @@ decorated with the results of \code{\string\fontsizeinfo}.
 \begin{widebody}
   \setstretch{1}
   \newcommand*{\baselineskipdoc}%
-              {Macro \code{\string\baselineskip} is a length command which
+              {Macro \code{\string\baselineskip} is a length macro which
                 specifies the minimum space between the bottom of two
                 successive lines in a paragraph.  Its value may be
                 automatically reset by \LaTeX, for example, by font
@@ -12562,7 +12562,7 @@ No contents: \leftmarker
    shrunk by the same amount.  However, it is also possible to limit
    the expansion of certain characters if they are more sensitive to
    deformation.
-   This is the purpose of the \code{\string\SetExpansion}~command.}
+   This is the purpose of the \code{\string\SetExpansion}~macro.}
 
 \begin{exemplary}
   \setlength{\examplewidth}{250pt}
