@@ -322,6 +322,8 @@
 
 
 
+\renewcommand*{\abstractname}{{\sffamily Abstract}}
+
 \newrobustcmd*{\acronym}[1]{\mbox{\scshape\MakeLowercase{#1}}}
 
 \newcommand*{\aliasfor}[2]{$\rightarrow$ #1}
@@ -1121,22 +1123,18 @@ quote             '!'
 %  \maketitle
 %  \thispagestyle{empty}
 %
-%  \begingroup
-%    \renewcommand*{\abstractname}{{\sffamily Abstract}}
-%    \begin{abstract}
-%      \begin{lastlinecenteredpar}
-%        \noindent
-%        The \packagename{typog} package is a comprehensive set of macros and environments
-%        designed to enhance the micro-typographic quality of documents.  It provides a variety
-%        of means that allow users to fine-tune typographic elements such as hyphenation,
-%        spacing, font adjustments, and alignment.  Key features include advanced control over
-%        hyphenation, customizable spacing options, and the ability to adjust font
-%        characteristics for improved readability and aesthetic appeal.  The package also offers
-%        specialized environments for managing paragraph layouts and aligning typographic
-%        elements with precision.
-%      \end{lastlinecenteredpar}
-%    \end{abstract}
-%  \endgroup
+%  \begin{abstract}
+%    \begin{lastlinecenteredpar}
+%      \noindent
+%      The \packagename{typog} package is a comprehensive set of macros and environments
+%      designed to enhance the micro-typographic quality of documents.  It provides a variety of
+%      means that allow users to fine-tune typographic elements such as hyphenation, spacing,
+%      font adjustments, and alignment.  Key features include advanced control over hyphenation,
+%      customizable spacing options, and the ability to adjust font characteristics for improved
+%      readability and aesthetic appeal.  The package also offers specialized environments for
+%      managing paragraph layouts and aligning typographic elements with precision.
+%    \end{lastlinecenteredpar}
+%  \end{abstract}
 %
 %
 %  \iffalse
@@ -4307,13 +4305,13 @@ end
 %  start at a vertical shift of
 %  \begin{gather*}
 %    -\frac{\text{\meta{number-of-steps}} - 1}{2} \times \text{\meta{step-size}}  \\
-%    \intertext{and repeat up}
+%    \intertext{and repeat up to}
 %    \frac{\text{\meta{number-of-steps}} - 1}{2} \times \text{\meta{step-size}}.
 %  \end{gather*}
 %
 %  \noindent
 %  The central step\leftspacedendash which is always surrounded by a bit more
-%  space\rightspacedendash shows the neutral alignment, this is~0\,pt.  \cs{typogadjuststairs}
+%  space\rightspacedendash shows the neutral alignment, this is, 0\,pt.  \cs{typogadjuststairs}
 %  never prints the contents of \meta{sample}.
 %
 %  \begin{example}
