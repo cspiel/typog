@@ -1841,8 +1841,9 @@ end
 %  \end{whittyquote}
 %
 %  \noindent
-%  \LaTeX{} is the beginning of good typesetting -- not the end.  This package provides some
-%  tools for even better looking documents.  When applied correctly its effects appear subtle
+%  \LaTeX{} is the beginning of good typesetting\spacedemdash not the end.  This package
+%  provides some tools for even better looking documents.  When applied correctly its effects
+%  appear subtle
 %  and inconspicuous.
 %
 %
@@ -1864,12 +1865,12 @@ end
 %  \hyperref[syn:lastlinecenteredpar]{\code{lastlinecenteredpar}} in justified paragraphs for
 %  the abstract and the copyright notice.}  \Cref{sec:latex-hyphenation} expands the hyphenation
 %  facilities of \LaTeX.  \Cref{sec:break-ligatures,sec:manual-italic-correction} treat the
-%  breaking of ligatures and also manually applying italic correction -- in a generalized way.
-%  \Cref{sec:extra-kerning} introduces macros to kern or space some punctuation signs.
-%  \Cref{sec:raise-characters} deals with vertically positioning glyphs in a more visually
-%  pleasing manner.  \Cref{sec:adjust-label-items} also deals with vertical alignment and
-%  explains how to height-adjust the labels in |itemize|~lists to perfection whether the items
-%  are followed by uppercase or by lowercase letters.
+%  breaking of ligatures and also manually applying italic correction\spacedemdash in a
+%  generalized way.  \Cref{sec:extra-kerning} introduces macros to kern or space some
+%  punctuation signs.  \Cref{sec:raise-characters} deals with vertically positioning glyphs in a
+%  more visually pleasing manner.  \Cref{sec:adjust-label-items} also deals with vertical
+%  alignment and explains how to height-adjust the labels in |itemize|~lists to perfection
+%  whether the items are followed by uppercase or by lowercase letters.
 %  \Cref{sec:align-last-line,sec:fill-last-line} discuss dearly missed macros for better control
 %  of the last line of a paragraph.  \Cref{sec:spacing-control} covers the manipulation of the
 %  length of a paragraph.  \Cref{sec:microtype-frontend} expounds on the \packagename{microtype}
@@ -2814,7 +2815,7 @@ end
 %  \DescribeMacro{\breakpoint}
 %  \DescribeMacro{\breakpoint*}
 %  The empty discretionary construct~\cite[p.~95]{knuth:1986}, \cs{discretionary\{\}\{\}\{\}},
-%  is helpful.  It deserves its own macro -- with a descriptive name.
+%  is helpful.  It deserves its own macro\spacedemdash with a descriptive name.
 %
 %  \begin{synopsis}\label{syn:breakpoint}
 %    \cs{breakpoint}\qquad \cs{breakpoint*}
@@ -3335,8 +3336,8 @@ end
 %
 %  \begin{important}[\packagename{hyperref} bookmarks]\label{imp:hyperref-bookmarks-spacedendash}\relax
 %    If any of \cs{leftspacedendash}, \cs{rightspacedendash}, \cs{spacedendash},
-%    \cs{spaceddash}, or \cs{spacedemdash} (see below) --~whether starred or un-starred~-- occur
-%    in an argument that is processed with
+%    \cs{spaceddash}, or \cs{spacedemdash} (see below)\spacedemdash whether starred or
+%    un-starred\spacedemdash occur in an argument that is processed with
 %    package~\packagename{hyperref}\index{hyperref=\packagename{hyperref} (package)|userman} for
 %    inclusion into the document's
 %    \acronym{PDF}-bookmarks\index{PDF=\acronym{PDF}|userman}\index{bookmark|userman} an
@@ -4763,8 +4764,8 @@ end
 %    line may affect the entire paragraph and potentially degrade its appearance.
 %
 %    Prudent users check the appearance of the problematic, original paragraph against one or
-%    more corrected versions~-- at a minimum, visually.  Quantitative comparisons can be
-%    performed using \cs{tracingparagraphs}.
+%    more corrected versions\spacedemdash at a minimum, visually.  Quantitative comparisons can
+%    be performed using \cs{tracingparagraphs}.
 %  \end{tip}
 %
 %  \begin{important}
@@ -5299,8 +5300,9 @@ end
 %  \subsection{\packagename{Microtype} Front\capitalhyphen End}\label{sec:microtype-frontend}
 %  \index{microtype=\packagename{microtype} (package)|userman}
 %
+%  \marginnote{The manual uses \hyperref[syn:spacedemdash]{\cs{spacedemdash}} for the em-dash.}
 %  The functionalities are just front-ends of selected macros in
-%  package~\packagename{microtype} -- welcome syntactic sugar.
+%  package~\packagename{microtype}\spacedemdash welcome syntactic sugar.
 %
 %  \begin{important}
 %    All macros and environments introduced in this section require that
@@ -5366,7 +5368,7 @@ end
 %
 %  \begin{usecases}
 %    Nudge line breaks or hyphenation points.~\visualpar Avoid clashes of descenders and
-%    ascenders, e.\,g., for \cs{smash}ed symbols of inline math.~-- Think of
+%    ascenders, e.\,g., for \cs{smash}ed symbols of inline math.\spacedemdash Think of
 %    integrals.~\visualpar Control the length of the last line in a paragraph.
 %  \end{usecases}
 %
@@ -5641,7 +5643,7 @@ end
 %  \subsection{Vertically Partially-Tied Paragraphs}\label{sec:vtie-paragraph}
 %  \index{paragraph>vertically tied|userman}
 %
-%  \LaTeX{} provides several macros and environments to tie material vertically~--
+%  \LaTeX{} provides several macros and environments to tie material vertically\spacedemdash
 %  most prominently |samepage| and |minipage|.\!\footnote{A valuable complement to these is
 %  package~\packagename{needspace}~\cite{package:needspace} which takes a different approach and
 %  reliably works in \emph{mixed} horizontal and vertical mode situations.}
@@ -5889,7 +5891,7 @@ end
 %    package~\packagename{widows-and-orphans}~\cite{package:widows-and-orphans}.~\visualpar
 %    Extend the convention of using three to four lines instead of a single club or widow line
 %    to a flexible, context-dependent rule that aims to keep all the relevant information
-%    together for the reader~-- ideally, at least.
+%    together for the reader\spacedemdash ideally, at least.
 %  \end{usecases}
 %
 %
@@ -6004,7 +6006,7 @@ end
 %
 %  \DescribeMacro{\setbaselineskip}
 %  \sinceversion{Since v0.3}
-%  Set the line skip using an absolute length~-- technically: a |dimen|.
+%  Set the line skip using an absolute length\spacedemdash technically: a |dimen|.
 %
 %  \begin{synopsis}\label{syn:setbaselineskip}
 %    \cs{setbaselineskip}\marg{baseline-skip}
@@ -7926,7 +7928,7 @@ end
 %
 %  \begin{environment}{hyphenmin}
 %    \changes{v0.3}{2024-05-04}{New environment.}
-%    No trickery here.~-- We use the mandatory argument for the value of
+%    No trickery here.\spacedemdash We use the mandatory argument for the value of
 %    \cs{lefthyphenmin} if the optional argument has been omitted.
 %
 %    \begin{macrocode}
