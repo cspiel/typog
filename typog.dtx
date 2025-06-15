@@ -362,7 +362,7 @@
 
 \newcommand*{\detoxindex}[1]{\index{\detokenize{#1}}}
 
-\newcommand*{\doublequotes}[1]{\doubleguillemetright\kern-.03333em #1\doubleguillemetleft}
+\newcommand*{\doublequotes}[1]{``#1''}
 
 \newcommand*{\dumpmacro}[1]{\texttt{\detokenize\expandafter{#1}\unskip}}
 
@@ -584,7 +584,7 @@
   \ignorespaces
 }
 
-\newcommand*{\singlequotes}[1]{\mbox{\singleguillemetright #1\singleguillemetleft}}
+\newcommand*{\singlequotes}[1]{\mbox{`#1'}}
 
 \newcommand*{\specialsectionheading}[1]{\textcolor{\markercolor}{\textit{\textbf{#1}}}}
 \definecolor{customred1}{rgb}{.890, .282, .282}%-- https://paletton.com/
