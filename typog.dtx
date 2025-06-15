@@ -419,6 +419,11 @@
 \makeatletter
 \IndexPrologue{\section*{Index}%
                \markboth{\sf\letterspacedsmallcaps{Index}}{\sf\letterspacedsmallcaps{Index}}%
+               \begin{whittyquote}
+                 Es ist schon alles gesagt,  \\
+                 nur noch nicht von allen.  \\
+                 \capitalemdash*~\propername{Karl Valentin}
+               \end{whittyquote}
                Numbers written in italics refer to definitions;
                numbers in regular style refer to pages where an entry is used.
                \ifx\special@index\HD@codeline@wrindex
@@ -1266,9 +1271,9 @@ end
 %
 %  This is an alphabetically sorted list of all user macros and environments defined by
 %  package~\packagename{typog} along with the page numbers of their descriptions.
-%  \marginnote{In the multi-column parts of the Quick Reference we reduce the line spacing from
+%  \marginnote{In the multi-column parts of the Quick Reference, we reduce the line spacing from
 %  125\% to 120\% with
-%  \hyperref[syn:setbaselineskippercentage]{\cs{set\-base\-line\-skip\-per\-cent\-age}} and the
+%  \hyperref[syn:setbaselineskippercentage]{\cs{set\-base\-line\-skip\-per\-cent\-age}}, and the
 %  inter-word spacing by 1.25\% with \hyperref[syn:tightspacing]{\code{tightspacing}}.  List
 %  \cs{item}s get tied with \hyperref[syn:vtietop]{\cs{vtietop}}.}\relax
 %  A list of all \hyperref[sec:package-options]{package options} can be found on
@@ -1446,11 +1451,12 @@ end
 %      \endqritem
 %
 %      \qritem{syn:kernedslash}{\cs{kernedslash*}}
-%        Typeset an unbreakable forward slash and apply kerning to its left and right.
+%        Typeset an unbreakable forward slash and apply kerning to both its left and right
+%        sides.
 %      \endqritem
 %
 %      \qritem{syn:kernedslash}{\cs{kernedslash}}
-%        Typeset a breakable forward slash and apply kerning to its left and right.
+%        Typeset a breakable forward slash and apply kerning to both its left and right sides.
 %      \endqritem
 %
 %      \heading{L}
@@ -1851,7 +1857,7 @@ end
 %  typesetting process whether during the draft phase or in the final printed
 %  manuscript.\marginnote{Throughout the whole document we indicate actual uses of the package's
 %  macros and environments in the margin.  All these notes are examples themselves as they are
-%  typeset with the help of \hyperref[syn:slightlysloppy]{\code{slightlysloppy}},
+%  typeset using \hyperref[syn:slightlysloppy]{\code{slightlysloppy}},
 %  \hyperref[syn:loosespacing]{\code{loosespacing}}, and
 %  \hyperref[syn:smoothraggedrightpar]{\code{smoothraggedrightpar}}.~\visualpar The title page
 %  has already demonstrated the effect of
@@ -1860,15 +1866,16 @@ end
 %  facilities of \LaTeX.  \Cref{sec:break-ligatures,sec:manual-italic-correction} treat the
 %  breaking of ligatures and also manually applying italic correction -- in a generalized way.
 %  \Cref{sec:extra-kerning} introduces macros to kern or space some punctuation signs.
-%  \Cref{sec:raise-characters} deals with vertically positioning glyphs in a more pleasant way.
-%  Also in the realm of vertical alignments is \cref{sec:adjust-label-items} that explains how
-%  to height-adjust the labels in |itemize|~lists to perfection whether the items are followed
-%  by uppercase or by lowercase letters.  \Cref{sec:align-last-line,sec:fill-last-line} discuss
-%  dearly missed macros for better control of the last line of a paragraph.
-%  \Cref{sec:spacing-control} covers the manipulation of the length of a paragraph.
-%  \Cref{sec:microtype-frontend} expounds on the \packagename{microtype} front-end: font
-%  tracking~(\ref{sec:tracking-control}), font expansion~(\ref{sec:font-expansion-control}), and
-%  character protrusion~(\ref{sec:protrusion}).  In \cref{sec:sloppy-paragraphs} we address some
+%  \Cref{sec:raise-characters} deals with vertically positioning glyphs in a more visually
+%  pleasing manner.  \Cref{sec:adjust-label-items} also deals with vertical alignment and
+%  explains how to height-adjust the labels in |itemize|~lists to perfection whether the items
+%  are followed by uppercase or by lowercase letters.
+%  \Cref{sec:align-last-line,sec:fill-last-line} discuss dearly missed macros for better control
+%  of the last line of a paragraph.  \Cref{sec:spacing-control} covers the manipulation of the
+%  length of a paragraph.  \Cref{sec:microtype-frontend} expounds on the \packagename{microtype}
+%  front-end: font tracking~(\ref{sec:tracking-control}), font
+%  expansion~(\ref{sec:font-expansion-control}), and character
+%  protrusion~(\ref{sec:protrusion}).  In \cref{sec:sloppy-paragraphs} we address some
 %  shortcomings of spacing control with a replacement for the macro~\cs{sloppy} and the related
 %  environment~\code{sloppypar}.  \Cref{sec:vtie-paragraph} presents several special functions
 %  to avoid club or widow lines in a paragraph.  As a simple extension of displayed mathematical
@@ -1881,7 +1888,8 @@ end
 %  \subsection{Prerequisites}\label{sec:packageprerequisites}
 %
 %  Package \packagename{typog} requires \eTeX; it relies on the \LaTeXIII{}~interface.  Parts of
-%  it are based on package~\packagename{microtype}.  However, if the functionality is not used,
+%  it are based on packages \packagename{microtype}~\cite{package:microtype} and
+%  \packagename{setspace}~\cite{package:setspace}.  However, if the functionality is not used,
 %  \packagename{typog} can be used without \packagename{microtype}.  The same holds true for the
 %  \packagename{setspace} front-end.
 %
@@ -1931,7 +1939,7 @@ end
 %         vtietop]
 %    \item[|breakpenalty=|\meta{penalty}]\label{item:breakpenalty}
 %      \indexpackageoptiondefinition{breakpenalty}
-%      \shiftedmarginnote{This sub-section is typeset with all \packagename{typog}~parameters
+%      \shiftedmarginnote{This subsection is typeset with all \packagename{typog}~parameters
 %        reset to their defaults by wrapping it in a
 %        \hyperref[syn:typogsetup]{\code{typogsetup}}~environment with an empty argument.}
 %        Penalty for a line break at various points.  Default
@@ -2222,7 +2230,7 @@ end
 %  \DescribeMacro{\typogget}
 %  Sometimes the user needs to access configuration values of package~\packagename{typog}.  This
 %  can be done in a safe way without resorting to code that is bracketed by \cs{makeatletter}
-%  and \cs{makeatother} with the help of the following macro.
+%  and \cs{makeatother} using of the following macro.
 %
 %  \begin{synopsis}\label{syn:typogget}
 %     \cs{typogget}\marg{key}
@@ -2291,7 +2299,7 @@ end
 %  \end{whittyquote}
 %
 %  \noindent
-%  We define some functions for introspection of the typesetting process.
+%  We define some functions for inspecting the typesetting process.
 %
 %
 %  \subsubsection{Font Information}\label{sec:font-information}
@@ -2308,7 +2316,7 @@ end
 %     \cs{fontsizeinfo}\marg{cs-name}
 %  \end{synopsis}
 %
-%  The call to \cs{fontsizeinfo} introduces a pair of macros to access the stored values.  The
+%  The call to \cs{fontsizeinfo} defines a pair of macros to access the stored values.  The
 %  unstarred version~\cs{cs-name} expands to the lengths including their units (i.\,e.,~pt), the
 %  starred version~\cs{cs-name*} omits the units.  The separating slash is
 %  \hyperref[syn:kernedslash]{\cs{kernedslash}}, which is introduced in
@@ -2329,9 +2337,9 @@ end
 %  \DescribeEnv{typoginspect}
 %  \DescribeEnv{typoginspectpar}
 %  The environments |typoginspect| and |typoginspectpar| turn on the tracing of paragraphs and
-%  pages; optionally they display the parbox' contents.  These environments can assist the user
-%  in identifying typographic problems in a quantitative way without getting distracted by
-%  unrelated information in the trace or the \filesystem{log}-file.
+%  pages; optionally they display the parbox' contents.  These environments help users identify
+%  typographic issues quantitatively without getting distracted by unrelated information in the
+%  trace or the \filesystem{log}-file.
 %
 %  \begin{synopsis}
 %    \label{syn:typoginspect}
@@ -2388,7 +2396,7 @@ end
 %  replaced with the current value of the page counter.
 %
 %  \begin{itemize}[noindent]
-%  \item Any text tool can be used to ferret out the tags.  \propername{Emacs} users will find
+%  \item Any text tool can be used to extract the tags.  \propername{Emacs} users will find
 %    \mbox{\code{(occur \meta{regexp})}} to be useful.\shiftedmarginnote{This \code{itemize}
 %    list demonstrates vertically adjusted label items (\cref{sec:adjust-label-items}).}
 %
@@ -3071,7 +3079,7 @@ end
 %    \vspace{-3\baselineskip}
 %    \llap{\parbox{\marginparwidth}
 %                 {\marginnoteformat
-%                  We center the last lines of each figure and table caption with the help of
+%                  We center the last lines of each figure and table caption using
 %                  \hyperref[syn:lastlinecenteredpar]{\code{lastlinecenteredpar}}.}
 %          \hspace*{\marginparsep}}
 %  \end{figure}
@@ -3082,7 +3090,7 @@ end
 %  \index{kerning>extra|userman}
 %  \index{extra spacing|userman}
 %
-%  Package \packagename{typog} supplies two sets of macros to kern some of the punctuation
+%  Package \packagename{typog} provides two sets of macros to kern some of the punctuation
 %  symbols.  One is for forward slashes the other, more extensive one, for hyphens and dashes.
 %
 %
@@ -3106,8 +3114,8 @@ end
 %
 %  \sinceversion{Option \code{lowerslash} introduced in v0.5}
 %  \indexpackageoption{lowerslash}
-%  The kerned slash can typset lowered (or raised), where the offset with respect to the
-%  baseline is configured with~\hyperref[item:lowerslash]{|lowerslash|}.
+%  The kerned slash can typset lowered (or raised), with the offset from the baseline configured
+%  using \hyperref[item:lowerslash]{|lowerslash|}.
 %
 %  \begin{tip}
 %    Define specialized macros for slashes surrounded by lowercase letters or small~caps if they
@@ -3195,9 +3203,9 @@ end
 %  \newpagetofixtoc
 %  \subsubsection{En-Dash and Em-Dash}\label{sec:spaced-dashes}
 %
-%  The macros introduced in this sub-section allow for fine-tuning the white-space before and
-%  after en-dashes and em-dashes.  Both sets of macros are designed for specific uses.  The
-%  spaced en-dash macros are intended to be used where an en-dash is surrounded by normal spaces:
+%  The macros introduced in this subsection allow fine-tuning of the whitespace before and after
+%  en-dashes and em-dashes.  Each set of macros is designed for a specific use.  The spaced
+%  en-dash macros are intended to be used where an en-dash is surrounded by normal spaces:
 %
 %  \begin{center}
 %      \meta{WORD}\code{\textvisiblespace}\textendash\code{\textvisiblespace}\meta{WORD}.
@@ -3205,8 +3213,8 @@ end
 %
 %  \noindent
 %  \skip1=\glueexpr\fontdimen2\font plus \fontdimen3\font minus \fontdimen4\font\relax
-%  The possible typographic improvement lies with the reduction of the width of the space around
-%  the en-dash with respect to the normal space.\!\footnote{The current font's space width is
+%  Typographic improvement may come from reducing the width of the space around the en-dash with
+%  respect to the normal space.\!\footnote{The current font's space width is
 %  \milliemglue{\skip1} compared to \packagename{typog}s
 %  \hyperref[item:endashspace]{\code{endashspace}} width of
 %  \milliemglue{\typogget{endashspace}}.}  On the other hand, the em-dash macros assume that
@@ -3217,17 +3225,17 @@ end
 %  \end{center}
 %
 %  \noindent
-%  The spaced em-dash macros add some (hairline-) space between the em-dash and the
-%  \meta{WORD}s, which may prevent the em-dash from running right into its
-%  neighbors.\!\footnote{Some fonts offer dashes with no side bearings to facilitate drawing
-%  horizontal lines by abutting these dashes.}
+%  The spaced em-dash macros add some (hairline) space between the em-dash and the \meta{WORD}s,
+%  which helps prevent the em-dash from visually colliding with adjacent words.\!\footnote{Some
+%  fonts offer dashes with no side bearings to facilitate drawing horizontal lines by abutting
+%  these dashes.}
 %
-%  \paragraph{Line Breaking at Dashes.}
-%  Package \packagename{typog} offers spaced en- and em-dashes that have their breakpoints on
-%  the left-hand side or on the right-hand side (or none for any of the starred versions) and
-%  indicates this in the names of the macros with \code{left} and \code{right}.  All spaced
-%  dashes put equal amounts of space on both sides of their dashes, though; \singlequotes{left}
-%  and \singlequotes{right} refers to the breakpoints.
+%  \paragraph{Line Breaking Around Dashes.}
+%  Package \packagename{typog} offers spaced en- and em-dashes with breakpoints either on the
+%  left-hand side or the right-hand side (or none for any of the starred versions) and this is
+%  reflected in the macro names by \code{left} and \code{right}.  All spaced dashes put equal
+%  amounts of space on both sides of their dashes, though; \singlequotes{left} and
+%  \singlequotes{right} refers to the breakpoints.
 %
 %  A single dash is used\leftspacedendash among many other cases\rightspacedendash
 %  \marginnote{The insertion, \doublequotes{among~\dots}, is separated by spaced en-dashes.} to
@@ -4082,7 +4090,7 @@ end
 %  \formatdimen*{0pt} the marks are auto-raised as shown in \cref{fig:inverted-marks}.  This may
 %  amount to different lengths for the inverted exclamation mark and inverted question mark even
 %  at the same \meta{number}.  A nonzero dimension raises the marks by exactly that length.  To
-%  get a \mbox{(quasi-)}\breakpoint zero length use e.\,g.~1\,sp.
+%  get a near-zero length use e.\,g.~1\,sp.
 %
 %  \begin{tip}
 %    \index{itcorr=\verb!*+\itcorr+|userman}\relax
@@ -4754,7 +4762,7 @@ end
 %
 %    Prudent users check the appearance of the problematic, original paragraph against one or
 %    more corrected versions~-- at a minimum, visually.  Quantitative comparisons can be
-%    performed with the help of~\cs{tracingparagraphs}.
+%    performed using \cs{tracingparagraphs}.
 %  \end{tip}
 %
 %  \begin{important}
@@ -5344,7 +5352,7 @@ end
 %  \end{codeexample}
 %
 %  \noindent
-%  or with the help of \cs{typogsetup} in the document \emph{preamble} (after loading
+%  or using \cs{typogsetup} in the document \emph{preamble} (after loading
 %  \packagename{microtype} and \packagename{typog})
 %
 %  \begin{codeexample}
