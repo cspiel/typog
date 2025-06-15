@@ -424,11 +424,11 @@
                  nur noch nicht von allen.  \\
                  \capitalemdash*~\propername{Karl Valentin}
                \end{whittyquote}
-               Numbers written in italics refer to definitions;
+               Numbers written in italic style refer to definitions;
                numbers in regular style refer to pages where an entry is used.
                \ifx\special@index\HD@codeline@wrindex
                  References to code lines are prefixed with~\singlequotes{\codelineindicator}.
-                 Again italics refer to definitions and regular style to lines where the code is used.
+                 Again italic style refers to definitions and regular style to lines where the code is used.
                \fi}
 
 \newcommand*{\linenumberdecoration}
@@ -939,7 +939,7 @@
   make-at-letter
   make-at-other
   mar-gin-al
-  math-italics-correction
+  math-italic-correction
   micro-type
   narrow-space
   narrow-space-scale
@@ -987,7 +987,7 @@
   spaced-endash
   stretch-limits
   text-exclam-down
-  text-italics-correction
+  text-italic-correction
   text-question-down
   tight-spacing
   tracing-boxes
@@ -1151,8 +1151,8 @@ linecap := butt;
 string roman_font;
 roman_font := "pplr8r";         % URW Palladio L - Roman
 
-string italics_font;
-italics_font := "pplri8r";      % URW Palladio L - Italic
+string italic_font;
+italic_font := "pplri8r";      % URW Palladio L - Italic
 
 picture dash_dotted;
 dash_dotted := dashpattern(on 3 off 3 on 0 off 3);
@@ -1431,12 +1431,12 @@ end
 %      \heading{I}
 %      \qritem{syn:itcorr}{\cs{itcorr*}}[\sigbrk\marg{strength}]
 %        Apply italic correction in the form of a \cs{kern} scaled by
-%        \code{textitalicscorrection}.
+%        \code{textitaliccorrection}.
 %      \endqritem
 %
 %      \qritem{syn:itcorr}{\cs{itcorr}}[\sigbrk\marg{strength}]
 %        Apply italic correction in the form of a \cs{kern} scaled by
-%        \cs{fontdim1} or \code{textitalicscorrection}.
+%        \cs{fontdim1} or \code{textitaliccorrection}.
 %      \endqritem
 %
 %      \heading{K}
@@ -2010,12 +2010,13 @@ end
 %      \singlequotes{direction} of \cs{raisebox}.  See \cref{sec:slash-with-kern}.  Default
 %      value: \milliem{\typogget{lowerslash}}.
 %
-%    \item[|mathitalicscorrection=|\meta{dim}]\label{item:mathitalicscorrection}
-%      \indexpackageoptiondefinition{mathitalicscorrection}
-%      Italics correction in math mode.  See \cref{sec:manual-italic-correction} and also the
+%    \item[|mathitaliccorrection=|\meta{dim}]\label{item:mathitaliccorrection}
+%      \indexpackageoptiondefinition{mathitaliccorrection}
+%      \sinceversion{Renamed in v0.5}
+%      Italic correction in math mode.  See \cref{sec:manual-italic-correction} and also the
 %      complementary configuration
-%      option~\hyperref[item:textitalicscorrection]{|textitalicscorrection|}.  Default
-%      value: \the\typogget{mathitalicscorrection}.\!\footnote{Note that 1\,mu is
+%      option~\hyperref[item:textitaliccorrection]{|textitaliccorrection|}.  Default
+%      value: \the\typogget{mathitaliccorrection}.\!\footnote{Note that 1\,mu is
 %      \nativetextfraction{1}{18}\,em of the mathematical font's~em.}
 %
 %    \item[|raise*=|\meta{dim}]\label{item:raise}
@@ -2111,13 +2112,14 @@ end
 %      Set the size of the kerns before and after \hyperref[syn:kernedslash]{\cs{kernedslash}}.
 %      See \cref{sec:slash-with-kern}.  Default value: \milliem{\typogget{slashkern}}.
 %
-%    \item[|textitalicscorrection=|\meta{dim}]\label{item:textitalicscorrection}
-%      \indexpackageoptiondefinition{textitalicscorrection}
-%      Italics correction fallback-value; used if \cs{fontdimen1} is zero.  See
+%    \item[|textitaliccorrection=|\meta{dim}]\label{item:textitaliccorrection}
+%      \indexpackageoptiondefinition{textitaliccorrection}
+%      \sinceversion{Renamed in v0.5}
+%      Italic correction fallback-value; used if \cs{fontdimen1} is zero.  See
 %      \cref{sec:manual-italic-correction} on manual italic correction and also the
 %      complementary configuration
-%      option~\hyperref[item:mathitalicscorrection]{|mathitalicscorrection|}.  Default
-%      value: \milliem{\typogget{textitalicscorrection}}.
+%      option~\hyperref[item:mathitaliccorrection]{|mathitaliccorrection|}.  Default
+%      value: \milliem{\typogget{textitaliccorrection}}.
 %
 %    \item[|trackingttspacing=|\code{\{\meta{outer-spacing}\}}\quad\microtyperequiredmarker]\label{item:trackingttspacing}
 %      \indexpackageoptiondefinition{trackingttspacing}
@@ -2944,19 +2946,19 @@ end
 %
 %  In text mode macro~\cs{itcorr} inserts a kern whose width is proportional to \cs{fontdim1},
 %  which is the font's italic correction.
-%  \indexpackageoption{textitalicscorrection}
+%  \indexpackageoption{textitaliccorrection}
 %  If \cs{fontdim1} happens to be zero (e.\,g.~for an upright font), \cs{itcorr} uses the value
-%  set with \hyperref[item:textitalicscorrection]{\code{textitalicscorrection}} instead of
+%  set with \hyperref[item:textitaliccorrection]{\code{textitaliccorrection}} instead of
 %  \cs{fontdim1}.  The starred version always uses
-%  \hyperref[item:textitalicscorrection]{\code{textitalicscorrection}}.
-%  \indexpackageoption{mathitalicscorrection}
+%  \hyperref[item:textitaliccorrection]{\code{textitaliccorrection}}.
+%  \indexpackageoption{mathitaliccorrection}
 %  In math mode macro~\cs{itcorr} uses the value set with
-%  \hyperref[item:mathitalicscorrection]{\code{mathitalicscorrection}}\footnote{Separate
-%  adjustments may be desirable if the math font's italics have markedly different slants.}  in
+%  \hyperref[item:mathitaliccorrection]{\code{mathitaliccorrection}}\footnote{Separate
+%  adjustments may be desirable if the math font's italic have markedly different slants.}  in
 %  both the starred and the unstarred form.
 %
-%  Typical slant angles of serif italics fonts range from 8\textdegree{} to~18\textdegree{} and
-%  thus values for |textitalicscorrection| from .14 to~.32.  Note: \meta{strength} can be
+%  Typical slant angles of serif italic fonts range from 8\textdegree{} to~18\textdegree{} and
+%  thus values for |textitaliccorrection| from .14 to~.32.  Note: \meta{strength} can be
 %  negative and fractional \meta{strength}s are allowed.
 %
 %  \begin{usecases}
@@ -2964,8 +2966,8 @@ end
 %    font.~\visualpar Negative correction at the left-hand side\footnote{Groff has the machinery
 %    for left-italic-correction.  Its font-metrics files support per glyph
 %    left-italic-correction values and users can access them conveniently via~\sample*{\cs{,}}.}
-%    of italics, i.\,e., compensate \doublequotes{shift-to-the-right effect} of
-%    italics.~\visualpar Positive correction at the left-hand side of italics, e.\,g., an
+%    of italic, i.\,e., compensate \doublequotes{shift-to-the-right effect} of
+%    italic.~\visualpar Positive correction at the left-hand side of italic, e.\,g., an
 %    opening parenthesis or square bracket followed by an
 %    italic~\sample{\itshape\itcorr{8}f\itcorr{7}} (before:~8, after:~7) or
 %    \sample{\itshape\itcorr{4}y\itcorr{1}} (before:~4, after:~1) reaching far to the left below
@@ -2984,8 +2986,8 @@ end
 %  \end{displaymath}
 %
 %  A well-chosen \meta{strength} should be the absolute minimum value which avoids that the
-%  glyphs typeset in italics collide with other\leftspacedendash usually
-%  non-italics\rightspacedendash letters or symbols unless this disturbs the consistency of the
+%  glyphs typeset in italic collide with other\leftspacedendash usually
+%  non-italic\rightspacedendash letters or symbols unless this disturbs the consistency of the
 %  overall tracking.
 %
 %  Correction of the right-hand side and \mbox{\(\alpha > 0\)}: A reasonable first guess of
@@ -3008,8 +3010,8 @@ TEXPOST("\end{document}");
 string roman_font;
 roman_font := "pplr8r";         % URW Palladio L - Roman
 
-string italics_font;
-italics_font := "pplri8r";      % URW Palladio L - Italic
+string italic_font;
+italic_font := "pplri8r";      % URW Palladio L - Italic
 
 u := 360;
 
@@ -3021,13 +3023,13 @@ loc[2] := .5[origin, (u, 0)];
 loc[3] := .8[origin, (u, 0)];
 
 picture letter_H;
-letter_H := thelabel.top("H" infont italics_font scaled font_scale, loc[1]);
+letter_H := thelabel.top("H" infont italic_font scaled font_scale, loc[1]);
 
 picture letter_L;
-letter_L := thelabel.top("L" infont italics_font scaled font_scale, loc[2]);
+letter_L := thelabel.top("L" infont italic_font scaled font_scale, loc[2]);
 
 picture letter_a;
-letter_a := thelabel.top("a" infont italics_font scaled font_scale, loc[3]);
+letter_a := thelabel.top("a" infont italic_font scaled font_scale, loc[3]);
 
 path slant_angle;
 slant_angle := lrcorner letter_H + (14, 0) -- lrcorner letter_H + (-6, 0) -- urcorner letter_H + (3.5, 0);
@@ -3058,17 +3060,17 @@ end
 %  \fi
 %
 %  \Cref{fig:slant-angle} shows how \meta{strength} and \(\alpha\) are related.  Moreover, it
-%  demonstrates how intricate italics correction is.
+%  demonstrates how intricate italic correction is.
 %
 %  \begin{figure}
 %    \centering
 %    \includegraphics{slant-angle-1.mps}
-%    \caption[Some letters of an italics font.]
-%            {Some letters of an italics font.  We use the capital~\sample{H} to measure the
+%    \caption[Some letters of an italic font.]
+%            {Some letters of an italic font.  We use the capital~\sample{H} to measure the
 %             angle~\(\alpha\) between the plumb-line (drawn dashed) and a tangent to the
 %             rightmost parts of the glyph.  The length of the plumb-line is proportional to
 %             \meta{strength} and the short, thick part of the baseline symbolizes the resulting
-%             italics correction.~\visualpar The middle example, the capital~\sample{L}, shares
+%             italic correction.~\visualpar The middle example, the capital~\sample{L}, shares
 %             \(\alpha\) with \sample{H} but obviously needs a far smaller \meta{strength} or
 %             even no correction at all.~\visualpar The \sample{a} at the right-hand side is an
 %             example of why \TeX{} allows to assign an italic~correction to each individual
@@ -7224,9 +7226,9 @@ end
 %
 %  Our own state \dots
 %
-%  \begin{macro}{\typog@config@mathitalicscorrection}
+%  \begin{macro}{\typog@config@mathitaliccorrection}
 %    \begin{macrocode}
-\newmuskip\typog@config@mathitalicscorrection
+\newmuskip\typog@config@mathitaliccorrection
 
 %    \end{macrocode}
 %  \end{macro}
@@ -7326,9 +7328,9 @@ end
 %
 %  Other lengths \dots
 %
-%  \begin{macro}{\typog@config@textitalicscorrection}
+%  \begin{macro}{\typog@config@textitaliccorrection}
 %    \begin{macrocode}
-\newlength{\typog@config@textitalicscorrection}
+\newlength{\typog@config@textitaliccorrection}
 %    \end{macrocode}
 %  \end{macro}
 %
@@ -7527,11 +7529,23 @@ end
   {\setlength{\typog@config@emdashspace}{#1}}
 \DeclareOptionX<typog>{endashspace}[.2em plus.1em minus.0667em]%
   {\setlength{\typog@config@endashspace}{#1}}
-\DeclareOptionX<typog>{mathitalicscorrection}[.4mu]%
-  {\typog@config@mathitalicscorrection=#1\relax}%
+%  \fi
+%
+%  \changes{v0.5}{2025-06-15}{Rename package option \code{mathitalicscorrection} to
+%  \code{math\-italic\-correction}.}
+%
+%  \iffalse
+\DeclareOptionX<typog>{mathitaliccorrection}[.4mu]%
+  {\typog@config@mathitaliccorrection=#1\relax}%
 \DeclareOptionX<typog>{nodebug}{\typog@debugfalse}
-\DeclareOptionX<typog>{textitalicscorrection}[.02em]%
-  {\setlength{\typog@config@textitalicscorrection}{#1}}
+%  \fi
+%
+%  \changes{v0.5}{2025-06-15}{Rename package option \code{textitalicscorrection} to
+%  \code{text\-italic\-correction}.}
+%
+%  \iffalse
+\DeclareOptionX<typog>{textitaliccorrection}[.02em]%
+  {\setlength{\typog@config@textitaliccorrection}{#1}}
 \DeclareOptionX<typog>{ligaturekern}[.033333em]%
   {\setlength{\typog@config@ligaturekern}{#1}}
 %  \fi
@@ -7634,7 +7648,7 @@ end
   {\ExecuteOptionsX<typog>{
      emdashspace, endashspace,
      ligaturekern,
-     mathitalicscorrection, textitalicscorrection,
+     mathitaliccorrection, textitaliccorrection,
      raisecapitaldash, raisecapitalhyphen, raisecapitaltimes,
      raiseguillemets, raisecapitalguillemets,
      raisefiguredash,
@@ -7974,17 +7988,17 @@ end
 %  \subsection{Manual Italic Correction}
 %
 %  \begin{macro}{\typog@itcorr@text@unconditional}
-%    Fallback italics correction for text mode.
+%    Fallback italic correction for text mode.
 %
 %    \begin{macrocode}
 \newcommand*{\typog@itcorr@text@unconditional}[1]
-  {\kern#1\typog@config@textitalicscorrection}
+  {\kern#1\typog@config@textitaliccorrection}
 %    \end{macrocode}
 %  \end{macro}
 %
 %  \begin{macro}{\typog@itcorr@text}
-%    Conditional italics correction depending on
-%    the current font's own italics correction,
+%    Conditional italic correction depending on
+%    the current font's own italic correction,
 %    i.\,e., \cs{fontdimen1}.
 %
 %    \begin{macrocode}
@@ -8000,16 +8014,16 @@ end
 %  \end{macro}
 %
 %  \begin{macro}{\typog@itcorr@math}
-%    Italics correction for math mode.
+%    Italic correction for math mode.
 %
 %    \begin{macrocode}
 \newcommand*{\typog@itcorr@math}[1]
-  {\mkern#1\typog@config@mathitalicscorrection}
+  {\mkern#1\typog@config@mathitaliccorrection}
 %    \end{macrocode}
 %  \end{macro}
 %
 %  \begin{macro}{\itcorr}
-%    If the font has no italics correction we fall back to out own length.
+%    If the font has no italic correction we fall back to out own length.
 %    In text mode the starred version always uses the fallback.
 %    The star is a no-op in math mode.
 %
@@ -11281,7 +11295,7 @@ end
   make-at-letter
   make-at-other
   mar-gin-al
-  math-italics-correction
+  math-italic-correction
   micro-type
   number-dash
   par-box
@@ -11309,7 +11323,7 @@ end
   smooth-ragged-right-shape-septuplet
   smooth-ragged-right-shape-triplet
   space-skip
-  text-italics-correction
+  text-italic-correction
   tight-spacing
   tracing-boxes
   tracing-para-graphs
@@ -11380,7 +11394,7 @@ Unless otherwise noted the font used in the examples is \singlequotes{\examplefo
 \item \code{ligaturekern} \expandsto{} \milliem{\typogget{ligaturekern}}
 \item \code{lowercaselabelitemadjustments} \expandsto{} \typogget{lowercaselabelitemadjustments}
 \item \code{lowerslash} \expandsto{} \the\typogget{lowerslash}
-\item \code{mathitalicscorrection} \expandsto{} \the\typogget{mathitalicscorrection}
+\item \code{mathitaliccorrection} \expandsto{} \the\typogget{mathitaliccorrection}
 \item \code{raisecapitaldash} \expandsto{} \the\typogget{raisecapitaldash}
 \item \code{raisecapitalguillemets} \expandsto{} \the\typogget{raisecapitalguillemets}
 \item \code{raisecapitalhyphen} \expandsto{} \the\typogget{raisecapitalhyphen}
@@ -11391,7 +11405,7 @@ Unless otherwise noted the font used in the examples is \singlequotes{\examplefo
 \item \code{shrinklimits} \expandsto{} \typogget{shrinklimits}
 \item \code{slashkern} \expandsto{} \the\typogget{slashkern}
 \item \code{stretchlimits} \expandsto{} \typogget{stretchlimits}
-\item \code{textitalicscorrection} \expandsto{} \the\typogget{textitalicscorrection}
+\item \code{textitaliccorrection} \expandsto{} \the\typogget{textitaliccorrection}
 \item \code{trackingttspacing} \expandsto{} \typogget{trackingttspacing}
 \item \code{uppercaselabelitemadjustments} \expandsto{} \typogget{uppercaselabelitemadjustments}
 \end{list}
@@ -11588,7 +11602,7 @@ decorated with the results of \code{\string\fontsizeinfo}.
 The italic correction of the current font is \the\fontdimen1\font/pt.
 
 We demonstrate the effect of \code{\string\itcorr} with a pair of bookends:
-uncorrected italics: \indicatewidth{\it X},
+uncorrected italic: \indicatewidth{\it X},
 \TeX-corrected (\code{\string\/}): \indicatewidth{\it X\/},
 and \code{\string\itcorr\{7\}}: \indicatewidth{\it X\itcorr{7}}.
 
@@ -12541,7 +12555,7 @@ understandable explanation of the plethora of font parameters consult \propernam
   \centering
 
   \caption[Microtype: tracking -- font changes]
-          {Check how font changes (serif, serif~italics, small-caps, sans~serif, typewriter)
+          {Check how font changes (serif, serif~italic, small-caps, sans~serif, typewriter)
            interfere with the interword spacing.
            The left sample has no tracking changes applied and serves as a reference,
            whereas the right sample got an extra tracking of
