@@ -332,6 +332,9 @@
 
 \renewcommand*{\arraystretch}{1.12}
 
+\newcommand*{\backwardincompatiblechange}
+            {\textcolor{customred3}{\sffamily\scshape\bfseries [Backward Incompatible Change]}}
+
 \newcommand*{\bibauthor}[1]{\mbox{\textsc{#1}}}
 \newcommand*{\bibtitle}[1]{\textit{#1}}
 \newcommand*{\biburl}[1]{\url{#1}}
@@ -7533,8 +7536,8 @@ end
   {\setlength{\typog@config@endashspace}{#1}}
 %  \fi
 %
-%  \changes{v0.5}{2025-06-15}{Rename package option \code{mathitalicscorrection} to
-%  \code{math\-italic\-correction}.}
+%  \changes{v0.5}{2025-06-15}{\backwardincompatiblechange{}
+%  Rename package option \code{math\-italics\-correction} to \code{math\-italic\-correction}.}
 %
 %  \iffalse
 \DeclareOptionX<typog>{mathitaliccorrection}[.4mu]%
@@ -7542,8 +7545,8 @@ end
 \DeclareOptionX<typog>{nodebug}{\typog@debugfalse}
 %  \fi
 %
-%  \changes{v0.5}{2025-06-15}{Rename package option \code{textitalicscorrection} to
-%  \code{text\-italic\-correction}.}
+%  \changes{v0.5}{2025-06-15}{\backwardincompatiblechange{}
+%  Rename package option \code{text\-italics\-correction} to \code{text\-italic\-correction}.}
 %
 %  \iffalse
 \DeclareOptionX<typog>{textitaliccorrection}[.02em]%
