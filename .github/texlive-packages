@@ -1,4 +1,4 @@
-###  List if TeX Live packages to install
+###  List of TeX Live packages to install
 ##  Binaries and tools
 latex-bin
 tools
@@ -8,6 +8,7 @@ bibtex
 ##  Collections
 collection-context
 collection-fontsrecommended
+collection-xetex
 ##  Packages
 amscls
 amsfonts
