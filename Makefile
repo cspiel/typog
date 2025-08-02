@@ -347,10 +347,13 @@ slant-angle-1.mps: slant-angle.mp
 
 title-1.mps: title.mp
 
+title-1.eps: title-1.mps
+	sed -e 's/ show/ true charpath stroke/'  < $<  > $@
+
 typog.pdf: typog.dtx  \
            crooked-paragraphs-1.mps crooked-paragraphs-2.mps  \
            crooked-paragraphs-3.mps crooked-paragraphs-4.mps  \
-           inverted-marks-1.mps slant-angle-1.mps title-1.mps  \
+           inverted-marks-1.mps slant-angle-1.mps title-1.eps  \
            smooth-parshapes-1.mps smooth-parshapes-2.mps smooth-parshapes-3.mps  \
            typog-grep.tex  \
            | typog.sty

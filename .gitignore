@@ -25,6 +25,7 @@
 *.mps
 *.mpx
 *.out
+*-converted-to.pdf
 *.ps
 *.sed
 *.sty
