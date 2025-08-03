@@ -903,6 +903,40 @@
 \makeatother
 
 
+\iffalse
+  %%  Linearize document and make it more palpable for pdftotext(1).
+  \let\oldcode=\code
+  \renewcommand*{\code}[1]{\mbox{\oldcode{#1}}}
+  \let\oldcs=\cs
+  \renewcommand*{\cs}[1]{\mbox{\oldcs{#1}}}
+  \renewcommand*{\footnote}[2][]{\space({#2})\space}
+  \renewcommand*{\footnotetext}[2][]{\space({#2})\space}
+  \renewcommand*{\LaTeXe}{LaTeX~2~epsilon}
+  \renewcommand*{\LaTeXIII}{LaTeX~3}
+  \renewcommand*{\LaTeX}{LaTeX}
+  \renewcommand*{\LuaLaTeX}{LUA~LaTeX}
+  \renewcommand*{\LuaTeX}{LUA~TeX}
+  \renewcommand*{\MP}{Meta~Post}
+  \renewcommand*{\marginpar}[1]{\space({#1})\space}
+  \let\oldpagestyle=\pagestyle
+  \renewcommand*{\pagestyle}[1]{\oldpagestyle{plain}}
+  \renewcommand*{\pdfLaTeX}{PDF~LaTeX}
+  \renewcommand*{\pdfTeX}{PDF~TeX}
+  \renewcommand*{\sample}[1]{\mbox{`#1'}}
+  \let\scshape=\relax
+  \let\sf=\relax
+  \renewcommand*{\TeX}{TeX}
+  \renewcommand*{\textsc}[1]{#1}
+
+  \RenewDocumentEnvironment{multicols}{m o o}{}{}
+
+  \lefthyphenmin=62
+  \righthyphenmin=62
+
+  \overfullrule=0pt
+\fi
+
+
 \hyphenation{% https://hyphenateit.com/en-us
   Double-guillemet-left
   Double-guillemet-right
