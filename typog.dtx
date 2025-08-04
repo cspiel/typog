@@ -902,9 +902,18 @@
              \let\@evenhead=\@oddhead}
 \makeatother
 
+\newenvironment{mybibliography}
+               {\begin{RaggedRight}%
+                \def\MakeUppercase##1{\sf\letterspacedsmallcaps{##1}}%
+                \begin{thebibliography}{88}}
+               {\end{thebibliography}%
+                \end{RaggedRight}}
+
 
 \iffalse
   %%  Linearize document and make it more palpable for pdftotext(1).
+  \OnlyDescription
+
   \let\oldcode=\code
   \renewcommand*{\code}[1]{\mbox{\oldcode{#1}}}
   \let\oldcs=\cs
@@ -918,6 +927,7 @@
   \renewcommand*{\LuaTeX}{LUA~TeX}
   \renewcommand*{\MP}{Meta~Post}
   \renewcommand*{\marginpar}[1]{\space({#1})\space}
+  \renewcommand*{\moveleft}[2]{#2}
   \let\oldpagestyle=\pagestyle
   \renewcommand*{\pagestyle}[1]{\oldpagestyle{plain}}
   \renewcommand*{\pdfLaTeX}{PDF~LaTeX}
@@ -925,6 +935,9 @@
   \renewcommand*{\sample}[1]{\mbox{`#1'}}
   \let\scshape=\relax
   \let\sf=\relax
+  \let\sffamily=\relax
+  \renewcommand*{\marginnote}[1]{#1}
+  \renewcommand*{\shiftedmarginnote}[1]{#1}
   \renewcommand*{\TeX}{TeX}
   \renewcommand*{\textsc}[1]{#1}
 
@@ -6814,9 +6827,7 @@ end
 %    \phantomsection
 %    \addtocontents{toc}{\medskip}
 %    \addcontentsline{toc}{section}{\protect\numberline{}References}
-%    \begin{RaggedRight}
-%      \def\MakeUppercase##1{\sf\letterspacedsmallcaps{##1}}
-%      \begin{thebibliography}{88}
+%    \begin{mybibliography}
 %      \bibitem{abrahams:2020}
 %              \bibauthor{Abrahams, Paul~W.},
 %              \bibauthor{Kathryn A.~Hargreaves,} and
@@ -7070,8 +7081,7 @@ end
 %              2010,
 %              \biburl{https://ctan.org/pkg/needspace}.
 %              The package is maintained by \bibauthor{W. Robertson}.
-%      \end{thebibliography}
-%    \end{RaggedRight}
+%    \end{mybibliography}
 %
 %
 %    \sectionfinish
