@@ -6458,7 +6458,7 @@ end
 %  \begin{itemize}[noindent]
 %  \item
 %    \begin{minipage}[t]{\linewidth}
-%      The triplet generator repeats a \emph{short~line -- long~line -- middle-length~line}
+%      The triplet generator repeats a \emph{short~line--long~line--middle-length~line}
 %      sequence.  Shown below are two complete cycles.
 %
 %      \begin{center}
@@ -6504,7 +6504,7 @@ end
 %
 %  \begin{description}[style=nextline]
 %  \item[|linewidth=|\meta{dim}]
-%    Override the length of the longest line.  The default line~width is \cs{linewidth}.
+%    Override the length of the longest line.  The default line~width is \cs{line\-width}.
 %  \end{description}
 %
 %
@@ -6513,7 +6513,7 @@ end
 %  \begin{description}[style=nextline]
 %  \item[\cs{smoothraggedrightfuzzfactor}=\meta{factor}]
 %    The environment adds glue to every line~width\footnote{The shortest line only gets
-%    stretchability, the longest only receives shrinkability.  All other lines are both
+%    stretchability, the longest receives only shrinkability.  All other lines are both
 %    stretchable and shrinkable.}  to achieve a more convincing \doublequotes{ragged appearance}
 %    and to reduce the number of overfull lines.  The algorithm divides the smooth margin into
 %    3, 5, or~7 parts depending on the chosen \cs{smoothraggedrightgenerator} (see below).  The
@@ -6525,7 +6525,7 @@ end
 %    Select a generator to use.  Valid generator names:
 %    \begin{itemize}[noitemsep]
 %    \item |triplet|,
-%    \item |quintuplet|,
+%    \item |quintuplet|, and
 %    \item |septuplet|.
 %    \end{itemize}
 %
@@ -6538,7 +6538,9 @@ end
 %    Value for |parindent| to pass to the generator.  Default:~0\,pt.
 %
 %  \item[\cs{smoothraggedrightragwidth}=\meta{dim}]
-%     Value for the width of the ragged right margin.  Default:~2\,em.
+%     Value for the width of the ragged right margin.  Default:~2\,em.\!\footnote{This is also
+%     the default rag width of \packagename{ragged2e's}
+%     \cs{RaggedRight}~\cite{package:ragged2e}.}
 %  \end{description}
 %
 %  \begin{samepage}
@@ -6554,11 +6556,12 @@ end
 %        the \smoothraggedrightgenerator~generator and a rag~width of only
 %        \formatdimen*{\smoothraggedrightragwidth} in a paragraph that is
 %        \formatdimen{\linewidth}~wide and averages around twelve words per line.  There is much
-%        more glue to adapt to the line ends and thus the desired rag is achieved far easier.
-%        The sloppyness is minimal; that is, \cs{fussy} is in effect and character protrusion
-%        into the margins is disabled.  A limitation of the current implementation is that it is
-%        ineffective inside of lists.  Therefore, this paragraph has not been wrapped inside of
-%        an \singlequotes{Example} because all of our examples are implemented as lists.
+%        more glue to adapt to the line ends, and thus the desired rag is achieved much more
+%        easily.  The sloppiness is minimal; that is, \cs{fussy} is in effect and character
+%        protrusion into the margins is disabled.  A limitation of the current implementation is
+%        that it is ineffective inside of lists.  Therefore, this paragraph has not been wrapped
+%        inside of an \singlequotes{Example} because all of our examples are implemented as
+%        lists.
 %      \end{smoothraggedright}
 %    \end{nocharprotrusion}
 %  \end{samepage}
@@ -12335,7 +12338,7 @@ in particular if the chapters' ends are marked with centered dingbats.
             For the samples below, we have chosen \code{\string\slightlysloppy[\sness]}.
             The \singlequotes{Alternative}, the bottom example,
             shows the effect of \code{tightspacing};
-            no extra sloppyness is required there.}
+            no extra sloppiness is required there.}
 
   \exampleparbox[covernextindentpar-reference]{%
     \setlength{\parindent}{\exparindent}%
@@ -12376,7 +12379,7 @@ in particular if the chapters' ends are marked with centered dingbats.
            but for a small linewidth and zippo~\code{\string\parindent}.
            The left-hand side sample is uncorrected,
            the right-hand side features \code{\string\covernextindentpar}.
-           The sloppyness level is~\sness{} for both samples.}
+           The sloppiness level is~\sness{} for both samples.}
 
   \exampleparbox[narrow-covernextindentpar-reference]{%
     \setlength{\parindent}{\exparindent}%
