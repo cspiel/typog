@@ -6324,9 +6324,9 @@ end
 %
 %  \noindent
 %  \DescribeEnv{smoothraggedrightpar}
-%  Environment~|smoothraggedrightpar| builds upon the three generators.  It typesets a single
-%  paragraph with a given \meta{ragwidth} of the ragged right margin, where the rag~width is
-%  the length-difference of the longest and the shortest lines.
+%  Environment~|smoothraggedrightpar| builds upon the three environments
+%  (\singlequotes{generators}) just described.  It prescribes three, five, or seven relative
+%  line~lengths that are known to yield convincing rags.
 %
 %  \begin{synopsis}\label{syn:smoothraggedrightpar}
 %    \cs{begin}|{smoothraggedrightpar}|{[\meta{option}\ttdots]}  \\
@@ -6334,8 +6334,19 @@ end
 %    \cs{end}|{smoothraggedrightpar}|
 %  \end{synopsis}
 %
-%  The line lengths equally divide the ragged margin, i.\,e., they form an arithmetic sequence
-%  based on the generator size.
+%  Typeset single paragraph with a given rag~width---set with the global
+%  parameter~\hyperref[item:smoothraggedrightragwidth]{\code{smoothraggedrightragwidth}}---of
+%  the right margin, where with \singlequotes{rag width} we mean the length-difference of the
+%  longest and the shortest lines.  Select the generator with
+%  \hyperref[item:smoothraggedrightgenerator]{\code{smoothraggedrightgenerator}}.  The line
+%  lengths equally divide the ragged margin, i.\,e., they form an arithmetic sequence based on
+%  the generator size.
+%
+%  \begin{note}
+%    The graphical representations of the smooth-raggedright-paragraph shapes shown below are
+%    based on the actual values used by the environments and not just made~up for pretty
+%    examples.
+%  \end{note}
 %
 %  \iffalse
 %<*smoothparshapes>
@@ -6521,7 +6532,7 @@ end
 %    of the distance between the division points.  The default of 1.0 means that glue is added
 %    just enough to prevent the lines from overlapping (assuming justification is feasible).
 %
-%  \item[\cs{smoothraggedrightgenerator}]
+%  \item[\cs{smoothraggedrightgenerator}]\label{item:smoothraggedrightgenerator}
 %    Select a generator to use.  Valid generator names:
 %    \begin{itemize}[noitemsep]
 %    \item |triplet|,
@@ -6537,7 +6548,7 @@ end
 %  \item[\cs{smoothraggedrightparindent}=\meta{dim}]
 %    Value for |parindent| to pass to the generator.  Default:~0\,pt.
 %
-%  \item[\cs{smoothraggedrightragwidth}=\meta{dim}]
+%  \item[\cs{smoothraggedrightragwidth}=\meta{dim}]\label{item:smoothraggedrightragwidth}
 %     Value for the width of the ragged right margin.  Default:~2\,em.\!\footnote{This is also
 %     the default rag width of \packagename{ragged2e's}
 %     \cs{RaggedRight}~\cite{package:ragged2e}.}
@@ -6545,7 +6556,7 @@ end
 %
 %  \begin{samepage}
 %    \def\smoothraggedrightgenerator{quintuplet}
-%    \setlength{\smoothraggedrightragwidth}{7pt}
+%    \setlength{\smoothraggedrightragwidth}{6pt}
 %    \begin{nocharprotrusion}\fussy
 %      \begin{smoothraggedright}
 %        Throughout this manual, we have demonstrated how \code{smoothraggedright} environments
