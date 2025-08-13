@@ -802,7 +802,7 @@
 
 \NewDocElement[macrolike = true,
                idxtype = skip,
-               idxgroup = \LaTeX{} length (skip),
+               idxgroup = dimensions,
                printtype = \textit{skip}]
               {LaTeXSkip}{lskip}
 \pretocmd{\DescribeLaTeXSkip}{\needspace{25pt}}{\relax}{\PrependingFailed}
@@ -920,6 +920,7 @@
   \renewcommand*{\cs}[1]{\mbox{\oldcs{#1}}}
   \renewcommand*{\footnote}[2][]{\space({#2})\space}
   \renewcommand*{\footnotetext}[2][]{\space({#2})\space}
+  \let\fuzzy=\sloppy
   \renewcommand*{\LaTeXe}{LaTeX~2~epsilon}
   \renewcommand*{\LaTeXIII}{LaTeX~3}
   \renewcommand*{\LaTeX}{LaTeX}
@@ -936,6 +937,10 @@
   \let\scshape=\relax
   \let\sf=\relax
   \let\sffamily=\relax
+  \renewcommand*{\slightlysloppy}[1][]{}
+  \renewenvironment{slightlysloppypar}{}{}
+  \renewenvironment{smoothraggedrightpar}[1][]{}{}
+  \renewenvironment{smoothraggedright}[1][]{}{}
   \renewcommand*{\marginnote}[1]{#1}
   \renewcommand*{\shiftedmarginnote}[1]{#1}
   \renewcommand*{\TeX}{TeX}
@@ -947,6 +952,8 @@
   \righthyphenmin=62
 
   \overfullrule=0pt
+
+  \AtBeginDocument{\sloppy}
 \fi
 
 
@@ -1032,7 +1039,11 @@
   slightly-sloppy-par
   sloppy-par
   smooth-ragged-right-fuzz-factor
+  smooth-ragged-right-generator
+  smooth-ragged-right-left-skip
   smooth-ragged-right-par
+  smooth-ragged-right-par-indent
+  smooth-ragged-right-rag-width
   smooth-ragged-right-shape-quintuplet
   smooth-ragged-right-shape-septuplet
   smooth-ragged-right-shape-triplet
@@ -1719,11 +1730,41 @@ end
 %        Format using the given sloppiness.
 %      \endqritem
 %
+%      \qritem{syn:smoothraggedright}{\code{smoothraggedright}}[{[\meta{option}\dots]}]
+%        Format with one of the three smooth-ragged-right generators.
+%      \endqritem
 %
-%      \suspendmulticols
+%      \qritem{syn:smoothraggedrightfuzzfactor}{\cs{smooth\-ragged\-right\-fuzz\-factor}}[\marg{factor}]
+%        Relative amount of glue in smooth-ragged-right typeset lines.
+%      \endqritem
+%
+%      \qritem{syn:smoothraggedrightgenerator}{\cs{smooth\-ragged\-right\-generator}}[\marg{generator}]
+%        Name of the basis environment (\singlequotes{generator}) used in the environments
+%        \code{smooth\-ragged\-right} and \code{smooth\-ragged\-right\-par}.
+%      \endqritem
+%
+%      \qritem{syn:smoothraggedrightleftskip}{\cs{smooth\-ragged\-right\-left\-skip}}
+%        Value for \code{leftskip} that \code{smooth\-ragged\-right} and
+%        \code{smooth\-ragged\-right\-par} pass to the smooth-ragged-right generator.
+%      \endqritem
+%
 %      \qritem{syn:smoothraggedrightpar}{\code{smoothraggedrightpar}}[{[\meta{option}\dots]}]
 %        Format a paragraph using one of the three smooth-ragged-right generators.
 %      \endqritem
+%
+%      \qritem{syn:smoothraggedrightparindent}{\cs{smooth\-ragged\-right\-par\-indent}}
+%        Value for \code{parindent} that \code{smooth\-ragged\-right} and
+%        \code{smooth\-ragged\-right\-par} pass to the smooth-ragged-right generator.
+%      \endqritem
+%
+%      \qritem{syn:smoothraggedrightragwidth}{\cs{smooth\-ragged\-right\-rag\-width}}
+%        Value for the width of the smooth-ragged-right margin in environments
+%        \code{smooth\-ragged\-right} and \code{smooth\-ragged\-right\-par}.
+%      \endqritem
+%
+%
+%      \suspendmulticols
+%
 %
 %      \qritem{syn:smoothraggedrightshapequintuplet}{\code{smoothraggedrightshapequintuplet}}
 %             [{[\meta{option}\dots]}\marg{width1}\dots\marg{width5}]
@@ -1740,9 +1781,7 @@ end
 %        Prescribe three line lengths for formatting paragraphs.
 %      \endqritem
 %
-%      \qritem{syn:smoothraggedright}{\code{smoothraggedright}}[{[\meta{option}\dots]}]
-%        Format with one of the three smooth-ragged-right generators.
-%      \endqritem
+%
 %      \resumemulticols
 %
 %
@@ -4208,7 +4247,7 @@ end
 %  \DescribeMacro{\uppercaseadjustlabelitems}
 %  \DescribeMacro{\lowercaseadjustlabelitems}
 %  \DescribeMacro{\noadjustlabelitems}
-%  \sinceversion{All three since v0.4}
+%  \sinceversion{All three since v0.5}
 %  Package~\packagename{typog} lets the user vertically align the \code{itemize}~labels for
 %  subsequent uppercase or lowercase letters, where the designations~\singlequotes{uppercase}
 %  and \singlequotes{lowercase} are just names for two four-tuples of lengths (technically:
@@ -4353,7 +4392,7 @@ end
 %  \end{usecases}
 %
 %  \DescribeMacro{\typogadjuststairs}
-%  \sinceversion{Since v0.4}
+%  \sinceversion{Since v0.5}
 %  To get a quick overview how the four \code{itemize}~labels align vertically
 %  \cs{typogadjuststairs} draws them at user-defined steps, typically
 %  \nativetextfraction{1}{4}\,pt, \nativetextfraction{1}{3}\,pt, or
@@ -4380,10 +4419,9 @@ end
 %    \frac{\text{\meta{number-of-steps}} - 1}{2} \times \text{\meta{step-size}}.
 %  \end{gather*}
 %
-%  \noindent
 %  The central step\leftspacedendash which is always surrounded by a bit more
-%  space\rightspacedendash shows the neutral alignment, this is, 0\,pt.  \cs{typogadjuststairs}
-%  never prints the contents of \meta{sample}.
+%  space\rightspacedendash shows the neutral, uncorrected alignment, this is, 0\,pt.
+%  \cs{typogadjuststairs} never prints the contents of \meta{sample}.
 %
 %  \begin{example}
 %    Play ball!
@@ -4402,13 +4440,13 @@ end
 %  \noindent
 %  \DescribeMacro{\typoguppercaseadjustcheck}
 %  \DescribeMacro{\typoglowercaseadjustcheck}
-%  \sinceversion{Both since v0.4}
+%  \sinceversion{Both since v0.5}
 %  For a quick and easy check how the four label items vertically align \emph{as configured} use
 %  \code{\string\typoguppercaseadjustcheck} and \code{\string\typoglowercaseadjustcheck}.
 %  Experienced users with a keen eye for type can apply these macros even in the initial setup.
 %  An accurate determination of \code{uppercaselabelitemadjustments} and
-%  \code{lowercaselabelitemadjustments} is preferably done at a high magnification (400\% to
-%  600\% on a 100\,dpi screen) with a representative sample of initial letters.
+%  \code{lowercaselabelitemadjustments} is preferably done at a high magnification (e.\,g.,
+%  400\% to 600\% on a 100\,dpi screen) with a representative sample of initial letters.
 %
 %  \begin{synopsis}
 %    \label{syn:typoguppercaseadjustcheck}
@@ -6267,12 +6305,13 @@ end
 %
 %  \noindent
 %  Package \packagename{typog} implements a novel approach to typesetting ragged paragraphs.
-%  Instead of setting the glue inside of a paragraph to zero and letting the line~widths vary
+%  Instead of setting the glue inside a paragraph to zero and letting the line~widths vary
 %  accordingly~\cite{wermuth:2020}, we prescribe the line~widths with \TeX's
 %  \cs{parshape}~primitive and leave the stretchability and shrinkability of the glue unchanged.
 %
 %  \begin{caution}
-%    None of the following environments work inside lists.
+%    None of the following environments work within lists (e.\,g.~\code{description},
+%    \code{enumerate}, or \code{itemize}).
 %  \end{caution}
 %
 %  \begin{slightlysloppypar}[2]
@@ -6283,11 +6322,12 @@ end
 %    \DescribeEnv{smoothraggedrightshapequintuplet}
 %    \DescribeEnv{smoothraggedrightshapeseptuplet}
 %    We introduce three environments that define three, five, or seven different line~lengths
-%    (which \TeX{} of course will repeat for paragraphs longer than three, five, or seven
+%    (which \TeX{} will, of course, repeat for paragraphs longer than three, five, or seven
 %    lines): \code{smoothraggedrightshapetriplet}, \code{smoothraggedrightshapequintuplet}, and
-%    \code{smoothraggedrightshapeseptuplet}; they work for paragraph lengths up to
+%    \code{smoothraggedrightshapeseptuplet}.  They work for paragraph lengths up to
 %    \makeatletter
-%      \typog@triplet@max@lines, \typog@quintuplet@max@lines, and \typog@septuplet@max@lines~lines.
+%      \typog@triplet@max@lines, \typog@quintuplet@max@lines, and
+%      \typog@septuplet@max@lines~lines, respectively.
 %    \makeatother
 %  \end{slightlysloppypar}
 %
@@ -6306,27 +6346,19 @@ end
 %  \end{widebody}
 %
 %  The environments take \(N\) = 3, 5, or~7 mandatory line-width parameters, where each
-%  \meta{width\itcorr{3}I}, \(I = 1,~\dots, N\) is a skip, i.\,e.,~a dimen that can include some
-%  glue.
+%  \meta{width\itcorr{3}I}, \(I = 1,~\dots, N\), is a skip, i.\,e., a dimen that can include
+%  some glue.
 %
-%
-%  \paragraph{Options}
-%
-%  \begin{description}[style=nextline]
-%  \item[|leftskip=|\meta{dim}]
-%    Set the left margin for the smooth ragged paragraph to \meta{dim}.  Similar to the \TeX{}
-%    parameter~\cs{leftskip}.
-%
-%  \item[|parindent=|\meta{dim}]
-%    Set the first-line indent for the smooth ragged paragraph to \meta{dim}.  Similar to the
-%    \TeX{} parameter~\cs{parindent}.
-%  \end{description}
+%  Option \code{leftskip=}\meta{dim} sets the left margin of the smooth ragged paragraph to
+%  \meta{dim}; it is similar to the \TeX{} parameter~\cs{leftskip}.
+%  Option~\code{parindent=}\meta{dim} sets the first-line indent of the smooth ragged paragraph
+%  to \meta{dim}; it is similar to the \TeX{} parameter~\cs{parindent}.
 %
 %  \noindent
 %  \DescribeEnv{smoothraggedrightpar}
-%  Environment~|smoothraggedrightpar| builds upon the three environments
-%  (\singlequotes{generators}) just described.  It prescribes three, five, or seven relative
-%  line~lengths that are known to yield convincing rags.
+%  Environment~|smoothraggedrightpar| builds upon the three environments just described, using
+%  them as \singlequotes{generators}.  It prescribes three, five, or seven relative line~lengths
+%  that are known to yield convincing rags.
 %
 %  \begin{synopsis}\label{syn:smoothraggedrightpar}
 %    \cs{begin}|{smoothraggedrightpar}|{[\meta{option}\ttdots]}  \\
@@ -6334,19 +6366,16 @@ end
 %    \cs{end}|{smoothraggedrightpar}|
 %  \end{synopsis}
 %
-%  Typeset single paragraph with a given rag~width---set with the global
-%  parameter~\hyperref[item:smoothraggedrightragwidth]{\code{smoothraggedrightragwidth}}---of
-%  the right margin, where with \singlequotes{rag width} we mean the length-difference of the
+%  Typeset a single paragraph with a given rag~width---set with the global
+%  parameter~\hyperref[syn:smoothraggedrightragwidth]{\code{smoothraggedrightragwidth}}---of the
+%  right margin, where with \doublequotes{rag width} we mean the length difference of the
 %  longest and the shortest lines.  Select the generator with
-%  \hyperref[item:smoothraggedrightgenerator]{\code{smoothraggedrightgenerator}}.  The line
+%  \hyperref[syn:smoothraggedrightgenerator]{\code{smoothraggedrightgenerator}}.  The line
 %  lengths equally divide the ragged margin, i.\,e., they form an arithmetic sequence based on
 %  the generator size.
 %
-%  \begin{note}
-%    The graphical representations of the smooth-raggedright-paragraph shapes shown below are
-%    based on the actual values used by the environments and not just made~up for pretty
-%    examples.
-%  \end{note}
+%  Option \code{linewidth=}\meta{dim} overrides the length of the longest line with \meta{dim}.
+%  The default line~width is the current \cs{line\-width}.
 %
 %  \iffalse
 %<*smoothparshapes>
@@ -6499,6 +6528,9 @@ end
 %    \end{minipage}
 %  \end{itemize}
 %
+%  The graphical representations of the smooth-ragged-right-paragraph shapes shown above are
+%  based on the actual values used by the environments and not made~up only for pretty figures.
+%
 %  \noindent
 %  \DescribeEnv{smoothraggedright}
 %  Environment~|smoothraggedright| is the multi-paragraph version of
@@ -6510,75 +6542,74 @@ end
 %    \cs{end}|{smoothraggedright}|
 %  \end{synopsis}
 %
+%  \DescribeMacro{\smoothraggedrightfuzzfactor}
+%  \indent
+%  The environments \code{smoothraggedright} and \code{smoothraggedrightpar} add glue to every
+%  line~width\footnote{The shortest line only gets stretchability, the longest receives only
+%  shrinkability.  All other lines are both stretchable and shrinkable.}  to achieve a more
+%  convincing \doublequotes{ragged appearance} and to reduce the number of overfull lines.  The
+%  algorithm divides the smooth margin into 3, 5, or~7 parts depending on the chosen
+%  \cs{smoothraggedrightgenerator} (see below).
 %
-%  \paragraph{Options}
+%  \begin{synopsis}\label{syn:smoothraggedrightfuzzfactor}
+%    \cs{renewcommand*}\{\cs{smoothraggedrightfuzzfactor}\}\marg{\itcorr{7}factor}
+%  \end{synopsis}
 %
-%  \begin{description}[style=nextline]
-%  \item[|linewidth=|\meta{dim}]
-%    Override the length of the longest line.  The default line~width is \cs{line\-width}.
-%  \end{description}
+%  The \cs{smoothraggedrightfuzzfactor} is the amount of glue of each line expressed as a
+%  multiple of the distance between the division points.  The default~\meta{\itcorr{7}factor} of
+%  1.0 means that glue is added just enough to prevent the lines from overlapping (assuming
+%  justification is feasible).
 %
+%  \DescribeMacro{\smoothraggedrightgenerator}
+%  \indent
+%   This macro selects the generator to use.
 %
-%  \paragraph{Global Parameters}
+%  \begin{synopsis}\label{syn:smoothraggedrightgenerator}
+%    \cs{renewcommand*}\{\cs{smoothraggedrightgenerator}\}\marg{generator}
+%  \end{synopsis}
 %
-%  \begin{description}[style=nextline]
-%  \item[\cs{smoothraggedrightfuzzfactor}=\meta{factor}]
-%    The environment adds glue to every line~width\footnote{The shortest line only gets
-%    stretchability, the longest receives only shrinkability.  All other lines are both
-%    stretchable and shrinkable.}  to achieve a more convincing \doublequotes{ragged appearance}
-%    and to reduce the number of overfull lines.  The algorithm divides the smooth margin into
-%    3, 5, or~7 parts depending on the chosen \cs{smoothraggedrightgenerator} (see below).  The
-%    \cs{smoothraggedrightfuzzfactor} is the amount of glue of each line expressed as a multiple
-%    of the distance between the division points.  The default of 1.0 means that glue is added
-%    just enough to prevent the lines from overlapping (assuming justification is feasible).
+%  Valid \meta{generator} names are
 %
-%  \item[\cs{smoothraggedrightgenerator}]\label{item:smoothraggedrightgenerator}
-%    Select a generator to use.  Valid generator names:
-%    \begin{itemize}[noitemsep]
-%    \item |triplet|,
-%    \item |quintuplet|, and
-%    \item |septuplet|.
-%    \end{itemize}
+%  \begin{itemize}[noitemsep]
+%  \item |triplet|,
+%  \item |quintuplet|, and
+%  \item |septuplet|.
+%  \end{itemize}
 %
-%    The default generator is |triplet|.
+%  \noindent
+%  The default generator is |triplet|.
 %
-%  \item[\cs{smoothraggedrightleftskip}=\meta{dim}]
-%    Value for |leftskip| to pass to the generator.  Default:~0\,pt.
+%  \DescribeLaTeXSkip{\smoothraggedrightleftskip}
+%  \indent
+%  Value for |leftskip| to pass to the generator.
 %
-%  \item[\cs{smoothraggedrightparindent}=\meta{dim}]
-%    Value for |parindent| to pass to the generator.  Default:~0\,pt.
+%  \begin{synopsis}\label{syn:smoothraggedrightleftskip}
+%    \cs{smoothraggedrightleftskip}=\meta{dim}
+%  \end{synopsis}
 %
-%  \item[\cs{smoothraggedrightragwidth}=\meta{dim}]\label{item:smoothraggedrightragwidth}
-%     Value for the width of the ragged right margin.  Default:~2\,em.\!\footnote{This is also
-%     the default rag width of \packagename{ragged2e's}
-%     \cs{RaggedRight}~\cite{package:ragged2e}.}
-%  \end{description}
+%  Default: \formatdimen*{0pt}.
 %
-%  \begin{samepage}
-%    \def\smoothraggedrightgenerator{quintuplet}
-%    \setlength{\smoothraggedrightragwidth}{6pt}
-%    \begin{nocharprotrusion}\fussy
-%      \begin{smoothraggedright}
-%        Throughout this manual, we have demonstrated how \code{smoothraggedright} environments
-%        work for very narrow columns\spacedemdash namely, inside the document's margins: all
-%        marginal notes were typeset with \cs{smoothraggedright} environments (quintuplet
-%        generator, 1.5\,em rag~width, at footnote~size in addition to using
-%        environments~\code{slightlysloppy} and \code{loosespacing}).  Here, we utilize it with
-%        the \smoothraggedrightgenerator~generator and a rag~width of only
-%        \formatdimen*{\smoothraggedrightragwidth} in a paragraph that is
-%        \formatdimen{\linewidth}~wide and averages around twelve words per line.  There is much
-%        more glue to adapt to the line ends, and thus the desired rag is achieved much more
-%        easily.  The sloppiness is minimal; that is, \cs{fussy} is in effect and character
-%        protrusion into the margins is disabled.  A limitation of the current implementation is
-%        that it is ineffective inside of lists.  Therefore, this paragraph has not been wrapped
-%        inside of an \singlequotes{Example} because all of our examples are implemented as
-%        lists.
-%      \end{smoothraggedright}
-%    \end{nocharprotrusion}
-%  \end{samepage}
+%  \DescribeLaTeXSkip{\smoothraggedrightparindent}
+%  \indent Value for |parindent| to pass to the generator.
+%
+%  \begin{synopsis}\label{syn:smoothraggedrightparindent}
+%    \cs{smoothraggedrightparindent}=\meta{dim}
+%  \end{synopsis}
+%
+%  Default: \formatdimen*{0pt}.
+%
+%  \DescribeLaTeXSkip{\smoothraggedrightragwidth}
+%  \indent Value for the width of the ragged right margin.
+%
+%  \begin{synopsis}\label{syn:smoothraggedrightragwidth}
+%    \cs{smoothraggedrightragwidth}=\meta{dim}
+%  \end{synopsis}
+%
+%  Default:~2\,em.\!\footnote{This is also the default rag width of \packagename{ragged2e's}
+%  \cs{RaggedRight}~\cite{package:ragged2e}.}
 %
 %  \begin{usecases}
-%    Replacement for \cs{RaggedRight}~\cite{package:ragged2e}.\visualpar Design alternative to
+%    Replacement for \cs{RaggedRight}~\cite{package:ragged2e}.\visualpar A design alternative to
 %    fully justified paragraphs when used with a small rag~width.
 %  \end{usecases}
 %
@@ -6587,6 +6618,32 @@ end
 %    \packagename{l3experimental}~package~\cite{package:l3experimental}.  Galley~code is
 %    supposed to work inside of lists, too.
 %  \end{futuredirection}
+%
+%
+%  \paragraph{Sample Smooth-Ragged-Right Paragraph at Full Text-Width}\leavevmode\par
+%
+%  \begin{samepage}
+%    \def\smoothraggedrightgenerator{quintuplet}
+%    \setlength{\smoothraggedrightragwidth}{7pt}
+%    \begin{nocharprotrusion}\fussy
+%      \begin{smoothraggedright}
+%        Throughout this manual, we have demonstrated how \code{smoothraggedright} environments
+%        work for very narrow columns\spacedemdash namely, inside the document's margins: all
+%        marginal notes were typeset with \code{smoothraggedright} environments (quintuplet
+%        generator, 1.5\,em rag~width, at footnote~size in addition to using
+%        environments~\hyperref[syn:slightlysloppy]{\code{slightlysloppy}} and
+%        \hyperref[syn:loosespacing]{\code{loosespacing}}).  In this paragraph, we utilize it
+%        with the \smoothraggedrightgenerator~generator and a rag~width of only
+%        \formatdimen*{\smoothraggedrightragwidth} in the body that is
+%        \formatdimen{\linewidth}~wide and averages around twelve words per line.  There is much
+%        more glue to adapt to the line ends, and thus the desired rag is achieved more easily.
+%        The sloppiness is minimal; that is, \cs{fussy} is in effect, and character protrusion
+%        into the margins is disabled.  A limitation of the current implementation is that it is
+%        ineffective inside of lists.  Therefore, this paragraph has not been wrapped inside of
+%        an \singlequotes{Example} because all of our examples are implemented as lists.
+%      \end{smoothraggedright}
+%    \end{nocharprotrusion}
+%  \end{samepage}
 %
 %
 %  \sectionfinish
@@ -10904,25 +10961,25 @@ end
 %    \end{macrocode}
 %  \end{macro}
 %
-%  \begin{macro}{\smoothraggedrightleftskip}
+%  \begin{lskip}{\smoothraggedrightleftskip}
 %    \begin{macrocode}
 \newlength{\smoothraggedrightleftskip}
 %    \end{macrocode}
-%  \end{macro}
+%  \end{lskip}
 %
-%  \begin{macro}{\smoothraggedrightparindent}
+%  \begin{lskip}{\smoothraggedrightparindent}
 %    \begin{macrocode}
 \newlength{\smoothraggedrightparindent}
 %    \end{macrocode}
-%  \end{macro}
+%  \end{lskip}
 %
-%  \begin{macro}{\smoothraggedrightragwidth}
+%  \begin{lskip}{\smoothraggedrightragwidth}
 %    \begin{macrocode}
 \newlength{\smoothraggedrightragwidth}
 \setlength{\smoothraggedrightragwidth}{2em}
 
 %    \end{macrocode}
-%  \end{macro}
+%  \end{lskip}
 %
 %  \begin{ldimen}{\typog@fuzzwidth}
 %    \begin{macrocode}
