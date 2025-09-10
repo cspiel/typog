@@ -6047,12 +6047,15 @@ end
 %
 %  \begin{tips}
 %    \begin{itemize}[notopsep]
-%    \item Terminating a line with \code{\textbackslash\textbackslash*} inhibits a break after
-%      this line.
+%    \item Terminating a line with \sample{\code{\textbackslash\textbackslash*}} inhibits a
+%      break after this line.
 %
 %    \item A \cs{displaybreak}\oarg{level} can be set for \emph{each} line of the displayed
 %      equation separately.  \LaTeX{} resumes with the original value of
-%      \cs{interdisplaylinepenalty} in the following lines.
+%      \cs{interdisplaylinepenalty} in the following lines.  Note, however, that
+%      \cs{displaybreak} is only effective (immediately) in front of
+%      \sample{\code{\textbackslash\textbackslash}}.  See the \doublequotes{User's Guide for the
+%      \packagename{amsmath}~Package} for a discussion~\cite[Sec.~3.9]{package:amsmath}.
 %
 %    \item If a discretionary break of the displayed equation is to be accompanied with some aid
 %      for the reader, team \cs{intertext} (or \cs{shortintertext}) with \cs{displaybreak} as,
