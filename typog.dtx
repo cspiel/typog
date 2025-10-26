@@ -2737,6 +2737,34 @@ end
 %    \item All examples from the bottom of \cref{tab:hyphens-and-hyphenations} on
 %      \cpageref{tab:hyphens-and-hyphenations}.
 %
+%    \item Establish additional hyphenation opportunities if these have been canceled by
+%      bricolage that is necessary for parenthesized German compounds like, e.\,g.,
+%      \foreignphrase{\doublequotes{(Linear\mbox{-})\hskip0pt Impulsvektor}},
+%      \foreignphrase{\doublequotes{(Links\mbox{-})\hskip0ptKonjugation}}, or
+%      \foreignphrase{\doublequotes{(Unter\mbox{-})\hskip0pt Gruppe}}.  All of these can be
+%      fixed by blunting the hyphen with \code{\cs{mbox}} and inserting a breakpoint with
+%      \code{\cs{hskip}} (or, as horizontal glue carries a penalty of zero, with
+%      \hyperref[syn:breakpoint]{\code{\cs{breakpoint}}}, which is associated with
+%      \code{\cs{breakpenalty}}), like
+%
+%      \begin{codeexample}
+%        (Linear\cs{mbox\{-\}})\cs{hskip0pt} Impulsvektor
+%      \end{codeexample}
+%
+%      where \foreignphrase{\doublequotes{Linear}} won't get hyphenated.
+%      Macro~\code{\cs{allowhyphenation}} rectifies this situation:
+%
+%      \begin{codeexample}
+%        (Linear\cs{allowhyphenation}\cs{mbox}\{-\})\cs{hskip0pt} Impulsvektor
+%      \end{codeexample}
+%
+%      Typographically the last code example raises the same concerns as does \code{\cs{hyp}},
+%      this is, whether the hyphenation opportunities
+%      (here:\narrowspace\foreignphrase{Li-ne-ar}),\marginnote{A
+%      \hyperref[syn:narrowspace]{\code{\cs{narrowspace}}} compensates the visual gap between
+%      the colon and the italic \singlequotes{L}.} if chosen, distract from the constuction of
+%      the compound that already contains a hyphen.
+%
 %    \item Mend line breaks of index-entries in a narrow index:
 %
 %      \begin{codeexample}
@@ -5345,10 +5373,11 @@ end
 %  \cs{narrowspacescale}.  Both factors, \cs{narrowspacestrength} and \cs{narrowspacescale} can
 %  be redefined by the user; their defaults are \narrowspacestrength{} and \narrowspacescale.
 %
-%  \begin{usecase}
+%  \begin{usecases}
 %    Tighten loose lines with a series of~\cs{narrowspace}s.\!\footnote{Footnote
-%    \ref{fn:widespace} again applies.}
-%  \end{usecase}
+%    \ref{fn:widespace} again applies.}\visualpar Compensate the visual gap that may occur when
+%    switching from upright shape to italic shape.
+%  \end{usecases}
 %
 %  \begin{table}
 %    \centering
@@ -5391,7 +5420,6 @@ end
 %  \end{table}
 %
 %
-%  \newpagetofixtoc
 %  \subsection{\packagename{Microtype} Front\capitalhyphen End}\label{sec:microtype-frontend}
 %  \index{microtype=\packagename{microtype} (package)|userman}
 %
@@ -5468,7 +5496,6 @@ end
 %  \end{usecases}
 %
 %
-%  \newpagetofixtoc
 %  \subsubsection{Font Expansion}\label{sec:font-expansion-control}
 %  \index{font>expansion|userman}
 %
