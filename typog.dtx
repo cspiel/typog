@@ -3930,8 +3930,10 @@ end
 %  \index{raised character>guillemets|userman}
 %
 %  Another possible typographic problem this package addresses is that both
-%  sets\leftspacedendash single and double quotes\rightspacedendash of guillemets may suffer
-%  from a too small distance to the baseline.
+%  sets\leftspacedendash\marginnote{The sentence uses
+%  \hyperref[syn:spacedendash]{\cs{left\-spaced\-endash}} and
+%  \hyperref[syn:spacedendash]{\cs{right\-spaced\-endash}}.} single and double
+%  quotes\rightspacedendash of guillemets may suffer from a too small distance to the baseline.
 %
 %  For the implementation \packagename{typog} relies on the T1\footnote{Font
 %  encoding~T1\detoxindex{font>encoding|userman} can be forced via
@@ -7223,7 +7225,7 @@ end
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
 \ProvidesPackage{typog}
-                [2025/06/08  v0.5  TypoGraphic extensions]
+                [2025/10/27  v0.5  TypoGraphic extensions]
 
 \RequirePackage{etoolbox}
 \RequirePackage{everyhook}
@@ -13017,7 +13019,7 @@ New settings: \baselinesetsize.
 
 \newcommand*{\absled}{1.5pt}
 \paragraph{\code{\string\setleading\{\absled\}}}
-\setleading{1pt / -2.0}% negative leading
+\setleading{1pt / -2}% negative leading
 \setleading{\absled}
 \fontsizeinfo{baselinesetsize}
 New settings: \baselinesetsize.
