@@ -2113,14 +2113,18 @@ end
 %      value: \the\typogget{mathitaliccorrection}.\!\footnote{Note that 1\,mu is
 %      \nativetextfraction{1}{18}\,em of the mathematical font's~em.}
 %
-%    \item[\code{pdfsubstitutes=true}\char124\code{false}]\label{item:pdfsubstitutes}
+%    \item[|pdfsubstitutes|, |nopdfsubstitutes|]\label{item:pdfsubstitutes}
 %      \indexpackageoptiondefinition{pdfsubstitutes}
+%      \indexpackageoptiondefinition{nopdfsubstitutes}
 %      \sinceversion{Since v0.6}
 %      Setup substitutes for selected macros that make them work correctly for example in the
-%      \acronym{PDF}-outline.  The default is \emph{not} to setup any substitution.
+%      \acronym{PDF}-outline.  The default is not to setup any substitution.
 %
 %      See \Cref{sec:limitations} for a complete list of macros that are substituted if
-%      option~\code{pdfsubstitutes} is \code{true}.
+%      option~\code{pdfsubstitutes} is given.
+%
+%      These two options cannot be used with \hyperref[syn:typogsetup]{\code{typogsetup}} or
+%      \hyperref[syn:typogget]{\cs{typogget}}.
 %
 %    \item[|raise*=|\meta{dim}]\label{item:raise}
 %      \indexpackageoptiondefinition{raise*}
@@ -7244,7 +7248,7 @@ end
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
 \ProvidesPackage{typog}
-                [2026/01/01  v0.6  TypoGraphic extensions]
+                [2026/01/03  v0.6  TypoGraphic extensions]
 
 \RequirePackage{etoolbox}
 \RequirePackage{everyhook}
@@ -7762,13 +7766,8 @@ end
 %  \changes{v0.6}{2026-1-1}{New package option \code{pdfsubstitutes}.}
 %
 %  \iffalse
-\DeclareOptionX<typog>{pdfsubstitutes}[true]%
-  {\ifstrequal{#1}{true}
-    {\typog@setup@pdfsubstitutestrue}
-    {\ifstrequal{#1}{false}
-      {\typog@setup@pdfsubstitutesfalse}
-      {\PackageError{typog}%
-        {package option pdfsubstitutes expects 'true' or 'false' as argument}{}}}}
+\DeclareOptionX<typog>{pdfsubstitutes}{\typog@setup@pdfsubstitutestrue}
+\DeclareOptionX<typog>{nopdfsubstitutes}{\typog@setup@pdfsubstitutesfalse}
 \DeclareOptionX<typog>{raisecapitaldash}[\z@]%
   {\setlength{\typog@config@raisecapitaldash}{#1}}
 \DeclareOptionX<typog>{raisecapitalguillemets}[\z@]%
