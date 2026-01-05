@@ -5869,6 +5869,43 @@ end
 %  \meta{number\hyp{}of\hyp{}lines} are no-ops.  Up to nine lines can be fused.  The default is
 %  to link three lines.
 %
+%  \begin{example}[Ornamental separator.]
+%    Ornamental separators should never be stranded.  Therefore, macro~\cs{ornamentalseparator}
+%    precedes the \cs{medskip}s by \cs{nobreak}s:
+%
+%    \begin{codeexample}
+%      12\=34567890  \kill
+%      \cs{newcommand*}\{\cs{ornamentalseparator}\}\{\%  \\
+%        \>\cs{nobreak}\cs{medskip}  \\
+%        \>\cs{centerline}|{*\:*\:*}|\%  \\
+%        \>\cs{nobreak}\cs{medskip}\}
+%    \end{codeexample}
+%
+%    \noindent
+%    However, this definition only ties the last line of the previous paragraph and the first
+%    line of the following paragraph to the separator.  By enclosing the previous and following
+%    paragraphs in |vtiebotpar| and |vtietoppar|~environments more than just single lines can be
+%    tied to it, thereby increasing its textual context.
+%
+%    \begin{codeexample}
+%      12\=34567890  \kill
+%      \cs{begin}\{vtiebotpar\}[\meta{number-of-bottom-lines}]  \\
+%      \>\% \textit{previous paragraph}  \\
+%      \cs{end}\{vtiebotpar\}  \\
+%      \\
+%      \cs{ornamentalseparator}  \\
+%      \\
+%      \cs{begin}\{vtietoppar\}[\meta{number-of-top-lines}]   \\
+%      \>\% \textit{following paragraph}  \\
+%      \cs{end}\{vtietoppar\}
+%    \end{codeexample}
+%
+%    \noindent
+%    If the paragraphs wrapped in |vtiebotpar| and |vtietoppar| are long, the amount of text
+%    around \cs{ornamentalseparator} can be controlled by varying \meta{number-of-bottom-lines}
+%    and \meta{number-of-top-lines}.
+%  \end{example}
+%
 %  \noindent
 %  \DescribeEnv{vtiebotdisp}
 %  Avoid a display widow\index{forlorn line>display widow|userman} line in each partial
