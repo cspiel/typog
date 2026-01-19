@@ -1,6 +1,6 @@
 %  \iffalse
 %
-%  Copyright (C) 2024, 2025 by Ch. L. Spiel
+%  Copyright (C) 2024-2026 by Ch. L. Spiel
 %
 %  This work may be distributed and/or modified under the conditions
 %  of the LaTeX Project Public License, either version 1.3c of this
@@ -1288,8 +1288,8 @@ end
 %  \begin{lastlinecenteredpar}
 %    \footnotesize
 %    \noindent
-%    This package is copyright \textcopyright~2024, 2025 Ch.~L.~Spiel.  It may be distributed
-%    and\kernedslash*or modified under the conditions of the
+%    This package is copyright \textcopyright~2024\figuredash2026 Ch.~L.~Spiel.  It may be
+%    distributed and\kernedslash*or modified under the conditions of the
 %    \href{https://www.latex-project.org/lppl.txt}{\LaTeX{} Project Public License}
 %    \acronym{(LPPL)}, either version~1.3c of this license or\leftspacedendash at your
 %    option\rightspacedendash any later version.  This work has the \acronym{LPPL} maintenance
@@ -2113,6 +2113,19 @@ end
 %      option~\hyperref[item:textitaliccorrection]{|textitaliccorrection|}.  Default
 %      value: \the\typogget{mathitaliccorrection}.\!\footnote{Note that 1\,mu is
 %      \nativetextfraction{1}{18}\,em of the mathematical font's~em.}
+%
+%    \item[|pdfsubstitutes|, |nopdfsubstitutes|]\label{item:pdfsubstitutes}
+%      \indexpackageoptiondefinition{pdfsubstitutes}
+%      \indexpackageoptiondefinition{nopdfsubstitutes}
+%      \sinceversion{Since v0.6}
+%      Setup substitutes for selected macros that make them work correctly for example in the
+%      \acronym{PDF}-outline.  The default is not to setup any substitution.
+%
+%      See \Cref{sec:limitations} for a complete list of macros that are substituted if
+%      option~\code{pdfsubstitutes} is given.
+%
+%      These two options cannot be used with \hyperref[syn:typogsetup]{\code{typogsetup}} or
+%      \hyperref[syn:typogget]{\cs{typogget}}.
 %
 %    \item[|raise*=|\meta{dim}]\label{item:raise}
 %      \indexpackageoptiondefinition{raise*}
@@ -6727,11 +6740,13 @@ end
 %  \index{known problems|userman}
 %  Here is a list of some known problems with \packagename{typog}.
 %
-%  \begin{description}
-%  \item[Interference with the package \packagename{pdfcomment}~\cite{package:pdfcomment}.]
-%    To ensure compatibility, \packagename{typog} \emph{disables} the default string
-%    substitution inside \acronym{PDF}~bookmarks for the following macros (including their
-%    starred variants) if \emph{both} packages are loaded.
+%  \begin{description}[style=nextline]
+%  \item[{Interference with \acronym{KOMA}~classes~\cite{package:koma-script} and package
+%        \packagename{pdfcomment}~\cite{package:pdfcomment} if option~\code{pdfsubstitutes} is
+%        passed.}]
+%    The following macros or just loading \packagename{typog} with
+%    option~\hyperref[item:pdfsubstitutes]{\code{pdfsubstitutes}} can cause weird formatting in
+%    unexpected places.
 %
 %    \setlength{\columnsep}{25pt}
 %    \begin{multicols}{2}
@@ -6780,6 +6795,8 @@ end
 %      \item \cs{spacedendash}\synpageref{syn:spacedendash}
 %      \end{itemize}
 %    \end{multicols}
+%
+%    The simplest workaround is not to use \code{pdfsubstitutes}.  This is the default anyhow.
 %
 %    Use \cs{texorpdfstring}\spacedendash\marginnote{The sentence uses \cs{spaced\-endash}es.}
 %    which is part of the package~\packagename{hyperref}~\cite{package:hyperref}\spacedendash in
@@ -7084,6 +7101,12 @@ end
 %              Addison Wesley, Reading\kernedslash MA,
 %              1986.
 %
+%      \bibitem{package:koma-script}
+%              \bibauthor{Kohm, Markus}
+%              \bibtitle{Package~\packagename{koma-script}}.
+%              2025,
+%              \biburl{https://ctan.org/pkg/koma-script}.
+%
 %      \bibitem{package:l3experimental}
 %              \bibauthor{The \LaTeX\ Project}.
 %              \bibtitle{Package~\packagename{l3experimental}}.
@@ -7269,7 +7292,7 @@ end
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
 \ProvidesPackage{typog}
-                [2025/10/27  v0.5  TypoGraphic extensions]
+                [2026/01/03  v0.6  TypoGraphic extensions]
 
 \RequirePackage{etoolbox}
 \RequirePackage{everyhook}
@@ -7347,24 +7370,33 @@ end
 %    \end{macrocode}
 %  \end{macro}
 %
+%  \begin{macro}{\iftypog@setup@pdfsubstitutes}
+%    \changes{v0.6}{2026-1-1}{New conditional to track the state of \acronym{PDF}-substitution setup.}
+%    Request the setup of \acronym{PDF}-substitutes.
+%
+%    \begin{macrocode}
+\newif\iftypog@setup@pdfsubstitutes
+%    \end{macrocode}
+%  \end{macro}
+%
 %  \begin{macro}{\typog@register@pdfsubstitute}
 %    \changes{v0.4a}{2024-08-11}
 %            {Using \cs{pdf\-stringdef\-Disable\-Commands} breaks package~\packagename{pdf\-comment}.
 %             So we just refrain from using the macro if \packagename{pdf\-comment} was loaded.}
+%    \changes{v0.6}{2026-1-1}
+%            {Make the substitution configurable via a package option.}
 %    We often need to register (simple) substitute commands
 %    suitable for \acronym{PDF}~bookmarks.
 %    This is a convenient abbreviation for that task.
 %
 %    \begin{macrocode}
-\newcommand{\typog@register@pdfsubstitute}[1]{%
-  \AtBeginDocument{%
-    \ifdefined\pdfstringdefDisableCommands
-      \@ifpackageloaded{pdfcomment}
-                       {\PackageWarningNoLine{typog}
-                                             {package pdfcomment loaded --\space
-                                              typog will not touch PDF interface}}
-                       {\pdfstringdefDisableCommands{#1}}%
-    \fi}}
+\newcommand*{\typog@register@pdfsubstitute}[1]{%
+  \iftypog@setup@pdfsubstitutes
+    \AtBeginDocument{%
+      \ifdefined\pdfstringdefDisableCommands
+          \pdfstringdefDisableCommands{#1}%
+      \fi}
+  \fi}
 
 %    \end{macrocode}
 %  \end{macro}
@@ -7773,6 +7805,13 @@ end
    \the\typog@adjust@lowercase@labelitemii,\space
    \the\typog@adjust@lowercase@labelitemiii,\space
    \the\typog@adjust@lowercase@labelitemiv}
+%  \fi
+%
+%  \changes{v0.6}{2026-1-1}{New package option \code{pdfsubstitutes}.}
+%
+%  \iffalse
+\DeclareOptionX<typog>{pdfsubstitutes}{\typog@setup@pdfsubstitutestrue}
+\DeclareOptionX<typog>{nopdfsubstitutes}{\typog@setup@pdfsubstitutesfalse}
 \DeclareOptionX<typog>{raisecapitaldash}[\z@]%
   {\setlength{\typog@config@raisecapitaldash}{#1}}
 \DeclareOptionX<typog>{raisecapitalguillemets}[\z@]%
@@ -13982,7 +14021,7 @@ sub show_version {
     print <<VERSION_TEXT;
 typog-grep @RELEASE@
 
-Copyright (C) 2025 by Ch. L. Spiel
+Copyright (C) 2025, 2026 by Ch. L. Spiel
 License LPPL: LaTeX Project Public License version 1.3c or later
 VERSION_TEXT
 
