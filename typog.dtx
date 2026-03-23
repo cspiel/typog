@@ -1408,6 +1408,10 @@ end
 %      \endqritem
 %
 %      \heading{C}
+%      \qritem{syn:capitalcolon}{\cs{capitalcolon}}
+%        Typeset a vertically adjusted colon.
+%      \endqritem
+%
 %      \qritem{syn:capitaldash}{\cs{capitaldash*}}
 %        Alias for \cs{capitalendash*}.
 %      \endqritem
@@ -2166,7 +2170,8 @@ end
 %    \item[|raisefiguredash=|\meta{dim}]\label{item:raisefiguredash}
 %      \indexpackageoptiondefinition{raisefiguredash}
 %      Set the length that the \cs{textendash} is raised in
-%      \hyperref[syn:figuredash]{\cs{figuredash}}.  See \cref{sec:number-dash}.  Default
+%      \hyperref[syn:figuredash]{\cs{figuredash}} and
+%      \hyperref[syn:capitalcolon]{\cs{capitalcolon}}.  See \cref{sec:number-dash}.  Default
 %      value: \milliem{\the\typogget{raisefiguredash}}.
 %
 %    \item[|raiseguillemets=|\meta{dim}]\label{item:raiseguillemets}
@@ -3915,7 +3920,31 @@ end
 %  \end{usecase}
 %
 %
-%  \newpagetofixtoc
+%  \subsubsection{Colon}
+%  \index{raised character>colon|userman}
+%
+%  \DescribeMacro{\capitalcolon}
+%  \sinceversion{Since v0.6}
+%  The \cs{capitalcolon}~macro is a variation of the
+%  \hyperref[syn:figuredash]{\cs{figuredash}}~theme.
+%
+%  \begin{synopsis}\label{syn:capitalcolon}
+%    \cs{capitalcolon}
+%  \end{synopsis}
+%
+%  Expands to a raised colon.  More exactly, it expands to a raised \cs{textcolon} and the
+%  latter by default expands to \sample{:}.  Macro~\cs{textcolon} can be overridden by the user
+%  to substitute different colons.
+%  \indexpackageoption{raisefiguredash}
+%  The raise amount is the same as for \hyperref[sec:number-dash]{\cs{figuredash}}, i.\,e.,
+%  \hyperref[item:raisefiguredash]{|raisefiguredash|}.
+%
+%  \begin{usecase}
+%    Ratios, like, e.\,g.~1\capitalcolon2 when using lining numerals.\visualpar
+%    Time of day e.\,g.~9\capitalcolon00\figuredash5\capitalcolon00, again with lining numerals.
+%  \end{usecase}
+%
+%
 %  \subsubsection[Multiplication Sign]%
 %                {Multiplication Sign -- Times~\sample{\texttimes}}\label{sec:mult-sign}
 %  \index{raised character>multiplication sign|userman}
@@ -6765,6 +6794,7 @@ end
 %      \item \cs{adjustedlabelitemiii}\synpageref{syn:adjustedlabelitem}
 %      \item \cs{adjustedlabelitemiv}\synpageref{syn:adjustedlabelitem}
 %      \item \cs{breakpoint}\synpageref{syn:breakpoint}
+%      \item \cs{capitalcolon}\synpageref{syn:capitalcolon}
 %      \item \cs{capitalemdash}\synpageref{syn:capitalemdash}
 %      \item \cs{capitalendash}\synpageref{syn:capitalendash}
 %      \item \cs{capitalhyphen}\synpageref{syn:capitalhyphen}
@@ -7292,7 +7322,7 @@ end
 %<*package>
 \NeedsTeXFormat{LaTeX2e}[2005/12/01]
 \ProvidesPackage{typog}
-                [2026/01/03  v0.6  TypoGraphic extensions]
+                [2026/03/21  v0.6  TypoGraphic extensions]
 
 \RequirePackage{etoolbox}
 \RequirePackage{everyhook}
@@ -8867,6 +8897,31 @@ end
 %
 %    \begin{macrocode}
 \typog@register@pdfsubstitute{\let\figuredash=\capitaldash}
+
+%    \end{macrocode}
+%  \end{macro}
+%
+%
+%  \begin{macro}{\textcolon}
+%    We introduce a macro for the plain colon to allow the user to override it
+%    in \cs{capitalcolon}.
+%
+%    \changes{v0.6}{2026-03-21}{New macro.}
+%    \begin{macrocode}
+\ProvideDocumentCommand{\textcolon}{}{\char`\:}
+%    \end{macrocode}
+%  \end{macro}
+%
+%  \begin{macro}{\capitalcolon}
+%    \changes{v0.6}{2026-03-21}{New macro.}
+%    The raise-action of this macro actually is run-of-the-mill.  However, two things have to be
+%    pointed out: Firstly, the amount to raise it is determined by a length with a different
+%    name.  In particular, \cs{capitalcolon} does not have its own length associated to it.
+%    Secondly, the box raised is not a plain colon but the expansion of \cs{textcolon}.
+%
+%    \begin{macrocode}
+\NewDocumentCommand{\capitalcolon}{}
+  {\raisebox{\typog@config@raisefiguredash}{\textcolon}}
 
 %    \end{macrocode}
 %  \end{macro}
@@ -12184,6 +12239,22 @@ Compare the result of plain~\code{\string\textendash}
 \end{quote}
 
 \noindent Starred form eats spaces?  44\figuredash*  55.
+
+
+\subsection{Colon}
+
+\noindent Uncorrected
+
+\begin{quote}
+  A 1:2 ratio.  Open from 9:00 to 5:00.
+\end{quote}
+
+\noindent and corrected
+
+\begin{quote}
+  \typogsetup{raisefiguredash=\exemplaryraisefiguredash}
+  A 1\capitalcolon2 ratio.  Open from 9\capitalcolon00 to 5\capitalcolon00.
+\end{quote}
 
 
 \subsection{Multiplication Sign \capitaldash{} Times~``\texttimes''}
