@@ -1409,7 +1409,7 @@ end
 %
 %      \heading{C}
 %      \qritem{syn:capitalcolon}{\cs{capitalcolon}}
-%        Alias for \cs{capitalencolon}.
+%        Typeset a vertically adjusted colon.
 %      \endqritem
 %
 %      \qritem{syn:capitaldash}{\cs{capitaldash*}}
@@ -3924,6 +3924,7 @@ end
 %  \index{raised character>colon|userman}
 %
 %  \DescribeMacro{\capitalcolon}
+%  \sinceversion{Since v0.6}
 %  The \cs{capitalcolon}~macro is a variation of the
 %  \hyperref[syn:figuredash]{\cs{figuredash}}~theme.
 %
@@ -3931,16 +3932,16 @@ end
 %    \cs{capitalcolon}
 %  \end{synopsis}
 %
-%  Expands to a raised colon.  More exactly it expands to a raised \cs{textcolon} and the latter
-%  by default expands to \sample{:}.  Macro~\cs{textcolon} can be overridden by the user to
-%  substitute different colons.
+%  Expands to a raised colon.  More exactly, it expands to a raised \cs{textcolon} and the
+%  latter by default expands to \sample{:}.  Macro~\cs{textcolon} can be overridden by the user
+%  to substitute different colons.
 %  \indexpackageoption{raisefiguredash}
 %  The raise amount is the same as for \hyperref[sec:number-dash]{\cs{figuredash}}, i.\,e.,
 %  \hyperref[item:raisefiguredash]{|raisefiguredash|}.
 %
 %  \begin{usecase}
 %    Ratios, like, e.\,g.~1\capitalcolon2 when using lining numerals.\visualpar
-%    Time of day e.\,g.~9\capitalcolon00\figuredash5\capitalcolon00 again with lining numerals.
+%    Time of day e.\,g.~9\capitalcolon00\figuredash5\capitalcolon00, again with lining numerals.
 %  \end{usecase}
 %
 %
@@ -8913,6 +8914,11 @@ end
 %
 %  \begin{macro}{\capitalcolon}
 %    \changes{v0.6}{2026-03-21}{New macro.}
+%    The raise-action of this macro actually is run-of-the-mill.  However, two things have to be
+%    pointed out: Firstly, the amount to raise it is determined by a length with a different
+%    name.  In particular, \cs{capitalcolon} does not have its own length associated to it.
+%    Secondly, the box raised is not a plain colon but the expansion of \cs{textcolon}.
+%
 %    \begin{macrocode}
 \NewDocumentCommand{\capitalcolon}{}
   {\raisebox{\typog@config@raisefiguredash}{\textcolon}}
